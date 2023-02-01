@@ -1,6 +1,0 @@
-com.usthe.collector.collect.http.HttpCollectImpl
-com.usthe.collector.collect.http.SslCertificateCollectImpl
-com.usthe.collector.collect.database.JdbcCommonCollect
-com.usthe.collector.collect.redis.RedisSingleCollectImpl
-com.usthe.collector.collect.mongodb.MongodbSingleCollectImpl
-com.usthe.collector.collect.ssh.SshCollectImpl

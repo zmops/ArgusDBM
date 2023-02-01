@@ -1,0 +1,6 @@
+com.zmops.open.collector.collect.http.HttpCollectImpl
+com.zmops.open.collector.collect.http.SslCertificateCollectImpl
+com.zmops.open.collector.collect.database.JdbcCommonCollect
+com.zmops.open.collector.collect.redis.RedisSingleCollectImpl
+com.zmops.open.collector.collect.mongodb.MongodbSingleCollectImpl
+com.zmops.open.collector.collect.ssh.SshCollectImpl

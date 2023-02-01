@@ -16,7 +16,7 @@
  */
 
 syntax = "proto3";
-package com.usthe.common.entity.message;
+package com.zmops.open.common.entity.message;
 
 message MetricsData
 {
