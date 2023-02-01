@@ -1,0 +1,50 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+Thumbs.db
+.DS_Store
+.gradle
+build/
+out/
+micronaut-cli.yml
+.mvn/
+mvnw
+mvnw.bat
+*.log
+package-lock.json
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# dependencies
+node_modules
+.docusaurus
+
+# h2 data
+*.mv.db
+*.trace.db
+
+# debug env
+application-dev.yml
+application-mysql.yml
