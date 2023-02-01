@@ -16,7 +16,7 @@ server:
   port: 1157
 spring:
   application:
-    name: ${HOSTNAME:@hertzbeat@}${PID}
+    name: ${HOSTNAME:@ArgusDBM@}${PID}
   profiles:
     active: prod
   mvc:
@@ -67,7 +67,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: 123456
-    url: jdbc:h2:./data/hertzbeat;MODE=MYSQL
+    url: jdbc:h2:./data/argusdbm;MODE=MYSQL
     hikari:
       max-lifetime: 120000
 
@@ -100,7 +100,7 @@ warehouse:
     td-engine:
       enabled: false
       driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
-      url: jdbc:TAOS-RS://localhost:6041/hertzbeat
+      url: jdbc:TAOS-RS://localhost:6041/argusdbm
       username: root
       password: taosdata
     iot-db:
@@ -124,13 +124,3 @@ warehouse:
       host: 127.0.0.1
       port: 6379
       password: 123456
-
-alerter:
-  # custom console url
-  console-url: https://console.tancloud.cn
-  # base of alert eval interval time, unit:ms. The next time is 2 times the previous time.
-  alert-eval-interval-base: 600000
-  # max of alert eval interval time, unit:ms
-  max-alert-eval-interval: 86400000
-  # system alert(available alert, reachable alert...) trigger times
-  system-alert-trigger-times: 1
