@@ -44,7 +44,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_WRITE;
  * @date 2021/11/13 22:19
  */
 @Entity
-@Table(name = "hzb_notice_rule")
+@Table(name = "notice_rule")
 @Data
 @Builder
 @AllArgsConstructor

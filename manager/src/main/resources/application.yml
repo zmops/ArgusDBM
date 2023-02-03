@@ -70,6 +70,10 @@ spring:
     url: jdbc:h2:./data/argusdbm;MODE=MYSQL
     hikari:
       max-lifetime: 120000
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
 
   jpa:
     hibernate:
@@ -97,6 +101,8 @@ spring:
 
 warehouse:
   store:
+    inner:
+      enabled: true
     td-engine:
       enabled: false
       driver-class-name: com.taosdata.jdbc.rs.RestfulDriver

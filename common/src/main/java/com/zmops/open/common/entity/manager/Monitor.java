@@ -45,7 +45,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_WRITE;
  * @date 2021/11/14 9:53
  */
 @Entity
-@Table(name = "hzb_monitor")
+@Table(name = "monitor")
 @Data
 @Builder
 @AllArgsConstructor
@@ -160,7 +160,7 @@ public class Monitor {
      *                       referencedColumnName 关联表的映射字段名称
      */
     @ManyToMany(targetEntity = Tag.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "hzb_tag_monitor_bind",
+    @JoinTable(name = "tag_monitor_bind",
         foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
         inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
         joinColumns = {@JoinColumn(name = "monitor_id", referencedColumnName = "id")},

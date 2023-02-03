@@ -136,6 +136,10 @@ public class WarehouseProperties {
     public static class StoreProperties {
 
         /**
+         * h2/mysql存储历史数据
+         */
+        private InnerProperties inner;
+        /**
          * 内存存储配置信息
          */
         private MemoryProperties memory;
@@ -156,6 +160,14 @@ public class WarehouseProperties {
          * IoTDB配置信息
          */
         private IotDbProperties iotDb;
+
+        public InnerProperties getInner() {
+            return inner;
+        }
+
+        public void setInner(InnerProperties inner) {
+            this.inner = inner;
+        }
 
         public MemoryProperties getMemory() {
             return memory;
@@ -222,6 +234,22 @@ public class WarehouseProperties {
             public void setInitSize(Integer initSize) {
                 this.initSize = initSize;
             }
+        }
+
+        public static class InnerProperties {
+            /**
+             * mysql/h2数据库 历史数据存储是否启动
+             */
+            private boolean enabled = true;
+
+            public boolean isEnabled() {
+                return enabled;
+            }
+
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
+
         }
 
         public static class InfluxdbProperties {

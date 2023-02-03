@@ -46,7 +46,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_WRITE;
  * @date 2021/11/13 21:49
  */
 @Entity
-@Table(name = "hzb_param_define")
+@Table(name = "param_define")
 @Data
 @Builder
 @AllArgsConstructor

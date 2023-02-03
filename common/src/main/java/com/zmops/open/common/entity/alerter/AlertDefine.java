@@ -46,7 +46,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_WRITE;
  * @date 2021/12/8 20:41
  */
 @Entity
-@Table(name = "hzb_alert_define")
+@Table(name = "alert_define")
 @Data
 @Builder
 @AllArgsConstructor
