@@ -1,6 +1,7 @@
 package com.zmops.open.warehouse.store;
 
 import com.zmops.open.common.entity.dto.Value;
+import com.zmops.open.common.entity.manager.Monitor;
 import com.zmops.open.common.entity.message.CollectRep;
 import com.zmops.open.common.entity.warehouse.History;
 import com.zmops.open.common.queue.CommonDataQueue;
@@ -10,8 +11,14 @@ import com.zmops.open.warehouse.config.WarehouseProperties;
 import com.zmops.open.warehouse.dao.HistoryDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -83,8 +90,8 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
                             historyBuilder.metricType(CommonConstants.TYPE_STRING).str(null);
                         }
                     }
+                    historyList.add(historyBuilder.build());
                 }
-                historyList.add(historyBuilder.build());
             }
             historyDao.saveAll(historyList);
         } catch (Exception e) {
@@ -92,9 +99,54 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
         }
     }
 
+    /**
+     * 从数据库获取指标历史数据
+     *
+     * @param monitorId 监控ID
+     * @param app 监控类型
+     * @param metrics 指标集合名
+     * @param metric 指标名
+     * @param instance 实例
+     * @param history 历史范围
+     * @return 指标历史数据列表
+     */
     @Override
     public Map<String, List<Value>> getHistoryMetricData(Long monitorId, String app, String metrics, String metric, String instance, String history) {
         Map<String, List<Value>> instanceValuesMap = new HashMap<>(8);
+        Specification<History> specification = (root, query, criteriaBuilder) -> {
+            List<Predicate> andList = new ArrayList<>();
+            Predicate predicateMonitorId = criteriaBuilder.equal(root.get("monitorId"), monitorId);
+            Predicate predicateMonitorType = criteriaBuilder.equal(root.get("monitorType"), app);
+            Predicate predicateMonitorMetrics = criteriaBuilder.equal(root.get("metrics"), metrics);
+            Predicate predicateMonitorMetric = criteriaBuilder.equal(root.get("metric"), metric);
+            andList.add(predicateMonitorId);
+            andList.add(predicateMonitorType);
+            andList.add(predicateMonitorMetrics);
+            andList.add(predicateMonitorMetric);
+            if (instance != null && !"".equals(instance)) {
+                Predicate predicateMonitorInstance = criteriaBuilder.equal(root.get("instance"), instance);
+                andList.add(predicateMonitorInstance);
+            }
+            Predicate[] predicates = new Predicate[andList.size()];
+            Predicate predicate = criteriaBuilder.and(andList.toArray(predicates));
+            return query.where(predicate).getRestriction();
+        };
+        Sort sortExp = Sort.by(new Sort.Order(Sort.Direction.DESC, "time"));
+        List<History> historyList = historyDao.findAll(specification, sortExp);
+        for (History dataItem : historyList) {
+            String value = "";
+            if (dataItem.getMetricType() == CommonConstants.TYPE_NUMBER) {
+                if (dataItem.getDou() != null) {
+                    value = BigDecimal.valueOf(dataItem.getDou()).setScale(4, RoundingMode.HALF_UP)
+                            .stripTrailingZeros().toPlainString();
+                }
+            } else {
+                value = dataItem.getStr();
+            }
+            String instanceValue = dataItem.getInstance() == null ? "" : dataItem.getInstance();
+            List<Value> valueList = instanceValuesMap.computeIfAbsent(instanceValue, k -> new LinkedList<>());
+            valueList.add(new Value(value, dataItem.getTime()));
+        }
         return instanceValuesMap;
     }
 

@@ -90,7 +90,7 @@ excludedResource:
 # eg: tom 拥有[user],密码为hertzbeat
 # eg: lili 拥有[guest],明文密码为lili, 加盐密码为1A676730B0C7F54654B0E09184448289
 account:
-  - appId: admin
+  - appId: argus
     credential: argus
     role: [admin,user]
   - appId: tom
