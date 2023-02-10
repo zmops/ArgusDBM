@@ -210,10 +210,10 @@ metrics:
         unit: Times
       - field: innodb_data_read
         type: 0
-        unit: MB
+        unit: KB
       - field: innodb_data_written
         type: 0
-        unit: MB
+        unit: KB
       - field: innodb_buffer_hit_rate
         type: 0
         unit: '%'
@@ -234,8 +234,8 @@ metrics:
       - innodb_data_read=Innodb_data_read
       - innodb_data_written=Innodb_data_written
     units:
-      - innodb_data_read=KB->MB
-      - innodb_data_written=KB->MB
+      - innodb_data_read=B->KB
+      - innodb_data_written=B->KB
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
