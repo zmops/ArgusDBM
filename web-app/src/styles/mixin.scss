@@ -1,0 +1,216 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin flexContainerRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center
+}
+
+@mixin flexRowItemStart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start
+}
+
+
+@mixin flexContainerRowCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center
+}
+
+@mixin flexContainerRowStart {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start
+}
+
+@mixin flexContainerColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@mixin flexContainerColumnCenterStart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@mixin flexContainerColumnEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+@mixin flexContainerColumnCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flexContainerColumnCenterStart {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin flexContainerRowEnd {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@mixin flexContainerRowSpaceAround {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@mixin flexContainerRowSpaceAroundAlignTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+@mixin wrapContainerRow{
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+@mixin cardBlockContainer {
+  width: 100%;
+  @include flexContainerRowSpaceAroundAlignTop;
+  flex-wrap: wrap;
+}
+
+@mixin hardwareBlockItem {
+  margin-top: 30px;
+  border: 1px dashed #e5e5e5;
+  height: 54px;
+  width: 46%;
+  padding: 5px;
+  @include flexContainerRow;
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+@mixin relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin pct($pct) {
+  width: #{$pct};
+  position: relative;
+  margin: 0 auto;
+}
+
+@mixin alarmItem($type) {
+  @if $type==0 {
+    border: 1px solid $emergencyBorder;
+    background: linear-gradient(0deg, $emergencyContent0, $emergencyContent1);
+    text-shadow: 0px -1px 0px $emergencyTextshadow;
+  }
+
+  @else if $type==1 {
+    border: 1px solid $seniorBorder;
+    background: linear-gradient(0deg, $seniorContent0, $seniorContent1);
+    text-shadow: 0px -1px 0px $seniorTextshadow;
+  }
+
+  @else if $type==2 {
+    border: 1px solid $intermediateBorder;
+    background: linear-gradient(0deg,
+        $intermediateContent0,
+        $intermediateContent1);
+    text-shadow: 0px -1px 0px $intermediateextshadow;
+  }
+
+  @else if $type==3 {
+    border: 1px solid $generalBorder;
+    background: linear-gradient(0deg, $generalContent0, $generalContent1);
+    text-shadow: 0px -1px 0px $generalTextshadow;
+  }
+
+  @else if $type==4 {
+    border: 1px solid $promptBorder;
+    background: linear-gradient(0deg, $promptContent0, $promptContent1);
+    text-shadow: 0px -1px 0px $promptTextshadow;
+  }
+
+  @else {
+    border: 1px solid $grayBorder;
+    background: linear-gradient(0deg, $grayContent0, $grayContent1);
+    text-shadow: 0px -1px 0px $grayTextshadow;
+  }
+
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+  $width: $width/2;
+  $color-border-style: $height solid $color;
+  $transparent-border-style: $width solid transparent;
+  height: 0;
+  width: 0;
+
+  @if $direction==up {
+    border-bottom: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+
+  @else if $direction==right {
+    border-left: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+
+  @else if $direction==down {
+    border-top: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+
+  @else if $direction==left {
+    border-right: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+}
