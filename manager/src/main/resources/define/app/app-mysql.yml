@@ -442,3 +442,153 @@ metrics:
       # sql
       sql: select variable_name, variable_value from information_schema.global_status WHERE Variable_name like 'table_%' UNION select variable_name, variable_value from information_schema.global_variables where Variable_name = 'table_open_cache';
       url: ^_^url^_^
+
+  - name: command
+    priority: 2
+    fields:
+      - field: com_select
+        type: 0
+      - field: com_insert
+        type: 0
+      - field: com_update
+        type: 0
+      - field: com_delete
+        type: 0
+      - field: com_commit
+        type: 0
+      - field: com_rollback
+        type: 0
+      - field: com_stmt_execute
+        type: 0
+      - field: com_admin_commands
+        type: 0
+      - field: com_show_status
+        type: 0
+      - field: com_show_slave_status
+        type: 0
+      - field: com_set_option
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: mysql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: show global status where Variable_name like 'com_%';
+      url: ^_^url^_^
+
+  - name: tmp
+    priority: 2
+    fields:
+      - field: created_tmp_tables
+        type: 0
+      - field: created_tmp_disk_tables
+        type: 0
+      - field: created_tmp_files
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: mysql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: show global status where Variable_name like '%tmp%';
+      url: ^_^url^_^
+
+  - name: select_type
+    priority: 2
+    fields:
+      - field: select_full_join
+        type: 0
+      - field: select_full_range_join
+        type: 0
+      - field: select_range
+        type: 0
+      - field: select_range_check
+        type: 0
+      - field: select_scan
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: mysql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: show global status where Variable_name like 'select%';
+      url: ^_^url^_^
+
+  - name: sort
+    priority: 2
+    fields:
+      - field: sort_rows
+        type: 0
+      - field: sort_range
+        type: 0
+      - field: sort_merge_passes
+        type: 0
+      - field: sort_scan
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: mysql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: show global status where Variable_name like 'sort%';
+      url: ^_^url^_^
+
+  - name: table_lock
+    priority: 2
+    fields:
+      - field: table_locks_immediate
+        type: 0
+      - field: table_locks_waited
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: mysql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: show global status where Variable_name like 'table_lock%';
+      url: ^_^url^_^
