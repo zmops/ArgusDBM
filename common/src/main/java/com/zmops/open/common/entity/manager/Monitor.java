@@ -90,8 +90,6 @@ public class Monitor {
      * 监控的对端host:ipv4,ipv6,域名
      */
     @Schema(title = "监控的对端host", example = "192.167.25.11", accessMode = READ_WRITE)
-    @Length(max = 100)
-    @HostValid
     private String host;
 
     /**
