@@ -68,6 +68,8 @@ public class MonitorServiceImpl implements MonitorService {
 
     private static final Long MONITOR_ID_TMP = 1000000000L;
 
+    private static final String HOST_STR = "host";
+
     @Autowired
     private AppService appService;
 
@@ -220,7 +222,6 @@ public class MonitorServiceImpl implements MonitorService {
         // The request monitoring parameter matches the monitoring parameter definition mapping check
         // 请求监控参数与监控参数定义映射校验匹配
         Monitor monitor = monitorDto.getMonitor();
-        monitor.setHost(monitor.getHost().trim());
         monitor.setName(monitor.getName().trim());
         Map<String, Param> paramMap = monitorDto.getParams()
                 .stream()
@@ -228,6 +229,9 @@ public class MonitorServiceImpl implements MonitorService {
                     param.setMonitorId(monitor.getId());
                     String value = param.getValue() == null ? null : param.getValue().trim();
                     param.setValue(value);
+                    if (HOST_STR.equals(param.getField())) {
+                        monitor.setHost(value);
+                    }
                 })
                 .collect(Collectors.toMap(Param::getField, param -> param));
         // Check name uniqueness    校验名称唯一性
