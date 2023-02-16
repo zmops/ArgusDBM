@@ -617,3 +617,43 @@ metrics:
       # sql
       sql: select if(command = 'Sleep', 'Sleep', state) as state, count(*) as num from information_schema.PROCESSLIST group by state;
       url: ^_^url^_^
+
+  - name: slow_sql
+    priority: 2
+    fields:
+      - field: id
+        type: 1
+        instance: true
+      - field: sql_text
+        type: 0
+      - field: start_time
+        type: 1
+      - field: db
+        type: 1
+      - field: query_time
+        type: 1
+    aliasFields:
+      - sql_text
+      - start_time
+      - db
+      - query_time
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - id= start_time + sql_text
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: mysql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select sql_text, start_time, db, query_time from mysql.slow_log;
+      url: ^_^url^_^
