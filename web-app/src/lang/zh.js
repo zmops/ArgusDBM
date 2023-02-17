@@ -1,9 +1,9 @@
 export default {
   route: {
     dashboard: '概览',
-    monitor:'监控',
-    warn:'告警',
-    targetView:'指标视图',
+    monitor: '监控',
+    warn: '告警',
+    targetView: '指标视图',
     documentation: '文档',
     guide: '引导页',
     permission: '权限测试页',
@@ -70,12 +70,12 @@ export default {
   navbar: {
     dashboard: '首页',
     github: '项目地址',
-    docs:'使用手册',
+    docs: '使用手册',
     logOut: '退出登录',
     profile: '个人中心',
     theme: '换肤',
     size: '布局大小',
-    securitySetting:'修改密码'
+    securitySetting: '修改密码'
   },
   login: {
     title: '系统登录',
@@ -176,5 +176,40 @@ export default {
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
+  },
+  tableView: {
+    status: '启用状态',
+    onlineStatus: '在线状态',
+    all: '全部',
+    enable: '启用',
+    disable: '禁用',
+    monitoring: '监控名称',
+    ip: 'IP/域名',
+    tag: '标签',
+    search: '查询',
+    reset: '重置',
+    add: '添加',
+    delete: '删除',
+    edit: '编辑',
+    online: '在线',
+    offline: '离线',
+    serial: '序号',
+    version: '版本',
+    runningTime: '运行时长',
+    connected: '已连接会话',
+    activity: '活动会话',
+    inquire: '查询',
+    append: '新增',
+    update: '更新',
+    submit: '提交',
+    rollback: '回滚',
+    read: '读取数据',
+    write: '写入数据',
+    operate: '操作',
+    input: '请输入',
+    select: '请选择'
+  },
+  message: {
+    switchLanguageSuccess: '语言切换成功,即将刷新页面'
   }
 }
