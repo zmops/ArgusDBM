@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -109,7 +110,7 @@ public class NoticeConfigServiceImpl implements NoticeConfigService {
 
         // The temporary rule is to forward all, and then implement more matching rules: alarm status selection, monitoring type selection, etc.
         // 规则是全部转发, 告警状态选择, 监控类型选择等(按照tags标签和告警级别过滤匹配)
-        Set<Long> filterReceivers = rules.stream()
+        Map<Long, NoticeRule> filterReceiverMap = rules.stream()
                 .filter(rule -> {
                     if (rule.isFilterAll()) {
                         return true;
@@ -133,9 +134,13 @@ public class NoticeConfigServiceImpl implements NoticeConfigService {
                     }
                     return true;
                 })
-                .map(NoticeRule::getReceiverId)
-                .collect(Collectors.toSet());
-        return noticeReceiverDao.findAllById(filterReceivers);
+                .collect(Collectors.toMap(NoticeRule::getReceiverId, item -> item));
+        List<NoticeReceiver> receivers = noticeReceiverDao.findAllById(filterReceiverMap.keySet());
+        for (NoticeReceiver receiver : receivers) {
+            NoticeRule rule = filterReceiverMap.get(receiver.getId());
+            receiver.setType(rule.getType());
+        }
+        return receivers;
     }
 
     @Override

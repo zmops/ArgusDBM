@@ -33,6 +33,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
 import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_WRITE;
@@ -72,7 +73,8 @@ public class NoticeReceiver {
             accessMode = READ_WRITE)
     @Min(0)
     @NotNull
-    private Byte type;
+    @Convert(converter = JsonByteListAttributeConverter.class)
+    private List<Byte> type;
 
     @Schema(title = "Mobile number: Valid when the notification method is SMS",
             description = "手机号 :  通知方式为手机短信时有效",

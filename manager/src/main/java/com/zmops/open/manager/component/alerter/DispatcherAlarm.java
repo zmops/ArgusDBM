@@ -78,16 +78,17 @@ public class DispatcherAlarm implements InitializingBean {
      * @return send success or failed
      */
     public boolean sendNoticeMsg(NoticeReceiver receiver, Alert alert) {
-        if(receiver == null || receiver.getType() == null){
+        if(receiver == null || receiver.getType() == null || receiver.getType().isEmpty()){
             log.warn("DispatcherAlarm-sendNoticeMsg params is empty alert:[{}], receiver:[{}]", alert, receiver);
             return false;
         }
-        byte type = receiver.getType();
-        if (alertNotifyHandlerMap.containsKey(type)) {
-            alertNotifyHandlerMap.get(type).send(receiver, alert);
-            return true;
+        List<Byte> types = receiver.getType();
+        for (byte type : types) {
+            if (alertNotifyHandlerMap.containsKey(type)) {
+                alertNotifyHandlerMap.get(type).send(receiver, alert);
+            }
         }
-        return false;
+        return true;
     }
 
     private List<NoticeReceiver> matchReceiverByNoticeRules(Alert alert) {
