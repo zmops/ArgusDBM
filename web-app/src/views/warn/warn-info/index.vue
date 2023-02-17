@@ -184,17 +184,71 @@
       </el-table>
     </div>
     <!-- 弹出编辑页面 -->
-    <monitor-form ref="monitorForm">
-    </monitor-form>
+    <dialog-form ref="dialogForm" title="告警规则">
+      <template v-slot:form>
+        <el-form ref="form" :model="form" label-width="150px" style="margin-right:80px">
+          <el-form-item label="指标对象">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-collapse v-model="activeNames" @change="handleChange">
+              <el-collapse-item title="一致性 Consistency" name="1">
+                <div><code> 支持操作符函数 : equals(str1,str2), ==, <, <=,>, >=, !=, ( ), +, -, &&, ||</code></div>
+              </el-collapse-item>
+            </el-collapse>
+          </el-form-item>
+          <el-form-item label="阈值触发表达式">
+            <el-input type="textarea" :rows="3" v-model="form.name" placeholder="根据此表达式计算判断是否触发阈值.示例: responseTime>40"
+              maxlength="100" show-word-limit></el-input>
+          </el-form-item>
+          <el-form-item label="告警级别">
+            <el-select v-model="form.region" placeholder="请选择活动区域" style="width:100%">
+              <el-option label="警告告警" value="shanghai"></el-option>
+              <el-option label="严重告警" value="beijing"></el-option>
+              <el-option label="紧急告警" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="触发次数">
+            <el-col :span="11">
+              <el-input-number v-model="form.name" :min="1" :max="10000" label="描述文字"></el-input-number>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="">
+            <el-collapse v-model="activeNames" @change="handleChange">
+              <el-collapse-item title="支持的通知模版环境变量" name="1">
+                <div><code> ${app} : 监控类型名称</code></div>
+                <div><code> ${metrics} : 监控指标集合名称</code></div>
+                <div><code> ${instance} : 所属行实例值</code></div>
+              </el-collapse-item>
+            </el-collapse>
+          </el-form-item>
+          <el-form-item label="通知模版">
+            <el-input type="textarea" :rows="3" v-model="form.name"
+              placeholder="请输入告警的通知模版.示例: ${app}.${metrics}.${metric}'s value is too high" maxlength="200"
+              show-word-limit></el-input>
+          </el-form-item>
+          <el-form-item label="全局默认">
+            <el-switch v-model="form.delivery"></el-switch>
+          </el-form-item>
+          <el-form-item label="启用告警">
+            <el-switch v-model="form.delivery"></el-switch>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button>取消</el-button>
+          </el-form-item>
+        </el-form>
+      </template>
+    </dialog-form>
   </div>
 </template>
 
 <script>
-  import MonitorForm from '@/components/MonitorForm'
+  import DialogForm from '@/components/DialogForm'
   export default {
     name: 'MysqlMonitor',
     components: {
-      MonitorForm
+      DialogForm
     },
     data() {
       return {
@@ -212,7 +266,8 @@
     },
     methods: {
       onSearch() {
-        this.$refs.monitorForm.handleAddDialogOpen('mysql')
+        this.$refs.dialogForm.handleDialogOpen()
+        console.log(this.$refs.dialogForm)
       }
     }
   }

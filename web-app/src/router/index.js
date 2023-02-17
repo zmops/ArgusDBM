@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import MonitorRouter from './modules/monitor'
+import warnRouter from './modules/warn'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -102,20 +103,7 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   MonitorRouter,
-  {
-    path: '/profile1',
-    component: Layout,
-    redirect: '/profile/index',
-    hidden: false,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'warn',
-        meta: { title: 'warn', icon: 'user', noCache: true }
-      }
-    ]
-  },
+  warnRouter,
   {
     path: '/profile2',
     component: Layout,
