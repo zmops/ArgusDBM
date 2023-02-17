@@ -26,9 +26,11 @@ export default {
       this.$i18n.locale = lang
       this.$store.dispatch('app/setLanguage', lang)
       this.$message({
-        message: 'Switch Language Success',
+        message: this.$t('message.switchLanguageSuccess'),
         type: 'success'
       })
+      /* 强制刷新页面,以解决部分文字不更新的问题,或者通过消息提醒引导用户手动刷新 */
+      this.$router.go(0)
     }
   }
 }

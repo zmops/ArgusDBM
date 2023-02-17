@@ -19,6 +19,13 @@ const monitorRouter = {
       meta: { title: 'Mysql', noCache: true }
     },
     {
+      path: 'mysqlDetail',
+      component: () => import('@/views/monitor/mysql/detail'),
+      name: 'MySqlDetail',
+      hidden: true,
+      meta: { noCache: true, activeMenu: '/monitor/mysql' }
+    },
+    {
       path: 'postgresql',
       component: () => import('@/views/monitor/postgresql/index'),
       name: 'PostgreSql',
@@ -29,7 +36,7 @@ const monitorRouter = {
       component: () => import('@/views/monitor/oracle/index'),
       name: 'Oracle',
       meta: { title: 'oracle', noCache: true }
-    },
+    }
   ]
 }
 

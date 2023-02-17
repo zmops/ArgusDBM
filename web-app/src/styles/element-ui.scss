@@ -82,3 +82,8 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
+// 行内表单间隔
+.el-form--inline .el-form-item {
+  margin-right: 25px!important;
+}
