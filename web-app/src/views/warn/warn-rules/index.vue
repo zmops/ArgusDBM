@@ -239,12 +239,12 @@
           {
             label: '全局默认',
             prop: 'preset',
-            component: 'StatusText'
+            component: 'StatusSwitch'
           },
           {
             label: '启用告警',
             prop: 'enable',
-            component: 'StatusText'
+            component: 'StatusSwitch'
           },
           {
             label: this.$t('tableView.operate'),
