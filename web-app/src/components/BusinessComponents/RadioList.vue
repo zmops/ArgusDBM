@@ -1,11 +1,11 @@
 <!-- 列表页面搜索栏选择框组件 -->
 <template>
-  <el-radio-group v-model="farther.form[keyName]" size="mini" fill="#0077FF">
+  <el-radio-group v-model="farther.queryParams[keyName]" size="mini" fill="#0077FF">
     <el-radio-button
       v-for="(item, index) in arrayData"
       :key="index"
-      :label="item.value"
-    >{{ item.label }}
+      :label="item.key"
+    >{{ item.value }}
     </el-radio-button>
   </el-radio-group>
 </template>

@@ -4,7 +4,7 @@
       style="padding: 8px 16px 12px 0;"
       :current-page="currentPage"
       :page-sizes="[10, 15, 30, 100]"
-      :page-size="size"
+      :page-size="pageSize"
       background
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
@@ -23,7 +23,7 @@ export default {
         return 1
       }
     },
-    size: {
+    pageSize: {
       type: Number,
       default() {
         return 15

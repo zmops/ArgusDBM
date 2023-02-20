@@ -2,7 +2,7 @@
 <template>
   <div class="SelectTemplate">
     <el-select
-      v-model="farther.form[keyName]"
+      v-model="farther.queryParams[keyName]"
       size="mini"
       :placeholder="placeholder ? placeholder : $t('tableView.select')+label"
       :style="{width:w +'px'}"

@@ -2,7 +2,7 @@
 <template>
   <div>
     <el-input
-      v-model.trim="farther.form[keyName]"
+      v-model.trim="farther.queryParams[keyName]"
       size="mini"
       :placeholder="placeholder ? placeholder : $t('tableView.input')+label"
       style="width:200px;"

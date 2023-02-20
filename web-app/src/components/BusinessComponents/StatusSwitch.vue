@@ -10,7 +10,7 @@ export default {
   name: 'StatusSwitch',
   inject: ['farther'],
   props: {
-    status: {
+    prop: {
       type: [Boolean, Number],
       default() {
         return true
@@ -35,7 +35,7 @@ export default {
     }
   },
   watch: {
-    status: {
+    prop: {
       immediate: true,
       handler(v) {
         this.val = v

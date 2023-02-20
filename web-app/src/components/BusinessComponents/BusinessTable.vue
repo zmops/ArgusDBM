@@ -64,8 +64,8 @@
           </span>
           <span v-else>-</span>
         </template>
-        <template v-else-if="item.prop === 'status'">
-          <StatusSwitch :status="scope.row[item.prop]" :data-id="scope.row[item.idName]" :event="item.event" />
+        <template v-else-if="item.component">
+          <component :is="item.component" v-bind="{prop: scope.row[item.prop], dataId: scope.row[item.idName], event: item.event}" />
         </template>
         <template v-else>
           <span v-if="scope.row[item.prop]" :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">
@@ -82,12 +82,14 @@
 <script>
 import OperationButtons from '@/components/BusinessComponents/OperationButtons'
 import StatusSwitch from '@/components/BusinessComponents/StatusSwitch'
+import StatusText from '@/components/BusinessComponents/StatusText'
 import EventBus from '@/utils/event-bus'
 export default {
   name: 'BusinessTable',
   components: {
     OperationButtons,
-    StatusSwitch
+    StatusSwitch,
+    StatusText
   },
   props: {
     loading: {
@@ -160,12 +162,12 @@ export default {
       }
     },
     /* 多选*/
-    handleSelect(selection, row) {
-      this.$emit('select', selection, row)
+    handleSelect(selection) {
+      this.$emit('select', selection)
     },
     /* 全选*/
     handleSelectAll(selection) {
-      this.$emit('select', selection, undefined)
+      this.$emit('select', selection)
     },
     transTime(time, fmt = 'yyyy-MM-dd HH:mm:ss') {
       if (time) {

@@ -10,12 +10,18 @@
         serial
         selection
         @detail="detail"
+        @select="handleSelect"
       />
-      <Pagination :total="total" :current-page="queryParams.pageIndex+1" :page-size="queryParams.pageSize" @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
+      <Pagination
+        :total="total"
+        :current-page="queryParams.pageIndex+1"
+        :page-size="queryParams.pageSize"
+        @handleCurrentChange="handleCurrentChange"
+        @handleSizeChange="handleSizeChange"
+      />
     </div>
-        <!-- 弹出编辑页面 -->
-        <monitor-form ref="monitorForm">
-    </monitor-form>
+    <!-- 弹出编辑页面 -->
+    <monitor-form ref="monitorForm" />
   </div>
 </template>
 
@@ -25,19 +31,19 @@ import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
 import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
 import BusinessTable from '@/components/BusinessComponents/BusinessTable'
 import Pagination from '@/components/BusinessComponents/Pagination'
-import {getMonitors} from '@/api/monitor/monitor-manage-batch'
-import {getTags} from '@/api/monitor/tag-manage'
+import { getMonitors, delMonitors } from '@/api/monitor/monitor-manage-batch'
+import { MONITORS_STATUS } from '@/const/const'
 
-const defaultQueryParams={
-  ids:[],
-  app:'mysql',
-  name:'',
-  host:'',
-  status:9,
-  sort:'name',
-  order:'desc',
-  pageIndex:0,
-  pageSize:15
+const defaultQueryParams = {
+  ids: [],
+  app: 'mysql',
+  name: '',
+  host: '',
+  status: 9,
+  sort: 'name',
+  order: 'desc',
+  pageIndex: 0,
+  pageSize: 15
 }
 export default {
   name: 'MysqlMonitor',
@@ -55,36 +61,15 @@ export default {
   },
   data() {
     return {
-      queryParams:Object.assign({}, defaultQueryParams),
-      form: {
-        status: null,
-        OnLineStatus: null,
-        ip: '',
-        name: '',
-        tag: ''
-      },
+      queryParams: Object.assign({}, defaultQueryParams),
       total: 0,
-      tagsOptions:[],
+      tagsOptions: [],
       params: [
         {
           componentName: 'RadioList',
           keyName: 'status',
-          label: this.$t('tableView.status'),
-          arrayData: [
-            { value: null, label: this.$t('tableView.all') },
-            { value: '0', label: this.$t('tableView.enable') },
-            { value: '1', label: this.$t('tableView.disable') }
-          ]
-        },
-        {
-          componentName: 'RadioList',
-          keyName: 'OnLineStatus',
-          label: this.$t('tableView.onlineStatus'),
-          arrayData: [
-            { value: null, label: this.$t('tableView.all') },
-            { value: '0', label: this.$t('tableView.enable') },
-            { value: '1', label: this.$t('tableView.disable') }
-          ]
+          label: '监控状态',
+          arrayData: MONITORS_STATUS
         },
         {
           componentName: 'InputTemplate',
@@ -93,16 +78,8 @@ export default {
         },
         {
           componentName: 'InputTemplate',
-          keyName: 'ip',
+          keyName: 'host',
           label: this.$t('tableView.ip')
-        },
-        {
-          componentName: 'SelectTemplate',
-          keyName: 'tag',
-          label: this.$t('tableView.tag'),
-          optionId: 'code',
-          optionName: 'name',
-          options: this.tagsOptions
         }
       ],
       buttons: [
@@ -117,23 +94,8 @@ export default {
           event: 'delete'
         }
       ],
-      tableData: [
-        // { id: 1, a: 'a', b: 'b', online: '1', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 3, a: 'a', b: 'b', online: '1', status: false, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' }
-      ],
+      tableData: [],
+      ids: [],
       loading: false,
       columns: [
         {
@@ -146,13 +108,14 @@ export default {
           prop: 'host'
         },
         {
-          label: this.$t('tableView.onlineStatus'),
-          prop: 'status'
+          label: '监控状态',
+          prop: 'status',
+          component: 'StatusText'
         },
         // {
-        //   label: this.$t('tableView.status'),
-        //   width: 120,
+        //   label: this.$t('tableView.onlineStatus'),
         //   prop: 'status',
+        //   component: 'StatusSwitch',
         //   idName: 'id',
         //   event: 'changeStatus'
         // },
@@ -227,50 +190,32 @@ export default {
     this.getData()
   },
   mounted() {
-
   },
   methods: {
-    getData(){
-      getMonitors(this.queryParams).then(res=>{
-        this.tableData=res.data.content
-        this.total=res.data.totalElements
+    getData() {
+      getMonitors(this.queryParams).then(res => {
+        if (res.code === 0) {
+          this.tableData = res.data.content
+          this.total = res.data.totalElements
+        }
       })
     },
-    getTags(){
-      let tagsQuery = {
-    search: '',
-    type: 0,
-    pageIndex:0,
-    pageSize:1000,
-  };
-        getTags(tagsQuery).then(res => {
-          this.tagsOptions = res.data.content
-        })
-      },
     handleSizeChange(size) {
       this.queryParams.pageSize = size
       this.getData()
     },
     handleCurrentChange(page) {
-      this.queryParams.pageIndex = page-1
+      this.queryParams.pageIndex = page - 1
       this.getData()
     },
     /* 搜索 */
     handleQuery() {
-      console.log(this.params)
-      this.queryParams.pageIndex=0
+      this.queryParams.pageIndex = 0
       this.getData()
     },
     /* 重置 */
     resetQuery() {
-      this.form = {
-        status: null,
-        OnLineStatus: null,
-        ip: '',
-        name: '',
-        tag: ''
-      }
-      this.queryParams.pageIndex = 0
+      this.queryParams = Object.assign({}, defaultQueryParams)
       this.size = 15
       this.getData()
     },
@@ -278,22 +223,49 @@ export default {
     add() {
       this.$refs.monitorForm.handleAddDialogOpen('mysql')
     },
+    /* 多选 */
+    handleSelect(selection) {
+      this.ids = selection.map((i) => { return i.id })
+    },
     /* 删除 */
     delete() {
-      console.log('删除')
+      if (this.ids.length === 0) {
+        this.$message({
+          message: '请选择需要删除的条目',
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm('是否确认删除选中的数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delMonitors(this.ids).then(async(res) => {
+          // if (res.code == 200) {
+          //   this.$message({
+          //     message: '删除成功',
+          //     type: 'success'
+          //   })
+          //   this.ids = []
+          //   // 删除后重新请求数据
+          //   await this.getList()
+          // }
+        })
+      })
     },
     /* 跳转到详情 */
     detail() {
       this.$router.push('/monitor/mysqlDetail')
     },
     /* 切换状态 */
-    // changeStatus(id, v) {
-    //   console.log(id)
-    //   console.log(v)
-    // },
+    changeStatus(id, v) {
+      console.log(id)
+      console.log(v)
+    },
     /* 编辑 */
     edit(id) {
-      this.$refs.monitorForm.handleEditDialogOpen(id,'mysql')
+      this.$refs.monitorForm.handleEditDialogOpen(id, 'mysql')
     }
   }
 }
