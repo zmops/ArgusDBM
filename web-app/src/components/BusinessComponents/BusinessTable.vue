@@ -128,7 +128,7 @@ export default {
     h: {
       type: [Number, String],
       default() {
-        return '680px'
+        return '660px'
         // return 'calc(100% - 242px)'
       }
     }
