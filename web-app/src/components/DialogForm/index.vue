@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible"  :width="width">
+  <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false"  :width="width">
     <slot name="form"></slot>
   </el-dialog>
 </template>

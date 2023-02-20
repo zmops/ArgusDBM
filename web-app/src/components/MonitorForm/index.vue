@@ -1,8 +1,8 @@
 <template>
   <dialog-form ref="dialogForm" :title="title" :width="width">
     <template v-slot:form>
-      <el-form ref="monitorform" :model="formData" :rules="rules" :show-message="false" label-width="150px"
-        style="margin-right:80px">
+      <el-form v-loading="loading" ref="monitorform" :model="formData" :rules="rules" :show-message="false"
+        label-width="150px" style="margin-right:80px">
         <el-form-item label="监控名称" prop="monitor.name">
           <el-input v-model="formData.monitor.name" placeholder="标识监控的名称,名称需要保证唯一性"></el-input>
           <div style="font-size: 12px;color: #757D8F">
@@ -42,7 +42,7 @@
         </div>
       </el-form-item> -->
         <el-form-item label="描述备注">
-          <el-input v-model="formData.monitor.description" type="textarea" :rows="3" placeholder=""></el-input>
+          <el-input v-model="formData.monitor.description" type="textarea" :rows="3" placeholder="请输入描述备注"></el-input>
           <div style="font-size: 12px;color: #757D8F">
             <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>更多标识和描述此监控的备注信息
           </div>
@@ -58,10 +58,14 @@
 </template>
 <script>
   import {
-    getParams,
+    getMonitor,
     detect,
-    addMonitor
+    addMonitor,
+    modifyMonitor
   } from '@/api/monitor/monitor-manage'
+  import {
+    getParams
+  } from '@/api/monitor/monitor-type-manage'
   import DialogForm from '@/components/DialogForm'
 
   const defaultFormData = {
@@ -89,6 +93,7 @@
       return {
         title: '',
         appName: '',
+        isedit: false,
         formData: Object.assign({}, defaultFormData),
         rules: {
           'monitor.name': [{
@@ -96,14 +101,14 @@
             message: '请输入监控名称',
             trigger: 'blur'
           }]
-        }
+        },
+        loading: false
       }
     },
     created() {},
     methods: {
-      initForm(customFields) {
+      initForm(customFields, editData) {
         //初始化通用字段
-        this.reset()
         this.formData.params = []
         customFields.forEach((element, index) => {
           if (!element.hide) {
@@ -118,39 +123,54 @@
             }
           }
         });
+        //如果是修改,赋值
+        if (editData) {
+          this.formData.monitor = editData.monitor
+          editData.params.forEach(editItem => {
+            this.formData.params.forEach((formItem) => {
+              if (editItem.field == formItem.field) {
+                this.$set(formItem, 'value', editItem.value)
+              }
+            })
+          })
+        }
+        this.loading = false
+        console.log(this.formData)
       },
-      getParams(appname) {
+      getParams(appname, editData) {
         getParams(appname).then(res => {
           //初始化表单字段
-          this.initForm(res.data)
-        })
-      },
-      onTestConnection() {
-        let savadata = this.formatSaveData()
-        detect(savadata).then(res => {
-          this.$message({
-            message: res.msg,
-            type: 'success'
-          });
+          this.initForm(res.data, editData)
         })
       },
       onSubmit() {
         let savadata = this.formatSaveData()
         this.$refs["monitorform"].validate(valid => {
           if (valid) {
-            addMonitor(savadata).then(res => {
-              this.$message({
-                message: res.msg,
-                type: 'success'
-              });
-            })
+            if (!this.isedit) {
+              addMonitor(savadata).then(res => {
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                });
+                this.onCancel()
+              })
+            } else {
+              modifyMonitor(savadata).then(res => {
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                });
+                this.onCancel()
+              })
+            }
           }
         });
       },
       // 取消按钮
       onCancel() {
-        this.dialogVisible = false
         this.reset();
+        this.$refs.dialogForm.handleDialogClose()
       },
       // 表单重置
       reset() {
@@ -159,18 +179,41 @@
         this.resetForm("form");
       },
       handleAddDialogOpen(appname) {
+        this.reset();
+        this.loading = true
         this.title = '新增 ' + appname + ' 监控'
         this.appName = appname
         this.getParams(appname)
+        this.isedit = false
         this.$refs.dialogForm.handleDialogOpen()
       },
       handleEditDialogOpen(id, appname) {
+        this.reset();
+        this.loading = true
         this.title = '修改 ' + appname + ' 监控'
         this.appName = appname
-        this.$refs.dialogForm.handleDialogOpen()
+        this.isedit = true
+        getMonitor(id).then(response => {
+          this.getParams(appname, response.data)
+          this.$refs.dialogForm.handleDialogOpen()
+        });
       },
-      handleDialogClose() {
-        this.$refs.dialogForm.handleDialogClose()
+      onTestConnection() {
+        let savadata = this.formatSaveData()
+        this.$refs["monitorform"].validate(valid => {
+          if (valid) {
+            this.loading = true
+            detect(savadata).then(res => {
+              this.loading = false
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              });
+            }).catch(() => {
+              this.loading = false
+            });
+          }
+        });
       },
       formatSaveData() {
         let data = Object.assign({}, this.formData)

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <ParamsSearchForm :params="params" @search="search" @rest="reset" />
+    <ParamsSearchForm :params="params" @search="handleQuery" @rest="resetQuery" />
     <div class="table-page-main">
       <BusinessButtons :buttons="buttons" />
       <BusinessTable
@@ -11,17 +11,34 @@
         selection
         @detail="detail"
       />
-      <Pagination :total="total" :current-page="page" :size="size" @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
+      <Pagination :total="total" :current-page="queryParams.pageIndex+1" :page-size="queryParams.pageSize" @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
     </div>
+        <!-- 弹出编辑页面 -->
+        <monitor-form ref="monitorForm">
+    </monitor-form>
   </div>
 </template>
 
 <script>
+import MonitorForm from '@/components/MonitorForm'
 import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
 import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
 import BusinessTable from '@/components/BusinessComponents/BusinessTable'
 import Pagination from '@/components/BusinessComponents/Pagination'
+import {getMonitors} from '@/api/monitor/monitor-manage-batch'
+import {getTags} from '@/api/monitor/tag-manage'
 
+const defaultQueryParams={
+  ids:[],
+  app:'mysql',
+  name:'',
+  host:'',
+  status:9,
+  sort:'name',
+  order:'desc',
+  pageIndex:0,
+  pageSize:15
+}
 export default {
   name: 'MysqlMonitor',
   provide() {
@@ -33,10 +50,12 @@ export default {
     ParamsSearchForm,
     BusinessButtons,
     BusinessTable,
-    Pagination
+    Pagination,
+    MonitorForm
   },
   data() {
     return {
+      queryParams:Object.assign({}, defaultQueryParams),
       form: {
         status: null,
         OnLineStatus: null,
@@ -44,9 +63,8 @@ export default {
         name: '',
         tag: ''
       },
-      page: 1,
-      size: 15,
-      total: 1000,
+      total: 0,
+      tagsOptions:[],
       params: [
         {
           componentName: 'RadioList',
@@ -84,7 +102,7 @@ export default {
           label: this.$t('tableView.tag'),
           optionId: 'code',
           optionName: 'name',
-          options: []
+          options: this.tagsOptions
         }
       ],
       buttons: [
@@ -100,96 +118,96 @@ export default {
         }
       ],
       tableData: [
-        { id: 1, a: 'a', b: 'b', online: '1', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 3, a: 'a', b: 'b', online: '1', status: false, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
-        { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' }
+        // { id: 1, a: 'a', b: 'b', online: '1', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 3, a: 'a', b: 'b', online: '1', status: false, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' },
+        // { id: 5, a: 'a', b: 'b', online: '0', status: true, e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q' }
       ],
       loading: false,
       columns: [
         {
           label: this.$t('tableView.monitoring'),
-          prop: 'a',
+          prop: 'name',
           event: 'detail'
         },
         {
           label: this.$t('tableView.ip'),
-          prop: 'b'
+          prop: 'host'
         },
         {
           label: this.$t('tableView.onlineStatus'),
-          prop: 'online'
+          prop: 'status'
         },
-        {
-          label: this.$t('tableView.status'),
-          width: 120,
-          prop: 'status',
-          idName: 'id',
-          event: 'changeStatus'
-        },
-        {
-          label: this.$t('tableView.version'),
-          prop: 'e'
-        },
-        {
-          label: this.$t('tableView.runningTime'),
-          prop: 'f'
-        },
-        {
-          label: this.$t('tableView.connected'),
-          prop: 'g'
-        },
-        {
-          label: this.$t('tableView.activity'),
-          prop: 'h'
-        },
-        {
-          label: 'QPS',
-          prop: 'i'
-        },
-        {
-          label: this.$t('tableView.inquire'),
-          prop: 'j'
-        },
-        {
-          label: this.$t('tableView.append'),
-          prop: 'k'
-        },
-        {
-          label: this.$t('tableView.update'),
-          prop: 'l'
-        },
-        {
-          label: this.$t('tableView.delete'),
-          prop: 'm'
-        },
-        {
-          label: this.$t('tableView.submit'),
-          prop: 'n'
-        },
-        {
-          label: this.$t('tableView.rollback'),
-          prop: 'o'
-        },
-        {
-          label: this.$t('tableView.read'),
-          prop: 'p'
-        },
-        {
-          label: this.$t('tableView.write'),
-          prop: 'q'
-        },
+        // {
+        //   label: this.$t('tableView.status'),
+        //   width: 120,
+        //   prop: 'status',
+        //   idName: 'id',
+        //   event: 'changeStatus'
+        // },
+        // {
+        //   label: this.$t('tableView.version'),
+        //   prop: 'e'
+        // },
+        // {
+        //   label: this.$t('tableView.runningTime'),
+        //   prop: 'f'
+        // },
+        // {
+        //   label: this.$t('tableView.connected'),
+        //   prop: 'g'
+        // },
+        // {
+        //   label: this.$t('tableView.activity'),
+        //   prop: 'h'
+        // },
+        // {
+        //   label: 'QPS',
+        //   prop: 'i'
+        // },
+        // {
+        //   label: this.$t('tableView.inquire'),
+        //   prop: 'j'
+        // },
+        // {
+        //   label: this.$t('tableView.append'),
+        //   prop: 'k'
+        // },
+        // {
+        //   label: this.$t('tableView.update'),
+        //   prop: 'l'
+        // },
+        // {
+        //   label: this.$t('tableView.delete'),
+        //   prop: 'm'
+        // },
+        // {
+        //   label: this.$t('tableView.submit'),
+        //   prop: 'n'
+        // },
+        // {
+        //   label: this.$t('tableView.rollback'),
+        //   prop: 'o'
+        // },
+        // {
+        //   label: this.$t('tableView.read'),
+        //   prop: 'p'
+        // },
+        // {
+        //   label: this.$t('tableView.write'),
+        //   prop: 'q'
+        // },
         {
           label: this.$t('tableView.operate'),
           prop: 'buttons',
@@ -206,27 +224,45 @@ export default {
     }
   },
   created() {
-
+    this.getData()
   },
   mounted() {
 
   },
   methods: {
+    getData(){
+      getMonitors(this.queryParams).then(res=>{
+        this.tableData=res.data.content
+        this.total=res.data.totalElements
+      })
+    },
+    getTags(){
+      let tagsQuery = {
+    search: '',
+    type: 0,
+    pageIndex:0,
+    pageSize:1000,
+  };
+        getTags(tagsQuery).then(res => {
+          this.tagsOptions = res.data.content
+        })
+      },
     handleSizeChange(size) {
-      this.size = size
+      this.queryParams.pageSize = size
       this.getData()
     },
     handleCurrentChange(page) {
-      this.page = page
+      this.queryParams.pageIndex = page-1
       this.getData()
     },
     /* 搜索 */
-    search() {
-      this.page = 1
+    handleQuery() {
+      console.log(this.params)
+      this.queryParams.pageIndex=0
       this.getData()
     },
     /* 重置 */
-    reset() {
+    resetQuery() {
       this.form = {
         status: null,
         OnLineStatus: null,
@@ -234,17 +270,13 @@ export default {
         name: '',
         tag: ''
       }
-      this.page = 1
+      this.queryParams.pageIndex = 0
       this.size = 15
       this.getData()
     },
-    /* 获取列表数据 */
-    getData() {
-
-    },
     /* 添加 */
     add() {
-      console.log('添加')
+      this.$refs.monitorForm.handleAddDialogOpen('mysql')
     },
     /* 删除 */
     delete() {
@@ -255,13 +287,13 @@ export default {
       this.$router.push('/monitor/mysqlDetail')
     },
     /* 切换状态 */
-    changeStatus(id, v) {
-      console.log(id)
-      console.log(v)
-    },
+    // changeStatus(id, v) {
+    //   console.log(id)
+    //   console.log(v)
+    // },
     /* 编辑 */
     edit(id) {
-      console.log(id)
+      this.$refs.monitorForm.handleEditDialogOpen(id,'mysql')
     }
   }
 }

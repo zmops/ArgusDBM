@@ -61,6 +61,11 @@ export default {
     Search,
     Notice
   },
+  data(){
+    return {
+    wordUrl:''
+  }
+  },
   computed: {
     ...mapGetters([
       'sidebar',

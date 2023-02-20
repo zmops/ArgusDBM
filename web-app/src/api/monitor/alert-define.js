@@ -49,3 +49,12 @@ export function delDefine(id) {
     method: 'delete'
   })
 }
+
+// You can obtain the list of alarm definitions by querying filter items ｜ 根据查询过滤项获取告警定义信息列表
+export function getDefines(query) {
+  return request({
+    url: '/api/alert/defines',
+    method: 'get',
+    params:query
+  })
+}

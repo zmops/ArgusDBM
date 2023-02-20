@@ -82,7 +82,9 @@ export default {
     securitySetting:'修改密码'
   },
   login: {
-    title: '系统登录',
+    title: 'ArgusDBM',
+    subtitle: '快捷好用的数据库运维监控',
+    formtip:'账号密码登录',
     logIn: '登录',
     username: '账号',
     password: '密码',
@@ -190,6 +192,41 @@ export default {
   },
   table:{
     empty:'暂无数据！'
+  },
+  tableView: {
+    status: '启用状态',
+    onlineStatus: '在线状态',
+    all: '全部',
+    enable: '启用',
+    disable: '禁用',
+    monitoring: '监控名称',
+    ip: 'IP/域名',
+    tag: '标签',
+    search: '查询',
+    reset: '重置',
+    add: '添加',
+    delete: '删除',
+    edit: '编辑',
+    online: '在线',
+    offline: '离线',
+    serial: '序号',
+    version: '版本',
+    runningTime: '运行时长',
+    connected: '已连接会话',
+    activity: '活动会话',
+    inquire: '查询',
+    append: '新增',
+    update: '更新',
+    submit: '提交',
+    rollback: '回滚',
+    read: '读取数据',
+    write: '写入数据',
+    operate: '操作',
+    input: '请输入',
+    select: '请选择'
+  },
+  message: {
+    switchLanguageSuccess: '语言切换成功,即将刷新页面'
   },
   "menu": {
     "main": "主导航",
