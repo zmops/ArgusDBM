@@ -11,3 +11,10 @@ export const MONITORS_STATUS = [
   { key: 3, value: '不可达' },
   { key: 4, value: '挂起' }
 ]
+
+/* 告警等级 */
+export const WARN_LEVEL = [
+  { key: 0, value: '警告告警' },
+  { key: 1, value: '严重告警' },
+  { key: 2, value: '紧急告警' }
+]

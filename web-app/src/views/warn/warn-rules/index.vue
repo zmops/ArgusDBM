@@ -9,7 +9,6 @@
         @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
     </div>
     <!-- 弹出编辑页面 -->
-    <!-- 弹出编辑页面 -->
     <dialog-form ref="dialogForm" title="告警规则">
       <template v-slot:form>
         <el-form ref="form" :model="form" :rules="rules" :show-message="false" label-width="150px"
@@ -120,19 +119,23 @@
     getDefines,
     getDefine,
     addDefine,
-    modifyDefine
+    modifyDefine,
+    delDefine
   } from '@/api/monitor/alert-define'
+  import {
+    WARN_LEVEL
+  } from '@/const/const'
 
   const defaultQueryParams = {
     ids: [],
-    priority: '',
+    priority: null,
     order: 'desc',
     pageIndex: 0,
     pageSize: 15
   }
 
   export default {
-    name: 'MysqlMonitor',
+    name: 'WarnRules',
     provide() {
       return {
         farther: this
@@ -150,7 +153,7 @@
         queryParams: Object.assign({}, defaultQueryParams),
         otherMetrics: [],
         hieoOptions: [],
-        selectionIds:[],
+        selectionIds: [],
         isedit: false,
         form: {
           cascadeValues: [],
@@ -193,60 +196,13 @@
         },
         total: 0,
         params: [{
-            componentName: 'RadioList',
-            keyName: 'status',
-            label: this.$t('tableView.status'),
-            arrayData: [{
-                value: null,
-                label: this.$t('tableView.all')
-              },
-              {
-                value: '0',
-                label: this.$t('tableView.enable')
-              },
-              {
-                value: '1',
-                label: this.$t('tableView.disable')
-              }
-            ]
-          },
-          {
-            componentName: 'RadioList',
-            keyName: 'OnLineStatus',
-            label: this.$t('tableView.onlineStatus'),
-            arrayData: [{
-                value: null,
-                label: this.$t('tableView.all')
-              },
-              {
-                value: '0',
-                label: this.$t('tableView.enable')
-              },
-              {
-                value: '1',
-                label: this.$t('tableView.disable')
-              }
-            ]
-          },
-          {
-            componentName: 'InputTemplate',
-            keyName: 'name',
-            label: this.$t('tableView.monitoring')
-          },
-          {
-            componentName: 'InputTemplate',
-            keyName: 'ip',
-            label: this.$t('tableView.ip')
-          },
-          {
-            componentName: 'SelectTemplate',
-            keyName: 'tag',
-            label: this.$t('tableView.tag'),
-            optionId: 'code',
-            optionName: 'name',
-            options: this.tagsOptions
-          }
-        ],
+          componentName: 'SelectTemplate',
+          keyName: 'priority',
+          label: '告警等级',
+          optionId: 'key',
+          optionName: 'value',
+          options: WARN_LEVEL
+        }],
         buttons: [{
             label: this.$t('tableView.add'),
             icon: 'list_add',
@@ -282,11 +238,13 @@
           },
           {
             label: '全局默认',
-            prop: 'preset'
+            prop: 'preset',
+            component: 'StatusText'
           },
           {
             label: '启用告警',
-            prop: 'enable'
+            prop: 'enable',
+            component: 'StatusText'
           },
           {
             label: this.$t('tableView.operate'),
@@ -330,7 +288,9 @@
       },
       /* 重置 */
       resetQuery() {
-
+        this.queryParams = Object.assign({}, defaultQueryParams)
+        this.size = 15
+        this.getData()
       },
       onSubmit() {
         this.$refs["form"].validate(valid => {
@@ -388,7 +348,15 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          console.log(ids)
+          this.$modal.confirm('是否确认删除数据项？').then(function () {
+            return delDefine(ids);
+          }).then(() => {
+            this.getData();
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            });
+          }).catch(() => {});
         } else {
           this.$message.error('请至少选择一行进行删除');
         }

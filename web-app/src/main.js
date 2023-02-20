@@ -12,6 +12,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
+import plugins from './plugins' // plugins
 
 import i18n from './lang' // internationalization
 import './icons' // icon
@@ -42,6 +43,8 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
+
+Vue.use(plugins)
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
