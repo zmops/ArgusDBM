@@ -147,12 +147,12 @@ public class NoticeConfigServiceImpl implements NoticeConfigService {
 
     @Override
     public NoticeReceiver getReceiverById(Long receiverId) {
-        return noticeReceiverDao.getOne(receiverId);
+        return noticeReceiverDao.findById(receiverId).orElse(null);
     }
 
     @Override
     public NoticeRule getNoticeRulesById(Long ruleId) {
-        return noticeRuleDao.getOne(ruleId);
+        return noticeRuleDao.findById(ruleId).orElse(null);
     }
 
     @Override
