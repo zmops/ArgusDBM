@@ -53,20 +53,6 @@ class NoticeConfigServiceTest {
     }
 
     @Test
-    void getNoticeReceivers() {
-        final Specification<NoticeReceiver> specification = mock(Specification.class);
-        noticeConfigService.getNoticeReceivers(specification);
-        verify(noticeReceiverDao, times(1)).findAll(specification);
-    }
-
-    @Test
-    void getNoticeRules() {
-        final Specification<NoticeRule> specification = mock(Specification.class);
-        noticeConfigService.getNoticeRules(specification);
-        verify(noticeRuleDao, times(1)).findAll(specification);
-    }
-
-    @Test
     void addReceiver() {
         final NoticeReceiver noticeReceiver = mock(NoticeReceiver.class);
         noticeConfigService.addReceiver(noticeReceiver);

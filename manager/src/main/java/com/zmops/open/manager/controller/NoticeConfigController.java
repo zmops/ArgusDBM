@@ -25,6 +25,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,8 +88,12 @@ public class NoticeConfigController {
     @GetMapping(path = "/receivers")
     @Operation(summary = "Get a list of message notification recipients based on query filter items",
             description = "根据查询过滤项获取消息通知接收人列表")
-    public ResponseEntity<Message<List<NoticeReceiver>>> getReceivers(
-            @Parameter(description = "en: Recipient name,zh: 接收人名称，模糊查询", example = "tom") @RequestParam(required = false) final String name) {
+    public ResponseEntity<Message<Page<NoticeReceiver>>> getReceivers(
+            @Parameter(description = "en: Recipient name,zh: 接收人名称，模糊查询", example = "tom") @RequestParam(required = false) final String name,
+            @Parameter(description = "en: Sort Field,default id,zh: 排序字段，默认更新时间", example = "name") @RequestParam(defaultValue = "gmtUpdate") final String sort,
+            @Parameter(description = "en: Sort by,zh: 排序方式，asc:升序，desc:降序", example = "desc") @RequestParam(defaultValue = "desc") final String order,
+            @Parameter(description = "en: List current page,zh: 列表当前分页", example = "0") @RequestParam(defaultValue = "0") int pageIndex,
+            @Parameter(description = "en: Number of list pagination,zh: 列表分页数量", example = "8") @RequestParam(defaultValue = "8") int pageSize) {
         Specification<NoticeReceiver> specification = (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
             if (name != null && !"".equals(name)) {
@@ -95,8 +102,10 @@ public class NoticeConfigController {
             }
             return predicate;
         };
-        List<NoticeReceiver> receivers = noticeConfigService.getNoticeReceivers(specification);
-        Message<List<NoticeReceiver>> message = new Message<>(receivers);
+        Sort sortExp = Sort.by(new Sort.Order(Sort.Direction.fromString(order), sort));
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, sortExp);
+        Page<NoticeReceiver> receivers = noticeConfigService.getNoticeReceivers(specification, pageRequest);
+        Message<Page<NoticeReceiver>> message = new Message<>(receivers);
         return ResponseEntity.ok(message);
     }
 
@@ -131,8 +140,12 @@ public class NoticeConfigController {
     @GetMapping(path = "/rules")
     @Operation(summary = "Get a list of message notification policies based on query filter items",
             description = "根据查询过滤项获取消息通知策略列表")
-    public ResponseEntity<Message<List<NoticeRule>>> getRules(
-            @Parameter(description = "en: Recipient name,zh: 接收人名称，模糊查询", example = "rule1") @RequestParam(required = false) final String name) {
+    public ResponseEntity<Message<Page<NoticeRule>>> getRules(
+            @Parameter(description = "en: Recipient name,zh: 接收人名称，模糊查询", example = "rule1") @RequestParam(required = false) final String name,
+            @Parameter(description = "en: Sort Field,default id,zh: 排序字段，默认更新时间", example = "name") @RequestParam(defaultValue = "gmtUpdate") final String sort,
+            @Parameter(description = "en: Sort by,zh: 排序方式，asc:升序，desc:降序", example = "desc") @RequestParam(defaultValue = "desc") final String order,
+            @Parameter(description = "en: List current page,zh: 列表当前分页", example = "0") @RequestParam(defaultValue = "0") int pageIndex,
+            @Parameter(description = "en: Number of list pagination,zh: 列表分页数量", example = "8") @RequestParam(defaultValue = "8") int pageSize) {
         Specification<NoticeRule> specification = (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
             if (name != null && !"".equals(name)) {
@@ -141,8 +154,10 @@ public class NoticeConfigController {
             }
             return predicate;
         };
-        List<NoticeRule> receiverPage = noticeConfigService.getNoticeRules(specification);
-        Message<List<NoticeRule>> message = new Message<>(receiverPage);
+        Sort sortExp = Sort.by(new Sort.Order(Sort.Direction.fromString(order), sort));
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, sortExp);
+        Page<NoticeRule> receiverPage = noticeConfigService.getNoticeRules(specification, pageRequest);
+        Message<Page<NoticeRule>> message = new Message<>(receiverPage);
         return ResponseEntity.ok(message);
     }
 
