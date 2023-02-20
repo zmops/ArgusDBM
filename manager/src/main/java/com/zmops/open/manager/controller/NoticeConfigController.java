@@ -85,6 +85,14 @@ public class NoticeConfigController {
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
 
+    @GetMapping(path = "/receiver/{id}")
+    @Operation(summary = "Get existing recipient information", description = "查询已存在的接收人信息")
+    public ResponseEntity<Message<NoticeReceiver>> getNoticeReceiver(
+            @Parameter(description = "en: Recipient ID,zh: 接收人ID", example = "6565463543") @PathVariable("id") final Long receiverId) {
+        NoticeReceiver noticeReceiver = noticeConfigService.getReceiverById(receiverId);
+        return ResponseEntity.ok(new Message<>(noticeReceiver));
+    }
+
     @GetMapping(path = "/receivers")
     @Operation(summary = "Get a list of message notification recipients based on query filter items",
             description = "根据查询过滤项获取消息通知接收人列表")
@@ -135,6 +143,14 @@ public class NoticeConfigController {
         }
         noticeConfigService.deleteNoticeRule(ruleId);
         return ResponseEntity.ok(new Message<>("Delete success"));
+    }
+
+    @GetMapping(path = "/rule/{id}")
+    @Operation(summary = "Get existing notification policy information", description = "查询已存在的通知策略信息")
+    public ResponseEntity<Message<NoticeRule>> getNoticeRule(
+            @Parameter(description = "en: Notification Policy ID,zh: 通知策略ID", example = "6565463543") @PathVariable("id") final Long ruleId) {
+        NoticeRule noticeRule = noticeConfigService.getNoticeRulesById(ruleId);
+        return ResponseEntity.ok(new Message<>(noticeRule));
     }
 
     @GetMapping(path = "/rules")
