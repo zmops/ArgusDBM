@@ -28,6 +28,8 @@ import com.zmops.open.manager.service.NoticeConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,13 +66,13 @@ public class NoticeConfigServiceImpl implements NoticeConfigService {
     private DispatcherAlarm dispatcherAlarm;
 
     @Override
-    public List<NoticeReceiver> getNoticeReceivers(Specification<NoticeReceiver> specification) {
-        return noticeReceiverDao.findAll(specification);
+    public Page<NoticeReceiver> getNoticeReceivers(Specification<NoticeReceiver> specification, PageRequest pageRequest) {
+        return noticeReceiverDao.findAll(specification, pageRequest);
     }
 
     @Override
-    public List<NoticeRule> getNoticeRules(Specification<NoticeRule> specification) {
-        return noticeRuleDao.findAll(specification);
+    public Page<NoticeRule> getNoticeRules(Specification<NoticeRule> specification, PageRequest pageRequest) {
+        return noticeRuleDao.findAll(specification, pageRequest);
     }
 
     @Override

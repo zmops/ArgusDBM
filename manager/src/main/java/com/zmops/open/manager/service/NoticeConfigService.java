@@ -20,6 +20,8 @@ package com.zmops.open.manager.service;
 import com.zmops.open.common.entity.alerter.Alert;
 import com.zmops.open.common.entity.manager.NoticeReceiver;
 import com.zmops.open.common.entity.manager.NoticeRule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public interface NoticeConfigService {
      * @param specification Query conditions    查询条件
      * @return Search result    查询结果
      */
-    List<NoticeReceiver> getNoticeReceivers(Specification<NoticeReceiver> specification);
+    Page<NoticeReceiver> getNoticeReceivers(Specification<NoticeReceiver> specification, PageRequest pageRequest);
 
     /**
      * Dynamic conditional query
@@ -49,7 +51,7 @@ public interface NoticeConfigService {
      * @param specification Query conditions    查询条件
      * @return Search result    查询结果
      */
-    List<NoticeRule> getNoticeRules(Specification<NoticeRule> specification);
+    Page<NoticeRule> getNoticeRules(Specification<NoticeRule> specification, PageRequest pageRequest);
 
     /**
      * Add a notification recipient
