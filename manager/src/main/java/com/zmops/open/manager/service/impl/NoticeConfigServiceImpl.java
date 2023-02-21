@@ -34,10 +34,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -165,5 +162,15 @@ public class NoticeConfigServiceImpl implements NoticeConfigService {
         alert.setLastTriggerTime(System.currentTimeMillis());
         alert.setPriority(CommonConstants.ALERT_PRIORITY_CODE_CRITICAL);
         return dispatcherAlarm.sendNoticeMsg(noticeReceiver, alert);
+    }
+
+    @Override
+    public void deleteReceivers(HashSet<Long> longs) {
+        noticeReceiverDao.deleteNoticeReceiversByIdIn(longs);
+    }
+
+    @Override
+    public void deleteNoticeRules(HashSet<Long> ids) {
+        noticeRuleDao.deleteNoticeRulesByIdIn(ids);
     }
 }

@@ -21,6 +21,8 @@ import com.zmops.open.common.entity.manager.NoticeReceiver;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Set;
+
 /**
  * NoticeReceiver数据库操作
  * @author tom from <a href="https://github.com/dromara/hertzbeat">hertzbeat</a>
@@ -28,4 +30,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public interface NoticeReceiverDao extends JpaRepository<NoticeReceiver, Long>, JpaSpecificationExecutor<NoticeReceiver> {
 
+    /**
+     * 根据IDS删除
+     * @param ids ids
+     */
+    void deleteNoticeReceiversByIdIn(Set<Long> ids);
 }
