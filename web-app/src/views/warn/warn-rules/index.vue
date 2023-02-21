@@ -133,7 +133,18 @@
     pageIndex: 0,
     pageSize: 15
   }
-
+  const defaultForm ={
+          cascadeValues: [],
+          app: "",
+          metric: "",
+          field: "",
+          preset: true,
+          expr: "",
+          priority: 2,
+          times: 3,
+          enable: true,
+          template: ""
+        }
   export default {
     name: 'WarnRules',
     provide() {
@@ -155,18 +166,7 @@
         hieoOptions: [],
         selectionIds: [],
         isedit: false,
-        form: {
-          cascadeValues: [],
-          app: "",
-          metric: "",
-          field: "",
-          preset: true,
-          expr: "",
-          priority: 2,
-          times: 3,
-          enable: true,
-          template: ""
-        },
+        form: Object.assign({}, defaultForm),
         rules: {
           'cascadeValues': [{
             required: true,
@@ -331,6 +331,8 @@
       /* 添加 */
       add() {
         this.isedit = false
+        this.form=Object.assign({}, defaultForm)
+        this.reset()
         this.$refs.dialogForm.handleDialogOpen()
       },
       /* 编辑 */
@@ -341,6 +343,10 @@
           this.form.cascadeValues = [res.data.app, res.data.metric, res.data.field]
           this.$refs.dialogForm.handleDialogOpen()
         })
+      },
+            // 表单重置
+            reset() {
+        this.resetForm("form");
       },
       delete() {
         if (this.selectionIds.length > 0) {

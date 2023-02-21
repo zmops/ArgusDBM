@@ -28,7 +28,7 @@
           <el-form-item label="标签过滤">
             <el-select v-model="form.tags" :disabled="itemDisable" filterable multiple allow-create default-first-option
               placeholder="请选择标签过滤" style="width:100%">
-              <el-option v-for="item in tagsOptions" :key="item.id" :label="item.name+':'+item.value" :value="item.id">
+              <el-option v-for="item in tagsOptions" :key="item.id" :label="item.name+':'+item.value" :value="item">
               </el-option>
             </el-select>
           </el-form-item>
@@ -66,12 +66,20 @@
   import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
   import BusinessTable from '@/components/BusinessComponents/BusinessTable'
   import Pagination from '@/components/BusinessComponents/Pagination'
-  import { WARN_LEVEL } from '@/const/const'
+  import {
+    WARN_LEVEL
+  } from '@/const/const'
 
   import {
-    getReceivers,getRules,addRule
+    getReceivers,
+    getRules,
+    getRule,
+    addRule,
+    modifyRule
   } from '@/api/monitor/notification-config'
-  import {getTags} from '@/api/monitor/tag-manage'
+  import {
+    getTags
+  } from '@/api/monitor/tag-manage'
 
   const defaultQueryParams = {
     name: '',
@@ -82,9 +90,19 @@
   const tagsQuery = {
     search: '',
     type: 0,
-    pageIndex:0,
-    pageSize:1000,
+    pageIndex: 0,
+    pageSize: 1000,
   };
+  const defaultForm = {
+    name: '',
+    receiverId: '',
+    receiverName: '',
+    enable: true,
+    filterAll: true,
+    priorities: [],
+    tags: [],
+    type: []
+  }
   export default {
     name: 'NotificationRules',
     provide() {
@@ -106,17 +124,8 @@
         tagsOptions: [],
         typeOptions: [],
         itemDisable: true,
-        warnLevel:WARN_LEVEL,
-        form: {
-          name: '',
-          receiverId: '',
-          receiverName: '',
-          enable: true,
-          filterAll: true,
-          priorities: [],
-          tags: [],
-          type: []
-        },
+        warnLevel: WARN_LEVEL,
+        form: Object.assign({}, defaultForm),
         rules: {
           'receiverId': [{
             required: true,
@@ -130,13 +139,11 @@
           }]
         },
         total: 0,
-        params: [
-          {
-            componentName: 'InputTemplate',
-            keyName: 'name',
-            label: '策略名称'
-          }
-        ],
+        params: [{
+          componentName: 'InputTemplate',
+          keyName: 'name',
+          label: '策略名称'
+        }],
         buttons: [{
             label: this.$t('tableView.add'),
             icon: 'list_add',
@@ -192,7 +199,6 @@
     methods: {
       getData() {
         getRules(this.queryParams).then(res => {
-          console.log(res)
           this.tableData = res.data.content
           this.total = res.data.totalElements
         })
@@ -202,11 +208,13 @@
         this.getTags()
       },
       getReceivers() {
-        getReceivers().then(res => {
-          this.receiverOptions = res.data
+        getReceivers({
+          pageSize: 1000
+        }).then(res => {
+          this.receiverOptions = res.data.content
         })
       },
-      getTags(){
+      getTags() {
         getTags(tagsQuery).then(res => {
           this.tagsOptions = res.data.content
         })
@@ -227,20 +235,31 @@
       /* 重置 */
       resetQuery() {
         this.queryParams = Object.assign({}, defaultQueryParams)
-      this.size = 15
-      this.getData()
+        this.size = 15
+        this.getData()
       },
-      onSubmit(){
+      onSubmit() {
         this.$refs["form"].validate(valid => {
           if (valid) {
-            addRule(this.form).then(res => {
-              console.log(res)
+            if (!this.isedit) {
+              addRule(this.form).then(res => {
               this.$message({
                 message: res.msg,
                 type: 'success'
               });
-              this.onCancel()
+              this.getData()
+                this.$refs.dialogForm.handleDialogClose()
             })
+            } else {
+              modifyRule(this.form).then(res => {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              });
+              this.getData()
+                this.$refs.dialogForm.handleDialogClose()
+            })
+            }
           }
         });
       },
@@ -250,14 +269,23 @@
       /* 添加 */
       add() {
         this.isedit = false
+        this.form = Object.assign({}, defaultForm)
+        this.reset()
         this.$refs.dialogForm.handleDialogOpen()
       },
       /* 编辑 */
       edit(id) {
         this.isedit = true
-        getDefine(id).then(res => {
+        getRule(id).then(res => {
           this.form = res.data
-          this.form.cascadeValues = [res.data.app, res.data.metric, res.data.field]
+          //根据接收人获取通知方式
+          this.receiverOptions.forEach(item => {
+            if (item.id == this.form.receiverId) {
+              this.form.receiverName = item.name
+              this.typeOptions = item.type
+            }
+          })
+          this.itemDisable = this.form.filterAll == true ? true : false
           this.$refs.dialogForm.handleDialogOpen()
         })
       },
@@ -280,6 +308,10 @@
           this.$message.error('请至少选择一行进行删除');
         }
       },
+      // 表单重置
+      reset() {
+        this.resetForm("form");
+      },
       handleSelect(selection, row) {
         this.selectionIds = selection
       },
@@ -287,16 +319,19 @@
       handleReceiverChange(value) {
         this.receiverOptions.forEach(item => {
           if (item.id == value) {
-            console.log(item)
-            this.form.receiverName=item.name
+            this.form.receiverName = item.name
             this.typeOptions = item.type
           }
         })
+        this.form.type = []
       },
       handleSwitch(value) {
-        this.itemDisable = value == true ? true: false
+        if(value==true){
+          this.form.tags=[]
+          this.form.priorities=[]
+        }
+        this.itemDisable = value == true ? true : false
       }
-
     }
   }
 

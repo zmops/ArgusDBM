@@ -11,12 +11,13 @@
     <!-- 弹出编辑页面 -->
     <dialog-form ref="dialogForm" title="通知规则">
       <template v-slot:form>
-        <el-form ref="form" :model="form" label-width="150px" :rules="rules" :show-message="false" style="margin-right:80px">
+        <el-form ref="form" :model="form" label-width="150px" :rules="rules" :show-message="false"
+          style="margin-right:80px">
           <el-form-item label="接收人名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入接收人名称"></el-input>
           </el-form-item>
           <el-form-item label="通知方式" prop="type">
-            <el-select v-model="form.type" multiple  placeholder="请选择通知方式" style="width:100%">
+            <el-select v-model="form.type" multiple placeholder="请选择通知方式" style="width:100%">
               <el-option label="短信" :value="0"></el-option>
               <el-option label="邮件" :value="1"></el-option>
               <el-option label="企业微信" :value="4"></el-option>
@@ -50,19 +51,39 @@
 </template>
 
 <script>
-import DialogForm from '@/components/DialogForm'
-import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
+  import DialogForm from '@/components/DialogForm'
+  import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
   import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
   import BusinessTable from '@/components/BusinessComponents/BusinessTable'
   import Pagination from '@/components/BusinessComponents/Pagination'
-import {getReceivers,addReceiver} from '@/api/monitor/notification-config'
-  
-const defaultQueryParams = {
+  import {
+    getReceivers,
+    getReceiver,
+    addReceiver,
+    modifyReceiver
+  } from '@/api/monitor/notification-config'
+
+  const defaultQueryParams = {
     name: '',
     order: 'desc',
     pageIndex: 0,
     pageSize: 15
   }
+
+const defaultForm={
+          name: '', //接收人
+          type: [], //通知方式
+          phone: '', //电话
+          email: '', //邮箱
+          hookUrl: '', //Webhook URL
+          wechatId: '', //企业微信号
+          accessToken: '', //钉钉号
+          tgBotToken: '', //飞书机器人
+          tgUserId: '', //飞书机器人
+          slackWebHookUrl: '', //企业微信机器人
+          discordChannelId: '', //微信公众号
+          discordBotToken: '' //微信公众号
+        }
 
   export default {
     name: 'SysReceiver',
@@ -85,27 +106,14 @@ const defaultQueryParams = {
         hieoOptions: [],
         selectionIds: [],
         isedit: false,
-        form: {
-          name: '',//接收人
-          type: [],//通知方式
-          phone: '',//电话
-          email: '',//邮箱
-          hookUrl: '',//Webhook URL
-          wechatId: '',//企业微信号
-          accessToken: '',//钉钉号
-          tgBotToken: '',//飞书机器人
-          tgUserId: '',//飞书机器人
-          slackWebHookUrl: '',//企业微信机器人
-          discordChannelId: '',//微信公众号
-          discordBotToken: ''//微信公众号
-        },
+        form: Object.assign({}, defaultForm),
         rules: {
           name: [{
             required: true,
             message: '请输入接收人名称',
             trigger: 'blur'
           }],
-          type:[{
+          type: [{
             required: true,
             message: '请选择通知方式',
             trigger: 'change'
@@ -115,7 +123,7 @@ const defaultQueryParams = {
         params: [{
             componentName: 'RadioList',
             keyName: 'status',
-            label: this.$t('tableView.status'),
+            label: '状态',
             arrayData: [{
                 value: null,
                 label: this.$t('tableView.all')
@@ -133,7 +141,7 @@ const defaultQueryParams = {
           {
             componentName: 'RadioList',
             keyName: 'OnLineStatus',
-            label: this.$t('tableView.onlineStatus'),
+            label: '接收人名称',
             arrayData: [{
                 value: null,
                 label: this.$t('tableView.all')
@@ -181,32 +189,20 @@ const defaultQueryParams = {
         tableData: [],
         loading: false,
         columns: [{
-            label: '指标对象',
-            prop: 'field'
+            label: '接收人',
+            prop: 'name'
           },
           {
-            label: '阈值触发表达式',
+            label: '通知方式',
             prop: 'expr'
           },
+          // {
+          //   label: '状态',
+          //   prop: 'priority'
+          // },
           {
-            label: '告警级别',
-            prop: 'priority'
-          },
-          {
-            label: '触发次数',
-            prop: 'times'
-          },
-          {
-            label: '通知模板',
-            prop: 'template'
-          },
-          {
-            label: '全局默认',
-            prop: 'preset'
-          },
-          {
-            label: '启用告警',
-            prop: 'enable'
+            label: '更新时间',
+            prop: 'gmtUpdate'
           },
           {
             label: this.$t('tableView.operate'),
@@ -221,7 +217,7 @@ const defaultQueryParams = {
         ]
       }
     },
-    created(){
+    created() {
       this.getData()
     },
     methods: {
@@ -251,13 +247,24 @@ const defaultQueryParams = {
       },
       onSubmit() {
         this.$refs["form"].validate(valid => {
-          if (valid) {
+          if (!this.isedit) {
             addReceiver(this.form).then(res => {
               console.log(res)
               this.$message({
                 message: res.msg,
                 type: 'success'
               });
+              this.getData()
+              this.$refs.dialogForm.handleDialogClose()
+            })
+          } else {
+            modifyReceiver(this.form).then(res => {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              });
+              this.getData()
+              this.$refs.dialogForm.handleDialogClose()
             })
           }
         });
@@ -269,14 +276,16 @@ const defaultQueryParams = {
       /* 添加 */
       add() {
         this.isedit = false
+        this.form=Object.assign({}, defaultForm)
+        this.reset()
         this.$refs.dialogForm.handleDialogOpen()
       },
       /* 编辑 */
       edit(id) {
         this.isedit = true
-        getDefine(id).then(res => {
+        this.reset()
+        getReceiver(id).then(res => {
           this.form = res.data
-          this.form.cascadeValues = [res.data.app, res.data.metric, res.data.field]
           this.$refs.dialogForm.handleDialogOpen()
         })
       },
@@ -301,7 +310,11 @@ const defaultQueryParams = {
       },
       handleSelect(selection, row) {
         this.selectionIds = selection
-      }
+      },
+                  // 表单重置
+                  reset() {
+        this.resetForm("form");
+      },
     }
   }
 
