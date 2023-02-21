@@ -112,13 +112,15 @@ export default {
           prop: 'status',
           component: 'StatusText'
         },
-        // {
-        //   label: this.$t('tableView.onlineStatus'),
-        //   prop: 'status',
-        //   component: 'StatusSwitch',
-        //   idName: 'id',
-        //   event: 'changeStatus'
-        // },
+        {
+          label: this.$t('tableView.onlineStatus'),
+          prop: 'status',
+          component: 'StatusSwitch',
+          idName: 'id',
+          event: 'changeStatus',
+          leftText: '是',
+          rightText: '否'
+        },
         // {
         //   label: this.$t('tableView.version'),
         //   prop: 'e'
@@ -186,6 +188,14 @@ export default {
       ]
     }
   },
+  watch: {
+    'queryParams.status': {
+      handler() {
+        this.queryParams.page = 0
+        this.getData()
+      }
+    }
+  },
   created() {
     this.getData()
   },
@@ -193,11 +203,13 @@ export default {
   },
   methods: {
     getData() {
+      this.loading = true
       getMonitors(this.queryParams).then(res => {
         if (res.code === 0) {
           this.tableData = res.data.content
           this.total = res.data.totalElements
         }
+        this.loading = false
       })
     },
     handleSizeChange(size) {
@@ -242,21 +254,21 @@ export default {
         type: 'warning'
       }).then(() => {
         delMonitors(this.ids).then(async(res) => {
-          // if (res.code == 200) {
-          //   this.$message({
-          //     message: '删除成功',
-          //     type: 'success'
-          //   })
-          //   this.ids = []
-          //   // 删除后重新请求数据
-          //   await this.getList()
-          // }
+          if (res.code === 0) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.ids = []
+            // 删除后重新请求数据
+            await this.getData()
+          }
         })
       })
     },
     /* 跳转到详情 */
-    detail() {
-      this.$router.push('/monitor/mysqlDetail')
+    detail(item) {
+      this.$router.push('/monitor/mysqlDetail?type=mysql&monitorId=' + item.id)
     },
     /* 切换状态 */
     changeStatus(id, v) {

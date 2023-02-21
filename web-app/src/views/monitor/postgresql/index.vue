@@ -1,373 +1,285 @@
 <template>
   <div class="app-container">
-    <!-- 搜索栏 -->
-    <div class="setting-form">
-      <el-form :inline="true" class="demo-form-inline">
-        <el-form-item class="line-button-wrapper">
-          <button class="search-btn" @click.prevent="search">查询</button>
-          <button class="reset-btn" @click.prevent="reset">重置</button>
-        </el-form-item>
-      </el-form>
+    <ParamsSearchForm :params="params" @search="handleQuery" @rest="resetQuery" />
+    <div class="table-page-main">
+      <BusinessButtons :buttons="buttons" />
+      <BusinessTable
+        :table-data="tableData"
+        :columns="columns"
+        :loading="loading"
+        serial
+        selection
+        @detail="detail"
+        @select="handleSelect"
+      />
+      <Pagination
+        :total="total"
+        :current-page="queryParams.pageIndex+1"
+        :page-size="queryParams.pageSize"
+        @handleCurrentChange="handleCurrentChange"
+        @handleSizeChange="handleSizeChange"
+      />
     </div>
-    <!-- table栏位 -->
-    <div class="table-content">
-      <el-table
-      :data="tableData"
-      :row-class-name="tableRowClassName"
-      border
-      v-loading="loading"
-      ref="settingTable"
-      style="width: 100%;"
-      @select="handleSelect"
-      @select-all="handleSelectAll"
-      :header-cell-style="getRowClass"
-      @sort-change="sortChange"
-      row-key="id"
-      lazy
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-    >
-      <div slot="empty">
-        <div class="noData">
-          <svg-icon iconClass="no_data" style="font-size:100px;"></svg-icon>
-          <span>暂无数据！</span>
-        </div>
-      </div>
-      <el-table-column
-        v-if="selection"
-        header-align="center"
-        align="center"
-        type="selection"
-        width="50"
-        :selectable="selectable"
-      ></el-table-column>
-      <el-table-column
-        v-if="Roo"
-        header-align="center"
-        align="center"
-        type="index"
-        width="50"
-        label="序号"
-      ></el-table-column>
-      <!-- 需要配置右对齐的列添加column_align：right -->
-      <el-table-column
-        :header-align="item.column_align ? item.column_align : 'left'"
-        :align="item.column_align ? item.column_align : 'left'"
-        v-for="(item, index) in tableColumns"
-        :key="index"
-        :label="item.label"
-        :width="item.width"
-        :min-width="item.minWidth"
-        :sortable="item.sort || false"
-        :sort-method="sortMethod"
-        :fixed="item.fixed"
-      >
-        <template slot-scope="scope">
-          <template v-if="item.prop === 'buttons'">
-            <operation-buttons
-              :dataId="
-                                scope.row.id ||
-                                    scope.row.moId ||
-                                    scope.row.businessid ||
-                                    scope.row.userId ||
-                                    scope.row.roleId
-                            "
-              :problemId = "scope.row.problemId"
-              :index="scope.$index"
-              :buttons="item.buttons"
-            />
-          </template>
-          <template v-else-if="item.prop==='configFile'">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              placement="top"
-              :disabled="scope.row['configFile'].length<=15"
-              :content="scope.row['configFile']"
-            >
-              <div>
-                <span slot="reference">{{scope.row['configFile'] | words}}</span>
-              </div>
-            </el-tooltip>
-          </template>
-          <template v-else-if="item.component">
-            <component
-              :is="item.component"
-              v-bind="{
-                                ...scope.row,
-                                id:
-                                    scope.row.id ||
-                                    scope.row.moId ||
-                                    scope.row.businessid ||
-                                    scope.row.userId ||
-                                    scope.row.roleId,
-                                propName: item.prop,
-                                eventName: item.event,
-                                len:item.len,
-                            }"
-            />
-          </template>
-          <template v-else-if="item.renderOption">
-            <span
-              v-for="(c, index) in item.renderOption(scope.row)"
-              :key="index"
-            >{{ index == 0 ? c : ',' + c }}</span>
-          </template>
-          <template v-else-if="item.timeFormat">
-            <span
-              :class="item.className || ''"
-              :title="
-                              Number(item.timeFormat)
-                                    ? transTime(Number(scope.row[item.prop]))
-                                    : scope.row[item.prop]
-                                    ? scope.row[item.prop]
-                                    : '-'
-                            "
-            >
-              {{
-              Number(item.timeFormat)
-              ? transTime(Number(scope.row[item.prop]))
-              : scope.row[item.prop]
-              ? scope.row[item.prop]
-              : '-'
-              }}
-            </span>
-            <span v-if="item.unit">{{ item.unit }}</span>
-          </template>
-          <!-- 内存/容量单位转换 -->
-          <template v-else-if="item.convert">
-            <span v-if="item.prop == 'usageMem'" style="color: #47b59f">
-              {{
-              scope.row['usedMem'] || scope.row['totalMem']
-              ? (
-              (scope.row['usedMem'] /
-              scope.row['totalMem']) *
-              100
-              ).toFixed(2) + '%'
-              : '-'
-              }}
-            </span>
-            <span v-else-if="item.prop == 'unusedMem'" style="color: #47b59f">
-              {{
-              scope.row['usedMem'] || scope.row['totalMem']
-              ? convertSize(
-              scope.row['totalMem'] -
-              scope.row['usedMem']
-              )
-              : '-'
-              }}
-            </span>
-            <span v-else-if="item.prop == 'memMB'" style="color: #47b59f">
-              {{
-              scope.row['memMB']
-              ? convertSize(
-              scope.row['memMB'] * 1024 * 1024
-              )
-              : '-'
-              }}
-            </span>
-            <span v-else-if="item.prop == 'totalStorage'">
-              {{
-              scope.row['totalStorage']
-              ? convertSize(scope.row['totalStorage'])
-              : '-'
-              }}
-            </span>
-            <span v-else-if="item.prop == 'freeStorage'">
-              {{
-              scope.row['freeStorage']
-              ? convertSize(scope.row['freeStorage'])
-              : '-'
-              }}
-            </span>
-            <span v-else-if="item.prop == 'usedStoragePer'">
-              {{
-              scope.row['totalStorage']
-              ? (
-              (1 -
-              scope.row['freeStorage'] /
-              scope.row['totalStorage']) *
-              100
-              ).toFixed(2) + '%'
-              : '-'
-              }}
-            </span>
-            <span v-else-if="item.prop == 'totalMem'" style="color: #47b59f">
-              {{
-              scope.row[item.prop]
-              ? convertSize(scope.row[item.prop])
-              : '-'
-              }}
-            </span>
-            <span v-else>
-              {{
-              scope.row[item.prop]
-              ? convertSize(scope.row[item.prop])
-              : '-'
-              }}
-            </span>
-          </template>
-          <!-- 网卡的全双工和运行状态 -->
-          <template v-else-if="item.netCards">
-            <span v-if="item.prop == 'duplex'">{{ scope.row[item.prop] ? '是' : '否' }}</span>
-            <span v-if="item.prop == 'connected'">{{ scope.row[item.prop] ? '正常' : '未知' }}</span>
-          </template>
-          <template v-else>
-            <span
-              :class="item.className || ''"
-              :title="
-                                item.conversion
-                                    ? conversionTime(scope.row[item.prop])
-                                    : scope.row[item.prop]
-                                    ? scope.row[item.prop]
-                                    : '-'
-                            "
-            >
-              {{
-              item.conversion
-              ? conversionTime(scope.row[item.prop])
-              : scope.row[item.prop]
-              ? scope.row[item.prop]
-              : '-'
-              }}
-            </span>
-            <span v-if="item.unit">{{ item.unit }}</span>
-          </template>
-        </template>
-      </el-table-column>
-    </el-table>
-    </div>
+    <!-- 弹出编辑页面 -->
+    <monitor-form ref="monitorForm" />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'MysqlMonitor',
-    components: {}
+import MonitorForm from '@/components/MonitorForm'
+import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
+import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
+import BusinessTable from '@/components/BusinessComponents/BusinessTable'
+import Pagination from '@/components/BusinessComponents/Pagination'
+import { getMonitors, delMonitors } from '@/api/monitor/monitor-manage-batch'
+import { MONITORS_STATUS } from '@/const/const'
+
+const defaultQueryParams = {
+  ids: [],
+  app: 'postgresql',
+  name: '',
+  host: '',
+  status: 9,
+  sort: 'name',
+  order: 'desc',
+  pageIndex: 0,
+  pageSize: 15
+}
+export default {
+  name: 'Pgsql',
+  provide() {
+    return {
+      farther: this
+    }
+  },
+  components: {
+    ParamsSearchForm,
+    BusinessButtons,
+    BusinessTable,
+    Pagination,
+    MonitorForm
+  },
+  data() {
+    return {
+      queryParams: Object.assign({}, defaultQueryParams),
+      total: 0,
+      tagsOptions: [],
+      params: [
+        {
+          componentName: 'RadioList',
+          keyName: 'status',
+          label: '监控状态',
+          arrayData: MONITORS_STATUS
+        },
+        {
+          componentName: 'InputTemplate',
+          keyName: 'name',
+          label: this.$t('tableView.monitoring')
+        },
+        {
+          componentName: 'InputTemplate',
+          keyName: 'host',
+          label: this.$t('tableView.ip')
+        }
+      ],
+      buttons: [
+        {
+          label: this.$t('tableView.add'),
+          icon: 'list_add',
+          event: 'add'
+        },
+        {
+          label: this.$t('tableView.delete'),
+          icon: 'list_del',
+          event: 'delete'
+        }
+      ],
+      tableData: [],
+      ids: [],
+      loading: false,
+      columns: [
+        {
+          label: this.$t('tableView.monitoring'),
+          prop: 'name',
+          event: 'detail'
+        },
+        {
+          label: this.$t('tableView.ip'),
+          prop: 'host'
+        },
+        {
+          label: '监控状态',
+          prop: 'status',
+          component: 'StatusText'
+        },
+        // {
+        //   label: this.$t('tableView.onlineStatus'),
+        //   prop: 'status',
+        //   component: 'StatusSwitch',
+        //   idName: 'id',
+        //   event: 'changeStatus',
+        //   leftText: '是',
+        //   rightText: '否'
+        // },
+        // {
+        //   label: this.$t('tableView.version'),
+        //   prop: 'e'
+        // },
+        // {
+        //   label: this.$t('tableView.runningTime'),
+        //   prop: 'f'
+        // },
+        // {
+        //   label: this.$t('tableView.connected'),
+        //   prop: 'g'
+        // },
+        // {
+        //   label: this.$t('tableView.activity'),
+        //   prop: 'h'
+        // },
+        // {
+        //   label: 'QPS',
+        //   prop: 'i'
+        // },
+        // {
+        //   label: this.$t('tableView.inquire'),
+        //   prop: 'j'
+        // },
+        // {
+        //   label: this.$t('tableView.append'),
+        //   prop: 'k'
+        // },
+        // {
+        //   label: this.$t('tableView.update'),
+        //   prop: 'l'
+        // },
+        // {
+        //   label: this.$t('tableView.delete'),
+        //   prop: 'm'
+        // },
+        // {
+        //   label: this.$t('tableView.submit'),
+        //   prop: 'n'
+        // },
+        // {
+        //   label: this.$t('tableView.rollback'),
+        //   prop: 'o'
+        // },
+        // {
+        //   label: this.$t('tableView.read'),
+        //   prop: 'p'
+        // },
+        // {
+        //   label: this.$t('tableView.write'),
+        //   prop: 'q'
+        // },
+        {
+          label: this.$t('tableView.operate'),
+          prop: 'buttons',
+          width: 120,
+          idName: 'id',
+          buttons: [
+            {
+              label: this.$t('tableView.edit'),
+              event: 'edit'
+            }
+          ]
+        }
+      ]
+    }
+  },
+  watch: {
+    'queryParams.status': {
+      handler() {
+        this.queryParams.page = 0
+        this.getData()
+      }
+    }
+  },
+  created() {
+    this.getData()
+  },
+  mounted() {
+  },
+  methods: {
+    getData() {
+      this.loading = true
+      getMonitors(this.queryParams).then(res => {
+        if (res.code === 0) {
+          this.tableData = res.data.content
+          this.total = res.data.totalElements
+        }
+        this.loading = false
+      })
+    },
+    handleSizeChange(size) {
+      this.queryParams.pageSize = size
+      this.getData()
+    },
+    handleCurrentChange(page) {
+      this.queryParams.pageIndex = page - 1
+      this.getData()
+    },
+    /* 搜索 */
+    handleQuery() {
+      this.queryParams.pageIndex = 0
+      this.getData()
+    },
+    /* 重置 */
+    resetQuery() {
+      this.queryParams = Object.assign({}, defaultQueryParams)
+      this.size = 15
+      this.getData()
+    },
+    /* 添加 */
+    add() {
+      this.$refs.monitorForm.handleAddDialogOpen('oracle')
+    },
+    /* 多选 */
+    handleSelect(selection) {
+      this.ids = selection.map((i) => { return i.id })
+    },
+    /* 删除 */
+    delete() {
+      if (this.ids.length === 0) {
+        this.$message({
+          message: '请选择需要删除的条目',
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm('是否确认删除选中的数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delMonitors(this.ids).then(async(res) => {
+          // if (res.code == 200) {
+          //   this.$message({
+          //     message: '删除成功',
+          //     type: 'success'
+          //   })
+          //   this.ids = []
+          //   // 删除后重新请求数据
+          //   await this.getList()
+          // }
+        })
+      })
+    },
+    /* 跳转到详情 */
+    detail(item) {
+      this.$router.push('/monitor/postgresqlDetail?type=pgsql&monitorId=' + item.id)
+    },
+    /* 切换状态 */
+    changeStatus(id, v) {
+      console.log(id)
+      console.log(v)
+    },
+    /* 编辑 */
+    edit(id) {
+      this.$refs.monitorForm.handleEditDialogOpen(id, 'oracle')
+    }
   }
+}
 
 </script>
-
-<style lang="scss" scoped>
-  @import '~@/styles/mixin.scss';
-
-  .page-container {
-    width: 100%;
-    margin-top: 30px;
-    @include flexContainerRowEnd;
-  }
-
-</style>
-
-<!-- setting-form  -->
-<style lang="scss" scoped>
-  @import '~@/styles/mixin.scss';
-
-  .setting-form {
-    @include flexContainerRow;
-    // margin: 10px;
-    border: 1px solid #ccd2d8;
-    padding: 10px 0 0 16px;
-    font-size: 12px;
-    background-color: #ffffff;
-  }
-
-  .el-form-item {
-    margin-bottom: 10px !important;
-  }
-
-  .el-form-item__content {
-    line-height: none;
-  }
-
-  .search-btn {
-    cursor: pointer;
-    margin-top: 3px;
-    width: 60px;
-    height: 30px;
-    background: #0077FF;
-    border: 1px solid #0077FF;
-    border-radius: 2px;
-    color: white;
-
-    &:focus,
-    &:hover {
-      outline: 0;
-      background: #0077FF;
-      border-color: #0077FF;
-      color: #fff;
-    }
-  }
-
-  .reset-btn {
-    cursor: pointer;
-    width: 60px;
-    height: 30px;
-    background: #7B8A9F;
-    border: 1px solid #7B8A9F;
-    border-radius: 2px;
-    color: #fff;
-    margin-left: 4px;
-
-    &:focus,
-    &:hover {
-      outline: 0;
-      background: #7B8A9F;
-      border: 1px solid #7B8A9F;
-      color: #fff;
-    }
-  }
-
-  .line-button-wrapper ::v-deep .el-form-item__content {
-    line-height: 1 !important;
-  }
-
-</style>
-
-<!-- table  -->
-<style lang="scss" scoped>
-.table-content{
-  margin-top: 10px;
-}
-.simple-linear {
-  background: linear-gradient(0deg, #f2f2f2, #f9f9f9);
-}
-
-.el-table ::v-deep .warning-row {
-  background: #fcfcfc;
-}
-
-.el-table ::v-deep .normal-row {
-  background: white;
-}
-.greenColor {
-  color: #47b59f;
-  text-shadow: 0px 0px 0px #47b59f;
-}
-.manageLevel {
-  text-shadow: 0px 0px 0px #606266;
-}
-.urlcolor {
-  color: #136284;
-}
-.noData {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  max-height: calc(100vh - 200px);
-  height: 100%;
-  min-height: 400px;
-}
-.noData2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  max-height: calc(100vh - 200px);
-  height: 100%;
-  min-height: 100px;
-}
-::v-deep .cell-inner {
-  display: inline;
-}
-</style>

@@ -86,11 +86,11 @@ export function getTargetData(type, name) {
             })
           })
         }
+        obj.list = list2
         obj.explain = explain
       }
     })
   }
-
   return obj
   /*
   const data = target.split('\n')

@@ -8,11 +8,28 @@ export function getMonitors(query) {
     params: query
   })
 }
-//
+
+// 根据ids删除监控资源
 export function delMonitors(ids) {
   return request({
     url: '/api/monitors',
     method: 'delete',
-    data: { ids }
+    params: { ids: ids.toString() }
+  })
+}
+
+// 监控详情-查询最新数据
+export function getLatestValue(monitorId, metrics) {
+  return request({
+    url: `/api/monitor/${monitorId}/metrics/${metrics}`,
+    method: 'get'
+  })
+}
+
+// 监控详情-查询历史数据
+export function getHistoryValue(monitorId, metricFull) {
+  return request({
+    url: `/api/monitor/${monitorId}/metric/${metricFull}`,
+    method: 'get'
   })
 }

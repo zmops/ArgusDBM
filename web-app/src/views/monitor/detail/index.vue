@@ -7,8 +7,8 @@
           style="font-size:14px;color:#3A7CDB;cursor:pointer;margin-right:14px;"
           @click="$router.back()"
         />
-        <span class="left-name">{{ '资源名称' }}</span>
-        <span class="left-ip">{{ 'hostInfo.ip' }}</span>
+        <span class="left-name">{{ info.name }}</span>
+        <span class="left-ip">{{ info.host }}</span>
       </div>
     </div>
     <div class="tabs-box">
@@ -27,7 +27,7 @@
       :is-draggable="false"
     >
       <grid-item v-for="(item) in layouts" :key="item.i" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i">
-        <component :is="item.v" v-bind="{targetType: item.t, targetName: item.k, s: item.s}" />
+        <component :is="item.v" v-bind="{targetType: item.t, targetName: item.k, s: item.s, dataObj}" />
       </grid-item>
     </grid-layout>
   </div>
@@ -38,26 +38,33 @@
 import VueGridLayout from 'vue-grid-layout'
 import detailLayout from '../../../../public/csvData/detailLayout'
 import { guid } from '@/utils'
+import { getLatestValue } from '@/api/monitor/monitor-manage-batch'
+import { getMonitor } from '@/api/monitor/monitor-manage'
 export default {
   name: 'Detail',
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
-    LineChart: () => import('@/components/Detail/LineChart'),
+    Graph: () => import('@/components/Detail/Graph'),
     TableView: () => import('@/components/Detail/TableView'),
-    TextValue: () => import('@/components/Detail/TextValue'),
-    TextAndChart: () => import('@/components/Detail/TextAndChart')
+    Single: () => import('@/components/Detail/Single'),
+    SingleGraph: () => import('@/components/Detail/SingleGraph')
   },
   data() {
     return {
       layouts: [],
       tabs: [],
-      type: 'mysql',
-      tabsId: ''
+      type: this.$route.query.type,
+      monitorId: this.$route.query.monitorId,
+      tabsId: '',
+      metrics: [],
+      info: {},
+      dataObj: {}
     }
   },
-  created() {
-    this.getInfo()
+  async created() {
+    await this.getInfo()
+    await this.getArr()
   },
   mounted() {
     this.$nextTick(() => {
@@ -68,10 +75,16 @@ export default {
   methods: {
     /* 获取当前页面的信息 */
     getInfo() {
+      getMonitor(this.monitorId).then((res) => {
+        if (res.code === 0 && res.data.monitor) {
+          this.info = res.data.monitor
+        }
+      })
       const data = detailLayout.split('\n')
       const arr = []
       const tabs = []
       const tabList = []
+      const metrics = []
       data.forEach((i) => {
         const item = i.split(',')
         if (item[0] === this.type) {
@@ -79,8 +92,16 @@ export default {
             tabs.push(item[1])
           }
           arr.push(item)
+          if (item[4] === 'Single' || item[4] === 'SingleGraph') {
+          // if (item[2] === '单指标') {
+            const m = item[3].split('.')
+            if (metrics.indexOf(m[1]) === -1) {
+              metrics.push(m[1])
+            }
+          }
         }
       })
+      this.metrics = metrics
       tabs.forEach((i) => {
         const list = []
         arr.forEach((ii) => {
@@ -101,6 +122,26 @@ export default {
         tabList.push({ title: i, list })
       })
       this.tabs = tabList
+    },
+    getArr() {
+      // 获取所有的最新值
+      if (this.metrics.length) {
+        for (const i of this.metrics) {
+          getLatestValue(this.monitorId, i).then((res) => {
+            if (res.code === 0 && res.data) {
+              const fields = res.data.fields
+              const valueRows = res.data.valueRows[0].values
+              fields.forEach((item, index) => {
+                // this.dataObj[item.name] = {
+                //   unit: item.unit,
+                //   value: valueRows[index].origin
+                // }
+                this.$set(this.dataObj, item.name, { unit: item.unit, value: valueRows[index].origin })
+              })
+            }
+          })
+        }
+      }
     },
     changeTabs(list) {
       // this.layouts =
