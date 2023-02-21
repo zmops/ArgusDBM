@@ -24,7 +24,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 历史单指标数据
@@ -50,6 +49,7 @@ public class MetricsHistoryData {
     @Schema(title = "监控指标")
     private Field field;
 
-    @Schema(description = "监控指标历史值 instance<==>values")
-    private Map<String, List<Value>> values;
+    @Schema(description = "监控指标历史值")
+    private List<ValueRow> values;
+
 }
