@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * NoticeRule数据库操作
@@ -35,4 +36,10 @@ public interface NoticeRuleDao extends JpaRepository<NoticeRule, Long>, JpaSpeci
      * @return 通知策略
      */
     List<NoticeRule> findNoticeRulesByEnableTrue();
+
+    /**
+     * 根据IDS删除
+     * @param ids ids
+     */
+    void deleteNoticeRulesByIdIn(Set<Long> ids);
 }

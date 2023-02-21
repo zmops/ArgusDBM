@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 import static com.zmops.open.common.util.CommonConstants.FAIL_CODE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -85,6 +86,17 @@ public class NoticeConfigController {
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
 
+
+    @DeleteMapping(path = "/receivers")
+    @Operation(summary = "Delete existing recipient information", description = "删除已存在的接收人信息")
+    public ResponseEntity<Message<Void>> deleteNoticeReceivers(
+            @Parameter(description = "接收人IDS", example = "6565463543") @RequestParam(required = false) List<Long> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            noticeConfigService.deleteReceivers(new HashSet<>(ids));
+        }
+        return ResponseEntity.ok(new Message<>("Delete success"));
+    }
+    
     @GetMapping(path = "/receiver/{id}")
     @Operation(summary = "Get existing recipient information", description = "查询已存在的接收人信息")
     public ResponseEntity<Message<NoticeReceiver>> getNoticeReceiver(
@@ -144,6 +156,16 @@ public class NoticeConfigController {
         noticeConfigService.deleteNoticeRule(ruleId);
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
+
+
+    @DeleteMapping(path = "/rules")
+    @Operation(summary = "Delete existing notification policy information", description = "删除已存在的通知策略信息")
+    public ResponseEntity<Message<Void>> deleteNoticeRules(
+            @Parameter(description = "en: Notification Policy ID,zh: 通知策略ID", example = "6565463543") @RequestParam(required = false) List<Long> ids) {
+        noticeConfigService.deleteNoticeRules(new HashSet<>(ids));
+        return ResponseEntity.ok(new Message<>("Delete success"));
+    }
+
 
     @GetMapping(path = "/rule/{id}")
     @Operation(summary = "Get existing notification policy information", description = "查询已存在的通知策略信息")

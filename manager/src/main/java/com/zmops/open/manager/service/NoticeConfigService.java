@@ -24,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -135,4 +136,16 @@ public interface NoticeConfigService {
      * @return true send success | false send fail
      */
     boolean sendTestMsg(NoticeReceiver noticeReceiver);
+
+    /**
+     * delete receivers
+     * @param longs ids
+     */
+    void deleteReceivers(HashSet<Long> longs);
+
+    /**
+     * delete rules
+     * @param ids ids
+     */
+    void deleteNoticeRules(HashSet<Long> ids);
 }
