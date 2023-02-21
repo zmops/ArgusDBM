@@ -86,6 +86,7 @@ public class NoticeConfigController {
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
 
+
     @DeleteMapping(path = "/receivers")
     @Operation(summary = "Delete existing recipient information", description = "删除已存在的接收人信息")
     public ResponseEntity<Message<Void>> deleteNoticeReceivers(
@@ -95,7 +96,7 @@ public class NoticeConfigController {
         }
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
-
+    
     @GetMapping(path = "/receiver/{id}")
     @Operation(summary = "Get existing recipient information", description = "查询已存在的接收人信息")
     public ResponseEntity<Message<NoticeReceiver>> getNoticeReceiver(
@@ -156,6 +157,7 @@ public class NoticeConfigController {
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
 
+
     @DeleteMapping(path = "/rules")
     @Operation(summary = "Delete existing notification policy information", description = "删除已存在的通知策略信息")
     public ResponseEntity<Message<Void>> deleteNoticeRules(
@@ -163,6 +165,7 @@ public class NoticeConfigController {
         noticeConfigService.deleteNoticeRules(new HashSet<>(ids));
         return ResponseEntity.ok(new Message<>("Delete success"));
     }
+
 
     @GetMapping(path = "/rule/{id}")
     @Operation(summary = "Get existing notification policy information", description = "查询已存在的通知策略信息")
