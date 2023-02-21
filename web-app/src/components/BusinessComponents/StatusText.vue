@@ -1,5 +1,5 @@
 <template>
-  <div class="status-text">{{ val }}</div>
+  <div class="status-text">{{ val2 }}</div>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
   name: 'StatusText',
   inject: ['farther'],
   props: {
-    prop: {
+    val: {
       type: [String, Number],
       default() {
         return ''
@@ -18,18 +18,18 @@ export default {
   },
   data() {
     return {
-      val: ''
+      val2: ''
     }
   },
   watch: {
-    prop: {
+    val: {
       immediate: true,
       handler(v) {
         const item = MONITORS_STATUS.find((i) => {
           return i.key === v
         })
         if (item) {
-          this.val = item.value
+          this.val2 = item.value
         }
       }
     }

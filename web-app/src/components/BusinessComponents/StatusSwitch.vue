@@ -1,7 +1,7 @@
 <template>
   <div class="status-switch">
-    <div class="enable item" :class="val ? 'enable-active' : ''" @click="change(true)">{{ $t('tableView.enable') }}</div>
-    <div class="disable item" :class="val ? '' : 'disable-active'" @click="change(false)">{{ $t('tableView.disable') }}</div>
+    <div class="enable item" :class="val2 ? 'enable-active' : ''" @click="change(true)">{{ leftText }}</div>
+    <div class="disable item" :class="val2 ? '' : 'disable-active'" @click="change(false)">{{ rightText }}</div>
   </div>
 </template>
 
@@ -10,45 +10,57 @@ export default {
   name: 'StatusSwitch',
   inject: ['farther'],
   props: {
-    prop: {
+    val: {
       type: [Boolean, Number],
       default() {
         return true
       }
     },
+    /* 数据项的id名 */
     dataId: {
       type: [Number, String],
       default() {
         return null
       }
     },
+    /* 切换按钮的事件名 */
     event: {
       type: String,
       default() {
         return null
       }
+    },
+    /* 左侧按钮名称 */
+    leftText: {
+      type: String,
+      default: '启用'
+    },
+    /* 左侧按钮名称 */
+    rightText: {
+      type: String,
+      default: '禁用'
     }
   },
   data() {
     return {
-      val: true
+      val2: true
     }
   },
   watch: {
-    prop: {
+    val: {
       immediate: true,
       handler(v) {
-        this.val = v
+        this.val2 = v
       }
     }
   },
   methods: {
     change(v) {
-      if (this.val === v) {
+      if (this.val2 === v) {
         return false
       }
-      this.val = !this.val
-      this.farther[this.event](this.dataId, this.val)
+      this.val2 = !this.val2
+      this.farther[this.event](this.dataId, this.val2)
       // this.$emit('changeStatus', this.val)
     }
   }
