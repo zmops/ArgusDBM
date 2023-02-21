@@ -7,7 +7,7 @@
         <el-table
           :data="tableData"
           stripe
-          height="120"
+          height="108"
           size="mini"
           style="width: 100%"
         >
@@ -50,8 +50,9 @@
 import * as echarts from 'echarts'
 import { getTargetData } from '@/utils/detail'
 import GridItemStyle from '@/components/Detail/GridItemStyle'
+import { getHistoryValue } from '@/api/monitor/monitor-manage-batch'
 export default {
-  name: 'LineChart',
+  name: 'Graph',
   components: {
     GridItemStyle
   },
@@ -77,6 +78,7 @@ export default {
       info: {},
       myChart: null,
       loading: false,
+      monitorId: this.$route.query.monitorId,
       option: {
         title: {
           text: '暂无数据',
@@ -166,6 +168,15 @@ export default {
     async getData() {
       this.loading = true
       // 请求接口获取数据
+      if (this.info.list && this.info.list.length) {
+        for (const i of this.info.list) {
+          getHistoryValue(this.monitorId, i).then((res) => {
+            // if (res.code === 0) {
+            //
+            // }
+          })
+        }
+      }
       // 判断是否已经有图例
       if (this.myChart) {
         this.initChart()
@@ -247,11 +258,11 @@ export default {
 <style lang="scss" scoped>
 .line-chart {
   width: 100%;
-  height: calc( 100% - 120px );
+  height: calc( 100% - 108px );
 }
 .legend{
   width: 100%;
-  height: 120px;
+  height: 108px;
   padding: 0 20px;
 
   ::v-deep.el-table th > .cell{
@@ -259,7 +270,7 @@ export default {
   }
 
   ::v-deep.el-table--mini td{
-    padding: 2px 0!important;
+    padding: 0 0!important;
   }
 
   ::v-deep.el-table td{

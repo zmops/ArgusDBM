@@ -5,7 +5,7 @@
       <div class="text-chart">
         <LineChart />
         <div class="text">
-          50%
+          {{ val }}
         </div>
       </div>
     </template>
@@ -18,7 +18,7 @@ import GridItemStyle from '@/components/Detail/GridItemStyle'
 import LineChart from '@/components/DetailCharts/LineChart'
 import { getTargetData } from '@/utils/detail'
 export default {
-  name: 'TextAndChart',
+  name: 'SingleGraph',
   components: {
     GridItemStyle,
     LineChart
@@ -33,11 +33,32 @@ export default {
     targetName: {
       type: String,
       default: ''
+    },
+    /* 最新数据对象 */
+    dataObj: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
     return {
-      info: {}
+      info: {},
+      val: ''
+    }
+  },
+  watch: {
+    dataObj: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        const name = this.targetName.split('.')
+        const item = v[name[2]]
+        if (item) {
+          this.val = item.value + item.unit
+        }
+      }
     }
   },
   created() {

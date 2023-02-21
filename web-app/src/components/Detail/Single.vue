@@ -4,7 +4,7 @@
     <template v-slot:content>
       <div class="text-value">
         <div>
-          7天22小时52分
+          {{ val }}
         </div>
       </div>
     </template>
@@ -16,7 +16,7 @@ import { getTargetData } from '@/utils/detail'
 import GridItemStyle from '@/components/Detail/GridItemStyle'
 
 export default {
-  name: 'TextValue',
+  name: 'Single',
   components: {
     GridItemStyle
   },
@@ -30,13 +30,41 @@ export default {
     targetName: {
       type: String,
       default: ''
+    },
+    /* 最新数据对象 */
+    dataObj: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
     return {
-      info: {}
+      info: {},
+      val: ''
     }
   },
+  watch: {
+    dataObj: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        const name = this.targetName.split('.')
+        const item = v[name[2]]
+        if (item) {
+          this.val = item.value + item.unit
+        }
+      }
+    }
+  },
+  // computed: {
+  //   val() {
+  //     const name = this.targetName.split('.')
+  //     const item = this.dataObj[name[2]]
+  //     return item.value + item.unit
+  //   }
+  // },
   created() {
 
   },

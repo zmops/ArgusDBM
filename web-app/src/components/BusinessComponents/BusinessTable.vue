@@ -65,7 +65,7 @@
           <span v-else>-</span>
         </template>
         <template v-else-if="item.component">
-          <component :is="item.component" v-bind="{...item, val:scope.row[item.prop]}" />
+          <component :is="item.component" v-bind="{...item, val:scope.row[item.prop], dataId: scope.row[item.idName]}" />
         </template>
         <template v-else>
           <span v-if="scope.row[item.prop]" :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">
