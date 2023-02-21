@@ -75,7 +75,8 @@
     getRules,
     getRule,
     addRule,
-    modifyRule
+    modifyRule,
+    delRules
   } from '@/api/monitor/notification-config'
   import {
     getTags
@@ -168,7 +169,11 @@
           {
             label: '转发所有',
             prop: 'filterAll',
-            component: 'StatusSwitch'
+            idName: 'id',
+            leftText:'是',
+            rightText:'否',
+            component: 'StatusSwitch',
+            event:'handleChangefilter'
           },
           {
             label: '是否启用',
@@ -198,9 +203,11 @@
     },
     methods: {
       getData() {
+        this.loading=true
         getRules(this.queryParams).then(res => {
           this.tableData = res.data.content
           this.total = res.data.totalElements
+          this.loading=false
         })
       },
       initOptionData() {
@@ -235,6 +242,7 @@
       /* 重置 */
       resetQuery() {
         this.queryParams = Object.assign({}, defaultQueryParams)
+        this.queryParams.pageIndex = 0
         this.size = 15
         this.getData()
       },
@@ -262,6 +270,9 @@
             }
           }
         });
+      },
+      handleChangefilter(id,v){
+console.log(id,v)
       },
       onCancel() {
         this.$refs.dialogForm.handleDialogClose()
@@ -296,7 +307,7 @@
             ids.push(item.id)
           })
           this.$modal.confirm('是否确认删除数据项？').then(function () {
-            return delDefine(ids);
+            return delRules(ids);
           }).then(() => {
             this.getData();
             this.$message({

@@ -18,3 +18,12 @@ export const WARN_LEVEL = [
   { key: 1, value: '严重告警' },
   { key: 2, value: '紧急告警' }
 ]
+
+/* 通知方式 */
+export const NOTICE_TYPE = [
+  { key: 0, value: '短信' },
+  { key: 1, value: '邮件' },
+  { key: 4, value: '企业微信' },
+  { key: 5, value: '钉钉' },
+  { key: 2, value: 'WebHook' }
+]

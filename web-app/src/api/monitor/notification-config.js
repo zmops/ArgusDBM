@@ -35,6 +35,15 @@ export function modifyRule(data) {
   })
 }
 
+// 删除已存在的通知策略信息
+export function delRules(ids) {
+  return request({
+    url: '/api/notice/rules',
+    method: 'delete',
+    params:{ids:ids.toString()}
+  })
+}
+
 // 根据app查询指定监控类型的需要输入参数的结构
 export function getReceivers() {
   return request({
@@ -66,5 +75,14 @@ export function modifyReceiver(data) {
     url: '/api/notice/receiver',
     method: 'put',
     data
+  })
+}
+
+// 删除已存在的接收人信息
+export function delReceivers(ids) {
+  return request({
+    url: '/api/notice/receivers/',
+    method: 'delete',
+    params:{ids:ids.toString()}
   })
 }

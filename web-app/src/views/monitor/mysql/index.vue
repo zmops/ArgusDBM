@@ -112,13 +112,13 @@ export default {
           prop: 'status',
           component: 'StatusText'
         },
-        // {
-        //   label: this.$t('tableView.onlineStatus'),
-        //   prop: 'status',
-        //   component: 'StatusSwitch',
-        //   idName: 'id',
-        //   event: 'changeStatus'
-        // },
+        {
+          label: this.$t('tableView.onlineStatus'),
+          prop: 'status',
+          component: 'StatusSwitch',
+          idName: 'id',
+          event: 'changeStatus'
+        },
         // {
         //   label: this.$t('tableView.version'),
         //   prop: 'e'

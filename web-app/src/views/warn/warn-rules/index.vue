@@ -239,6 +239,8 @@
           {
             label: '全局默认',
             prop: 'preset',
+            leftText:'是',
+            rightText:'否',
             component: 'StatusSwitch'
           },
           {
@@ -267,10 +269,11 @@
     },
     methods: {
       getData() {
+        this.loading=true
         getDefines(this.queryParams).then(res => {
-          console.log(res)
           this.tableData = res.data.content
           this.total = res.data.totalElements
+          this.loading=false
         })
       },
       handleSizeChange(size) {
@@ -289,6 +292,7 @@
       /* 重置 */
       resetQuery() {
         this.queryParams = Object.assign({}, defaultQueryParams)
+        this.queryParams.pageIndex = 0
         this.size = 15
         this.getData()
       },

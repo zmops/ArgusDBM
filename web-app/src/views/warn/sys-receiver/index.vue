@@ -60,8 +60,12 @@
     getReceivers,
     getReceiver,
     addReceiver,
-    modifyReceiver
+    modifyReceiver,
+    delReceivers
   } from '@/api/monitor/notification-config'
+  import {
+    NOTICE_TYPE
+  } from '@/const/const'
 
   const defaultQueryParams = {
     name: '',
@@ -120,59 +124,19 @@ const defaultForm={
           }],
         },
         total: 0,
-        params: [{
-            componentName: 'RadioList',
-            keyName: 'status',
-            label: '状态',
-            arrayData: [{
-                value: null,
-                label: this.$t('tableView.all')
-              },
-              {
-                value: '0',
-                label: this.$t('tableView.enable')
-              },
-              {
-                value: '1',
-                label: this.$t('tableView.disable')
-              }
-            ]
-          },
-          {
-            componentName: 'RadioList',
-            keyName: 'OnLineStatus',
-            label: '接收人名称',
-            arrayData: [{
-                value: null,
-                label: this.$t('tableView.all')
-              },
-              {
-                value: '0',
-                label: this.$t('tableView.enable')
-              },
-              {
-                value: '1',
-                label: this.$t('tableView.disable')
-              }
-            ]
-          },
+        params: [
           {
             componentName: 'InputTemplate',
             keyName: 'name',
-            label: this.$t('tableView.monitoring')
-          },
-          {
-            componentName: 'InputTemplate',
-            keyName: 'ip',
-            label: this.$t('tableView.ip')
+            label: '接收人名称',
           },
           {
             componentName: 'SelectTemplate',
-            keyName: 'tag',
-            label: this.$t('tableView.tag'),
-            optionId: 'code',
-            optionName: 'name',
-            options: this.tagsOptions
+            keyName: 'type',
+            label: '通知方式',
+            optionId: 'key',
+            optionName: 'value',
+            options: NOTICE_TYPE
           }
         ],
         buttons: [{
@@ -222,10 +186,11 @@ const defaultForm={
     },
     methods: {
       getData() {
+        this.loading=true
         getReceivers(this.queryParams).then(res => {
-          console.log(res)
           this.tableData = res.data.content
           this.total = res.data.totalElements
+          this.loading=false
         })
       },
       handleSizeChange(size) {
@@ -243,7 +208,9 @@ const defaultForm={
       },
       /* 重置 */
       resetQuery() {
-
+        this.queryParams = Object.assign({}, defaultQueryParams)
+        this.size = 15
+        this.getData()
       },
       onSubmit() {
         this.$refs["form"].validate(valid => {
@@ -296,7 +263,7 @@ const defaultForm={
             ids.push(item.id)
           })
           this.$modal.confirm('是否确认删除数据项？').then(function () {
-            return delDefine(ids);
+            return delReceivers(ids);
           }).then(() => {
             this.getData();
             this.$message({
