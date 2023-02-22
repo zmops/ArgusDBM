@@ -197,3 +197,33 @@ aside {
   padding: 14px 20px;
   margin-top: 10px;
 }
+
+/* 滚动槽 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar:hover {
+  color: #dedee0;
+}
+
+::-webkit-scrollbar-track {
+  // border-radius: 3px;
+  //background: #fff;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: #b2b7bd;
+  box-shadow: inset 0 0 10px #b2b7bd;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b2b7bd;
+  box-shadow: inset 0 0 10px #b2b7bd;
+  cursor: pointer;
+}

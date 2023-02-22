@@ -2,45 +2,18 @@
 <template>
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template v-slot:content>
-      <div ref="myChart" class="line-chart" />
-      <div class="legend">
-        <el-table
-          :data="tableData"
-          stripe
-          height="108"
-          size="mini"
-          style="width: 100%"
-        >
-          <el-table-column
-            prop="color"
-            width="30"
-          >
-            <template slot-scope="props">
-              <div style="width: 14px;height: 6px" :style="{backgroundColor:props.row.color}" />
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="name"
-          />
-          <el-table-column
-            prop="min"
-            width="80"
-            align="center"
-            label="min"
-          />
-          <el-table-column
-            prop="max"
-            width="80"
-            align="center"
-            label="max"
-          />
-          <el-table-column
-            prop="avg"
-            width="80"
-            align="center"
-            label="avg"
-          />
-        </el-table>
+      <div ref="myChart" v-loading="loading" :class="w===24?'line-chart24':'line-chart'" />
+      <div v-loading="loading" :class="w===24?'legend24':'legend'">
+        <div v-if="tableData.length" class="legend-title">最新值</div>
+        <div class="legend-box">
+          <div v-for="(item, index) in tableData" :key="'table'+index" class="item" :class="active === index || active === null ? 'active' : 'no-active'" @click="changeLegend(index)">
+            <div class="color">
+              <div :style="{backgroundColor: item.color}" />
+            </div>
+            <div class="name">{{ item.name }}</div>
+            <div class="latest">{{ item.latest }}</div>
+          </div>
+        </div>
       </div>
     </template>
   </GridItemStyle>
@@ -48,7 +21,7 @@
 
 <script>
 import * as echarts from 'echarts'
-import { getTargetData } from '@/utils/detail'
+import { dataToChartData, getTargetData, getTargetName } from '@/utils/detail'
 import GridItemStyle from '@/components/Detail/GridItemStyle'
 import { getHistoryValue } from '@/api/monitor/monitor-manage-batch'
 export default {
@@ -71,6 +44,11 @@ export default {
     s: {
       type: String,
       default: ''
+    },
+    /* 控件宽度 */
+    w: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -79,6 +57,7 @@ export default {
       myChart: null,
       loading: false,
       monitorId: this.$route.query.monitorId,
+      active: null,
       option: {
         title: {
           text: '暂无数据',
@@ -91,113 +70,82 @@ export default {
           }
         }
       },
-      seriesData: [
-        {
-          name: 'Email',
-          type: 'line',
-          showSymbol: false, // 是否显示折点
-          areaStyle: {
-            color: '#5B8FF9'
-          },
-          stack: this.s === '堆叠' ? 'Total' : '',
-          data: [120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-          name: 'Union Ads',
-          type: 'line',
-          showSymbol: false, // 是否显示折点
-          areaStyle: {
-            color: '#A6CFFF'
-          },
-          stack: this.s === '堆叠' ? 'Total' : '',
-          data: [220, 182, 191, 234, 290, 330, 310]
-        },
-        {
-          name: 'Video Ads',
-          type: 'line',
-          showSymbol: false, // 是否显示折点
-          areaStyle: {
-            color: '#5AD8A6'
-          },
-          stack: this.s === '堆叠' ? 'Total' : '',
-          data: [150, 232, 201, 154, 190, 330, 410]
-        },
-        {
-          name: 'Direct',
-          type: 'line',
-          showSymbol: false, // 是否显示折点
-          areaStyle: {
-            color: '#8FCA8D'
-          },
-          stack: this.s === '堆叠' ? 'Total' : '',
-          data: [320, 332, 301, 334, 390, 330, 320]
-        },
-        {
-          name: 'Search Engine',
-          type: 'line',
-          showSymbol: false, // 是否显示折点
-          areaStyle: {
-            color: '#AEB9E5'
-          },
-          stack: this.s === '堆叠' ? 'Total' : '',
-          data: [820, 932, 901, 934, 1290, 1330, 1320]
-        }
-      ],
-      tableData: [
-        { color: '#5B8FF9', name: '1号线', min: 0, max: 10, avg: 5 },
-        { color: '#A6CFFF', name: '2号线', min: 0, max: 10, avg: 5 },
-        { color: '#5AD8A6', name: '3号线', min: 0, max: 10, avg: 5 },
-        { color: '#8FCA8D', name: '4号线', min: 0, max: 10, avg: 5 },
-        { color: '#AEB9E5', name: '5号线', min: 0, max: 10, avg: 5 }
-      ]
+      seriesData: [],
+      selected: {},
+      color: ['#5A90F9', '#A7CFFF', '#58D9A6', '#8EC98D', '#AEB9E5', '#5E7091', '#F7BE12', '#DBDC8C', '#E86453', '#EEA19E', '#6DC7EB', '#A3DAE5', '#945FB8', '#CFA8E1', '#FE9745', '#FFD298', '#1E9593', '#77B7DF', '#FF98BF', '#D198C0']
     }
   },
-  created() {
-
+  computed: {
+    tableData() {
+      const arr = this.seriesData.map((i, index) => {
+        let latest = 0
+        if (i.data.length) {
+          latest = i.data[0]
+        }
+        return { name: i.name, color: this.color[index % 20], latest: latest[1] }
+      })
+      return arr
+    }
   },
   beforeDestroy() {
     this.myChart.dispose
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.info = getTargetData(this.targetType, this.targetName)
-      this.getData()
-    })
+  async mounted() {
+    this.info = getTargetData(this.targetType, this.targetName)
+    await this.getData()
+    const chart = echarts.init(this.$refs.myChart)
+    this.myChart = chart
+    await this.initChart()
   },
   methods: {
+    /* 变更图例 */
+    changeLegend(index) {
+      if (index === this.active) {
+        this.active = null
+      } else {
+        this.active = index
+      }
+      const selected = {}
+      this.seriesData.forEach((i, ind) => {
+        let b = true
+        if (this.active === null) {
+          b = true
+        } else {
+          b = ind === this.active
+        }
+        selected[i.name] = b
+      })
+      this.selected = selected
+      this.initChart()
+    },
     async getData() {
       this.loading = true
       // 请求接口获取数据
       if (this.info.list && this.info.list.length) {
         for (const i of this.info.list) {
-          getHistoryValue(this.monitorId, i).then((res) => {
-            // if (res.code === 0) {
-            //
-            // }
+          await getHistoryValue(this.monitorId, i).then((res) => {
+            if (res.code === 0) {
+              const name = getTargetName(i)
+              this.seriesData = this.seriesData.concat(dataToChartData(res.data, name))
+            }
           })
         }
       }
-      // 判断是否已经有图例
-      if (this.myChart) {
-        this.initChart()
-      } else {
-        this.$nextTick(() => {
-          const chart = echarts.init(this.$refs.myChart)
-          this.myChart = chart
-          this.initChart()
-        })
-      }
-      this.loading = false
     },
     initChart() {
       const _this = this
       const option = {
         tooltip: {
-          show: false
+          show: true,
+          trigger: 'axis'
         },
         // dataZoom: [{
         //   type: 'inside'
         // }],
+        legend: {
+          show: false,
+          selected: _this.selected
+        },
         grid: {
           top: 30,
           left: 20,
@@ -206,9 +154,8 @@ export default {
           containLabel: true
         },
         xAxis: {
-          type: 'category',
+          type: 'time',
           boundaryGap: false,
-          // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           axisLine: { // 轴线
             show: false
           },
@@ -243,13 +190,30 @@ export default {
             show: false
           }
         },
-        series: _this.seriesData
+        series: _this.seriesData.map((i, index) => {
+          return {
+            name: i.name,
+            data: i.data,
+            type: 'line',
+            showSymbol: false, // 是否显示折点
+            color: _this.color[index % 20],
+            lineStyle: {
+              color: _this.color[index % 20]
+            },
+            areaStyle: {
+              color: _this.color[index % 20],
+              opacity: 0.4
+            },
+            stack: _this.s === '堆叠' ? 'Total' : ''
+          }
+        })
       }
       if (_this.seriesData.length) {
         _this.myChart.setOption(option, true)
       } else {
         _this.myChart.setOption(_this.option, true)
       }
+      _this.loading = false
     }
   }
 }
@@ -260,21 +224,87 @@ export default {
   width: 100%;
   height: calc( 100% - 108px );
 }
+
 .legend{
   width: 100%;
   height: 108px;
   padding: 0 20px;
 
-  ::v-deep.el-table th > .cell{
-    color: #3BA6F0!important;
+  .legend-box{
+    height: 78px;
+  }
+}
+
+.line-chart24{
+  display: inline-block;
+  width: calc( 100% - 510px );
+  height: 100%;
+  vertical-align: top;
+}
+
+.legend24{
+  display: inline-block;
+  width: 500px;
+  height: 100%;
+  padding: 0 10px;
+
+  .legend-box{
+    height: calc(100% - 25px);
+  }
+}
+
+.legend-title{
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  font-size: 12px;
+  color: #3BA6F0;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.legend-box{
+  width: 100%;
+  overflow-y: auto;
+  font-size: 12px;
+
+  .item{
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    display: flex;
+    cursor: pointer;
+
+    &:hover{
+      background-color: #F7F8FA;
+    }
+
+    .color{
+      width: 30px;
+      padding: 8px 9px;
+      div{
+        width: 14px;
+        height: 6px;
+      }
+    }
+
+    .name{
+      flex-grow: 1
+    }
+
+    .latest{
+      width: 150px;
+      text-align: right;
+      padding-right: 10px;
+    }
   }
 
-  ::v-deep.el-table--mini td{
-    padding: 0 0!important;
+  .active{
+    opacity: 1
   }
 
-  ::v-deep.el-table td{
-    border-width: 0!important;
+  .no-active{
+    opacity: 0.5
   }
 }
 </style>

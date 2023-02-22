@@ -27,7 +27,7 @@
       :is-draggable="false"
     >
       <grid-item v-for="(item) in layouts" :key="item.i" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i">
-        <component :is="item.v" v-bind="{targetType: item.t, targetName: item.k, s: item.s, dataObj}" />
+        <component :is="item.v" v-bind="{targetType: item.t, targetName: item.k, s: item.s, w: item.w, dataObj}" />
       </grid-item>
     </grid-layout>
   </div>

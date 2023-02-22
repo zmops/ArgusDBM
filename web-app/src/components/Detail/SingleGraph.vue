@@ -3,7 +3,7 @@
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template v-slot:content>
       <div class="text-chart">
-        <LineChart />
+        <LineChart :target-name="targetName" />
         <div class="text">
           {{ val }}
         </div>
@@ -62,7 +62,6 @@ export default {
     }
   },
   created() {
-
   },
   mounted() {
     this.$nextTick(() => {

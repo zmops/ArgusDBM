@@ -63,6 +63,7 @@ export function getTargetData(type, name) {
         const explain = i[10].replace('\\n', '\n')
         obj = {
           title: i[6],
+          list: [name],
           explain,
           unit: i[8]
         }
@@ -132,4 +133,41 @@ export function getTargetData(type, name) {
   }
   return obj
   */
+}
+
+/**
+ * 根据指标名获取指标的'中文名'
+ * @param {String} name
+ * @returns {String}
+ */
+export function getTargetName(name) {
+  const data = toArrays(target)
+  let str = ''
+  data.forEach((i) => {
+    if (i[4] === name) {
+      str = i[6]
+    }
+  })
+  return str
+}
+
+/**
+ * 把接口返回的历史数据解析为图标可用的数据
+ * @param {Object} data
+ * @param {String} name
+ * @returns {Array}
+ */
+export function dataToChartData(data, name) {
+  const arr = []
+  if (data && data.values && data.values.length) {
+    const obj = {}
+    data.values.forEach((i) => {
+      obj.name = i.instance ? i.instance : name
+      obj.data = i.values.map((ii) => {
+        return [ii.time, Number(ii.origin).toFixed(0)]
+      })
+      arr.push(obj)
+    })
+  }
+  return arr
 }
