@@ -23,6 +23,7 @@ spring:
     static-path-pattern: /**
   jackson:
     default-property-inclusion: ALWAYS
+    date-format: yyyy-MM-dd HH:mm:ss
   web:
     resources:
       static-locations:

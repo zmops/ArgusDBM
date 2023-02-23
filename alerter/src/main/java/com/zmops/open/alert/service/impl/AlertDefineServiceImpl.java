@@ -95,6 +95,8 @@ public class AlertDefineServiceImpl implements AlertDefineService {
         // todo checks whether the alarm definition and monitoring exist
         // todo 校验此告警定义和监控是否存在
 
+        alertDefineBinds.forEach(item -> item.setAlertDefineId(alertId));
+
         // Delete all associations of this alarm
         // 先删除此告警的所有关联
         alertDefineBindDao.deleteAlertDefineBindsByAlertDefineIdEquals(alertId);
