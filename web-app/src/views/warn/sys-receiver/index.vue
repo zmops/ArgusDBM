@@ -74,20 +74,20 @@
     pageSize: 15
   }
 
-const defaultForm={
-          name: '', //接收人
-          type: [], //通知方式
-          phone: '', //电话
-          email: '', //邮箱
-          hookUrl: '', //Webhook URL
-          wechatId: '', //企业微信号
-          accessToken: '', //钉钉号
-          tgBotToken: '', //飞书机器人
-          tgUserId: '', //飞书机器人
-          slackWebHookUrl: '', //企业微信机器人
-          discordChannelId: '', //微信公众号
-          discordBotToken: '' //微信公众号
-        }
+  const defaultForm = {
+    name: '', //接收人
+    type: [], //通知方式
+    phone: '', //电话
+    email: '', //邮箱
+    hookUrl: '', //Webhook URL
+    wechatId: '', //企业微信号
+    accessToken: '', //钉钉号
+    tgBotToken: '', //飞书机器人
+    tgUserId: '', //飞书机器人
+    slackWebHookUrl: '', //企业微信机器人
+    discordChannelId: '', //微信公众号
+    discordBotToken: '' //微信公众号
+  }
 
   export default {
     name: 'SysReceiver',
@@ -124,20 +124,19 @@ const defaultForm={
           }],
         },
         total: 0,
-        params: [
-          {
+        params: [{
             componentName: 'InputTemplate',
             keyName: 'name',
             label: '接收人名称',
           },
-          {
-            componentName: 'SelectTemplate',
-            keyName: 'type',
-            label: '通知方式',
-            optionId: 'key',
-            optionName: 'value',
-            options: NOTICE_TYPE
-          }
+          // {
+          //   componentName: 'SelectTemplate',
+          //   keyName: 'type',
+          //   label: '通知方式',
+          //   optionId: 'key',
+          //   optionName: 'value',
+          //   options: NOTICE_TYPE
+          // }
         ],
         buttons: [{
             label: this.$t('tableView.add'),
@@ -158,7 +157,7 @@ const defaultForm={
           },
           {
             label: '通知方式',
-            prop: 'expr'
+            prop: 'typeName'
           },
           // {
           //   label: '状态',
@@ -186,11 +185,25 @@ const defaultForm={
     },
     methods: {
       getData() {
-        this.loading=true
+        this.loading = true
         getReceivers(this.queryParams).then(res => {
+          res.data.content.forEach(element => {
+            //通知方式
+            element.typeName=''
+            NOTICE_TYPE.forEach(item => {
+              element.type.forEach(type => {
+                if (type == item.key)
+                  element.typeName += item.value+','
+              })
+            })
+            if(element.typeName!=''){
+              //清除最后的逗号
+              element.typeName=element.typeName.substr(0,element.typeName.length-1);
+            }
+          });
           this.tableData = res.data.content
           this.total = res.data.totalElements
-          this.loading=false
+          this.loading = false
         })
       },
       handleSizeChange(size) {
@@ -243,7 +256,7 @@ const defaultForm={
       /* 添加 */
       add() {
         this.isedit = false
-        this.form=Object.assign({}, defaultForm)
+        this.form = Object.assign({}, defaultForm)
         this.reset()
         this.$refs.dialogForm.handleDialogOpen()
       },
@@ -278,8 +291,8 @@ const defaultForm={
       handleSelect(selection, row) {
         this.selectionIds = selection
       },
-                  // 表单重置
-                  reset() {
+      // 表单重置
+      reset() {
         this.resetForm("form");
       },
     }

@@ -14,11 +14,16 @@ export const MONITORS_STATUS = [
 
 /* 告警等级 */
 export const WARN_LEVEL = [
-  { key: 0, value: '警告告警' },
-  { key: 1, value: '严重告警' },
-  { key: 2, value: '紧急告警' }
+  { key: 2, value: '紧急告警' ,num:0,icon:'alarm'},
+  { key: 1, value: '严重告警' ,num:0,icon:'ordinary'},
+  { key: 0, value: '警告告警',num:0,icon:'prompt' },
 ]
-
+/* 告警等级 */
+export const ALARM_HANDLES = [
+  { key: 3, value: '已处理' },
+  { key: 2, value: '已恢复' },
+  { key: 0, value: '未处理' }
+]
 /* 通知方式 */
 export const NOTICE_TYPE = [
   { key: 0, value: '短信' },

@@ -234,3 +234,15 @@ export async function blobValidate(data) {
     return true;
   }
 }
+
+
+//@param condition 过滤条件
+//@param data 需要过滤的数据
+export function filter(condition,data){
+  return data.filter( item => {
+      return Object.keys( condition ).every( key => {
+         return String( item[ key ] ).toLowerCase().includes( 
+                 String( condition[ key ] ).trim().toLowerCase() )
+          } )
+   } )
+}

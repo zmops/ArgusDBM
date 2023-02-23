@@ -3,8 +3,8 @@
     <ParamsSearchForm :params="params" @search="handleQuery" @rest="resetQuery" />
     <div class="table-page-main">
       <BusinessButtons :buttons="buttons" />
-      <BusinessTable :table-data="tableData" :columns="columns" :loading="loading" @select="handleSelect" serial
-        selection />
+      <BusinessTable ref="multipleTable" :table-data="tableData" :columns="columns" :loading="loading"
+        @select="handleSelect" serial selection />
       <Pagination :total="total" :current-page="queryParams.pageIndex+1" :page-size="queryParams.pageSize"
         @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
     </div>
@@ -103,11 +103,16 @@
         </el-form>
       </template>
     </dialog-form>
+    <!-- 弹出编辑页面 -->
+
+<transfer-monitor ref="dialogTransfer" title="告警定义关联监控" width="1290px"></transfer-monitor>
+
   </div>
 </template>
 
 <script>
   import DialogForm from '@/components/DialogForm'
+  import TransferMonitor from "./components/TransferMonitor.vue"
   import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
   import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
   import BusinessTable from '@/components/BusinessComponents/BusinessTable'
@@ -133,18 +138,18 @@
     pageIndex: 0,
     pageSize: 15
   }
-  const defaultForm ={
-          cascadeValues: [],
-          app: "",
-          metric: "",
-          field: "",
-          preset: true,
-          expr: "",
-          priority: 2,
-          times: 3,
-          enable: true,
-          template: ""
-        }
+  const defaultForm = {
+    cascadeValues: [],
+    app: "",
+    metric: "",
+    field: "",
+    preset: true,
+    expr: "",
+    priority: 2,
+    times: 3,
+    enable: true,
+    template: ""
+  }
   export default {
     name: 'WarnRules',
     provide() {
@@ -157,7 +162,8 @@
       BusinessButtons,
       BusinessTable,
       Pagination,
-      DialogForm
+      DialogForm,
+      TransferMonitor
     },
     data() {
       return {
@@ -226,7 +232,7 @@
           },
           {
             label: '告警级别',
-            prop: 'priority'
+            prop: 'priorityName'
           },
           {
             label: '触发次数',
@@ -239,21 +245,28 @@
           {
             label: '全局默认',
             prop: 'preset',
-            leftText:'是',
-            rightText:'否',
-            component: 'StatusSwitch'
+            idName: 'id',
+            leftText: '是',
+            rightText: '否',
+            component: 'StatusSwitch',
+            event: 'handleChangepreset'
           },
           {
             label: '启用告警',
             prop: 'enable',
-            component: 'StatusSwitch'
+            idName: 'id',
+            component: 'StatusSwitch',
+            event: 'handleChangeenable'
           },
           {
             label: this.$t('tableView.operate'),
             prop: 'buttons',
-            width: 120,
+            width: 160,
             idName: 'id',
             buttons: [{
+              label: '关联监控',
+              event: 'connMonitors'
+            },{
               label: this.$t('tableView.edit'),
               event: 'edit'
             }]
@@ -269,11 +282,18 @@
     },
     methods: {
       getData() {
-        this.loading=true
+        this.loading = true
         getDefines(this.queryParams).then(res => {
+          res.data.content.forEach(element => {
+            //告警级别
+            WARN_LEVEL.forEach(item => {
+              if (item.key == element.priority)
+                element.priorityName = item.value
+            })
+          });
           this.tableData = res.data.content
           this.total = res.data.totalElements
-          this.loading=false
+          this.loading = false
         })
       },
       handleSizeChange(size) {
@@ -329,13 +349,45 @@
           }
         });
       },
+      //是否启用
+      handleChangeenable(id, v) {
+        //根据ID获取告警规则信息
+        getDefine(id).then(res => {
+          this.form = res.data
+          this.form.enable = v
+          //修改
+          modifyDefine(this.form).then(res => {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            });
+            this.getData()
+          })
+        })
+      },
+      //全局默认
+      handleChangepreset(id, v) {
+        //根据ID获取告警规则信息
+        getDefine(id).then(res => {
+          this.form = res.data
+          this.form.preset = v
+          //修改
+          modifyDefine(this.form).then(res => {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            });
+            this.getData()
+          })
+        })
+      },
       onCancel() {
         this.$refs.dialogForm.handleDialogClose()
       },
       /* 添加 */
       add() {
         this.isedit = false
-        this.form=Object.assign({}, defaultForm)
+        this.form = Object.assign({}, defaultForm)
         this.reset()
         this.$refs.dialogForm.handleDialogOpen()
       },
@@ -348,8 +400,11 @@
           this.$refs.dialogForm.handleDialogOpen()
         })
       },
-            // 表单重置
-            reset() {
+      connMonitors(id) {
+        this.$refs.dialogTransfer.handleDialogOpen(id)
+      },
+      // 表单重置
+      reset() {
         this.resetForm("form");
       },
       delete() {

@@ -170,15 +170,17 @@
             label: '转发所有',
             prop: 'filterAll',
             idName: 'id',
-            leftText:'是',
-            rightText:'否',
+            leftText: '是',
+            rightText: '否',
             component: 'StatusSwitch',
-            event:'handleChangefilter'
+            event: 'handleChangefilter'
           },
           {
             label: '是否启用',
             prop: 'enable',
-            component: 'StatusSwitch'
+            idName: 'id',
+            component: 'StatusSwitch',
+            event: 'handleChangeenable'
           },
           {
             label: '更新时间',
@@ -203,11 +205,11 @@
     },
     methods: {
       getData() {
-        this.loading=true
+        this.loading = true
         getRules(this.queryParams).then(res => {
           this.tableData = res.data.content
           this.total = res.data.totalElements
-          this.loading=false
+          this.loading = false
         })
       },
       initOptionData() {
@@ -251,28 +253,57 @@
           if (valid) {
             if (!this.isedit) {
               addRule(this.form).then(res => {
-              this.$message({
-                message: res.msg,
-                type: 'success'
-              });
-              this.getData()
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                });
+                this.getData()
                 this.$refs.dialogForm.handleDialogClose()
-            })
+              })
             } else {
               modifyRule(this.form).then(res => {
-              this.$message({
-                message: res.msg,
-                type: 'success'
-              });
-              this.getData()
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                });
+                this.getData()
                 this.$refs.dialogForm.handleDialogClose()
-            })
+              })
             }
           }
         });
       },
-      handleChangefilter(id,v){
-console.log(id,v)
+      //是否启用
+      handleChangeenable(id, v) {
+        //根据ID获取接收人信息
+        getRule(id).then(res => {
+          this.form = res.data
+          this.form.enable = v
+          //修改
+          modifyRule(this.form).then(res => {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            });
+            this.getData()
+          })
+        })
+      },
+      //转发所有
+      handleChangefilter(id, v) {
+        //根据ID获取接收人信息
+        getRule(id).then(res => {
+          this.form = res.data
+          this.form.filterAll = v
+          //修改
+          modifyRule(this.form).then(res => {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            });
+            this.getData()
+          })
+        })
       },
       onCancel() {
         this.$refs.dialogForm.handleDialogClose()
@@ -337,9 +368,9 @@ console.log(id,v)
         this.form.type = []
       },
       handleSwitch(value) {
-        if(value==true){
-          this.form.tags=[]
-          this.form.priorities=[]
+        if (value == true) {
+          this.form.tags = []
+          this.form.priorities = []
         }
         this.itemDisable = value == true ? true : false
       }
