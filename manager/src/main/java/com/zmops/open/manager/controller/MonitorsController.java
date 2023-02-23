@@ -17,6 +17,8 @@
 
 package com.zmops.open.manager.controller;
 
+import com.zmops.open.alert.service.AlertDefineService;
+import com.zmops.open.common.entity.alerter.AlertDefineMonitorBind;
 import com.zmops.open.common.entity.dto.Message;
 import com.zmops.open.common.entity.manager.Monitor;
 import com.zmops.open.manager.service.MonitorService;
@@ -40,6 +42,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -57,6 +62,9 @@ public class MonitorsController {
 
     @Autowired
     private MonitorService monitorService;
+
+    @Autowired
+    private AlertDefineService alertDefineService;
 
     @GetMapping
     @Operation(summary = "Obtain a list of monitoring information based on query filter items",
@@ -127,6 +135,18 @@ public class MonitorsController {
     public ResponseEntity<Message<List<Monitor>>> getAppMonitors(
             @Parameter(description = "en: Monitoring type,zh: 监控类型", example = "linux") @PathVariable(required = false) final String app) {
         List<Monitor> monitors = monitorService.getAppMonitors(app);
+        Message<List<Monitor>> message = new Message<>(monitors);
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping(path = "/unrelated/{app}/{alertDefineId}")
+    @Operation(summary = "查询指定APP下的未关联告警定义监控")
+    public ResponseEntity<Message<List<Monitor>>> getAppMonitorsUnConnect(@PathVariable final Long alertDefineId,
+                                                                          @PathVariable final String app) {
+        List<Monitor> monitors = monitorService.getAppMonitors(app);
+        List<AlertDefineMonitorBind> defineBinds = alertDefineService.getBindAlertDefineMonitors(alertDefineId);
+        Set<Long> connectIds = defineBinds.stream().map(AlertDefineMonitorBind::getMonitorId).collect(Collectors.toSet());
+        monitors = monitors.stream().filter(item -> !connectIds.contains(item.getId())).collect(Collectors.toList());
         Message<List<Monitor>> message = new Message<>(monitors);
         return ResponseEntity.ok(message);
     }

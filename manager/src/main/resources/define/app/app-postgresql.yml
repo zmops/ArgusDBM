@@ -44,7 +44,7 @@ metrics:
     # 指标组中的具体监控指标
     fields:
       # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
-      - field: server_version
+      - field: version
         type: 1
         instance: true
       - field: port
@@ -56,6 +56,15 @@ metrics:
       - field: max_connections
         type: 0
         unit: sbc
+    aliasFields:
+      - server_version
+      - server_encoding
+      - data_directory
+      - max_connections
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - version=server_version
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -71,6 +80,173 @@ metrics:
       queryType: columns
       # sql
       sql: select name, setting as value from pg_settings where name = 'max_connections' or name = 'server_version' or name = 'server_encoding' or name = 'port' or name = 'data_directory';
+      url: ^_^url^_^
+
+  - name: status
+    priority: 1
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: uptime
+        type: 1
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select date_trunc('second', current_timestamp-pg_postmaster_start_time()) as uptime;
+      url: ^_^url^_^
+
+  - name: resource_config
+    priority: 1
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: shared_buffers
+        type: 0
+        unit: MB
+      - field: work_mem
+        type: 0
+        unit: MB
+      - field: shared_buffers
+        type: 0
+        unit: MB
+      - field: autovacuum
+        type: 1
+      - field: max_connections
+        type: 0
+      - field: effective_cache_size
+        type: 0
+        unit: MB
+      - field: wal_buffers
+        type: 0
+        unit: MB
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: show all;
+      url: ^_^url^_^
+
+  - name: connection
+    priority: 1
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: active
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select count(1) as active from pg_stat_activity;
+      url: ^_^url^_^
+
+  - name: connection_state
+    priority: 1
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: state
+        type: 1
+      - field: num
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select COALESCE(state, 'other') as state, count(*) as num from pg_stat_activity group by state;
+      url: ^_^url^_^
+
+  - name: connection_db
+    priority: 1
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: db_name
+        type: 1
+      - field: active
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select count(*) as active, COALESCE(datname, 'other') as db_name from pg_stat_activity group by datname;
+      url: ^_^url^_^
+
+  - name: tuple
+    priority: 1
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: fetched
+        type: 0
+      - field: returned
+        type: 0
+      - field: inserted
+        type: 0
+      - field: updated
+        type: 0
+      - field: deleted
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select sum(tup_fetched) as fetched, sum(tup_updated) as updated, sum(tup_deleted) as deleted, sum(tup_inserted) as inserted, sum(tup_returned) as returned from pg_stat_database;
       url: ^_^url^_^
 
   - name: state
