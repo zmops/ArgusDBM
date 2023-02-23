@@ -3,7 +3,7 @@
   <div class="grid-item-style">
     <div class="title">
       {{ title }}
-      <el-tooltip placement="right">
+      <el-tooltip placement="bottom">
         <div slot="content">
           <div v-html="compiledMarkdown" />
         </div>

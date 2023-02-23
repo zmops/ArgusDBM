@@ -18,6 +18,24 @@ export function delMonitors(ids) {
   })
 }
 
+// 启用监控
+export function enableMonitors(ids) {
+  return request({
+    url: '/api/monitors/manage',
+    method: 'get',
+    params: { ids: ids.toString() }
+  })
+}
+
+// 禁用监控
+export function disableMonitors(ids) {
+  return request({
+    url: '/api/monitors/manage',
+    method: 'delete',
+    params: { ids: ids.toString() }
+  })
+}
+
 // 监控详情-查询最新数据
 export function getLatestValue(monitorId, metrics) {
   return request({

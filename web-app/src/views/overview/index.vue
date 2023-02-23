@@ -38,7 +38,7 @@
                 label="告警内容"
               />
             </el-table>
-            <!--            <Pagination :size="5" :current-page="1" :total="100" />-->
+            <Pagination :size="5" :current-page="1" :total="1" />
           </div>
         </div>
       </el-col>
@@ -82,6 +82,7 @@
                 label="最后在线时间"
               />
             </el-table>
+            <Pagination :size="5" :current-page="1" :total="1" />
           </div>
         </div>
       </el-col>
@@ -109,6 +110,7 @@
                 label="最后在线时间"
               />
             </el-table>
+            <Pagination :size="5" :current-page="1" :total="1" />
           </div>
         </div>
       </el-col>
@@ -136,6 +138,7 @@
                 label="最后在线时间"
               />
             </el-table>
+            <Pagination :size="5" :current-page="1" :total="1" />
           </div>
         </div>
       </el-col>
@@ -144,13 +147,13 @@
 </template>
 
 <script>
-// import Pagination from '@/views/overview/Pagination'
+import Pagination from '@/views/overview/Pagination'
 import BarChart from '@/views/overview/BarChart'
 import { WARN_LEVEL } from '@/const/const'
 export default {
   name: 'Overview',
   components: {
-    // Pagination,
+    Pagination,
     BarChart
   },
   data() {

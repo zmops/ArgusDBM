@@ -31,6 +31,18 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'mysql,performance,,slow_sql,mysql.performance.slow_sql,Slow SQL,慢SQL,,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
   '\n' +
   'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",\n' +
+  'mysql,slow_sql,,sql_text,mysql.slow_sql.sql_text,Slow SQL Text,慢SQL语句,string,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
+  '\n' +
+  'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",需要开启慢SQL功能，配置将慢SQL输出到数据库表 https://www.cnblogs.com/chenfool/p/mysql-man-cha-xun-mansql-ji-lu-he-diao-zheng.html\n' +
+  'mysql,slow_sql,,start_time,mysql.slow_sql.start_time,Start time,慢SQL开始时间,,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
+  '\n' +
+  'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",\n' +
+  'mysql,slow_sql,,db,mysql.slow_sql.db,DB,慢SQL所属库,string,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
+  '\n' +
+  'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",\n' +
+  'mysql,slow_sql,,query_time,mysql.slow_sql.query_time,Query time,慢SQL耗时,,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
+  '\n' +
+  'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",\n' +
   'mysql,innodb,,innodb_buffer_pool_size,mysql.innodb.innodb_buffer_pool_size,InnoDB Buffer Pool Size,InnoDB缓存池大小,int,KB,,InnoDB 维护着名为缓存池的存储区域，用于在内存中缓存数据和索引。了解 InnoDB 缓存池的工作原理，并利用它将频繁访问的数据保存在内存中，是MySQL调优工作最重要的方面之一。调优的目标是将使用中的数据保存在内存中。在大多数情况下，它应该占专用数据库主机上可用内存的60%-90%之间，但这一比例取决于许多因素。,"InnoDB Buffer Pool Size\\n\\nInnoDB maintains a storage area called the buffer pool for caching data and indexes in memory. Knowing how the InnoDB buffer pool works, and taking advantage of it to keep frequently accessed data in memory, is one of the most important aspects of MySQL tuning. The goal is to keep the working set in memory. In most cases, this should be between 60%-90% of available memory on a dedicated database host, but depends on many factors.","          {\n' +
   '            ""color"": ""rgba(50, 172, 45, 0.97)"",\n' +
   '            ""value"": null\n' +
@@ -240,6 +252,105 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'mysql,query_cache,,inserts,mysql.query_cache.inserts,Inserts,Inserts,float,,,,,,,,\n' +
   'mysql,query_cache,,not_cached,mysql.query_cache.not_cached,Not Cached,Not Cached,float,,,,,,,,\n' +
   'mysql,query_cache,,prunes,mysql.query_cache.prunes,Prunes,Prunes,float,,,,,,,,\n' +
-  'mysql,query_cache,,queries_in_cache,mysql.query_cache.queries_in_cache,Queries in Cache,缓存中的查询数,float,,,,,,,,'
+  'mysql,query_cache,,queries_in_cache,mysql.query_cache.queries_in_cache,Queries in Cache,缓存中的查询数,float,,,,,,,,\n' +
+  'pgsql,status,,uptime,pgsql.status.uptime,Uptime,运行时长,string,,,,,,,,\n' +
+  'pgsql,basic,,version,pgsql.basic.version,Version,版本号,string,,,,,,,,\n' +
+  'pgsql,resource_config,,shared_buffers,pgsql.resource_config.shared_buffers,Shared Buffers,共享内存缓存,int,B,,,"Defines the amount of memory the database server uses for shared memory buffers.  Default is 128MB.  Guidance on tuning is 25% of RAM, but generally doesn\'t exceed 40%.",,,https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-SHARED-BUFFERS,\n' +
+  'pgsql,resource_config,,work_mem,pgsql.resource_config.work_mem,Memory Size for each Sort,排序内存,int,B,,,The parameter work_mem defines the amount of memory assigned for internal sort operations and hash tables before writing to temporary disk files.  The default is 4MB.,,,https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-WORK-MEM,\n' +
+  'pgsql,resource_config,,state,pgsql.resource_config.state,Autovacuum,自动清理状态,bool,,,,"Whether autovacuum process is enabled or not.  Generally the solution is to vacuum more often, not less.",,,https://www.postgresql.org/docs/current/routine-vacuuming.html#AUTOVACUUM,\n' +
+  'pgsql,resource_config,,max_connections,pgsql.resource_config.max_connections,Max Connections,最大连接数,int,,,,"The maximum number of client connections allowed.  Change this value with care as there are some memory resources that are allocated on a per-client basis, so setting max_connections higher will generally increase overall PostgreSQL memory usage.",,,https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-MAX-CONNECTIONS,\n' +
+  'pgsql,resource_config,,effective_cache_size,pgsql.resource_config.effective_cache_size,Disk Cache Size,磁盘缓存大小,int,B,,,"PostgreSQL\'s effective_cache_size variable tunes how much RAM you expect to be available for disk caching.  Generally adding Linux free+cached will give you a good idea.  This value is used by the query planner whether plans will fit in memory, and when defined too low, can lead to some plans rejecting certain indexes.",,,https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE,\n' +
+  'pgsql,resource_config,,wal_buffers,pgsql.resource_config.wal_buffers,Disk-Page Buffers,磁盘分页缓存大小,int,B,,,"The setting wal_buffers defines how much memory is used for caching the write-ahead log entries. Generally this value is small (3% of shared_buffers value), but it may need to be modified for heavily loaded servers.",,,"https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-BUFFERS\n' +
+  '\n' +
+  'https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-SHARED-BUFFERS",\n' +
+  'pgsql,connection,,active,pgsql.connection.active,Active connections,活动连接数,int,,,,,,,https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-MAX-CONNECTIONS,\n' +
+  'pgsql,connection_state,,state,pgsql.connection_state.state,Connection State,连接状态,string,,,"包括 idle、active、idle in transaction、idle in transaction (aborted)、\n' +
+  'fastpath function call、disabled。",,,,,\n' +
+  'pgsql,connection_state,,num,pgsql.connection_state.num,Connection Number,连接数量,int,,,,,,,,\n' +
+  'pgsql,connection_db,,db_name,pgsql.connection_db.db_name,DB name,库名称,string,,,,,,,,\n' +
+  'pgsql,connection_db,,active,pgsql.connection_db.active,Active connections,库活动连接数,int,,,,,,,,\n' +
+  'pgsql,tuple,,fetched,pgsql.tuple.fetched,Fetched,Fetched频率,,,,,,,,,\n' +
+  'pgsql,tuple,,returned,pgsql.tuple.returned,Returned,Returned频率,,,,,,,,,\n' +
+  'pgsql,tuple,,inserted,pgsql.tuple.inserted,Inserted,Inserted频率,,,,,,,,,\n' +
+  'pgsql,tuple,,updated,pgsql.tuple.updated,Updated,Updated频率,,,,,,,,,\n' +
+  'pgsql,tuple,,deleted,pgsql.tuple.deleted,Deleted,Deleted频率,,,,,,,,,\n' +
+  'pgsql,tuple,,rows_returned_by_queries,pgsql.tuple.rows_returned_by_queries,Rows returned by queries,查询返回行频率,float,次/s,,,,,,,\n' +
+  'pgsql,tuple,,rows_fetched_by_queries,pgsql.tuple.rows_fetched_by_queries,Rows fetched by queries,查询获取行频率,float,次/s,,,,,,,\n' +
+  'pgsql,tuple,,rows_inserted_by_queries,pgsql.tuple.rows_inserted_by_queries,Rows inserted by queries,查询新增行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n' +
+  'pgsql,tuple,,rows_updated_by_queries,pgsql.tuple.rows_updated_by_queries,Rows updated by queries,查询更新行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n' +
+  'pgsql,tuple,,rows_deleted_by_queries,pgsql.tuple.rows_deleted_by_queries,Rows deleted by queries,查询删除行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n' +
+  'pgsql,transaction,,commits,pgsql.transaction.commits,Transactions Commits,事务提交频率,float,次/s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n' +
+  'pgsql,transaction,,rollbacks,pgsql.transaction.rollbacks,Transactions Rollbacks,事务回滚频率,float,次/s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n' +
+  'pgsql,transaction_state,,state,pgsql.transaction_state.state,Transactions State,事务状态,,,,"事务状态包括idle in transaction、idle in transaction (aborted)、\n' +
+  'idle、fastpath function call、disabled、active。",,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_activity_max_tx_duration\n' +
+  'pgsql,transaction_state,,duration,pgsql.transaction_state.duration,Transactions Duration,事务耗时,,s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_activity_max_tx_duration\n' +
+  'pgsql,temp_file,,db_name,pgsql.temp_file.db_name,Temp Files DB Name,临时文件所属库名称,string,,,,,,,,\n' +
+  'pgsql,temp_file,,num,pgsql.temp_file.num,Temp Files Number,临时文件累计创建数,float,,,,"Cumulative number of temporary files created by queries in this database since service start. All temporary files are counted, regardless of why the temporary file was created (e.g., sorting or hashing), and regardless of the log_temp_files setting.",,,,\n' +
+  'pgsql,temp_file,,size,pgsql.temp_file.size,Temp Files Size,临时文件累计写入大小,float,B,,,"Cumulative amount of data written to temporary files by queries in this database since service start. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.",,,,\n' +
+  'pgsql,temp_file,,activity,pgsql.temp_file.activity,Temp Files Activity,临时文件创建频率,float,次/s,,,"Number of temporary files created by queries in this database. All temporary files are counted, regardless of why the temporary file was created (e.g., sorting or hashing), and regardless of the log_temp_files setting.",,,,\n' +
+  'pgsql,temp_file,,util,pgsql.temp_file.util,Temp Files Utilization,临时文件写入速率,float,B/s,,,"Total amount of data written to temporary files by queries in this database. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.",,,,\n' +
+  'pgsql,lock,,deadlocks,pgsql.lock.deadlocks,Deadlocks,死锁频率,float,次/s,,,,,,,\n' +
+  'pgsql,lock,,conflicts,pgsql.lock.conflicts,Conflicts,冲突频率,float,次/s,,,,,,,\n' +
+  'pgsql,lock_num,,mode,pgsql.lock_num.mode,Locks Mode,锁模式,,,,"锁模式包括accesssharelock、sireadlock、shareupdateexclusivelock、sharerowexclusivelock、sharelock 、rowsharelock、rowexclusivelock、exclusivelock、\n' +
+  'accessexclusivelock。",,,,,\n' +
+  'pgsql,lock_num,,db_name,pgsql.lock_num.db_name,Locks DB Name,锁所属库名称,,,,,,,,,\n' +
+  'pgsql,lock_num,,num,pgsql.lock_num.num,Locks Number,锁数量,int,,,,,,,,\n' +
+  'pgsql,operation,,db_name,pgsql.operation.db_name,Blocks Operations DB Name,Blocks操作所属库名称,,,,,,,,,\n' +
+  'pgsql,operation,,read,pgsql.operation.read,Operations Read,Blocks操作读频率,float,次/s,,,,,,,\n' +
+  'pgsql,operation,,write,pgsql.operation.write,Operations Write,Blocks操作写频率,float,次/s,,,,,,,\n' +
+  'pgsql,buffer,,allocated,pgsql.buffer.allocated,Allocated,缓冲区Allocated频率,float,次/s,,,,,,,\n' +
+  'pgsql,buffer,,fsync_calls_by_backend,pgsql.buffer.fsync_calls_by_backend,Fsync calls by a backend,缓冲区Fsync calls by a backend频率,float,次/s,,,,,,,\n' +
+  'pgsql,buffer,,written_directly_by_backend,pgsql.buffer.written_directly_by_backend,Written directly by a backend,缓冲区Written directly by a backend频率,float,次/s,,,,,,,\n' +
+  'pgsql,buffer,,written_by_background_writer,pgsql.buffer.written_by_background_writer,Written by the background writer,缓冲区Written by the background writer频率,float,次/s,,,,,,,\n' +
+  'pgsql,buffer,,written_during_checkpoints,pgsql.buffer.written_during_checkpoints,Written during checkpoints,缓冲区Written during checkpoints频率,float,次/s,,,,,,,\n' +
+  'pgsql,conflicts,,pinned_buffers,pgsql.conflicts.pinned_buffers,Pinned buffers,Pinned buffers,float,次/s,,,,,,,相关于 pg_stat_database_conflicts_confl_bufferpin\n' +
+  'pgsql,conflicts,,deadlocks,pgsql.conflicts.deadlocks,Deadlocks,Deadlocks,float,次/s,,,,,,,相关于 pg_stat_database_conflicts_confl_bufferpin\n' +
+  'pgsql,conflicts,,lock_timeouts,pgsql.conflicts.lock_timeouts,Lock timeouts,Lock timeouts,float,次/s,,,,,,,相关于 pg_stat_database_conflicts_confl_bufferpin\n' +
+  'pgsql,conflicts,,old_snapshots,pgsql.conflicts.old_snapshots,Old snapshots,Old snapshots,float,次/s,,,,,,,相关于 pg_stat_database_conflicts_confl_bufferpin\n' +
+  'pgsql,conflicts,,dropped_tablespaces,pgsql.conflicts.dropped_tablespaces,Dropped tablespaces,Dropped tablespaces,float,次/s,,,,,,,相关于 pg_stat_database_conflicts_confl_bufferpin\n' +
+  'pgsql,cache_hit_ratio,,db_name,pgsql.cache_hit_ratio.db_name,Cache Hit Ratio DB Name,缓存命中率所属库名称,string,,,,,,,,\n' +
+  'pgsql,cache_hit_ratio,,ratio,pgsql.cache_hit_ratio.ratio,Cache Hit Ratio,缓存命中率,,,,,,,,,\n' +
+  'pgsql,checkpoint,,files_synchronization_to_disk,pgsql.checkpoint.files_synchronization_to_disk,Files Synchronization to disk,文件同步到磁盘频率,,次/s,,,,,,,相关于 pg_stat_bgwriter_checkpoint_sync_time\n' +
+  'pgsql,checkpoint,,written_files_to_disk,pgsql.checkpoint.written_files_to_disk,Written Files to disk,文件写到磁盘频率,,次/s,,,,,,,相关于 pg_stat_bgwriter_checkpoint_write_time\n' +
+  'pgsql,slow_sql,,sql_text,pgsql.slow_sql.sql_text,SQL Text,慢SQL,string,,,需要提前配置并启用 pg_stat_statements。,,,,https://virtual-dba.com/blog/postgresql-performance-identifying-hot-and-slow-queries/,相关于 pg_stat_statements\n' +
+  'pgsql,slow_sql,,calls,pgsql.slow_sql.calls,Calls,执行次数,int,,,,,,,,相关于 pg_stat_statements\n' +
+  'pgsql,slow_sql,,total_time,pgsql.slow_sql.total_time,Total time,总耗时,float,s,,,,,,,相关于 pg_stat_statements\n' +
+  'pgsql,slow_sql,,avg_time,pgsql.slow_sql.avg_time,Average time,平均耗时,float,s,,,,,,,相关于 pg_stat_statements\n' +
+  'pgsql,slow_sql,,rows,pgsql.slow_sql.rows,Rows,受影响行数,int,,,,,,,,相关于 pg_stat_statements\n' +
+  'oracle,status,,uptime,oracle.status.uptime,Uptime,运行时长,number,s,,,,,,,\n' +
+  'oracle,basic,,version,oracle.basic.version,Version,版本号,string,,,,,,,,\n' +
+  'oracle,session,,total_sessions,oracle.session.total_sessions,Total Sessions,会话总数,int,,,,,,,,\n' +
+  'oracle,session,,active_sessions,oracle.session.active_sessions,Active Sessions,活动会话数,int,,,,,,,,\n' +
+  'oracle,session,,background_sessions,oracle.session.background_sessions,Background Sessions,后台会话数,int,,,,,,,,\n' +
+  'oracle,process,,process_count,oracle.process.process_count,Process count,进程数,int,,,,,,,,\n' +
+  'oracle,execute,,executes,oracle.execute.executes,Executes,执行频率,float,次/s,,,,,,,\n' +
+  'oracle,transaction,,commits,oracle.transaction.commits,Transactions Commits,事务提交频率,float,次/s,,,,,,,\n' +
+  'oracle,transaction,,rollbacks,oracle.transaction.rollbacks,Transactions Rollbacks,事务回滚频率,float,次/s,,,,,,,\n' +
+  'oracle,tablespace,,name,oracle.tablespace.name,Tablespace name,表空间名称,string,,,,,,,,\n' +
+  'oracle,tablespace,,type,oracle.tablespace.type,Tablespace type,表空间类型,string,,,,,,,,\n' +
+  'oracle,tablespace,,usage,oracle.tablespace.usage,Tablespace usage,表空间使用率,float,,,,,,,,\n' +
+  'oracle,tablespace,,free_space,oracle.tablespace.free_space,Tablespace free space,表空间剩余空间,int,B,,,,,,,\n' +
+  'oracle,wait,,concurrent_wait_time,oracle.wait.concurrent_wait_time,Concurrent wait time,并发等待时间,float,s,,,,,,,\n' +
+  'oracle,wait,,commit_wait_time,oracle.wait.commit_wait_time,Commit wait time,提交等待时间,float,s,,,,,,,\n' +
+  'oracle,wait,,app_wait_time,oracle.wait.app_wait_time,Application wait time,应用等待时间,float,s,,,,,,,\n' +
+  'oracle,wait,,network_wait_time,oracle.wait.network_wait_time,Network wait time,网络等待事件,float,s,,,,,,,\n' +
+  'oracle,wait,,system_io_wait_time,oracle.wait.system_io_wait_time,System IO wait time,系统IO等待时间,float,s,,,,,,,\n' +
+  'oracle,wait,,user_io_wait_time,oracle.wait.user_io_wait_time,User IO wait time,用户IO等待时间,float,s,,,,,,,\n' +
+  'oracle,wait,,configure_wait_time,oracle.wait.configure_wait_time,Configure wait time,组态等待时间,float,s,,,,,,,\n' +
+  'oracle,wait,,scheduler_wait_time,oracle.wait.scheduler_wait_time,Scheduler wait time,Scheduler等待时间,float,s,,,,,,,\n' +
+  'oracle,res_util,,res_util_type,oracle.res_util.res_util_type,Resource utilization type,资源利用率类型,string,,,包括 branched、cmtcallbk、dml_locks、enqueue_locks等。,,,,,\n' +
+  'oracle,res_util,,res_util,oracle.res_util.res_util,Resource utilization,资源利用率,int,,,,,,,,\n' +
+  'oracle,perf_collector,,total_collection,oracle.perf_collector.total_collection,Total collection,收集总数,int,,,,,,,,\n' +
+  'oracle,perf_collector,,final_collection_time,oracle.perf_collector.final_collection_time,Final collection time,最后收集时间,float,s,,,,,,,\n' +
+  'oracle,performance,,qps,oracle.performance.qps,QPS,IO请求频率,float,,,每秒IO请求数量。,I/O Requests per Second.,,,,\n' +
+  'oracle,performance,,tps,oracle.performance.tps,TPS,用户事务频率,float,,,每秒用户事物处理数量。,User Transaction Per Sec.,,,,\n' +
+  'oracle,performance,,mbps,oracle.performance.mbps,MBPS,IO速率(兆字节),float,,,每秒 I/O 兆字节数量。,I/O Megabytes per Second.,,,,\n' +
+  'oracle,performance,,sql_resp_time,oracle.performance.sql_resp_time,SQL response time,SQL响应速率,float,,,,,,,,\n' +
+  'oracle,cpu_stats,,type,oracle.cpu_stats.type,CPU stats type,CPU 统计类型,string,,,包括 CPU_session、CPU_user、CPU_background、CPU_TXN、CPU_time_consumed等。,,,,,\n' +
+  'oracle,cpu_stats,,num,oracle.cpu_stats.num,CPU stats number,CPU 统计大小,int,,,,,,,,\n' +
+  'oracle,mem_stats,,type,oracle.mem_stats.type,Memory stats type,内存统计类型,string,,,包括 PGA_memory、cache_used。,,,,,\n' +
+  'oracle,mem_stats,,size,oracle.mem_stats.size,Memory stats size,内存统计大小,int,B,,,,,,,\n' +
+  'oracle,cache_hit_ratio,,lib_cache_hit_ratio,oracle.cache_hit_ratio.lib_cache_hit_ratio,Library cache hit ratio,库缓存命中率,,,,,,,,,\n' +
+  'oracle,cache_hit_ratio,,buffer_cache_hit_ratio,oracle.cache_hit_ratio.buffer_cache_hit_ratio,Buffer cache hit ratio,缓冲区缓存命中率,,,,,,,,,'
 
 export default data

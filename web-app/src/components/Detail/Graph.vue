@@ -73,7 +73,10 @@ export default {
       },
       seriesData: [],
       selected: {},
-      color: ['#5A90F9', '#A7CFFF', '#58D9A6', '#8EC98D', '#AEB9E5', '#5E7091', '#F7BE12', '#DBDC8C', '#E86453', '#EEA19E', '#6DC7EB', '#A3DAE5', '#945FB8', '#CFA8E1', '#FE9745', '#FFD298', '#1E9593', '#77B7DF', '#FF98BF', '#D198C0']
+      color: ['#5A90F9', '#A7CFFF', '#58D9A6', '#8EC98D', '#AEB9E5', '#5E7091', '#F7BE12', '#DBDC8C', '#E86453', '#EEA19E', '#6DC7EB', '#A3DAE5', '#945FB8', '#CFA8E1', '#FE9745', '#FFD298', '#1E9593', '#77B7DF', '#FF98BF', '#D198C0'],
+      color2: ['#F6BD16', '#DCDC8C', '#FF9845', '#FFD298', '#E86452', '#EEA29D', '#FF99C3', '#D198BF', '#D1A8DF', '#945FB9', '#5D7092', '#5B8FF9', '#AEB9E5', '#A6CFFF', '#6DC8EC', '#A3D9E5', '#78B6E0', '#5AD8A6', '#8FCA8D', '#1E9493'],
+      color3: ['#1E9493', '#8FCA8D', '#5AD8A6', '#78B6E0', '#A3D9E5', '#A6CFFF', '#A6CFFF', '#AEB9E5', '#5B8FF9', '#5D7092', '#945FB9', '#D1A8DF', '#D198BF', '#FF99C3', '#EEA29D', '#E86452', '#FFD298', '#FF9845', '#DCDC8C', '#F6BD16'],
+      color4: ['#5AD8A6', '#1E9493', '#5B8FF9', '#5D7092', '#945FB9', '#E86452', '#FF9845', '#F6BD16', '#FFD298', '#DCDC8C', '#8FCA8D', '#A3D9E5', '#6DC8EC', '#78B6E0', '#A6CFFF', '#AEB9E5', '#EEA29D', '#D198BF', '#D1A8DF', '#FF99C3']
     }
   },
   computed: {
@@ -89,7 +92,9 @@ export default {
     }
   },
   beforeDestroy() {
-    this.myChart.dispose
+    if (this.myChart) {
+      this.myChart.dispose
+    }
   },
   async mounted() {
     this.info = getTargetData(this.targetType, this.targetName)
