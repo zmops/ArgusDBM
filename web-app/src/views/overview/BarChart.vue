@@ -19,7 +19,8 @@ export default {
       default() {
         return []
       }
-    }
+    },
+    legend: Boolean
   },
   data() {
     return {
@@ -113,6 +114,12 @@ export default {
         //     return str
         //   },
         // },
+        legend: {
+          show: _this.legend,
+          type: 'plain',
+          top: 0,
+          right: 0
+        },
         grid: {
           top: 30,
           left: 20,

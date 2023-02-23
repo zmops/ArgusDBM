@@ -5,6 +5,7 @@
       <div ref="myChart" v-loading="loading" :class="w===24?'line-chart24':'line-chart'" />
       <div v-loading="loading" :class="w===24?'legend24':'legend'">
         <div v-if="tableData.length" class="legend-title">最新值</div>
+        <div v-else class="no-data"><div>暂无数据</div></div>
         <div class="legend-box">
           <div v-for="(item, index) in tableData" :key="'table'+index" class="item" :class="active === index || active === null ? 'active' : 'no-active'" @click="changeLegend(index)">
             <div class="color">
@@ -232,6 +233,20 @@ export default {
 
   .legend-box{
     height: 78px;
+  }
+}
+
+.no-data {
+  width:100%;
+  height:100%;
+  text-align: center;
+  color: #5E6D82;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+
+  div {
+    width: 100%;
   }
 }
 

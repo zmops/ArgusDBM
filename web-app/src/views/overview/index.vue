@@ -20,25 +20,25 @@
               style="width: 100%"
             >
               <el-table-column
-                prop="date"
+                prop="level"
                 label="告警级别"
                 width="180"
               />
               <el-table-column
-                prop="name"
+                prop="status"
                 label="状态"
                 width="180"
               />
               <el-table-column
-                prop="address"
+                prop="time"
                 label="告警时间"
               />
               <el-table-column
-                prop="address"
+                prop="content"
                 label="告警内容"
               />
             </el-table>
-            <Pagination :size="5" :current-page="1" :total="100" />
+            <!--            <Pagination :size="5" :current-page="1" :total="100" />-->
           </div>
         </div>
       </el-col>
@@ -54,26 +54,89 @@
         <div class="item box2">
           <div class="title">数据库状态统计</div>
           <div class="chart">
-            <BarChart :x-data="sqlXData" :series-data="sqlSeriesData" />
+            <BarChart :x-data="sqlXData" :series-data="sqlSeriesData" legend />
           </div>
         </div>
       </el-col>
       <el-col :span="12">
         <div class="item box2">
           <div class="title">离线MySQL</div>
-          <div class="chart" />
+          <div class="chart">
+            <el-table
+              :data="myaqlTableData"
+              stripe
+              size="mini"
+              height="200"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="name"
+                label="监控名称"
+              />
+              <el-table-column
+                prop="ip"
+                label="IP/域名"
+              />
+              <el-table-column
+                prop="time"
+                label="最后在线时间"
+              />
+            </el-table>
+          </div>
         </div>
       </el-col>
       <el-col :span="12">
         <div class="item box2">
           <div class="title">离线PostgreSQL</div>
-          <div class="chart" />
+          <div class="chart">
+            <el-table
+              :data="pgsqlTableData"
+              stripe
+              size="mini"
+              height="200"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="name"
+                label="监控名称"
+              />
+              <el-table-column
+                prop="ip"
+                label="IP/域名"
+              />
+              <el-table-column
+                prop="time"
+                label="最后在线时间"
+              />
+            </el-table>
+          </div>
         </div>
       </el-col>
       <el-col :span="12">
         <div class="item box2">
           <div class="title">离线Oracle</div>
-          <div class="chart" />
+          <div class="chart">
+            <el-table
+              :data="oracleTableData"
+              stripe
+              size="mini"
+              height="200"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="name"
+                label="监控名称"
+              />
+              <el-table-column
+                prop="ip"
+                label="IP/域名"
+              />
+              <el-table-column
+                prop="time"
+                label="最后在线时间"
+              />
+            </el-table>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -81,13 +144,13 @@
 </template>
 
 <script>
-import Pagination from '@/views/overview/Pagination'
+// import Pagination from '@/views/overview/Pagination'
 import BarChart from '@/views/overview/BarChart'
 import { WARN_LEVEL } from '@/const/const'
 export default {
   name: 'Overview',
   components: {
-    Pagination,
+    // Pagination,
     BarChart
   },
   data() {
@@ -102,7 +165,18 @@ export default {
         { title: 'PostgreSQL总数', val: 12 },
         { title: 'Oracle总数', val: 12 }
       ],
-      alarmTableData: [],
+      alarmTableData: [
+        { level: '严重告警', status: '已处理', content: '连接超时', time: '2023-01-30 15:19:32' }
+      ],
+      myaqlTableData: [
+        { name: '名称1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' }
+      ],
+      pgsqlTableData: [
+        { name: '名称1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' }
+      ],
+      oracleTableData: [
+        { name: '名称1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' }
+      ],
       alarmXData: WARN_LEVEL.map((i) => { return i.value }),
       alarmSeriesData: [
         {
@@ -110,9 +184,9 @@ export default {
           type: 'bar',
           barMaxWidth: 36, // 柱子的最大宽度
           data: [
-            { value: 80, itemStyle: { color: '#FBBC0A' }},
-            { value: 90, itemStyle: { color: '#E37045' }},
-            { value: 100, itemStyle: { color: '#C72222' }}
+            { value: 23, itemStyle: { color: '#FBBC0A' }},
+            { value: 43, itemStyle: { color: '#E37045' }},
+            { value: 32, itemStyle: { color: '#C72222' }}
           ]
         }
       ],
@@ -122,19 +196,19 @@ export default {
           name: '在线',
           type: 'bar',
           color: '#5AD8A6',
-          data: [80, 90, 100]
+          data: [46, 38, 63]
         },
         {
           name: '离线',
           type: 'bar',
           color: '#E86452',
-          data: [60, 70, 80]
+          data: [6, 5, 8]
         },
         {
           name: '禁用',
           type: 'bar',
           color: '#F6BD16',
-          data: [10, 20, 30]
+          data: [10, 13, 10]
         }
       ]
     }
