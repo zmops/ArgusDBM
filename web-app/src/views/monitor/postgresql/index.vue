@@ -268,7 +268,7 @@ export default {
     },
     /* 跳转到详情 */
     detail(item) {
-      this.$router.push('/monitor/postgresqlDetail?type=pgsql&monitorId=' + item.id)
+      this.$router.push('/monitor/postgresqlDetail?type=postgresql&monitorId=' + item.id)
     },
     /* 切换状态 */
     changeStatus(id, v) {
