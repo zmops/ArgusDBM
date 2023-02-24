@@ -44,7 +44,7 @@ metrics:
     # 指标组中的具体监控指标
     fields:
       # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
-      - field: database_version
+      - field: version
         type: 1
         instance: true
       - field: hostname
@@ -65,7 +65,7 @@ metrics:
     # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
     # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
     calculates:
-      - database_version=VERSION
+      - version=VERSION
       - hostname=HOST_NAME
       - instance_name=INSTANCE_NAME
       - startup_time=STARTUP_TIME
