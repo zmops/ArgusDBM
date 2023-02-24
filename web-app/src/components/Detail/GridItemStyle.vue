@@ -2,13 +2,13 @@
 <template>
   <div class="grid-item-style">
     <div class="title">
-      {{ title }}
-      <el-tooltip placement="bottom">
+      <el-tooltip placement="bottom-start" effect="light">
         <div slot="content">
           <div style="width: 450px" v-html="compiledMarkdown" />
         </div>
         <i v-show="explain" class="el-icon-warning-outline" />
       </el-tooltip>
+      {{ title }}
     </div>
     <div class="content">
       <slot name="content" />
@@ -61,6 +61,7 @@ export default {
     font-size: 14px;
     color: #4E5969;
     padding: 0 14px;
+    font-weight: 800;
   }
 
   .content{

@@ -262,14 +262,14 @@ export default {
 
 .line-chart24{
   display: inline-block;
-  width: calc( 100% - 510px );
+  width: calc( 100% - 410px );
   height: 100%;
   vertical-align: top;
 }
 
 .legend24{
   display: inline-block;
-  width: 500px;
+  width: 400px;
   height: 100%;
   padding: 0 10px;
 
@@ -314,7 +314,10 @@ export default {
     }
 
     .name{
-      flex-grow: 1
+      flex-grow: 1;
+      white-space: nowrap; /*设置不换行*/
+      overflow: hidden; /*设置隐藏*/
+      text-overflow: ellipsis; /*设置隐藏部分为省略号*/
     }
 
     .latest{

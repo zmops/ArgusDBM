@@ -66,32 +66,32 @@ const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysq
   'mysql.query_cache.not_cached\n' +
   'mysql.query_cache.prunes\n' +
   'mysql.query_cache.queries_in_cache",,"**MySQL Query Cache Activity**\\n\\nThe query cache has huge scalability problems in that only one thread can do an operation in the query cache at the same time. This serialization is true not only for SELECTs, but also for INSERT/UPDATE/DELETE.\\n\\nThis also means that the larger the `query_cache_size` is set to, the slower those operations become. In concurrent environments, the MySQL Query Cache quickly becomes a contention point, decreasing performance. MariaDB and AWS Aurora have done work to try and eliminate the query cache contention in their flavors of MySQL, while MySQL 8.0 has eliminated the query cache feature.\\n\\nThe recommended settings for most environments is to set:\\n``query_cache_type=0``\\n``query_cache_size=0``\\n\\nNote that while you can dynamically change these values, to completely remove the contention point you have to restart the database.",,\n' +
-  'cb.pgsql,tuples,cb.pgsql.tuples,Tuples,行操作频率,"pgsql.tuple.fetched\n' +
-  'pgsql.tuple.returned\n' +
-  'pgsql.tuple.inserted\n' +
-  'pgsql.tuple.updated\n' +
-  'pgsql.tuple.deleted",,,,\n' +
-  'cb.pgsql,tuples_read_by_queries,cb.pgsql.tuples_read_by_queries,Tuples Read by Queries,Queries读取行频率,"pgsql.tuple.rows_returned_by_queries\n' +
-  'pgsql.tuple.rows_fetched_by_queries",,,,\n' +
-  'cb.pgsql,tuples_change_by_queries,cb.pgsql.tuples_change_by_queries,Tuples Changes by Queries,Queries变更行频率,"pgsql.tuple.rows_inserted_by_queries\n' +
-  'pgsql.tuple.rows_updated_by_queries\n' +
-  'pgsql.tuple.rows_deleted_by_queries",,,,\n' +
-  'cb.pgsql,transactions,cb.pgsql.transactions,Transactions,事务,"pgsql.transaction.commits\n' +
-  'pgsql.transaction.rollbacks",,,,\n' +
-  'cb.pgsql,conflicts_deadlocks,cb.pgsql.conflicts_deadlocks,Conflicts/Deadlocks,冲突与死锁,"pgsql.lock.deadlocks\n' +
-  'pgsql.lock.conflicts",,,,\n' +
-  'cb.pgsql,buffers,cb.pgsql.buffers,Buffers,缓冲区,"pgsql.buffer.allocated\n' +
-  'pgsql.buffer.fsync_calls_by_backend\n' +
-  'pgsql.buffer.written_directly_by_backend\n' +
-  'pgsql.buffer.written_by_background_writer\n' +
-  'pgsql.buffer.written_during_checkpoints",,,,\n' +
-  'cb.pgsql,canceled_queries,cb.pgsql.canceled_queries,Canceled Queries,取消的Queries,"pgsql.conflicts.pinned_buffers\n' +
-  'pgsql.conflicts.deadlocks\n' +
-  'pgsql.conflicts.lock_timeouts\n' +
-  'pgsql.conflicts.old_snapshots\n' +
-  'pgsql.conflicts.dropped_tablespaces",基于 pg_stat_database_conflicts 视图。,Based on pg_stat_database_conflicts view,,\n' +
-  'cb.pgsql,checkpoint_stats,cb.pgsql.checkpoint_stats,Checkpoint stats,检查点统计,"pgsql.checkpoint.files_synchronization_to_disk\n' +
-  'pgsql.checkpoint.written_files_to_disk",,,,\n' +
+  'cb.postgresql,tuples,cb.postgresql.tuples,Tuples,行操作频率,"postgresql.tuple.fetched\n' +
+  'postgresql.tuple.returned\n' +
+  'postgresql.tuple.inserted\n' +
+  'postgresql.tuple.updated\n' +
+  'postgresql.tuple.deleted",,,,\n' +
+  'cb.postgresql,tuples_read_by_queries,cb.postgresql.tuples_read_by_queries,Tuples Read by Queries,Queries读取行频率,"postgresql.tuple.rows_returned_by_queries\n' +
+  'postgresql.tuple.rows_fetched_by_queries",,,,\n' +
+  'cb.postgresql,tuples_change_by_queries,cb.postgresql.tuples_change_by_queries,Tuples Changes by Queries,Queries变更行频率,"postgresql.tuple.rows_inserted_by_queries\n' +
+  'postgresql.tuple.rows_updated_by_queries\n' +
+  'postgresql.tuple.rows_deleted_by_queries",,,,\n' +
+  'cb.postgresql,transactions,cb.postgresql.transactions,Transactions,事务,"postgresql.transaction.commits\n' +
+  'postgresql.transaction.rollbacks",,,,\n' +
+  'cb.postgresql,conflicts_deadlocks,cb.postgresql.conflicts_deadlocks,Conflicts/Deadlocks,冲突与死锁,"postgresql.lock.deadlocks\n' +
+  'postgresql.lock.conflicts",,,,\n' +
+  'cb.postgresql,buffers,cb.postgresql.buffers,Buffers,缓冲区,"postgresql.buffer.allocated\n' +
+  'postgresql.buffer.fsync_calls_by_backend\n' +
+  'postgresql.buffer.written_directly_by_backend\n' +
+  'postgresql.buffer.written_by_background_writer\n' +
+  'postgresql.buffer.written_during_checkpoints",,,,\n' +
+  'cb.postgresql,canceled_queries,cb.postgresql.canceled_queries,Canceled Queries,取消的Queries,"postgresql.conflicts.pinned_buffers\n' +
+  'postgresql.conflicts.deadlocks\n' +
+  'postgresql.conflicts.lock_timeouts\n' +
+  'postgresql.conflicts.old_snapshots\n' +
+  'postgresql.conflicts.dropped_tablespaces",基于 pg_stat_database_conflicts 视图。,Based on pg_stat_database_conflicts view,,\n' +
+  'cb.postgresql,checkpoint_stats,cb.postgresql.checkpoint_stats,Checkpoint stats,检查点统计,"postgresql.checkpoint.files_synchronization_to_disk\n' +
+  'postgresql.checkpoint.written_files_to_disk",,,,\n' +
   'cb.oracle,cache_hit_ratio,cb.oracle.cache_hit_ratio,Cache hit ratio,缓存命中率,"oracle.cache_hit_ratio.lib_cache_hit_ratio\n' +
   'oracle.cache_hit_ratio.buffer_cache_hit_ratio",,,,'
 
