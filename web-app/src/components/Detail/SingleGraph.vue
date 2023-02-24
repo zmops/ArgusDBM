@@ -85,7 +85,7 @@ export default {
     font-weight: 500;
     color: #3BA6F0;
     position: absolute;
-    top: 0;
+    top: calc(50% - 15px);
     left: 0;
   }
 }

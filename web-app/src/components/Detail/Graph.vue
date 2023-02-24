@@ -153,10 +153,10 @@ export default {
           selected: _this.selected
         },
         grid: {
-          top: 30,
+          top: 10,
           left: 20,
           right: 20,
-          bottom: 10,
+          bottom: 5,
           containLabel: true
         },
         xAxis: {
@@ -228,16 +228,16 @@ export default {
 <style lang="scss" scoped>
 .line-chart {
   width: 100%;
-  height: calc( 100% - 108px );
+  height: calc( 100% - 76px );
 }
 
 .legend{
   width: 100%;
-  height: 108px;
+  height: 76px;
   padding: 0 20px;
 
   .legend-box{
-    height: 78px;
+    height: 54px;
   }
 }
 
@@ -275,8 +275,8 @@ export default {
 
 .legend-title{
   width: 100%;
-  height: 25px;
-  line-height: 25px;
+  height: 18px;
+  line-height: 18px;
   font-size: 12px;
   color: #3BA6F0;
   text-align: right;
@@ -290,8 +290,8 @@ export default {
 
   .item{
     width: 100%;
-    height: 25px;
-    line-height: 25px;
+    height: 18px;
+    line-height: 18px;
     display: flex;
     cursor: pointer;
 
@@ -301,7 +301,7 @@ export default {
 
     .color{
       width: 30px;
-      padding: 8px 9px;
+      padding: 6px 9px;
       div{
         width: 14px;
         height: 6px;

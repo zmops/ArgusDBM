@@ -233,7 +233,7 @@ export default {
     },
     /* 添加 */
     add() {
-      this.$refs.monitorForm.handleAddDialogOpen('oracle')
+      this.$refs.monitorForm.handleAddDialogOpen('postgresql')
     },
     /* 多选 */
     handleSelect(selection) {
@@ -277,7 +277,7 @@ export default {
     },
     /* 编辑 */
     edit(id) {
-      this.$refs.monitorForm.handleEditDialogOpen(id, 'oracle')
+      this.$refs.monitorForm.handleEditDialogOpen(id, 'postgresql')
     }
   }
 }

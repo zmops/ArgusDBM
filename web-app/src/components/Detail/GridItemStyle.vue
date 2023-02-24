@@ -5,7 +5,7 @@
       {{ title }}
       <el-tooltip placement="bottom">
         <div slot="content">
-          <div v-html="compiledMarkdown" />
+          <div style="width: 450px" v-html="compiledMarkdown" />
         </div>
         <i v-show="explain" class="el-icon-warning-outline" />
       </el-tooltip>

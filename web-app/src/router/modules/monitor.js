@@ -17,7 +17,7 @@ const monitorRouter = {
       path: 'mysql',
       component: () => import('@/views/monitor/mysql/index'),
       name: 'MySql',
-      meta: { title: 'Mysql', noCache: true }
+      meta: { title: 'MySQL', noCache: true }
     },
     {
       path: 'mysqlDetail',
@@ -30,7 +30,7 @@ const monitorRouter = {
       path: 'postgresql',
       component: () => import('@/views/monitor/postgresql/index'),
       name: 'PostgreSql',
-      meta: { title: 'postgresql', noCache: true }
+      meta: { title: 'PostgreSQL', noCache: true }
     },
     {
       path: 'postgresqlDetail',
@@ -43,7 +43,7 @@ const monitorRouter = {
       path: 'oracle',
       component: () => import('@/views/monitor/oracle/index'),
       name: 'Oracle',
-      meta: { title: 'oracle', noCache: true }
+      meta: { title: 'Oracle', noCache: true }
     },
     {
       path: 'oracleDetail',

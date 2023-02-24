@@ -21,7 +21,7 @@
     </div>
     <grid-layout
       :layout.sync="layouts"
-      :row-height="40"
+      :row-height="30"
       :col-num="24"
       :is-resizable="false"
       :is-draggable="false"
