@@ -244,24 +244,24 @@ export default {
       'name': '请输入规则名称'
     }
   },
-  sysReceiver:{
-    form:{
-      "":"接收人管理",
-      "name":"接收人名称",
-      "name.placeholder":"请输入接收人名称",
-      "type":"通知方式",
-      "type.placeholder":"请选择通知方式",
-      "phone":"电话",
-      "phone.placeholder":"请输入电话",
-      "email":"邮箱",
-      "email.placeholder":"请输入邮箱",
-      "wechatId":"企业微信号",
-      "wechatId.placeholder":"请输入企业微信号",
-      "accessToken":"钉钉号",
-      "accessToken.placeholder":"请输入钉钉号",
-      "hookUrl":"Webhook URL",
-      "hookUrl.placeholder":"请输入Webhook URL",
-      "gmtUpdate":"更新时间"
+  sysReceiver: {
+    form: {
+      '': '接收人管理',
+      'name': '接收人名称',
+      'name.placeholder': '请输入接收人名称',
+      'type': '通知方式',
+      'type.placeholder': '请选择通知方式',
+      'phone': '电话',
+      'phone.placeholder': '请输入电话',
+      'email': '邮箱',
+      'email.placeholder': '请输入邮箱',
+      'wechatId': '企业微信号',
+      'wechatId.placeholder': '请输入企业微信号',
+      'accessToken': '钉钉号',
+      'accessToken.placeholder': '请输入钉钉号',
+      'hookUrl': 'Webhook URL',
+      'hookUrl.placeholder': '请输入Webhook URL',
+      'gmtUpdate': '更新时间'
     },
     rules: {
       'name': '请输入接收人名称',
