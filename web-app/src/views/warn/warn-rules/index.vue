@@ -20,25 +20,25 @@
           </el-form-item>
           <el-form-item label="">
             <el-collapse value="1">
-              <el-collapse-item :title="$t('warnRules.form.field.collapse')" name="1">
+              <el-collapse-item :title="$t('warnRules.form[\'field.collapse\']')" name="1">
                 <div v-if="form.cascadeValues.length==3">
-                  <code> {{"${"+form.cascadeValues[2]+"}"}} : {{ $t('warnRules.form.field.collapse.tip1') }}</code>
+                  <code> {{"${"+form.cascadeValues[2]+"}"}} : {{ $t('warnRules.form[\'field.collapse.tip1\']') }}</code>
                 </div>
                 <div v-for="otherMetric in otherMetrics" :key="otherMetric">
-                  <code> {{"${"+otherMetric+"}"}} : {{ $t('warnRules.form.field.collapse.tip2') }}</code>
+                  <code> {{"${"+otherMetric+"}"}} : {{ $t('warnRules.form[\'field.collapse.tip2\']') }}</code>
                 </div>
                 <div v-if="form.cascadeValues.length!=0">
-                  <code> {{ $t('warnRules.form.field.collapse.tip3') }}</code>
+                  <code> {{ $t('warnRules.form[\'field.collapse.tip3\']') }}</code>
                 </div>
-                <div><code> {{ $t('warnRules.form.field.collapse.tip4') }}</code></div>
+                <div><code> {{ $t('warnRules.form[\'field.collapse.tip4\']') }}</code></div>
               </el-collapse-item>
             </el-collapse>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.expr')" prop="expr">
-            <el-input type="textarea" :rows="3" v-model="form.expr" :placeholder="$t('warnRules.form.expr.placeholder')"
+            <el-input type="textarea" :rows="3" v-model="form.expr" :placeholder="$t('warnRules.form[\'expr.placeholder\']')"
               maxlength="100" show-word-limit></el-input>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.expr.tip') }}
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'expr.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item label="告警级别" prop="priority">
@@ -49,51 +49,51 @@
             </el-select>
             <div style="font-size: 12px;color: #757D8F">
               <i class="el-icon-info argus-mr-5"
-                style="color: #5A98EC"></i>{{ $t('warnRules.form.priority.tip') }}
+                style="color: #5A98EC"></i>{{ $t('warnRules.form[\'priority.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.times')" prop="times">
             <el-input-number v-model="form.times" :min="1" :max="10000" ></el-input-number>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.times.tip') }}
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'times.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item label="">
             <el-collapse value="1" accordion>
-              <el-collapse-item :title="$t('warnRules.form.times.collapse')" name="1">
-                <div><code> {{ $t('warnRules.form.times.collapse.tip1') }}</code></div>
-                <div><code>{{ $t('warnRules.form.times.collapse.tip2') }}</code></div>
+              <el-collapse-item :title="$t('warnRules.form[\'times.collapse\']')" name="1">
+                <div><code> {{ $t('warnRules.form[\'times.collapse.tip1\']') }}</code></div>
+                <div><code>{{ $t('warnRules.form[\'times.collapse.tip2\']') }}</code></div>
                 <div v-if="form.cascadeValues.length==3">
-                  <code> {{ $t('warnRules.form.times.collapse.tip3') }}</code>
+                  <code> {{ $t('warnRules.form[\'times.collapse.tip3') }}</code>
                 </div>
                 <div v-if="form.cascadeValues.length==3">
-                  <code> {{"${"+form.cascadeValues[2]+"}"}} : {{ $t('warnRules.form.times.collapse.tip4') }}</code>
+                  <code> {{"${"+form.cascadeValues[2]+"}"}} : {{ $t('warnRules.form[\'times.collapse.tip4\']') }}</code>
                 </div>
                 <div v-for="otherMetric in otherMetrics" :key="otherMetric">
-                  <code> {{"${"+otherMetric+"}"}} : {{ $t('warnRules.form.times.collapse.tip5') }}</code>
+                  <code> {{"${"+otherMetric+"}"}} : {{ $t('warnRules.form[\'times.collapse.tip5\']') }}</code>
                 </div>
-                <div><code> {{ $t('warnRules.form.times.collapse.tip6') }}</code></div>
+                <div><code> {{ $t('warnRules.form[\'times.collapse.tip6\']') }}</code></div>
               </el-collapse-item>
             </el-collapse>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.template')" prop="template">
             <el-input type="textarea" :rows="3" v-model="form.template"
-              :placeholder="$t('warnRules.form.template.placeholder')"
+              :placeholder="$t('warnRules.form[\'template.placeholder\']')"
               show-word-limit></el-input>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.template.tip') }}
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'template.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.preset')">
             <el-switch v-model="form.preset"></el-switch>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.preset.tip') }}
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'preset.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.enable')">
             <el-switch v-model="form.enable"></el-switch>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.enable.tip') }}
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'enable.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item>

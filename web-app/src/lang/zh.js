@@ -257,7 +257,7 @@ export default {
       "phone":"电话",
       "phone.placeholder":"请输入电话",
       "email":"邮箱",
-      "email.tip":"请输入邮箱",
+      "email.placeholder":"请输入邮箱",
       "wechatId":"企业微信号",
       "wechatId.placeholder":"请输入企业微信号",
       "accessToken":"钉钉号",
