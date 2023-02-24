@@ -2,7 +2,7 @@ export default {
   route: {
     dashboard: 'Dashboard',
     documentation: 'Documentation',
-    monitor:'monitor',
+    monitor: 'monitor',
     guide: 'Guide',
     permission: 'Permission',
     pagePermission: 'Page Permission',
@@ -72,8 +72,8 @@ export default {
     profile: 'Profile',
     theme: 'Theme',
     size: 'Global Size',
-    docs:'Docs',
-    securitySetting:'Security Setting'
+    docs: 'Docs',
+    securitySetting: 'Security Setting'
   },
   login: {
     title: 'Login Form',
@@ -174,5 +174,8 @@ export default {
     tagsView: 'Open Tags-View',
     fixedHeader: 'Fixed Header',
     sidebarLogo: 'Sidebar Logo'
+  },
+  message: {
+    switchLanguageSuccess: 'Switch Language Success'
   }
 }

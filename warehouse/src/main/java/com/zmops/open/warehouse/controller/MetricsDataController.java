@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -142,8 +143,15 @@ public class MetricsDataController {
         } else {
             instanceValuesMap = historyDataStorage.getHistoryIntervalMetricData(monitorId, app, metrics, metric, instance, history);
         }
+        List<ValueRow> valueRows = new LinkedList<>();
+        if (instanceValuesMap != null) {
+            valueRows = instanceValuesMap.entrySet().stream().map(item -> ValueRow.builder()
+                    .instance(item.getKey())
+                    .values(item.getValue())
+                    .build()).collect(Collectors.toList());
+        }
         MetricsHistoryData historyData = MetricsHistoryData.builder()
-                .id(monitorId).metric(metrics).values(instanceValuesMap)
+                .id(monitorId).metric(metrics).values(valueRows)
                 .field(Field.builder().name(metric).type(CommonConstants.TYPE_NUMBER).build())
                 .build();
         return ResponseEntity.ok().body(new Message<>(historyData));

@@ -12,13 +12,25 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
+import plugins from './plugins' // plugins
 
 import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree,parseStrEmpty,filter } from "@/utils/common";
 
 import * as filters from './filters' // global filters
+
+// 全局方法挂载
+Vue.prototype.parseTime = parseTime
+Vue.prototype.resetForm = resetForm
+Vue.prototype.addDateRange = addDateRange
+Vue.prototype.selectDictLabel = selectDictLabel
+Vue.prototype.selectDictLabels = selectDictLabels
+Vue.prototype.handleTree = handleTree
+Vue.prototype.parseStrEmpty = parseStrEmpty
+Vue.prototype.filter = filter
 
 /**
  * If you don't want to use mock-server
@@ -32,6 +44,8 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
+
+Vue.use(plugins)
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
