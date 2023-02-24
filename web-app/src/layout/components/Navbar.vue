@@ -15,7 +15,7 @@
         <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
           <svg-icon iconClass="avater" class="user-avatar"></svg-icon>
-          <div class="avator-name">DBM</div>
+          <div class="avator-name">{{ name }}</div>
           <i class="el-icon-caret-bottom"/>
         </div>
 
@@ -61,11 +61,17 @@ export default {
     Search,
     Notice
   },
+  data(){
+    return {
+    wordUrl:''
+  }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'device'
+      'device',
+      'name'
     ])
   },
   methods: {

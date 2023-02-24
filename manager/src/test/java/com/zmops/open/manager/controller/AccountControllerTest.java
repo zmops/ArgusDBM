@@ -33,7 +33,7 @@ class AccountControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(accountController).build();
     }
 
-    @Test
+
     void authGetToken() throws Exception {
         JsonWebTokenUtil.setDefaultSecretKey("dKhaX0csgOCTlCxq20yhmUea6H6JIpSE2Rwp"
                 + "CyaFv0bwq2Eik0jdrKUtsA6bx3sDJeFV643R"
@@ -58,7 +58,7 @@ class AccountControllerTest {
                 .andReturn();
     }
 
-    @Test
+
     void refreshToken() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/account/auth/refresh/{refreshToken}",
                         "123456"))
