@@ -41,7 +41,7 @@ const defaultQueryParams = {
   host: '',
   status: 9,
   sort: 'name',
-  order: 'desc',
+  order: 'asc',
   pageIndex: 0,
   pageSize: 15
 }

@@ -160,8 +160,8 @@ export function getTargetName(name) {
 export function dataToChartData(data, name) {
   const arr = []
   if (data && data.values && data.values.length) {
-    const obj = {}
     data.values.forEach((i) => {
+      const obj = {}
       obj.name = i.instance ? i.instance : name
       obj.data = i.values.map((ii) => {
         return [ii.time, Number(ii.origin).toFixed(0)]
