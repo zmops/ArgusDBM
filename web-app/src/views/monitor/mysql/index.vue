@@ -31,7 +31,7 @@ import ParamsSearchForm from '@/components/BusinessComponents/ParamsSearchForm'
 import BusinessButtons from '@/components/BusinessComponents/BusinessButtons'
 import BusinessTable from '@/components/BusinessComponents/BusinessTable'
 import Pagination from '@/components/BusinessComponents/Pagination'
-import { getMonitors, delMonitors } from '@/api/monitor/monitor-manage-batch'
+import { getMonitors, delMonitors, enableMonitors, disableMonitors } from '@/api/monitor/monitor-manage-batch'
 import { MONITORS_STATUS } from '@/const/const'
 
 const defaultQueryParams = {
@@ -113,7 +113,7 @@ export default {
           component: 'StatusText'
         },
         {
-          label: this.$t('tableView.onlineStatus'),
+          label: '启用状态',
           prop: 'status',
           component: 'StatusSwitch',
           idName: 'id',
@@ -270,8 +270,19 @@ export default {
     },
     /* 切换状态 */
     changeStatus(id, v) {
-      console.log(id)
-      console.log(v)
+      if (v) { // 启用
+        enableMonitors([id]).then((res) => {
+          if (res.code === 0) {
+            this.getData()
+          }
+        })
+      } else { // 禁用
+        disableMonitors([id]).then((res) => {
+          if (res.code === 0) {
+            this.getData()
+          }
+        })
+      }
     },
     /* 编辑 */
     edit(id) {

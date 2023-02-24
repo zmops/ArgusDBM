@@ -45,7 +45,9 @@ export default {
     }
   },
   beforeDestroy() {
-    this.myChart.dispose
+    if (this.myChart) {
+      this.myChart.dispose
+    }
   },
   methods: {
     getData() {

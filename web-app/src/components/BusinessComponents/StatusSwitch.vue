@@ -1,7 +1,7 @@
 <template>
   <div class="status-switch">
-    <div class="enable item" :class="val2 ? 'enable-active' : ''" @click="change(true)">{{ leftText }}</div>
-    <div class="disable item" :class="val2 ? '' : 'disable-active'" @click="change(false)">{{ rightText }}</div>
+    <div class="enable item" :style="{cursor: val2?'no-drop':'pointer'}" :class="val2 ? 'enable-active' : ''" @click="change(true)">{{ leftText }}</div>
+    <div class="disable item" :style="{cursor: !val2?'no-drop':'pointer'}" :class="val2 ? '' : 'disable-active'" @click="change(false)">{{ rightText }}</div>
   </div>
 </template>
 
@@ -50,7 +50,11 @@ export default {
     val: {
       immediate: true,
       handler(v) {
-        this.val2 = v
+        if (v === 0) {
+          this.val2 = false
+        } else {
+          this.val2 = true
+        }
       }
     }
   },
