@@ -53,6 +53,11 @@ metrics:
         type: 1
       - field: max_connections
         type: 0
+      - field: thread_cache_size
+        type: 0
+      - field: innodb_buffer_pool_size
+        type: 0
+        unit: KB
     # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
     aliasFields:
       - version
@@ -61,6 +66,9 @@ metrics:
       - port
       - datadir
       - max_connections
+      - thread_cache_size
+      - table_open_cache
+      - innodb_buffer_pool_size
     # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
     # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
     calculates:
@@ -68,6 +76,8 @@ metrics:
       - datadir=datadir
       - max_connections=max_connections
       - version=version+"_"+version_compile_os+"_"+version_compile_machine
+    units:
+      - innodb_buffer_pool_size=B->KB
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -82,7 +92,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: columns
       # sql
-      sql: show global variables where Variable_name like 'version%' or Variable_name = 'max_connections' or Variable_name = 'datadir' or Variable_name = 'port';
+      sql: show global variables where Variable_name like 'version%' or Variable_name = 'max_connections' or Variable_name = 'datadir' or Variable_name = 'port' or Variable_name = 'thread_cache_size' or Variable_name = 'table_open_cache' or Variable_name = 'innodb_buffer_pool_size';
       url: ^_^url^_^
 
   - name: status
@@ -262,9 +272,6 @@ metrics:
       - field: innodb_buffer_hit_rate
         type: 0
         unit: '%'
-      - field: innodb_buffer_pool_size
-        type: 0
-        unit: KB
     aliasFields:
       - Innodb_data_reads
       - Innodb_data_writes
@@ -273,7 +280,6 @@ metrics:
       - Innodb_buffer_pool_read_requests
       - Innodb_buffer_pool_read_ahead
       - Innodb_buffer_pool_reads
-      - Innodb_buffer_pool_size
     # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
     # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
     calculates:
@@ -282,7 +288,6 @@ metrics:
       - innodb_data_writes=Innodb_data_writes
       - innodb_data_read=Innodb_data_read
       - innodb_data_written=Innodb_data_written
-      - innodb_buffer_pool_size=Innodb_buffer_pool_size
     units:
       - innodb_data_read=B->KB
       - innodb_data_written=B->KB
@@ -301,7 +306,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: columns
       # sql
-      sql: select variable_name, variable_value from information_schema.global_status WHERE Variable_name like 'innodb%' UNION select variable_name, variable_value from information_schema.global_variables where Variable_name = 'innodb_buffer_pool_size';
+      sql: show global status like 'innodb%';
       url: ^_^url^_^
 
   - name: handler
@@ -352,8 +357,6 @@ metrics:
   - name: connection
     priority: 2
     fields:
-      - field: max_connections
-        type: 0
       - field: connections
         type: 0
       - field: max_used_connections
@@ -376,7 +379,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: columns
       # sql
-      sql: select variable_name, variable_value from information_schema.global_status WHERE Variable_name like '%connect%' or Variable_name = 'Aborted_clients'  UNION select variable_name, variable_value from information_schema.global_variables where Variable_name like '%connect%';
+      sql: show global status;
       url: ^_^url^_^
 
   - name: thread
@@ -390,8 +393,6 @@ metrics:
         type: 0
       - field: threads_running
         type: 0
-      - field: thread_cache_size
-        type: 0
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -406,26 +407,22 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: columns
       # sql
-      sql: select variable_name, variable_value from information_schema.global_status WHERE Variable_name like 'thread%' UNION select variable_name, variable_value from information_schema.global_variables where Variable_name = 'thread_cache_size';
+      sql: show global status like 'thread%';
       url: ^_^url^_^
 
   - name: table_cache
     priority: 2
     fields:
-      - field: table_open_cache
-        type: 0
       - field: table_open_cache_miss_ratio
         type: 0
         unit: '%'
     aliasFields:
-      - table_open_cache
       - table_open_cache_misses
       - table_open_cache_hits
     # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
     # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
     calculates:
-      - table_open_cache_miss_ratio= table_open_cache_misses / table_open_cache * 100
-      - table_open_cache=table_open_cache
+      - table_open_cache_miss_ratio= table_open_cache_misses / (table_open_cache_misses + table_open_cache_hits) * 100
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -440,7 +437,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: columns
       # sql
-      sql: select variable_name, variable_value from information_schema.global_status WHERE Variable_name like 'table_%' UNION select variable_name, variable_value from information_schema.global_variables where Variable_name = 'table_open_cache';
+      sql: show global status like 'table_%';
       url: ^_^url^_^
 
   - name: command
@@ -615,7 +612,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: multiRow
       # sql
-      sql: select if(command = 'Sleep', 'Sleep', state) as state, count(*) as num from information_schema.PROCESSLIST group by state;
+      sql: select state, count(*) as num from information_schema.PROCESSLIST where state != '' group by state;
       url: ^_^url^_^
 
   - name: slow_sql
