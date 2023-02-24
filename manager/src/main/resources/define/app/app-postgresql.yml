@@ -55,11 +55,11 @@ metrics:
         type: 1
       - field: max_connections
         type: 0
-        unit: sbc
     aliasFields:
       - server_version
       - server_encoding
       - data_directory
+      - port
       - max_connections
     # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
     # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
@@ -256,7 +256,7 @@ metrics:
     fields:
       # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
       - field: db_name
-        type: 0
+        type: 1
         instance: true
       - field: num
         type: 0
