@@ -26,8 +26,8 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   '          }",5,"https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Queries\n' +
   '\n' +
   'https://segmentfault.com/a/1190000040620512",\n' +
-  'mysql,performance,,questions,mysql.performance.questions,Questions,Questions,,,,,"**MySQL Questions**\\n\\nThe number of statements executed by the server. This includes only statements sent to the server by clients and not statements executed within stored programs, unlike the Queries used in the QPS calculation. \\n\\nThis variable does not count the following commands:\\n* ``COM_PING``\\n* ``COM_STATISTICS``\\n* ``COM_STMT_PREPARE``\\n* ``COM_STMT_CLOSE``\\n* ``COM_STMT_RESET``",,,,\n' +
-  'mysql,performance,,slow_queries,mysql.performance.slow_queries,Slow Queries,慢查询,,,,,"**MySQL Slow Queries**\\n\\nSlow queries are defined as queries being slower than the long_query_time setting. For example, if you have long_query_time set to 3, all queries that take longer than 3 seconds to complete will show on this graph.",,,,\n' +
+  'mysql,performance,,questions,mysql.performance.questions,Questions,Questions,,,,**MySQL Questions**\\n\\n服务器执行的语句数。这只包括客户端发送到服务器的语句，而不包括存储程序中执行的语句，这与QPS计算中使用的查询不同。 \\n\\n此变量不计算以下命令：\\n* ``COM_PING``\\n* ``COM_STATISTICS``\\n* ``COM_STMT_PREPARE``\\n* ``COM_STMT_CLOSE``\\n* ``COM_STMT_RESET``,"**MySQL Questions**\\n\\nThe number of statements executed by the server. This includes only statements sent to the server by clients and not statements executed within stored programs, unlike the Queries used in the QPS calculation. \\n\\nThis variable does not count the following commands:\\n* ``COM_PING``\\n* ``COM_STATISTICS``\\n* ``COM_STMT_PREPARE``\\n* ``COM_STMT_CLOSE``\\n* ``COM_STMT_RESET``",,,,\n' +
+  'mysql,performance,,slow_queries,mysql.performance.slow_queries,Slow Queries,慢查询,,,,**慢查询**\\n\\n慢查询定义为比long_query_time设置慢的查询。例如，如果将long_query_time设置为3，则超过3秒的所有查询为慢查询。,"**MySQL Slow Queries**\\n\\nSlow queries are defined as queries being slower than the long_query_time setting. For example, if you have long_query_time set to 3, all queries that take longer than 3 seconds to complete will show on this graph.",,,,\n' +
   'mysql,performance,,slow_sql,mysql.performance.slow_sql,Slow SQL,慢SQL,,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
   '\n' +
   'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",\n' +
@@ -43,7 +43,7 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'mysql,slow_sql,,query_time,mysql.slow_sql.query_time,Query time,慢SQL耗时,,,,,,,,"https://www.percona.com/blog/mysql-101-how-to-find-and-tune-a-slow-sql-query/\n' +
   '\n' +
   'https://pmmdemo.percona.com/graph/d/pmm-qan/pmm-query-analytics",\n' +
-  'mysql,innodb,,innodb_buffer_pool_size,mysql.innodb.innodb_buffer_pool_size,InnoDB Buffer Pool Size,InnoDB缓存池大小,int,KB,,InnoDB 维护着名为缓存池的存储区域，用于在内存中缓存数据和索引。了解 InnoDB 缓存池的工作原理，并利用它将频繁访问的数据保存在内存中，是MySQL调优工作最重要的方面之一。调优的目标是将使用中的数据保存在内存中。在大多数情况下，它应该占专用数据库主机上可用内存的60%-90%之间，但这一比例取决于许多因素。,"InnoDB Buffer Pool Size\\n\\nInnoDB maintains a storage area called the buffer pool for caching data and indexes in memory. Knowing how the InnoDB buffer pool works, and taking advantage of it to keep frequently accessed data in memory, is one of the most important aspects of MySQL tuning. The goal is to keep the working set in memory. In most cases, this should be between 60%-90% of available memory on a dedicated database host, but depends on many factors.","          {\n' +
+  'mysql,basic,,innodb_buffer_pool_size,mysql.basic.innodb_buffer_pool_size,InnoDB Buffer Pool Size,InnoDB缓存池大小,int,KB,,InnoDB 维护着名为缓存池的存储区域，用于在内存中缓存数据和索引。了解 InnoDB 缓存池的工作原理，并利用它将频繁访问的数据保存在内存中，是MySQL调优工作最重要的方面之一。调优的目标是将使用中的数据保存在内存中。在大多数情况下，它应该占专用数据库主机上可用内存的60%-90%之间，但这一比例取决于许多因素。,"InnoDB Buffer Pool Size\\n\\nInnoDB maintains a storage area called the buffer pool for caching data and indexes in memory. Knowing how the InnoDB buffer pool works, and taking advantage of it to keep frequently accessed data in memory, is one of the most important aspects of MySQL tuning. The goal is to keep the working set in memory. In most cases, this should be between 60%-90% of available memory on a dedicated database host, but depends on many factors.","          {\n' +
   '            ""color"": ""rgba(50, 172, 45, 0.97)"",\n' +
   '            ""value"": null\n' +
   '          },\n' +
@@ -59,28 +59,28 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'mysql,handler,,handler_commit,mysql.handler.handler_commit,Handler Commit,句柄Commit,float,次/s,,,,,,https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Handler_commit,\n' +
   'mysql,handler,,handler_prepare,mysql.handler.handler_prepare,Handler Prepare,句柄Prepare,float,次/s,,,,,,,\n' +
   'mysql,handler,,handler_rollback,mysql.handler.handler_rollback,Handler Rollback,句柄Rollback,float,次/s,,,,,,,\n' +
-  'mysql,handler,,handler_read_next,mysql.handler.handler_read_next,Handler Read Next,句柄Read Next,float,次/s,,,`read_next` is incremented when the storage engine is asked to \'read the next index entry\'. A high value means a lot of index scans are being done.,,,,\n' +
-  'mysql,handler,,handler_read_rnd_next,mysql.handler.handler_read_rnd_next,Handler Read Rnd Next,句柄Read Rnd Next,float,次/s,,,`read_rnd_next` is incremented when the server performs a full table scan and this is a counter you don\'t really want to see with a high value.,,,,\n' +
+  'mysql,handler,,handler_read_next,mysql.handler.handler_read_next,Handler Read Next,句柄Read Next,float,次/s,,当存储引擎被要求“读取下一个索引项”时，`read_next` 将递增。高值表示正在进行大量索引扫描。,`read_next` is incremented when the storage engine is asked to \'read the next index entry\'. A high value means a lot of index scans are being done.,,,,\n' +
+  'mysql,handler,,handler_read_rnd_next,mysql.handler.handler_read_rnd_next,Handler Read Rnd Next,句柄Read Rnd Next,float,次/s,,当服务执行全表扫描时，`read_rnd_next` 将递增。这个值不应该很高。,`read_rnd_next` is incremented when the server performs a full table scan and this is a counter you don\'t really want to see with a high value.,,,,\n' +
   'mysql,handler,,handler_write,mysql.handler.handler_write,Handler Write,句柄Write,float,次/s,,,,,,,\n' +
   'mysql,handler,,handler_external_lock,mysql.handler.handler_external_lock,Handler External Lock,句柄External Lock,float,次/s,,,,,,,\n' +
-  'mysql,handler,,handler_read_key,mysql.handler.handler_read_key,Handler Read Key,句柄Read Key,float,次/s,,,`read_key` is incremented when a read is done with an index.,,,,\n' +
+  'mysql,handler,,handler_read_key,mysql.handler.handler_read_key,Handler Read Key,句柄Read Key,float,次/s,,当对索引进行读取时，`read_key` 递增。,`read_key` is incremented when a read is done with an index.,,,,\n' +
   'mysql,handler,,handler_update,mysql.handler.handler_update,Handler Update,句柄Update,float,次/s,,,,,,,\n' +
   'mysql,handler,,handler_delete,mysql.handler.handler_delete,Handler Delete,句柄Delete,float,次/s,,,,,,,\n' +
   'mysql,handler,,handler_read_first,mysql.handler.handler_read_first,Handler Read First,句柄Read First,float,次/s,,,,,,,\n' +
   'mysql,handler,,handler_read_rnd,mysql.handler.handler_read_rnd,Handler Read Rnd,句柄Read Rnd,float,次/s,,,,,,,\n' +
-  'mysql,connection,,max_connections,mysql.connection.max_connections,Max Connection,最大连接数,int,,,最大连接数是同时允许的最大客户端连接数。默认情况下，该值为151。增加该值会增加mysqld所需的文件描述符的数量。如果所需数量的描述符不可用，服务器将降低“最大连接数”的值。\\n\\nmysqld实际上允许Max Connections+1个客户端进行连接。额外的连接保留给具有SUPER权限的帐户（如root）使用。,"Max Connections is the maximum permitted number of simultaneous client connections. By default, this is 151. Increasing this value increases the number of file descriptors that mysqld requires. If the required number of descriptors are not available, the server reduces the value of Max Connections.\\n\\nmysqld actually permits Max Connections + 1 clients to connect. The extra connection is reserved for use by accounts that have the SUPER privilege, such as root.",,,,\n' +
+  'mysql,basic,,max_connections,mysql.basic.max_connections,Max Connection,最大连接数,int,,,最大连接数是同时允许的最大客户端连接数。默认情况下，该值为151。增加该值会增加mysqld所需的文件描述符的数量。如果所需数量的描述符不可用，服务器将降低“最大连接数”的值。\\n\\nmysqld实际上允许Max Connections+1个客户端进行连接。额外的连接保留给具有SUPER权限的帐户（如root）使用。,"Max Connections is the maximum permitted number of simultaneous client connections. By default, this is 151. Increasing this value increases the number of file descriptors that mysqld requires. If the required number of descriptors are not available, the server reduces the value of Max Connections.\\n\\nmysqld actually permits Max Connections + 1 clients to connect. The extra connection is reserved for use by accounts that have the SUPER privilege, such as root.",,,,\n' +
   'mysql,connection,,connections,mysql.connection.connections,Connection,连接次数,int,,,连接次数是连接MySQL服务器的尝试次数（无论成功与否）。,Connections is the number of connection attempts (successful or not) to the MySQL server.,,,,\n' +
   'mysql,connection,,max_used_connections,mysql.connection.max_used_connections,Max Used Connection,最大使用连接数,int,,,最大使用连接数是自服务器启动以来同时使用的最大连接数。,Max Used Connections is the maximum number of connections that have been in use simultaneously since the server started.,,,,\n' +
   'mysql,connection,,aborted_clients,mysql.connection.aborted_clients,Aborted Clients (timeout),中止的客户端(超时),,,,,,,,,\n' +
   'mysql,connection,,aborted_connects,mysql.connection.aborted_connects,Aborted Connects (attempts),中止的连接(尝试),,,,,,,,,\n' +
   'mysql,table_cache,,table_open_cache_miss_ratio,mysql.table_cache.table_open_cache_miss_ratio,Table Open Cache Miss Ratio,表高速缓存未命中率,,%,,,,,5,,\n' +
-  'mysql,table_cache,,table_open_cache,mysql.table_cache.table_open_cache,Table Open Cache Size,表高速缓存上限,int,个,,,Table Open Cache Size indicates the maximum number of tables the server can keep open in any one table cache instance.,,5,https://sqlconjuror.com/mariadb-mysql-table-open-cache-table-definition-cache/,\n' +
-  'mysql,table_cache,,table_definition_cache_size,mysql.table_cache.table_definition_cache_size,Table Definition Cache Size,表定义缓存数,int,个 ,,,Table Definition Cache Size shows the number of table definitions (SHOW CREATE TABLE \\G) that can be stored. This is to speed up opening of tables and only one entry per table. You should consider increasing this parameter if you have large number of tables (>400) in your DB instance.\\n\\nValues between 400 and 2000 are good for table_definition_cache. Do take note that a bigger table definition cache also means that your database uses more RAM.,,5,https://sqlconjuror.com/mariadb-mysql-table-open-cache-table-definition-cache/,\n' +
-  'mysql,thread,,threads_connected,mysql.thread.threads_connected,Threads Connected,连接线程数,int,,,,Threads Connected is the number of open connections.,,,,\n' +
-  'mysql,thread,,threads_running,mysql.thread.threads_running,Threads Running,运行线程数,int,,,,Threads Running is the number of threads not sleeping.,,,,\n' +
-  'mysql,thread,,threads_created,mysql.thread.threads_created,Threads Created,创建线程数,int,,,,*Threads_created*: The number of threads created to handle connections.,,,,\n' +
-  'mysql,thread,,threads_cached,mysql.thread.threads_cached,Threads Cached,已缓存线程数,int,,,,*Threads_cached*: The number of threads in the thread cache.,,,,\n' +
-  'mysql,thread,,thread_cache_size,mysql.thread.thread_cache_size,Thread Cache Size,线程缓存上限,int,,,,"The thread_cache_size variable sets how many threads the server should cache to reuse. When a client disconnects, the client\'s threads are put in the cache if the cache is not full. It is autosized in MySQL 5.6.8 and above (capped to 100). Requests for threads are satisfied by reusing threads taken from the cache if possible, and only when the cache is empty is a new thread created.",,,,\n' +
+  'mysql,basic,,table_open_cache,mysql.basic.table_open_cache,Table Open Cache Size,表高速缓存上限,int,个,,*表高速缓存上限* 表示服务器在任何一个表缓存实例中可以保持打开的最大表数。,Table Open Cache Size indicates the maximum number of tables the server can keep open in any one table cache instance.,,5,https://sqlconjuror.com/mariadb-mysql-table-open-cache-table-definition-cache/,\n' +
+  'mysql,table_cache,,table_definition_cache_size,mysql.table_cache.table_definition_cache_size,Table Definition Cache Size,表定义缓存数,int,个 ,,*表定义缓存数* 显示可存储的表定义（SHOW CREATE Table \\G）的数量。这是为了加快表的打开速度，并且每个表只有一个条目。如果DB实例中有大量表（>400），则应考虑增加此参数。\\n\\n介于400和2000之间的值适用于table_definition_cache。请注意，更大的表定义缓存也意味着数据库使用更多的RAM。,Table Definition Cache Size shows the number of table definitions (SHOW CREATE TABLE \\G) that can be stored. This is to speed up opening of tables and only one entry per table. You should consider increasing this parameter if you have large number of tables (>400) in your DB instance.\\n\\nValues between 400 and 2000 are good for table_definition_cache. Do take note that a bigger table definition cache also means that your database uses more RAM.,,5,https://sqlconjuror.com/mariadb-mysql-table-open-cache-table-definition-cache/,\n' +
+  'mysql,thread,,threads_connected,mysql.thread.threads_connected,Threads Connected,连接线程数,int,,,*连接线程数* 是打开的连接数。,Threads Connected is the number of open connections.,,,,\n' +
+  'mysql,thread,,threads_running,mysql.thread.threads_running,Threads Running,运行线程数,int,,,*运行线程数* 是未休眠的线程数。,Threads Running is the number of threads not sleeping.,,,,\n' +
+  'mysql,thread,,threads_created,mysql.thread.threads_created,Threads Created,创建线程数,int,,,*创建线程数* 是为处理连接而创建的线程数。,*Threads_created*: The number of threads created to handle connections.,,,,\n' +
+  'mysql,thread,,threads_cached,mysql.thread.threads_cached,Threads Cached,已缓存线程数,int,,,*已缓存线程数* 是线程缓存中的线程数。,*Threads_cached*: The number of threads in the thread cache.,,,,\n' +
+  'mysql,basic,,thread_cache_size,mysql.basic.thread_cache_size,Thread Cache Size,线程缓存上限,int,,,*线程缓存上限* 变量设置服务器应缓存多少线程以供重用。当客户端断开连接时，如果缓存未满，则将客户端的线程放入缓存中。它在MySQL 5.6.8及以上版本中自动调整大小（上限为100）。如果可能，通过重用从缓存中获取的线程来满足线程请求，并且只有当缓存为空时才创建新线程。,"The thread_cache_size variable sets how many threads the server should cache to reuse. When a client disconnects, the client\'s threads are put in the cache if the cache is not full. It is autosized in MySQL 5.6.8 and above (capped to 100). Requests for threads are satisfied by reusing threads taken from the cache if possible, and only when the cache is empty is a new thread created.",,,,\n' +
   'mysql,command,,com_stmt_execute,mysql.command.com_stmt_execute,Command Statement Execute,命令执行数(无论成败),float,次/s,,,,,,,\n' +
   'mysql,command,,com_update,mysql.command.com_update,Command update,update成功执行数,float,次/s,,,,,,,\n' +
   'mysql,command,,com_begin,mysql.command.com_begin,Command begin,begin成功执行数,float,次/s,,,,,,,\n' +
@@ -183,7 +183,7 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   '*Process cleaning up*: The thread has processed one command and is preparing to free memory and reset certain state variables.",,,"https://dev.mysql.com/doc/refman/5.7/en/show-processlist.html\n' +
   '\n' +
   'https://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html",\n' +
-  'mysql,process_state,,num,mysql.process_state.num,state number,线程状态数量,,,,,"**Process States**\\n\\nAn action, event, or state that indicates what the thread is doing.\\n\\nMost states correspond to very quick operations. If a thread stays in a given state for many seconds, there might be a problem that needs to be investigated.\n' +
+  'mysql,process_state,,num,mysql.process_state.num,state number,线程状态数量,,,,**进程状态** \\n\\n表示线程正在执行的操作、事件或状态。\\n\\n大多数状态对应于非常快的操作。如果线程在给定状态下停留了很多秒，则可能存在需要调查的问题。,"**Process States**\\n\\nAn action, event, or state that indicates what the thread is doing.\\n\\nMost states correspond to very quick operations. If a thread stays in a given state for many seconds, there might be a problem that needs to be investigated.\n' +
   '\n' +
   '*Process idle*: The size of threads whose corresponding session is idle.\n' +
   '*Process updating*: The thread is searching for rows to update and is updating them.\n' +
@@ -232,27 +232,27 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'https://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html",\n' +
   'mysql,net,,net_outbound,mysql.net.net_outbound,Network outbound,网络出速率,float,B/s,,,,,,,\n' +
   'mysql,net,,net_inbound,mysql.net.net_inbound,Network inbound,网络入速率,float,B/s,,,,,,,\n' +
-  'mysql,tmp,,created_tmp_tables,mysql.tmp.created_tmp_tables,Created Tmp Tables,临时表创建频率,float,次/s,,,Created Tmp Tables is the number of internal temporary tables created by the server while executing statements.,,,,\n' +
-  'mysql,tmp,,created_tmp_disk_tables,mysql.tmp.created_tmp_disk_tables,Created Tmp Disk Tables,磁盘临时表创建频率,float,次/s,,,Created Tmp Disk Tables is the number of internal on-disk temporary tables created by the server while executing statements.,,,,\n' +
-  'mysql,tmp,,created_tmp_files,mysql.tmp.created_tmp_files,Created Tmp Files,临时文件创建频率,float,次/s,,,Created Tmp Files is the number of temporary files mysqld has created.,,,,\n' +
-  'mysql,select_type,,select_full_join,mysql.select_type.select_full_join,Select Full Join,Select Full Join,float,次/s,,,"***Select Full Join*** is the number of joins that are not joined on an index, this is usually a huge performance hit.",,,,\n' +
+  'mysql,tmp,,created_tmp_tables,mysql.tmp.created_tmp_tables,Created Tmp Tables,临时表创建频率,float,次/s,,*临时表创建频率* 是在执行语句时创建的内部临时表频率。,Created Tmp Tables is the number of internal temporary tables created by the server while executing statements.,,,,\n' +
+  'mysql,tmp,,created_tmp_disk_tables,mysql.tmp.created_tmp_disk_tables,Created Tmp Disk Tables,磁盘临时表创建频率,float,次/s,,*磁盘临时表创建频率* 是在执行语句时创建的内部磁盘临时表频率。,Created Tmp Disk Tables is the number of internal on-disk temporary tables created by the server while executing statements.,,,,\n' +
+  'mysql,tmp,,created_tmp_files,mysql.tmp.created_tmp_files,Created Tmp Files,临时文件创建频率,float,次/s,,*临时文件创建频率* 是mysqld创建的临时文件频率。,Created Tmp Files is the number of temporary files mysqld has created.,,,,\n' +
+  'mysql,select_type,,select_full_join,mysql.select_type.select_full_join,Select Full Join,Select Full Join,float,次/s,,***Select Full Join*** 是索引中未连接的连接数，这通常会对性能产生巨大影响。,"***Select Full Join*** is the number of joins that are not joined on an index, this is usually a huge performance hit.",,,,\n' +
   'mysql,select_type,,select_full_range_join,mysql.select_type.select_full_range_join,Select Full Range Join,Select Full Range Join,float,次/s,,,,,,,\n' +
-  'mysql,select_type,,select_range,mysql.select_type.select_range,Select Range,Select Range,float,次/s,,,"***Select Range*** is how many queries used a range scan, which means MySQL scanned all rows in a given range.",,,,\n' +
+  'mysql,select_type,,select_range,mysql.select_type.select_range,Select Range,Select Range,float,次/s,,***Select Range*** 是使用范围扫描的查询数，这意味着MySQL扫描了给定范围内的所有行。,"***Select Range*** is how many queries used a range scan, which means MySQL scanned all rows in a given range.",,,,\n' +
   'mysql,select_type,,select_range_check,mysql.select_type.select_range_check,Select Range Check,Select Range Check,float,次/s,,,,,,,\n' +
-  'mysql,select_type,,select_scan,mysql.select_type.select_scan,Select Scan,Select Scan,float,次/s,,,"***Select Scan*** is how many queries caused full table scans, in which all the data in the table had to be read and either discarded or returned.",,,,\n' +
+  'mysql,select_type,,select_scan,mysql.select_type.select_scan,Select Scan,Select Scan,float,次/s,,***Select Scan*** 是导致完整表扫描的查询数，其中必须读取表中的所有数据并丢弃或返回。,"***Select Scan*** is how many queries caused full table scans, in which all the data in the table had to be read and either discarded or returned.",,,,\n' +
   'mysql,sort,,sort_rows,mysql.sort.sort_rows,Sort Rows,Sort Rows,float,次/s,,,,,,,\n' +
   'mysql,sort,,sort_range,mysql.sort.sort_range,Sort Range,Sort Range,float,次/s,,,,,,,\n' +
   'mysql,sort,,sort_merge_passes,mysql.sort.sort_merge_passes,Sort Merge Passes,Sort Merge Passes,float,次/s,,,,,,,\n' +
   'mysql,sort,,sort_scan,mysql.sort.sort_scan,Sort Scan,Sort Scan,float,次/s,,,,,,,\n' +
   'mysql,table_lock,,table_locks_immediate,mysql.table_lock.table_locks_immediate,Table Locks Immediate,表锁Immediate,float,次/s,,,,,,,\n' +
   'mysql,table_lock,,table_locks_waited,mysql.table_lock.table_locks_waited,Table Locks Waited,表锁Waited,float,次/s,,,,,,,\n' +
-  'mysql,query_cache,,free_memory,mysql.query_cache.free_memory,Free Memory,可用查询缓存,int,KB,,,,,,,\n' +
-  'mysql,query_cache,,query_cache_size,mysql.query_cache.query_cache_size,Query Cache Size,查询缓存大小,int,B,,,,,,,\n' +
-  'mysql,query_cache,,hits,mysql.query_cache.hits,Hits,Hits,float,,,,,,,,\n' +
-  'mysql,query_cache,,inserts,mysql.query_cache.inserts,Inserts,Inserts,float,,,,,,,,\n' +
-  'mysql,query_cache,,not_cached,mysql.query_cache.not_cached,Not Cached,Not Cached,float,,,,,,,,\n' +
-  'mysql,query_cache,,prunes,mysql.query_cache.prunes,Prunes,Prunes,float,,,,,,,,\n' +
-  'mysql,query_cache,,queries_in_cache,mysql.query_cache.queries_in_cache,Queries in Cache,缓存中的查询数,float,,,,,,,,\n' +
+  'mysql,query_cache,,free_memory,mysql.query_cache.free_memory,Free Memory,可用查询缓存,int,KB,,8.0开始已不存在。,,,,,\n' +
+  'mysql,query_cache,,query_cache_size,mysql.query_cache.query_cache_size,Query Cache Size,查询缓存大小,int,B,,8.0开始已不存在。,,,,,\n' +
+  'mysql,query_cache,,hits,mysql.query_cache.hits,Hits,Hits,float,,,8.0开始已不存在。,,,,,\n' +
+  'mysql,query_cache,,inserts,mysql.query_cache.inserts,Inserts,Inserts,float,,,8.0开始已不存在。,,,,,\n' +
+  'mysql,query_cache,,not_cached,mysql.query_cache.not_cached,Not Cached,Not Cached,float,,,8.0开始已不存在。,,,,,\n' +
+  'mysql,query_cache,,prunes,mysql.query_cache.prunes,Prunes,Prunes,float,,,8.0开始已不存在。,,,,,\n' +
+  'mysql,query_cache,,queries_in_cache,mysql.query_cache.queries_in_cache,Queries in Cache,缓存中的查询数,float,,,8.0开始已不存在。,,,,,\n' +
   'pgsql,status,,uptime,pgsql.status.uptime,Uptime,运行时长,string,,,,,,,,\n' +
   'pgsql,basic,,version,pgsql.basic.version,Version,版本号,string,,,,,,,,\n' +
   'pgsql,resource_config,,shared_buffers,pgsql.resource_config.shared_buffers,Shared Buffers,共享内存缓存,int,B,,,"Defines the amount of memory the database server uses for shared memory buffers.  Default is 128MB.  Guidance on tuning is 25% of RAM, but generally doesn\'t exceed 40%.",,,https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-SHARED-BUFFERS,\n' +
@@ -279,8 +279,8 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'pgsql,tuple,,rows_inserted_by_queries,pgsql.tuple.rows_inserted_by_queries,Rows inserted by queries,查询新增行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n' +
   'pgsql,tuple,,rows_updated_by_queries,pgsql.tuple.rows_updated_by_queries,Rows updated by queries,查询更新行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n' +
   'pgsql,tuple,,rows_deleted_by_queries,pgsql.tuple.rows_deleted_by_queries,Rows deleted by queries,查询删除行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n' +
-  'pgsql,transaction,,commits,pgsql.transaction.commits,Transactions Commits,事务提交频率,float,次/s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n' +
-  'pgsql,transaction,,rollbacks,pgsql.transaction.rollbacks,Transactions Rollbacks,事务回滚频率,float,次/s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n' +
+  'pgsql,transaction,,commits,pgsql.transaction.commits,Transactions Commits,事务提交频率,float,次/s,select sum(xact_commit) from pg_stat_database;,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n' +
+  'pgsql,transaction,,rollbacks,pgsql.transaction.rollbacks,Transactions Rollbacks,事务回滚频率,float,次/s,select sum(xact_rollback) from pg_stat_database;,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n' +
   'pgsql,transaction_state,,state,pgsql.transaction_state.state,Transactions State,事务状态,,,,"事务状态包括idle in transaction、idle in transaction (aborted)、\n' +
   'idle、fastpath function call、disabled、active。",,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_activity_max_tx_duration\n' +
   'pgsql,transaction_state,,duration,pgsql.transaction_state.duration,Transactions Duration,事务耗时,,s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_activity_max_tx_duration\n' +
@@ -289,8 +289,8 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'pgsql,temp_file,,size,pgsql.temp_file.size,Temp Files Size,临时文件累计写入大小,float,B,,,"Cumulative amount of data written to temporary files by queries in this database since service start. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.",,,,\n' +
   'pgsql,temp_file,,activity,pgsql.temp_file.activity,Temp Files Activity,临时文件创建频率,float,次/s,,,"Number of temporary files created by queries in this database. All temporary files are counted, regardless of why the temporary file was created (e.g., sorting or hashing), and regardless of the log_temp_files setting.",,,,\n' +
   'pgsql,temp_file,,util,pgsql.temp_file.util,Temp Files Utilization,临时文件写入速率,float,B/s,,,"Total amount of data written to temporary files by queries in this database. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.",,,,\n' +
-  'pgsql,lock,,deadlocks,pgsql.lock.deadlocks,Deadlocks,死锁频率,float,次/s,,,,,,,\n' +
-  'pgsql,lock,,conflicts,pgsql.lock.conflicts,Conflicts,冲突频率,float,次/s,,,,,,,\n' +
+  'pgsql,lock,,deadlocks,pgsql.lock.deadlocks,Deadlocks,死锁次数,int,次,,,,,,,\n' +
+  'pgsql,lock,,conflicts,pgsql.lock.conflicts,Conflicts,冲突次数,int,次,,,,,,,\n' +
   'pgsql,lock_num,,mode,pgsql.lock_num.mode,Locks Mode,锁模式,,,,"锁模式包括accesssharelock、sireadlock、shareupdateexclusivelock、sharerowexclusivelock、sharelock 、rowsharelock、rowexclusivelock、exclusivelock、\n' +
   'accessexclusivelock。",,,,,\n' +
   'pgsql,lock_num,,db_name,pgsql.lock_num.db_name,Locks DB Name,锁所属库名称,,,,,,,,,\n' +
@@ -314,10 +314,11 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   'pgsql,checkpoint,,written_files_to_disk,pgsql.checkpoint.written_files_to_disk,Written Files to disk,文件写到磁盘频率,,次/s,,,,,,,相关于 pg_stat_bgwriter_checkpoint_write_time\n' +
   'pgsql,slow_sql,,sql_text,pgsql.slow_sql.sql_text,SQL Text,慢SQL,string,,,需要提前配置并启用 pg_stat_statements。,,,,https://virtual-dba.com/blog/postgresql-performance-identifying-hot-and-slow-queries/,相关于 pg_stat_statements\n' +
   'pgsql,slow_sql,,calls,pgsql.slow_sql.calls,Calls,执行次数,int,,,,,,,,相关于 pg_stat_statements\n' +
-  'pgsql,slow_sql,,total_time,pgsql.slow_sql.total_time,Total time,总耗时,float,s,,,,,,,相关于 pg_stat_statements\n' +
-  'pgsql,slow_sql,,avg_time,pgsql.slow_sql.avg_time,Average time,平均耗时,float,s,,,,,,,相关于 pg_stat_statements\n' +
+  'pgsql,slow_sql,,total_time,pgsql.slow_sql.total_time,Total time,总耗时,float,ms,,,,,,,相关于 pg_stat_statements\n' +
+  'pgsql,slow_sql,,avg_time,pgsql.slow_sql.avg_time,Average time,平均耗时,float,ms,,,,,,,相关于 pg_stat_statements\n' +
   'pgsql,slow_sql,,rows,pgsql.slow_sql.rows,Rows,受影响行数,int,,,,,,,,相关于 pg_stat_statements\n' +
-  'oracle,status,,uptime,oracle.status.uptime,Uptime,运行时长,number,s,,,,,,,\n' +
+  'oracle,status,,uptime,oracle.status.uptime,Uptime,运行时长,int,s,,,,,,,\n' +
+  'oracle,basic,,startup_time,oracle.basic.startup_time,startTime,启动时间,string,,,,,,,,\n' +
   'oracle,basic,,version,oracle.basic.version,Version,版本号,string,,,,,,,,\n' +
   'oracle,session,,total_sessions,oracle.session.total_sessions,Total Sessions,会话总数,int,,,,,,,,\n' +
   'oracle,session,,active_sessions,oracle.session.active_sessions,Active Sessions,活动会话数,int,,,,,,,,\n' +

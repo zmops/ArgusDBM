@@ -1,4 +1,4 @@
-const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysql.connection.max_connections\n' +
+const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysql.basic.max_connections\n' +
   'mysql.connection.connections\n' +
   'mysql.connection.max_used_connections",,,5,https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_connections\n' +
   'cb.mysql,aborted_connections,cb.mysql.aborted_connections,Aborted Connections,中止的连接,"mysql.connection.aborted_clients\n' +
@@ -7,7 +7,7 @@ const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysq
   'mysql.thread.threads_running",,"**MySQL Active Threads**\\n\\nThreads Connected is the number of open connections, while Threads Running is the number of threads not sleeping.",,\n' +
   'cb.mysql,thread_cache,cb.mysql.thread_cache,Thread Cache,线程缓存,"mysql.thread.threads_created\n' +
   'mysql.thread.threads_cached\n' +
-  'mysql.thread.thread_cache_size",,"**MySQL Thread Cache**\\n\\nThe thread_cache_size variable sets how many threads the server should cache to reuse. When a client disconnects, the client\'s threads are put in the cache if the cache is not full. It is autosized in MySQL 5.6.8 and above (capped to 100). Requests for threads are satisfied by reusing threads taken from the cache if possible, and only when the cache is empty is a new thread created.",,\n' +
+  'mysql.basic.thread_cache_size",,"**MySQL Thread Cache**\\n\\nThe thread_cache_size variable sets how many threads the server should cache to reuse. When a client disconnects, the client\'s threads are put in the cache if the cache is not full. It is autosized in MySQL 5.6.8 and above (capped to 100). Requests for threads are satisfied by reusing threads taken from the cache if possible, and only when the cache is empty is a new thread created.",,\n' +
   'cb.mysql,handlers,cb.mysql.handlers,Handlers,句柄,"mysql.handler.handler_commit\n' +
   'mysql.handler.handler_prepare\n' +
   'mysql.handler.handler_rollback\n' +
