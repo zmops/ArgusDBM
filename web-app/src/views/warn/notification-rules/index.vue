@@ -9,38 +9,38 @@
         @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
     </div>
     <!-- 弹出编辑页面 -->
-    <dialog-form ref="dialogForm" title="通知规则">
+    <dialog-form ref="dialogForm" :title="$t('notificationRules.form[\'\']')">
       <template v-slot:form>
         <el-form ref="form" :model="form" label-width="150px" :rules="rules" :show-message="false"
           style="margin-right:80px">
-          <el-form-item label="规则名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入规则名称"></el-input>
+          <el-form-item :label="$t('notificationRules.form.name')" prop="name">
+            <el-input v-model="form.name" :placeholder="$t('notificationRules.form.name.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="接收人" prop="receiverId">
-            <el-select v-model="form.receiverId" placeholder="请选择接收人" @change="handleReceiverChange" style="width:100%">
+          <el-form-item :label="$t('notificationRules.form.receiverName')" prop="receiverId">
+            <el-select v-model="form.receiverId" :placeholder="$t('notificationRules.form.receiverName.placeholder')" @change="handleReceiverChange" style="width:100%">
               <el-option v-for="item in receiverOptions" :key="item.id" :label="item.name" :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="转发所有告警">
+          <el-form-item :label="$t('notificationRules.form.filterAll')">
             <el-switch v-model="form.filterAll" @change="handleSwitch"></el-switch>
           </el-form-item>
-          <el-form-item label="标签过滤">
+          <el-form-item :label="$t('notificationRules.form.tags')">
             <el-select v-model="form.tags" :disabled="itemDisable" filterable multiple allow-create default-first-option
-              placeholder="请选择标签过滤" style="width:100%">
+            :placeholder="$t('notificationRules.form.tags.tip')" style="width:100%">
               <el-option v-for="item in tagsOptions" :key="item.id" :label="item.name+':'+item.value" :value="item">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="级别过滤">
-            <el-select v-model="form.priorities" :disabled="itemDisable" multiple placeholder="请选择级别过滤"
+          <el-form-item :label="$t('notificationRules.form.priorities')">
+            <el-select v-model="form.priorities" :disabled="itemDisable" multiple placeholder="$t('notificationRules.form.priorities.placeholder')"
               style="width:100%">
               <el-option v-for="item in warnLevel" :key="item.key" :label="item.value" :value="item.key">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="通知方式">
-            <el-select v-model="form.type" multiple placeholder="请选择通知方式" style="width:100%">
+          <el-form-item :label="$t('notificationRules.form.type')">
+            <el-select v-model="form.type" multiple :placeholder="$t('notificationRules.form.type.placeholder')" style="width:100%">
               <el-option v-for="item in typeOptions" :key="item" :value="item">
                 <el-option v-if="item==0" label="短信" :value="0"></el-option>
                 <el-option v-if="item==1" label="邮件" :value="1"></el-option>
@@ -51,8 +51,8 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button @click="onCancel">取消</el-button>
+            <el-button type="primary" @click="onSubmit">{{ $t('buttons.save') }}</el-button>
+            <el-button @click="onCancel">{{ $t('buttons.canel') }}</el-button>
           </el-form-item>
         </el-form>
       </template>
@@ -130,12 +130,12 @@
         rules: {
           'receiverId': [{
             required: true,
-            message: '请选择接收人',
+            message: this.$t('notificationRules.rules.receiverId'),
             trigger: 'change'
           }],
           'name': [{
             required: true,
-            message: '请输入规则名称',
+            message: this.$t('notificationRules.rules.name'),
             trigger: 'blur'
           }]
         },
@@ -143,7 +143,7 @@
         params: [{
           componentName: 'InputTemplate',
           keyName: 'name',
-          label: '策略名称'
+          label: this.$t('notificationRules.form.name')
         }],
         buttons: [{
             label: this.$t('tableView.add'),
@@ -159,15 +159,15 @@
         tableData: [],
         loading: false,
         columns: [{
-            label: '策略名称',
+            label: this.$t('notificationRules.form.name'),
             prop: 'name'
           },
           {
-            label: '接收人',
+            label: this.$t('notificationRules.form.receiverName'),
             prop: 'receiverName'
           },
           {
-            label: '转发所有',
+            label: this.$t('notificationRules.form.filterAll'),
             prop: 'filterAll',
             idName: 'id',
             leftText: '是',
@@ -176,14 +176,14 @@
             event: 'handleChangefilter'
           },
           {
-            label: '是否启用',
+            label: this.$t('notificationRules.form.enable'),
             prop: 'enable',
             idName: 'id',
             component: 'StatusSwitch',
             event: 'handleChangeenable'
           },
           {
-            label: '更新时间',
+            label: this.$t('notificationRules.form.gmtUpdate'),
             prop: 'gmtUpdate'
           },
           {
@@ -337,7 +337,7 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          this.$modal.confirm('是否确认删除数据项？').then(function () {
+          this.$modal.confirm(this.$t('message.clearTips')).then(function () {
             return delRules(ids);
           }).then(() => {
             this.getData();
@@ -347,7 +347,7 @@
             });
           }).catch(() => {});
         } else {
-          this.$message.error('请至少选择一行进行删除');
+          this.$message.error(this.$t('message.noselectTips'));
         }
       },
       // 表单重置

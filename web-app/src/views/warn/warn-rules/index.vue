@@ -9,36 +9,36 @@
         @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
     </div>
     <!-- 弹出编辑页面 -->
-    <dialog-form ref="dialogForm" title="告警规则">
+    <dialog-form ref="dialogForm" :title="$t('warnRules.form[\'\']')">
       <template v-slot:form>
         <el-form ref="form" :model="form" :rules="rules" :show-message="false" label-width="150px"
           style="margin-right:80px">
-          <el-form-item label="指标对象" prop="cascadeValues">
+          <el-form-item :label="$t('warnRules.form.field')" prop="cascadeValues">
             <el-cascader v-model="form.cascadeValues" :options="hieoOptions" style="width:100%"
               @change="handleCasChange">
             </el-cascader>
           </el-form-item>
           <el-form-item label="">
             <el-collapse value="1">
-              <el-collapse-item title="一致性 Consistency" name="1">
+              <el-collapse-item :title="$t('warnRules.form.field.collapse')" name="1">
                 <div v-if="form.cascadeValues.length==3">
-                  <code> {{"${"+form.cascadeValues[2]+"}"}} : 选中的标签对象</code>
+                  <code> {{"${"+form.cascadeValues[2]+"}"}} : {{ $t('warnRules.form.field.collapse.tip1') }}</code>
                 </div>
                 <div v-for="otherMetric in otherMetrics" :key="otherMetric">
-                  <code> {{"${"+otherMetric+"}"}} : 所属行其它指标对象</code>
+                  <code> {{"${"+otherMetric+"}"}} : {{ $t('warnRules.form.field.collapse.tip2') }}</code>
                 </div>
                 <div v-if="form.cascadeValues.length!=0">
-                  <code> ${instance} : 所属行实例</code>
+                  <code> {{ $t('warnRules.form.field.collapse.tip3') }}</code>
                 </div>
-                <div><code> 支持操作符函数 : equals(str1,str2), ==, <, <=,>, >=, !=, ( ), +, -, &&, ||</code></div>
+                <div><code> {{ $t('warnRules.form.field.collapse.tip4') }}</code></div>
               </el-collapse-item>
             </el-collapse>
           </el-form-item>
-          <el-form-item label="阈值触发表达式" prop="expr">
-            <el-input type="textarea" :rows="3" v-model="form.expr" placeholder="根据此表达式计算判断是否触发阈值.示例: responseTime>40"
+          <el-form-item :label="$t('warnRules.form.expr')" prop="expr">
+            <el-input type="textarea" :rows="3" v-model="form.expr" :placeholder="$t('warnRules.form.expr.placeholder')"
               maxlength="100" show-word-limit></el-input>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>根据此表达式来计算判断是否触发阈值,表达式环境变量和操作符见上方
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.expr.tip') }}
             </div>
           </el-form-item>
           <el-form-item label="告警级别" prop="priority">
@@ -49,63 +49,63 @@
             </el-select>
             <div style="font-size: 12px;color: #757D8F">
               <i class="el-icon-info argus-mr-5"
-                style="color: #5A98EC"></i>触发阈值的告警级别,从低到高依次为:警告-warning，严重-critical，紧急-emergency
+                style="color: #5A98EC"></i>{{ $t('warnRules.form.priority.tip') }}
             </div>
           </el-form-item>
-          <el-form-item label="触发次数" prop="times">
-            <el-input-number v-model="form.times" :min="1" :max="10000" label="描述文字"></el-input-number>
+          <el-form-item :label="$t('warnRules.form.times')" prop="times">
+            <el-input-number v-model="form.times" :min="1" :max="10000" ></el-input-number>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>设置触发阈值多少次之后才会发送告警
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.times.tip') }}
             </div>
           </el-form-item>
           <el-form-item label="">
             <el-collapse value="1" accordion>
-              <el-collapse-item title="支持的通知模版环境变量" name="1">
-                <div><code> ${app} : 监控类型名称</code></div>
-                <div><code> ${metrics} : 监控指标集合名称</code></div>
+              <el-collapse-item :title="$t('warnRules.form.times.collapse')" name="1">
+                <div><code> {{ $t('warnRules.form.times.collapse.tip1') }}</code></div>
+                <div><code>{{ $t('warnRules.form.times.collapse.tip2') }}</code></div>
                 <div v-if="form.cascadeValues.length==3">
-                  <code> ${metric} : 监控指标名称</code>
+                  <code> {{ $t('warnRules.form.times.collapse.tip3') }}</code>
                 </div>
                 <div v-if="form.cascadeValues.length==3">
-                  <code> {{"${"+form.cascadeValues[2]+"}"}} : 监控指标对象值</code>
+                  <code> {{"${"+form.cascadeValues[2]+"}"}} : {{ $t('warnRules.form.times.collapse.tip4') }}</code>
                 </div>
                 <div v-for="otherMetric in otherMetrics" :key="otherMetric">
-                  <code> {{"${"+otherMetric+"}"}} : 所属行其它指标对象</code>
+                  <code> {{"${"+otherMetric+"}"}} : {{ $t('warnRules.form.times.collapse.tip5') }}</code>
                 </div>
-                <div><code> ${instance} : 所属行实例值</code></div>
+                <div><code> {{ $t('warnRules.form.times.collapse.tip6') }}</code></div>
               </el-collapse-item>
             </el-collapse>
           </el-form-item>
-          <el-form-item label="通知模版" prop="template">
+          <el-form-item :label="$t('warnRules.form.template')" prop="template">
             <el-input type="textarea" :rows="3" v-model="form.template"
-              placeholder="请输入告警的通知模版.示例: ${app}.${metrics}.${metric}'s value is too high" maxlength="200"
+              :placeholder="$t('warnRules.form.template.placeholder')"
               show-word-limit></el-input>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>告警触发后发送的通知信息模版,模版环境变量见上方
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.template.tip') }}
             </div>
           </el-form-item>
-          <el-form-item label="全局默认">
+          <el-form-item :label="$t('warnRules.form.preset')">
             <el-switch v-model="form.preset"></el-switch>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>此告警阈值配置是否应用于全局所有此类型监控
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.preset.tip') }}
             </div>
           </el-form-item>
-          <el-form-item label="启用告警">
+          <el-form-item :label="$t('warnRules.form.enable')">
             <el-switch v-model="form.enable"></el-switch>
             <div style="font-size: 12px;color: #757D8F">
-              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>此告警阈值配置开启生效或关闭
+              <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form.enable.tip') }}
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button @click="onCancel">取消</el-button>
+            <el-button type="primary" @click="onSubmit">{{ $t('buttons.save') }}</el-button>
+            <el-button @click="onCancel">{{ $t('buttons.canel') }}</el-button>
           </el-form-item>
         </el-form>
       </template>
     </dialog-form>
     <!-- 弹出编辑页面 -->
 
-<transfer-monitor ref="dialogTransfer" title="告警定义关联监控" width="1290px"></transfer-monitor>
+<transfer-monitor ref="dialogTransfer" :title="$t('warnRules.dialog[\'\']')" width="1290px"></transfer-monitor>
 
   </div>
 </template>
@@ -176,27 +176,27 @@
         rules: {
           'cascadeValues': [{
             required: true,
-            message: '请选择指标对象',
+            message: this.$t('warnRules.rules.cascadeValues'),
             trigger: 'change'
           }],
           'expr': [{
             required: true,
-            message: '请输入阈值触发表达式',
+            message: this.$t('warnRules.rules.expr'),
             trigger: 'blur'
           }],
           'priority': [{
             required: true,
-            message: '请选择告警级别',
+            message: this.$t('warnRules.rules.priority'),
             trigger: 'change'
           }],
           'times': [{
             required: true,
-            message: '请选择触发次数',
+            message: this.$t('warnRules.rules.times'),
             trigger: 'change'
           }],
           'template': [{
             required: true,
-            message: '请输入通知模版',
+            message: this.$t('warnRules.rules.template'),
             trigger: 'blur'
           }]
         },
@@ -204,7 +204,7 @@
         params: [{
           componentName: 'SelectTemplate',
           keyName: 'priority',
-          label: '告警等级',
+          label: this.$t('alert.priority[\'\']'),
           optionId: 'key',
           optionName: 'value',
           options: WARN_LEVEL
@@ -223,27 +223,27 @@
         tableData: [],
         loading: false,
         columns: [{
-            label: '指标对象',
+            label: this.$t('warnRules.form.field'),
             prop: 'field'
           },
           {
-            label: '阈值触发表达式',
+            label: this.$t('warnRules.form.expr'),
             prop: 'expr'
           },
           {
-            label: '告警级别',
+            label: this.$t('warnRules.form.priority'),
             prop: 'priorityName'
           },
           {
-            label: '触发次数',
+            label: this.$t('warnRules.form.times'),
             prop: 'times'
           },
           {
-            label: '通知模板',
+            label: this.$t('warnRules.form.template'),
             prop: 'template'
           },
           {
-            label: '全局默认',
+            label: this.$t('warnRules.form.preset'),
             prop: 'preset',
             idName: 'id',
             leftText: '是',
@@ -252,7 +252,7 @@
             event: 'handleChangepreset'
           },
           {
-            label: '启用告警',
+            label: this.$t('warnRules.form.enable'),
             prop: 'enable',
             idName: 'id',
             component: 'StatusSwitch',
@@ -264,7 +264,7 @@
             width: 160,
             idName: 'id',
             buttons: [{
-              label: '关联监控',
+              label: this.$t('buttons.unionMonitor'),
               event: 'connMonitors'
             },{
               label: this.$t('tableView.edit'),
@@ -413,7 +413,7 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          this.$modal.confirm('是否确认删除数据项？').then(function () {
+          this.$modal.confirm(this.$t('message.deleteTips')).then(function () {
             return delDefine(ids);
           }).then(() => {
             this.getData();
@@ -423,7 +423,7 @@
             });
           }).catch(() => {});
         } else {
-          this.$message.error('请至少选择一行进行删除');
+          this.$message.error(this.$t('message.noselectTips'));
         }
       },
       handleSelect(selection, row) {

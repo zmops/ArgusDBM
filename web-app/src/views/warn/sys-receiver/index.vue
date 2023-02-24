@@ -9,15 +9,15 @@
         @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" />
     </div>
     <!-- 弹出编辑页面 -->
-    <dialog-form ref="dialogForm" title="通知规则">
+    <dialog-form ref="dialogForm" :title="$t('sysReceiver.form[\'\']')">
       <template v-slot:form>
         <el-form ref="form" :model="form" label-width="150px" :rules="rules" :show-message="false"
           style="margin-right:80px">
-          <el-form-item label="接收人名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入接收人名称"></el-input>
+          <el-form-item :label="$t('sysReceiver.form.name')" prop="name">
+            <el-input v-model="form.name" :placeholder="$t('sysReceiver.form.name.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="通知方式" prop="type">
-            <el-select v-model="form.type" multiple placeholder="请选择通知方式" style="width:100%">
+          <el-form-item :label="$t('sysReceiver.form.type')" prop="type">
+            <el-select v-model="form.type" multiple :placeholder="$t('sysReceiver.form.type.placeholder')" style="width:100%">
               <el-option label="短信" :value="0"></el-option>
               <el-option label="邮件" :value="1"></el-option>
               <el-option label="企业微信" :value="4"></el-option>
@@ -25,24 +25,24 @@
               <el-option label="WebHook" :value="2"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="电话">
-            <el-input v-model="form.phone" placeholder="请输入电话"></el-input>
+          <el-form-item :label="$t('sysReceiver.form.phone')">
+            <el-input v-model="form.phone" :placeholder="$t('sysReceiver.form.phone.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱">
-            <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
+          <el-form-item :label="$t('sysReceiver.form.email')">
+            <el-input v-model="form.email" :placeholder="$t('sysReceiver.form.email.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="企业微信号">
-            <el-input v-model="form.wechatId" placeholder="请输入企业微信号"></el-input>
+          <el-form-item :label="$t('sysReceiver.form.wechatId')">
+            <el-input v-model="form.wechatId" :placeholder="$t('sysReceiver.form.wechatId.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="钉钉号">
-            <el-input v-model="form.accessToken" placeholder="请输入钉钉号"></el-input>
+          <el-form-item :label="$t('sysReceiver.form.accessToken')">
+            <el-input v-model="form.accessToken" :placeholder="$t('sysReceiver.form.accessToken.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="Webhook URL">
-            <el-input v-model="form.hookUrl" placeholder="请输入Webhook URL"></el-input>
+          <el-form-item :label="$t('sysReceiver.form.hookUrl')">
+            <el-input v-model="form.hookUrl" :placeholder="$t('sysReceiver.form.hookUrl.placeholder')"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button @click="onCancel">取消</el-button>
+            <el-button type="primary" @click="onSubmit">{{ $t('buttons.save') }}</el-button>
+            <el-button @click="onCancel">{{ $t('buttons.canel') }}</el-button>
           </el-form-item>
         </el-form>
       </template>
@@ -114,12 +114,12 @@
         rules: {
           name: [{
             required: true,
-            message: '请输入接收人名称',
+            message: this.$t('sysReceiver.rules.name'),
             trigger: 'blur'
           }],
           type: [{
             required: true,
-            message: '请选择通知方式',
+            message: this.$t('sysReceiver.rules.type'),
             trigger: 'change'
           }],
         },
@@ -127,16 +127,8 @@
         params: [{
             componentName: 'InputTemplate',
             keyName: 'name',
-            label: '接收人名称',
+            label: this.$t('sysReceiver.rules.type'),
           },
-          // {
-          //   componentName: 'SelectTemplate',
-          //   keyName: 'type',
-          //   label: '通知方式',
-          //   optionId: 'key',
-          //   optionName: 'value',
-          //   options: NOTICE_TYPE
-          // }
         ],
         buttons: [{
             label: this.$t('tableView.add'),
@@ -152,11 +144,11 @@
         tableData: [],
         loading: false,
         columns: [{
-            label: '接收人',
+            label: this.$t('sysReceiver.form.name'),
             prop: 'name'
           },
           {
-            label: '通知方式',
+            label: this.$t('sysReceiver.form.type'),
             prop: 'typeName'
           },
           // {
@@ -164,7 +156,7 @@
           //   prop: 'priority'
           // },
           {
-            label: '更新时间',
+            label: this.$t('sysReceiver.form.gmtUpdate'),
             prop: 'gmtUpdate'
           },
           {
@@ -275,7 +267,7 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          this.$modal.confirm('是否确认删除数据项？').then(function () {
+          this.$modal.confirm(this.$t('message.clearTips')).then(function () {
             return delReceivers(ids);
           }).then(() => {
             this.getData();
@@ -285,7 +277,7 @@
             });
           }).catch(() => {});
         } else {
-          this.$message.error('请至少选择一行进行删除');
+          this.$message.error(this.$t('message.noselectTips'));
         }
       },
       handleSelect(selection, row) {

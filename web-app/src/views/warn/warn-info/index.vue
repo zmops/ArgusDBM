@@ -67,22 +67,22 @@
         total: 0,
         params: [],
         buttons: [{
-            label: '标记已处理',
+            label: this.$t('buttons.markup'),
             icon: 'list_add',
             event: 'handleYes'
           },
           {
-            label: '标记未处理',
+            label: this.$t('buttons.markdown'),
             icon: 'list_del',
             event: 'handleNo'
           },
           {
-            label: '删除告警',
+            label: this.$t('buttons.delete'),
             icon: 'list_del',
             event: 'delete'
           },
           {
-            label: '一键清空',
+            label: this.$t('buttons.clear'),
             icon: 'list_del',
             event: 'clear'
           }
@@ -90,23 +90,23 @@
         tableData: [],
         loading: false,
         columns: [{
-            label: '所属监控',
+            label: this.$t('tableView.underMonitoring'),
             prop: 'monitorName',
             event: 'detail'
           }, {
-            label: '告警级别',
+            label: this.$t('tableView.alarmLevel'),
             prop: 'priorityName'
           },
           {
-            label: '状态',
+            label: this.$t('tableView.status'),
             prop: 'statusName'
           },
           {
-            label: '告警时间',
+            label: this.$t('tableView.alarmTime'),
             prop: 'gmtUpdate'
           },
           {
-            label: '告警内容',
+            label: this.$t('tableView.alarmContent'),
             prop: 'content'
           }
         ]
@@ -165,29 +165,29 @@
         let alarmHandles = Object.assign([], ALARM_HANDLES)
         alarmHandles.splice(0,0,{
           key: null,
-          value: '全部'
+          value: this.$t('alert.status.all')
         })
         let warnLevel = Object.assign([], WARN_LEVEL)
         warnLevel.splice(0,0,{
           key: null,
-          value: '全部'
+          value: this.$t('alert.priority.all')
         })
         this.params = [{
             componentName: 'RadioList',
             keyName: 'status',
-            label: '状态',
+            label: this.$t('alert.status[""]'),
             arrayData: alarmHandles
           },
           {
             componentName: 'RadioList',
             keyName: 'priority',
-            label: '告警级别',
+            label: this.$t('alert.priority[""]'),
             arrayData: warnLevel
           },
           {
             componentName: 'InputTemplate',
             keyName: 'content',
-            label: '告警内容'
+            label: this.$t('alert.form.content[""]')
           }
         ]
       },
@@ -203,7 +203,7 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          this.$modal.confirm('是否将选中项标记为' + (value == 0 ? '未处理' : '已处理') + '？').then(function () {
+          this.$modal.confirm(value == 0 ? this.$t('message.markupTips') : this.$t('message.markdownTips')).then(function () {
             return putStatus(value, ids);
           }).then(() => {
             //清空选择框
@@ -211,7 +211,7 @@
             this.getData();
           }).catch(() => {});
         } else {
-          this.$message.error('请至少选择一行进行操作');
+          this.$message.error(this.$t('message.noselectTips'));
         }
       },
       delete(id, v) {
@@ -220,7 +220,7 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          this.$modal.confirm('是否确认删除数据项？').then(function () {
+          this.$modal.confirm(this.$t('message.deleteTips')).then(function () {
             return delAlerts(ids);
           }).then((res) => {
             //清空选择框
@@ -231,11 +231,11 @@
             });
           }).catch(() => {});
         } else {
-          this.$message.error('请至少选择一行进行删除');
+          this.$message.error(this.$t('message.noselectTips'));
         }
       },
       clear() {
-        this.$modal.confirm('请确认是否清空所有告警信息！').then(function () {
+        this.$modal.confirm(this.$t('message.clearTips')).then(function () {
           return clearAlerts();
         }).then((res) => {
           //清空选择框
