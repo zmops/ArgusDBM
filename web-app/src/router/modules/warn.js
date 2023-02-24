@@ -9,7 +9,8 @@ const monitorRouter = {
   name: 'Warn',
   meta: {
     title: 'warn',
-    icon: 'example'
+    icon: 'menu_warn',
+    active_icon: 'menu_warn_active'
   },
   children: [
     {
@@ -35,7 +36,7 @@ const monitorRouter = {
       component: () => import('@/views/warn/sys-receiver/index'),
       name: 'Sysreceiver',
       meta: { title: 'sysreceiver', noCache: true }
-    },
+    }
   ]
 }
 

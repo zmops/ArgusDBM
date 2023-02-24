@@ -5,7 +5,7 @@
       <el-col v-for="(item, index) in numList" :key="'col'+index" :span="3">
         <div class="item box1">
           <div class="title">{{ item.title }}</div>
-          <div class="val">{{ item.val }}</div>
+          <div class="val" :class="item.title==='在线监控数'?'val2':item.title==='离线监控数'?'val3':''">{{ item.val }}</div>
         </div>
       </el-col>
       <el-col :span="12">
@@ -28,7 +28,12 @@
                 prop="status"
                 label="状态"
                 width="180"
-              />
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.status === '未处理'" style="color: #FF7D00">未处理</span>
+                  <span v-else>已处理</span>
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="time"
                 label="告警时间"
@@ -159,26 +164,38 @@ export default {
   data() {
     return {
       numList: [
-        { title: '未关闭告警数', val: 12 },
-        { title: '监控总数', val: 12 },
-        { title: '在线监控数', val: 12 },
-        { title: '离线监控数', val: 12 },
-        { title: '禁用监控数', val: 12 },
+        { title: '未关闭告警数', val: 9 },
+        { title: '监控总数', val: 27 },
+        { title: '在线监控数', val: 22 },
+        { title: '离线监控数', val: 3 },
+        { title: '禁用监控数', val: 2 },
         { title: 'MySQL总数', val: 12 },
-        { title: 'PostgreSQL总数', val: 12 },
-        { title: 'Oracle总数', val: 12 }
+        { title: 'PostgreSQL总数', val: 22 },
+        { title: 'Oracle总数', val: 3 }
       ],
       alarmTableData: [
-        { level: '严重告警', status: '已处理', content: '连接超时', time: '2023-01-30 15:19:32' }
+        { level: '严重告警', status: '已处理', content: '连接超时', time: '2023-02-23 10:09:22' },
+        { level: '警告告警', status: '未处理', content: '连接超时', time: '2023-02-22 15:19:32' },
+        { level: '紧急告警', status: '未处理', content: '连接超时', time: '2023-02-22 13:10:56' },
+        { level: '严重告警', status: '已处理', content: '连接超时', time: '2023-02-20 09:35:32' }
       ],
       myaqlTableData: [
-        { name: '名称1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' }
+        { name: 'MySQL1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' },
+        { name: 'MySQL2', ip: '172.1.16.138', time: '2023-01-30 15:19:32' },
+        { name: 'MySQL3', ip: '172.1.16.180', time: '2023-01-30 15:19:32' },
+        { name: 'MySQL4', ip: '172.1.16.25', time: '2023-01-30 15:19:32' }
       ],
       pgsqlTableData: [
-        { name: '名称1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' }
+        { name: 'PostgreSQL1', ip: '172.1.16.56', time: '2023-01-30 15:19:32' },
+        { name: 'PostgreSQL2', ip: '172.1.16.78', time: '2023-01-30 15:19:32' },
+        { name: 'PostgreSQL3', ip: '172.1.16.65', time: '2023-01-30 15:19:32' },
+        { name: 'PostgreSQL4', ip: '172.1.16.87', time: '2023-01-30 15:19:32' }
       ],
       oracleTableData: [
-        { name: '名称1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' }
+        { name: 'Oracle1', ip: '172.1.16.36', time: '2023-01-30 15:19:32' },
+        { name: 'Oracle2', ip: '172.1.16.85', time: '2023-01-30 15:19:32' },
+        { name: 'Oracle3', ip: '172.1.16.57', time: '2023-01-30 15:19:32' },
+        { name: 'Oracle4', ip: '172.1.16.64', time: '2023-01-30 15:19:32' }
       ],
       alarmXData: WARN_LEVEL.map((i) => { return i.value }),
       alarmSeriesData: [
@@ -255,11 +272,19 @@ export default {
     .val{
       width: 100%;
       height: 82px;
-      line-height: 82px;
+      line-height: 60px;
       text-align: center;
       font-size: 26px;
       font-weight: bold;
       color: #4E5969;
+    }
+
+    .val2{
+      color: #5CD8A7;
+    }
+
+    .val3{
+      color: #E86453;
     }
   }
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon1</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="颜色取色" transform="translate(-751.000000, -348.000000)">
+            <g id="icon1" transform="translate(751.000000, 348.000000)">
+                <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+                <g id="编组" transform="translate(2.000000, 2.000000)" fill="#0077FF">
+                    <polygon id="Fill-1" points="0 7 7 7 7 0 0 0"></polygon>
+                    <polygon id="Fill-2" points="12.2356217 0 8.47058824 3.76437826 12.2356217 7.52941176 16.0006552 3.76437826"></polygon>
+                    <polygon id="Fill-3" points="0 16 7 16 7 9 0 9"></polygon>
+                    <polygon id="Fill-4" points="9 16 16.077861 16 16 9 9 9"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

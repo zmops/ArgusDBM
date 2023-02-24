@@ -9,7 +9,8 @@ const monitorRouter = {
   name: 'Monitor',
   meta: {
     title: 'monitor',
-    icon: 'example'
+    icon: 'menu_monitor',
+    active_icon: 'menu_monitor_active'
   },
   children: [
     {

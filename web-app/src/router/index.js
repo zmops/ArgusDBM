@@ -77,7 +77,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/overview/index'),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+        meta: { title: 'dashboard', icon: 'menu_overview', active_icon: 'menu_overview_active', affix: true }
       }
     ]
   },
@@ -104,20 +104,20 @@ export const constantRoutes = [
 export const asyncRoutes = [
   MonitorRouter,
   warnRouter,
-  {
-    path: '/profile2',
-    component: Layout,
-    redirect: '/profile/index',
-    hidden: false,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'target',
-        meta: { title: 'targetView', icon: 'user', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/profile2',
+  //   component: Layout,
+  //   redirect: '/profile/index',
+  //   hidden: false,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/profile/index'),
+  //       name: 'target',
+  //       meta: { title: 'targetView', icon: 'user', noCache: true }
+  //     }
+  //   ]
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
