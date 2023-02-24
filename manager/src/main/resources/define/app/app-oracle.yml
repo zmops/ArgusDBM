@@ -87,6 +87,102 @@ metrics:
       sql: select * from sys.v_$instance
       url: ^_^url^_^
 
+  - name: total_sessions
+    priority: 1
+    # 指标组中的具体监控指标
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: num
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: oracle
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select count(*) as num from v$session;
+      url: ^_^url^_^
+
+  - name: active_sessions
+    priority: 1
+    # 指标组中的具体监控指标
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: num
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: oracle
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select count(*) as num from v$session where username is not null and status = 'ACTIVE';
+      url: ^_^url^_^
+
+  - name: background_sessions
+    priority: 1
+    # 指标组中的具体监控指标
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: num
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: oracle
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select count(*) as num from v$session where username is null;
+      url: ^_^url^_^
+
+  - name: process
+    priority: 1
+    # 指标组中的具体监控指标
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: process_count
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: oracle
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select count(*) as process_count from v$process;
+      url: ^_^url^_^
+
   - name: tablespace
     priority: 1
     # 指标组中的具体监控指标
