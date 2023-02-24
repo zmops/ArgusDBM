@@ -14,10 +14,10 @@
         <el-form ref="form" :model="form" label-width="150px" :rules="rules" :show-message="false"
           style="margin-right:80px">
           <el-form-item :label="$t('notificationRules.form.name')" prop="name">
-            <el-input v-model="form.name" :placeholder="$t('notificationRules.form.name.placeholder')"></el-input>
+            <el-input v-model="form.name" :placeholder="$t('notificationRules.form[\'name.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('notificationRules.form.receiverName')" prop="receiverId">
-            <el-select v-model="form.receiverId" :placeholder="$t('notificationRules.form.receiverName.placeholder')" @change="handleReceiverChange" style="width:100%">
+            <el-select v-model="form.receiverId" :placeholder="$t('notificationRules.form[\'receiverName.placeholder\']')" @change="handleReceiverChange" style="width:100%">
               <el-option v-for="item in receiverOptions" :key="item.id" :label="item.name" :value="item.id">
               </el-option>
             </el-select>
@@ -27,20 +27,20 @@
           </el-form-item>
           <el-form-item :label="$t('notificationRules.form.tags')">
             <el-select v-model="form.tags" :disabled="itemDisable" filterable multiple allow-create default-first-option
-            :placeholder="$t('notificationRules.form.tags.tip')" style="width:100%">
+            :placeholder="$t('notificationRules.form[\'tags.tip\']')" style="width:100%">
               <el-option v-for="item in tagsOptions" :key="item.id" :label="item.name+':'+item.value" :value="item">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('notificationRules.form.priorities')">
-            <el-select v-model="form.priorities" :disabled="itemDisable" multiple placeholder="$t('notificationRules.form.priorities.placeholder')"
+            <el-select v-model="form.priorities" :disabled="itemDisable" multiple :placeholder="$t('notificationRules.form[\'priorities.placeholder\']')"
               style="width:100%">
               <el-option v-for="item in warnLevel" :key="item.key" :label="item.value" :value="item.key">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('notificationRules.form.type')">
-            <el-select v-model="form.type" multiple :placeholder="$t('notificationRules.form.type.placeholder')" style="width:100%">
+            <el-select v-model="form.type" multiple :placeholder="$t('notificationRules.form[\'type.placeholder\']')" style="width:100%">
               <el-option v-for="item in typeOptions" :key="item" :value="item">
                 <el-option v-if="item==0" label="短信" :value="0"></el-option>
                 <el-option v-if="item==1" label="邮件" :value="1"></el-option>
@@ -124,6 +124,7 @@
         receiverOptions: [],
         tagsOptions: [],
         typeOptions: [],
+        selectionIds:[],
         itemDisable: true,
         warnLevel: WARN_LEVEL,
         form: Object.assign({}, defaultForm),
@@ -337,7 +338,7 @@
           this.selectionIds.forEach(item => {
             ids.push(item.id)
           })
-          this.$modal.confirm(this.$t('message.clearTips')).then(function () {
+          this.$modal.confirm(this.$t('message.deleteTips')).then(function () {
             return delRules(ids);
           }).then(() => {
             this.getData();

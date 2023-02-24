@@ -14,10 +14,10 @@
         <el-form ref="form" :model="form" label-width="150px" :rules="rules" :show-message="false"
           style="margin-right:80px">
           <el-form-item :label="$t('sysReceiver.form.name')" prop="name">
-            <el-input v-model="form.name" :placeholder="$t('sysReceiver.form.name.placeholder')"></el-input>
+            <el-input v-model="form.name" :placeholder="$t('sysReceiver.form[\'name.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('sysReceiver.form.type')" prop="type">
-            <el-select v-model="form.type" multiple :placeholder="$t('sysReceiver.form.type.placeholder')" style="width:100%">
+            <el-select v-model="form.type" multiple :placeholder="$t('sysReceiver.form[\'type.placeholder\']')" style="width:100%">
               <el-option label="短信" :value="0"></el-option>
               <el-option label="邮件" :value="1"></el-option>
               <el-option label="企业微信" :value="4"></el-option>
@@ -26,19 +26,19 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('sysReceiver.form.phone')">
-            <el-input v-model="form.phone" :placeholder="$t('sysReceiver.form.phone.placeholder')"></el-input>
+            <el-input v-model="form.phone" :placeholder="$t('sysReceiver.form[\'phone.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('sysReceiver.form.email')">
-            <el-input v-model="form.email" :placeholder="$t('sysReceiver.form.email.placeholder')"></el-input>
+            <el-input v-model="form.email" :placeholder="$t('sysReceiver.form[\'email.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('sysReceiver.form.wechatId')">
-            <el-input v-model="form.wechatId" :placeholder="$t('sysReceiver.form.wechatId.placeholder')"></el-input>
+            <el-input v-model="form.wechatId" :placeholder="$t('sysReceiver.form[\'wechatId.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('sysReceiver.form.accessToken')">
-            <el-input v-model="form.accessToken" :placeholder="$t('sysReceiver.form.accessToken.placeholder')"></el-input>
+            <el-input v-model="form.accessToken" :placeholder="$t('sysReceiver.form[\'accessToken.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('sysReceiver.form.hookUrl')">
-            <el-input v-model="form.hookUrl" :placeholder="$t('sysReceiver.form.hookUrl.placeholder')"></el-input>
+            <el-input v-model="form.hookUrl" :placeholder="$t('sysReceiver.form[\'hookUrl.placeholder\']')"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">{{ $t('buttons.save') }}</el-button>
