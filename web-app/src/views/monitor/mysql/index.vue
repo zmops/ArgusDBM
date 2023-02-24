@@ -112,13 +112,13 @@ export default {
           prop: 'status',
           component: 'StatusText'
         },
-        {
-          label: '启用状态',
-          prop: 'status',
-          component: 'StatusSwitch',
-          idName: 'id',
-          event: 'changeStatus'
-        },
+        // {
+        //   label: '启用状态',
+        //   prop: 'status',
+        //   component: 'StatusSwitch',
+        //   idName: 'id',
+        //   event: 'changeStatus'
+        // },
         // {
         //   label: this.$t('tableView.version'),
         //   prop: 'e'

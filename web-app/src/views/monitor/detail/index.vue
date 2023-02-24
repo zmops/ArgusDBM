@@ -4,7 +4,7 @@
       <div class="left">
         <svg-icon
           icon-class="monitor_back"
-          style="font-size:14px;color:#3A7CDB;cursor:pointer;margin-right:14px;"
+          style="font-size:14px;color:#0077FF;cursor:pointer;margin-right:14px;"
           @click="$router.back()"
         />
         <span class="left-name">{{ info.name }}</span>
@@ -210,7 +210,7 @@ export default {
       }
 
       .active {
-        color: #1382FF;
+        color: #0077FF;
         background-color: #fff;
       }
     }
