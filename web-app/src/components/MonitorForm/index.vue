@@ -154,6 +154,8 @@
                   type: 'success'
                 });
                 this.onCancel()
+                //调用父级刷新
+                this.$parent.getData()
               })
             } else {
               modifyMonitor(savadata).then(res => {
@@ -162,6 +164,8 @@
                   type: 'success'
                 });
                 this.onCancel()
+                //调用父级刷新
+                this.$parent.getData()
               })
             }
           }
@@ -179,20 +183,20 @@
         this.resetForm("form");
       },
       handleAddDialogOpen(appname) {
-        this.reset();
         this.loading = true
         this.title = '新增 ' + appname + ' 监控'
         this.appName = appname
         this.getParams(appname)
         this.isedit = false
+        this.reset();
         this.$refs.dialogForm.handleDialogOpen()
       },
       handleEditDialogOpen(id, appname) {
-        this.reset();
         this.loading = true
         this.title = '修改 ' + appname + ' 监控'
         this.appName = appname
         this.isedit = true
+        this.reset();
         getMonitor(id).then(response => {
           this.getParams(appname, response.data)
           this.$refs.dialogForm.handleDialogOpen()
