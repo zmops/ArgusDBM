@@ -108,7 +108,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: oneRow
       # sql
-      sql: select count(*) as num from v$session;
+      sql: select count(*) as num from v$session
       url: ^_^url^_^
 
   - name: active_sessions
@@ -132,7 +132,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: oneRow
       # sql
-      sql: select count(*) as num from v$session where username is not null and status = 'ACTIVE';
+      sql: select count(*) as num from v$session where username is not null and status = 'ACTIVE'
       url: ^_^url^_^
 
   - name: background_sessions
@@ -156,7 +156,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: oneRow
       # sql
-      sql: select count(*) as num from v$session where username is null;
+      sql: select count(*) as num from v$session where username is null
       url: ^_^url^_^
 
   - name: process
@@ -180,7 +180,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: oneRow
       # sql
-      sql: select count(*) as process_count from v$process;
+      sql: select count(*) as process_count from v$process
       url: ^_^url^_^
 
   - name: tablespace
@@ -193,7 +193,7 @@ metrics:
         instance: true
       - field: file_name
         type: 1
-      - field: tablespace_name
+      - field: name
         type: 1
       - field: status
         type: 1
@@ -202,7 +202,28 @@ metrics:
         unit: MB
       - field: blocks
         type: 0
-        unit: 块数
+      - field: usage
+        type: 0
+        unit: '%'
+      - field: free
+        type: 0
+        unit: MB
+    aliasFields:
+      - file_id
+      - file_name
+      - name
+      - status
+      - bytes
+      - blocks
+      - maxbytes
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - usage=bytes / maxbytes * 100
+      - free=maxbytes - bytes
+    units:
+      - free=B->MB
+      - bytes=B->MB
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -215,9 +236,9 @@ metrics:
       database: ^_^database^_^
       timeout: ^_^timeout^_^
       # SQL查询方式： oneRow, multiRow, columns
-      queryType: oneRow
+      queryType: multiRow
       # sql
-      sql: select file_id, file_name, tablespace_name, status, bytes / 1024 / 1024 as bytes, blocks　from dba_data_files
+      sql: select file_id, file_name, tablespace_name as name, status, bytes, blocks, maxbytes from dba_data_files
       url: ^_^url^_^
 
   - name: user_connect
