@@ -3,10 +3,10 @@
     <template v-slot:form>
       <el-form v-loading="loading" ref="monitorform" :model="formData" :rules="rules" :show-message="false"
         label-width="150px" style="margin-right:80px">
-        <el-form-item label="监控名称" prop="monitor.name">
-          <el-input v-model="formData.monitor.name" placeholder="标识监控的名称,名称需要保证唯一性"></el-input>
-          <div style="font-size: 12px;color: #757D8F">
-            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>标识监控的名称,名称需要保证唯一性
+        <el-form-item :label="$t('minitorFormComponent.form.name')" prop="monitor.name">
+          <el-input v-model="formData.monitor.name" :placeholder="$t('minitorFormComponent.form[\'name.placeholder\']')"></el-input>
+          <div class="label-tip">
+            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{$t('minitorFormComponent.form[\'name.tip\']')}}
           </div>
         </el-form-item>
         <el-divider></el-divider>
@@ -19,17 +19,17 @@
           </template>
         </template>
         <el-divider></el-divider>
-        <el-form-item label="采集间隔(秒)">
+        <el-form-item :label="$t('minitorFormComponent.form.intervals')">
           <el-input-number v-model="formData.monitor.intervals" :min="300" :max="60000" :step="1" style="width:100%">
           </el-input-number>
-          <div style="font-size: 12px;color: #757D8F">
-            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>监控周期性采集数据间隔时间,单位秒
+          <div class="label-tip">
+            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{$t('minitorFormComponent.form[\'intervals.tip\']')}}
           </div>
         </el-form-item>
-        <el-form-item label="测试连接">
+        <el-form-item :label="$t('minitorFormComponent.form.detected')">
           <el-switch v-model="formData.detected"></el-switch>
-          <div style="font-size: 12px;color: #757D8F">
-            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>新增监控前是否先探测检查监控可用性
+          <div class="label-tip">
+            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{$t('minitorFormComponent.form[\'detected.tip\']')}}
           </div>
         </el-form-item>
         <!-- <el-form-item label="绑定标签">
@@ -37,20 +37,20 @@
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-        <div style="font-size: 12px;color: #757D8F">
+        <div class="label-tip">
           <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>您可以使用标签(Tag)进行监控资源的分类管理， 例如给资源分别绑定生产环境、测试环境的标签。
         </div>
       </el-form-item> -->
-        <el-form-item label="描述备注">
-          <el-input v-model="formData.monitor.description" type="textarea" :rows="3" placeholder="请输入描述备注"></el-input>
-          <div style="font-size: 12px;color: #757D8F">
-            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>更多标识和描述此监控的备注信息
+        <el-form-item :label="$t('minitorFormComponent.form.description')">
+          <el-input v-model="formData.monitor.description" type="textarea" :rows="3" :placeholder="$t('minitorFormComponent.form[\'description.placeholder\']')"></el-input>
+          <div class="label-tip">
+            <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{$t('minitorFormComponent.form[\'description.tip\']')}}
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" @click="onTestConnection">测试</el-button>
-          <el-button type="primary" @click="onSubmit">保存</el-button>
-          <el-button @click="onCancel">取消</el-button>
+          <el-button type="danger" @click="onTestConnection">{{ $t('buttons.detected') }}</el-button>
+          <el-button type="primary" @click="onSubmit">{{ $t('buttons.save') }}</el-button>
+          <el-button @click="onCancel">{{ $t('buttons.canel') }}</el-button>
         </el-form-item>
       </el-form>
     </template>
@@ -70,8 +70,8 @@
 
   const defaultFormData = {
     monitor: {
-      name: 'localhost',
-      intervals: 600,
+      name: '',
+      intervals: 300,
       tags: [],
       description: ''
     },
@@ -98,7 +98,7 @@
         rules: {
           'monitor.name': [{
             required: true,
-            message: '请输入监控名称',
+            message: this.$t('minitorFormComponent.rules.name'),
             trigger: 'blur'
           }]
         },
@@ -117,7 +117,7 @@
             if (element.required) {
               this.rules['params.' + index + '.value'] = [{
                 required: true,
-                message: element.name['zh-CN'] + '不能为空',
+                message: element.name['zh-CN'] + this.$t('minitorFormComponent.common.notempty'),
                 trigger: 'blur'
               }]
             }
@@ -184,7 +184,7 @@
       },
       handleAddDialogOpen(appname) {
         this.loading = true
-        this.title = '新增 ' + appname + ' 监控'
+        this.title = this.$t('minitorFormComponent.common.add')+' ' + appname + ' '+this.$t('minitorFormComponent.common.monitor')
         this.appName = appname
         this.getParams(appname)
         this.isedit = false
@@ -193,7 +193,7 @@
       },
       handleEditDialogOpen(id, appname) {
         this.loading = true
-        this.title = '修改 ' + appname + ' 监控'
+        this.title = this.$t('minitorFormComponent.common.modify')+' ' + appname + ' '+this.$t('minitorFormComponent.common.monitor')
         this.appName = appname
         this.isedit = true
         this.reset();

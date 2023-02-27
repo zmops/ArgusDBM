@@ -71,7 +71,8 @@ export default {
     clear: '一键清空',
     unionMonitor: '关联监控',
     save: '保存',
-    canel: '取消'
+    canel: '取消',
+    detected:'测试'
   },
   tableView: {
     empty: '暂无数据！',
@@ -110,6 +111,7 @@ export default {
     input: '请输入',
     select: '请选择'
   },
+
   monitor: {
     '': '监控',
     'name': '监控名称',
@@ -266,6 +268,31 @@ export default {
     rules: {
       'name': '请输入接收人名称',
       'type': '请选择通知方式'
+    }
+  },
+  minitorFormComponent:{
+    form: {
+      '': '',
+      'name': '监控名称',
+      'name.placeholder': '标识监控的名称,名称需要保证唯一性',
+      'name.tip': '标识监控的名称,名称需要保证唯一性',
+      'intervals': '采集间隔(秒)',
+      'intervals.tip': '监控周期性采集数据间隔时间,单位秒',
+      'detected': '测试连接',
+      'detected.tip': '新增监控前是否先探测检查监控可用性',
+      'description': '描述备注',
+      'description.placeholder': '请输入描述备注',
+      'description.tip': '更多标识和描述此监控的备注信息',
+      'gmtUpdate': '更新时间'
+    },
+    rules: {
+      'name': '请输入监控名称'
+    },
+    common:{
+      'notempty':'不能为空',
+      'monitor':'监控',
+      'modify':'修改',
+      'add':'新增'
     }
   },
   message: {

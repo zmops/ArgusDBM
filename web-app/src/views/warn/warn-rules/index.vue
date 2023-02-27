@@ -37,7 +37,7 @@
           <el-form-item :label="$t('warnRules.form.expr')" prop="expr">
             <el-input type="textarea" :rows="3" v-model="form.expr" :placeholder="$t('warnRules.form[\'expr.placeholder\']')"
               maxlength="100" show-word-limit></el-input>
-            <div style="font-size: 12px;color: #757D8F">
+            <div class="label-tip">
               <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'expr.tip\']') }}
             </div>
           </el-form-item>
@@ -47,14 +47,14 @@
               <el-option label="严重告警" :value="1"></el-option>
               <el-option label="紧急告警" :value="2"></el-option>
             </el-select>
-            <div style="font-size: 12px;color: #757D8F">
+            <div class="label-tip">
               <i class="el-icon-info argus-mr-5"
                 style="color: #5A98EC"></i>{{ $t('warnRules.form[\'priority.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.times')" prop="times">
             <el-input-number v-model="form.times" :min="1" :max="10000" ></el-input-number>
-            <div style="font-size: 12px;color: #757D8F">
+            <div class="label-tip">
               <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'times.tip\']') }}
             </div>
           </el-form-item>
@@ -80,19 +80,19 @@
             <el-input type="textarea" :rows="3" v-model="form.template"
               :placeholder="$t('warnRules.form[\'template.placeholder\']')"
               show-word-limit></el-input>
-            <div style="font-size: 12px;color: #757D8F">
+            <div class="label-tip">
               <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'template.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.preset')">
             <el-switch v-model="form.preset"></el-switch>
-            <div style="font-size: 12px;color: #757D8F">
+            <div class="label-tip">
               <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'preset.tip\']') }}
             </div>
           </el-form-item>
           <el-form-item :label="$t('warnRules.form.enable')">
             <el-switch v-model="form.enable"></el-switch>
-            <div style="font-size: 12px;color: #757D8F">
+            <div class="label-tip">
               <i class="el-icon-info argus-mr-5" style="color: #5A98EC"></i>{{ $t('warnRules.form[\'enable.tip\']') }}
             </div>
           </el-form-item>

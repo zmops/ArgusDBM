@@ -10,6 +10,11 @@ export default {
 }
 </script>
 <style lang="scss">
+.label-tip{
+  line-height: 20px;
+  font-size: 12px;
+  color: #757D8F
+}
 // collapse样式调整
 .el-collapse-item__header{
   background-color: #fafafa;
