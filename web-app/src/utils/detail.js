@@ -60,7 +60,7 @@ export function getTargetData(type, name) {
   if (type === '单指标') {
     data.forEach((i) => {
       if (i[4] === name) {
-        const explain = i[10].replace('\\n\\n', '\n\n')
+        const explain = i[10].replace(/\\n/g, '<br/>')
         obj = {
           title: i[6],
           list: [name],
@@ -81,8 +81,8 @@ export function getTargetData(type, name) {
           list2.forEach((ii) => {
             data.forEach((iii) => {
               if (iii[4] === ii && iii[10]) {
-                const e = iii[10].replace('\\n\\n', '\n\n')
-                explain = explain + '\n' + e
+                const e = iii[10].replace(/\\n/g, '<br/>')
+                explain = explain + '<br/>' + e
               }
             })
           })
