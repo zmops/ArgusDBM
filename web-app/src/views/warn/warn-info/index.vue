@@ -68,12 +68,12 @@
         params: [],
         buttons: [{
             label: this.$t('buttons.markup'),
-            icon: 'list_add',
+            icon: 'icon_alarm_y',
             event: 'handleYes'
           },
           {
             label: this.$t('buttons.markdown'),
-            icon: 'list_del',
+            icon: 'icon_alarm_n',
             event: 'handleNo'
           },
           {
@@ -83,7 +83,7 @@
           },
           {
             label: this.$t('buttons.clear'),
-            icon: 'list_del',
+            icon: 'icon_clear',
             event: 'clear'
           }
         ],

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_delete</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="DBM-监控" transform="translate(-534.000000, -142.000000)">
+            <g id="操作" transform="translate(220.000000, 136.000000)">
+                <g id="标记未处理/button" transform="translate(306.000000, 0.000000)">
+                    <g id="编组" transform="translate(8.000000, 6.000000)">
+                        <polygon id="路径" points="0 0 18 0 18 18 0 18"></polygon>
+                        <g transform="translate(2.000000, 2.000000)" fill="#FF7D00" fill-rule="nonzero" id="形状">
+                            <path d="M3.1185,11.4871795 L0,14 L0,0.717948718 C0,0.32143659 0.313400675,0 0.7,0 L13.3,0 C13.6865993,0 14,0.32143659 14,0.717948718 L14,10.7692308 C14,11.1657429 13.6865993,11.4871795 13.3,11.4871795 L3.1185,11.4871795 Z M7,7 L7,8 L8,8 L8,7 L7,7 Z M7,2 L7,6 L8,6 L8,2 L7,2 Z"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
