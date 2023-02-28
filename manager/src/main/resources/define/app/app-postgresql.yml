@@ -422,3 +422,65 @@ metrics:
       # sql
       sql: SELECT count(*) as running FROM pg_stat_activity WHERE NOT pid=pg_backend_pid();
       url: ^_^url^_^
+
+  - name: transaction
+    priority: 2
+    fields:
+      - field: db_name
+        type: 1
+        instance: true
+      - field: commits
+        type: 0
+        unit: times
+      - field: rollbacks
+        type: 0
+        unit: times
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select COALESCE(datname, 'other') as db_name, sum(xact_commit) as commits, sum(xact_rollback) as rollbacks from pg_stat_database group by datname;
+      url: ^_^url^_^
+
+  - name: conflicts
+    priority: 2
+    fields:
+      - field: db_name
+        type: 1
+        instance: true
+      - field: tablespace
+        type: 0
+      - field: lock
+        type: 0
+      - field: snapshot
+        type: 0
+      - field: bufferpin
+        type: 0
+      - field: deadlock
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select datname as db_name, confl_tablespace as tablespace, confl_lock as lock, confl_snapshot as snapshot, confl_bufferpin as bufferpin, confl_deadlock as deadlock from pg_stat_database_conflicts;
+      url: ^_^url^_^
