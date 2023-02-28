@@ -35,44 +35,48 @@ const data = 'mysql,基本信息,单指标,mysql.status.uptime,Single,,0,0,6,3,,
   'postgresql,基本信息,单指标,postgresql.resource_config.effective_cache_size,SingleGraph,,3,12,6,3,,,,\n' +
   'postgresql,基本信息,单指标,postgresql.resource_config.wal_buffers,SingleGraph,,3,18,6,3,,,,\n' +
   'postgresql,基本信息,单指标,postgresql.connection_state.num,Graph,,6,0,12,8,,,,\n' +
-  'postgresql,基本信息,指标组合,cb.postgresql.tuples,Graph,,6,12,12,8,,,,\n' +
-  'postgresql,基本信息,指标组合,cb.postgresql.transactions,Graph,,14,0,12,8,,,,\n' +
-  'postgresql,基本信息,单指标,postgresql.transaction_state.duration,Graph,,14,12,12,8,,,,\n' +
+  'postgresql,基本信息,指标组合,cb.postgresql.transactions,Graph,,6,12,12,8,,,,\n' +
+  'postgresql,基本信息,指标组合,cb.postgresql.tuples,Graph,,14,0,24,8,,,,\n' +
   'postgresql,基本信息,单指标,postgresql.temp_file.num,Graph,,22,0,12,8,,,,\n' +
   'postgresql,基本信息,单指标,postgresql.temp_file.size,Graph,,22,12,12,8,,,,\n' +
-  'postgresql,行查询,指标组合,cb.postgresql.tuples,Graph,,0,0,24,8,,,,\n' +
-  'postgresql,行查询,指标组合,cb.postgresql.tuples_read_by_queries,Graph,,8,0,24,8,,,,\n' +
-  'postgresql,行查询,指标组合,cb.postgresql.tuples_change_by_queries,Graph,,16,0,24,8,,,,\n' +
-  'postgresql,行查询,单指标,postgresql.connection_db.active,Graph,堆叠,24,0,24,6,库活动连接数,,,\n' +
-  'postgresql,锁与性能,指标组合,cb.postgresql.conflicts_deadlocks,Graph,,0,0,12,8,,,,\n' +
-  'postgresql,锁与性能,单指标,postgresql.lock_num.num,Graph,,0,12,12,8,,,,\n' +
-  'postgresql,锁与性能,单指标,postgresql.operation.read,Graph,,8,0,12,8,,,,\n' +
-  'postgresql,锁与性能,单指标,postgresql.operation.write,Graph,,8,12,12,8,,,,\n' +
-  'postgresql,锁与性能,指标组合,cb.postgresql.buffers,Graph,,16,0,12,8,,,,\n' +
-  'postgresql,锁与性能,指标组合,cb.postgresql.canceled_queries,Graph,,16,12,12,8,,,,\n' +
-  'postgresql,锁与性能,单指标,postgresql.cache_hit_ratio.ratio,Graph,,24,0,12,8,,,,\n' +
-  'postgresql,锁与性能,指标组合,cb.postgresql.checkpoint_stats,Graph,,24,12,12,8,,,,\n' +
-  'postgresql,锁与性能,单指标,postgresql.slow_sql.sql_text,TableView,,32,0,24,8,,,,\n' +
-  'postgresql,临时文件,单指标,postgresql.temp_file.num,Graph,,0,0,24,8,,,,\n' +
-  'postgresql,临时文件,单指标,postgresql.temp_file.size,Graph,,8,0,24,8,,,,\n' +
-  'postgresql,临时文件,单指标,postgresql.temp_file.activity,Graph,,16,0,24,8,,,,\n' +
-  'postgresql,临时文件,单指标,postgresql.temp_file.util,Graph,,24,0,24,8,,,,\n' +
-  'oracle,基本信息,单指标,oracle.status.uptime,Single,,0,0,6,3,,,,\n' +
+  'postgresql,查询性能,单指标,postgresql.connection_state.num,Graph,堆叠,0,0,24,8,,,,\n' +
+  'postgresql,查询性能,指标组合,cb.postgresql.tuples,Graph,堆叠,8,0,24,8,,,,\n' +
+  'postgresql,查询性能,单指标,postgresql.cache_hit_ratio.ratio,Graph,,16,0,12,8,,,,\n' +
+  'postgresql,查询性能,指标组合,cb.postgresql.checkpoint_stats,Graph,,16,12,12,8,,,,\n' +
+  'postgresql,查询性能,指标组合,cb.postgresql.buffers,Graph,,24,0,24,8,,,,\n' +
+  'postgresql,查询性能,单指标,postgresql.slow_sql.sql_text,TableView,,32,0,24,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.lock.deadlocks,Graph,,0,0,12,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.lock.conflicts,Graph,,0,12,12,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.conflicts.bufferpin,Graph,,8,0,12,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.conflicts.deadlock,Graph,,8,12,12,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.conflicts.lock,Graph,,16,0,12,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.conflicts.snapshot,Graph,,16,12,12,8,,,,\n' +
+  'postgresql,锁与冲突,单指标,postgresql.conflicts.tablespace,Graph,,24,0,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.connection_db.active,Graph,,0,0,24,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.lock.deadlocks,Graph,,8,0,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.lock.conflicts,Graph,,8,12,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.cache_hit_ratio.ratio,Graph,,16,0,24,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.temp_file.num,Graph,,24,0,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.temp_file.size,Graph,,24,12,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.conflicts.bufferpin,Graph,,32,0,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.conflicts.deadlock,Graph,,32,12,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.conflicts.lock,Graph,,40,0,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.conflicts.snapshot,Graph,,40,12,12,8,,,,\n' +
+  'postgresql,库信息,单指标,postgresql.conflicts.tablespace,Graph,,48,0,12,8,,,,\n' +
+  'oracle,基本信息,单指标,oracle.basic.startup_time,Single,,0,0,6,3,,,,\n' +
   'oracle,基本信息,单指标,oracle.basic.version,Single,,0,6,6,3,,,,\n' +
   'oracle,基本信息,单指标,oracle.process.process_count,SingleGraph,,0,12,6,3,,,,\n' +
   'oracle,基本信息,单指标,oracle.transaction.commits,SingleGraph,,0,18,6,3,,,,\n' +
-  'oracle,基本信息,单指标,oracle.session.total_sessions,SingleGraph,,3,0,6,3,,,,\n' +
-  'oracle,基本信息,单指标,oracle.session.active_sessions,SingleGraph,,3,6,6,3,,,,\n' +
-  'oracle,基本信息,单指标,oracle.execute.executes,SingleGraph,,3,12,6,3,,,,\n' +
+  'oracle,基本信息,单指标,oracle.total_sessions.num,SingleGraph,,3,0,6,3,,,,\n' +
+  'oracle,基本信息,单指标,oracle.active_sessions.num,SingleGraph,,3,6,6,3,,,,\n' +
+  'oracle,基本信息,单指标,oracle.background_sessions.num,SingleGraph,,3,12,6,3,,,,\n' +
   'oracle,基本信息,单指标,oracle.transaction.rollbacks,SingleGraph,,3,18,6,3,,,,\n' +
   'oracle,基本信息,单指标,oracle.performance.qps,Graph,,6,0,12,8,,,,\n' +
   'oracle,基本信息,单指标,oracle.performance.tps,Graph,,6,12,12,8,,,,\n' +
   'oracle,基本信息,单指标,oracle.performance.mbps,Graph,,14,0,12,8,,,,\n' +
-  'oracle,基本信息,单指标,oracle.performance.sql_resp_time,Graph,,14,12,12,8,,,,\n' +
-  'oracle,基本信息,指标组合,cb.oracle.cache_hit_ratio,Graph,,22,0,12,8,,,,\n' +
-  'oracle,基本信息,单指标,oracle.res_util.res_util,Graph,,22,12,12,8,,,,\n' +
-  'oracle,基本信息,单指标,oracle.perf_collector.total_collection,Single,,30,0,6,3,,,,\n' +
-  'oracle,基本信息,单指标,oracle.perf_collector.final_collection_time,SingleGraph,,30,6,6,3,,,,\n' +
+  'oracle,基本信息,指标组合,cb.oracle.cache_hit_ratio,Graph,,14,12,12,8,,,,\n' +
+  'oracle,基本信息,单指标,oracle.cpu_stats.num,Graph,,22,0,12,8,,,,\n' +
+  'oracle,基本信息,单指标,oracle.mem_stats.size,Graph,,22,12,12,8,,,,\n' +
   'oracle,表空间,单指标,oracle.tablespace.name,TableView,,0,0,24,20,,,,\n' +
   'oracle,等待时间,单指标,oracle.wait.concurrent_wait_time,Graph,,0,0,12,8,,,,\n' +
   'oracle,等待时间,单指标,oracle.wait.commit_wait_time,Graph,,0,12,12,8,,,,\n' +

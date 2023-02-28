@@ -90,8 +90,8 @@ const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysq
   'postgresql.conflicts.lock_timeouts\n' +
   'postgresql.conflicts.old_snapshots\n' +
   'postgresql.conflicts.dropped_tablespaces",基于 pg_stat_database_conflicts 视图。,Based on pg_stat_database_conflicts view,,\n' +
-  'cb.postgresql,checkpoint_stats,cb.postgresql.checkpoint_stats,Checkpoint stats,检查点统计,"postgresql.checkpoint.files_synchronization_to_disk\n' +
-  'postgresql.checkpoint.written_files_to_disk",,,,\n' +
+  'cb.postgresql,checkpoint_stats,cb.postgresql.checkpoint_stats,Checkpoint stats,检查点统计,"postgresql.checkpoint.checkpoint_sync_time\n' +
+  'postgresql.checkpoint.checkpoint_write_time",,,,\n' +
   'cb.oracle,cache_hit_ratio,cb.oracle.cache_hit_ratio,Cache hit ratio,缓存命中率,"oracle.cache_hit_ratio.lib_cache_hit_ratio\n' +
   'oracle.cache_hit_ratio.buffer_cache_hit_ratio",,,,'
 
