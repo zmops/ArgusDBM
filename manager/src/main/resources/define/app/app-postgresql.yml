@@ -484,3 +484,93 @@ metrics:
       # sql
       sql: select datname as db_name, confl_tablespace as tablespace, confl_lock as lock, confl_snapshot as snapshot, confl_bufferpin as bufferpin, confl_deadlock as deadlock from pg_stat_database_conflicts;
       url: ^_^url^_^
+
+  - name: cache_hit_ratio
+    priority: 2
+    fields:
+      - field: db_name
+        type: 1
+        instance: true
+      - field: ratio
+        type: 0
+        unit: '%'
+    aliasFields:
+      - blks_hit
+      - blks_read
+      - db_name
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - ratio=(blks_hit + 1) / (blks_read + blks_hit + 1) * 100
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select datname as db_name, blks_hit, blks_read from pg_stat_database;
+      url: ^_^url^_^
+
+  - name: checkpoint
+    priority: 2
+    fields:
+      - field: checkpoint_sync_time
+        type: 0
+        unit: ms
+      - field: checkpoint_write_time
+        type: 0
+        unit: ms
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select checkpoint_sync_time, checkpoint_write_time from pg_stat_bgwriter;
+      url: ^_^url^_^
+
+  - name: buffer
+    priority: 2
+    fields:
+      - field: allocated
+        type: 0
+      - field: fsync_calls_by_backend
+        type: 0
+      - field: written_directly_by_backend
+        type: 0
+      - field: written_by_background_writer
+        type: 0
+      - field: written_during_checkpoints
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select buffers_alloc as allocated, buffers_backend_fsync as fsync_calls_by_backend, buffers_backend as written_directly_by_backend, buffers_clean as written_by_background_writer, buffers_checkpoint as written_during_checkpoints from pg_stat_bgwriter;
+      url: ^_^url^_^
