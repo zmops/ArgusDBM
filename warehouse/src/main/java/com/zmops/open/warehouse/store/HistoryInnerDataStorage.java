@@ -19,6 +19,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAmount;
 import java.util.*;
 
 /**
@@ -126,6 +129,17 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
             if (instance != null && !"".equals(instance)) {
                 Predicate predicateMonitorInstance = criteriaBuilder.equal(root.get("instance"), instance);
                 andList.add(predicateMonitorInstance);
+            }
+            if (history != null) {
+                try {
+                    TemporalAmount temporalAmount = Duration.parse("PT" + history);
+                    ZonedDateTime dateTime = ZonedDateTime.now().minus(temporalAmount);
+                    long timeBefore = dateTime.toEpochSecond() * 1000;
+                    Predicate timePredicate = criteriaBuilder.ge(root.get("time"), timeBefore);
+                    andList.add(timePredicate);
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                }
             }
             Predicate[] predicates = new Predicate[andList.size()];
             Predicate predicate = criteriaBuilder.and(andList.toArray(predicates));
