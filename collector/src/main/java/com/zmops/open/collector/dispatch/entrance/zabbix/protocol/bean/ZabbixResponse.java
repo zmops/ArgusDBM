@@ -18,17 +18,31 @@
 
 package com.zmops.open.collector.dispatch.entrance.zabbix.protocol.bean;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author nantian  Zabbix protocol type
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Slf4j
 public class ZabbixResponse {
+
+    public static final String APP = "app";
+    public static final String METRICS = "metrics";
+    public static final String HOST = "host";
+    public static final String PORT = "port";
+    public static final String TIMEOUT = "timeout";
+    public static final String DATABASE = "database";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String URL = "url";
 
     /**
      * Protocol type
@@ -40,12 +54,47 @@ public class ZabbixResponse {
     private AgentData agentData;
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class ActiveChecks {
         private String key;
-        private int delay;
+        private Long itemid;
+        private String delay;
         private int mtime;
         private int lastlogsize;
+
+        public Map<String, String> getParamsMap() {
+            Map<String, String> paramsMap = new HashMap<>(8);
+            if (key != null && key.length() > 0 && key.contains("[") && key.contains("]")) {
+                try {
+                    int startIndex = key.indexOf('[');
+                    int endIndex = key.indexOf(']');
+                    String preStr = key.substring(0, startIndex);
+                    String endStr = key.substring(startIndex + 1, endIndex);
+                    String[] params = endStr.split(",");
+                    String[] keys = preStr.split("\\.");
+                    if (keys.length != 2 || params.length != 7) {
+                        log.error("zabbix metric key {} do not meet the requirements. ", key);
+                    } else {
+                        paramsMap.put(APP, keys[0]);
+                        paramsMap.put(METRICS, keys[1]);
+                        paramsMap.put(HOST, params[0]);
+                        paramsMap.put(PORT, params[1]);
+                        paramsMap.put(TIMEOUT, params[2]);
+                        paramsMap.put(DATABASE, params[3]);
+                        paramsMap.put(USERNAME, params[4]);
+                        paramsMap.put(PASSWORD, params[5]);
+                        paramsMap.put(URL, params[6]);
+                    }
+                } catch (Exception e) {
+                    log.error("zabbix metric key {} do not meet the requirements. ", key);
+                }
+            } else {
+                log.error("zabbix metric key {} do not meet the requirements. ", key);
+            }
+            return paramsMap;
+        }
     }
 
     @Getter
