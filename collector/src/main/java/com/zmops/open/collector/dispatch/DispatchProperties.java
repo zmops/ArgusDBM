@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  * 调度分发任务配置属性
  *
  * @author tomsun28 from <a href="https://github.com/dromara/hertzbeat">hertzbeat</a>
- * @date 2021/10/16 14:54
+ * @date 2023/03/06 13:17
  */
 @Component
 @ConfigurationProperties(prefix = "collector.dispatch")
@@ -72,6 +72,11 @@ public class DispatchProperties {
          */
         private EtcdProperties etcd;
 
+        /**
+         * zabbix properties
+         */
+        private ZabbixProperties zabbix;
+
         public EtcdProperties getEtcd() {
             return etcd;
         }
@@ -80,13 +85,21 @@ public class DispatchProperties {
             this.etcd = etcd;
         }
 
+        public ZabbixProperties getZabbix() {
+            return zabbix;
+        }
+
+        public void setZabbix(ZabbixProperties zabbix) {
+            this.zabbix = zabbix;
+        }
+
         public static class EtcdProperties {
 
             /**
              * Whether etcd scheduling is started
              * etcd调度是否启动
              */
-            private boolean enabled = true;
+            private boolean enabled = false;
 
             /**
              * etcd's connection endpoint url
@@ -192,6 +205,61 @@ public class DispatchProperties {
 
             public void setJobDir(String jobDir) {
                 this.jobDir = jobDir;
+            }
+        }
+
+        public static class ZabbixProperties {
+            /**
+             * Whether zabbix scheduling is started
+             * zabbix调度是否启动
+             */
+            private boolean enabled = false;
+
+            /**
+             * zabbix server host
+             */
+            private String host;
+
+            /**
+             * zabbix server port
+             */
+            private Integer port = 10051;
+
+            /**
+             * zabbix agent host name
+             */
+            private String agentHost = "ArgusDBM";
+
+            public boolean isEnabled() {
+                return enabled;
+            }
+
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
+
+            public String getHost() {
+                return host;
+            }
+
+            public void setHost(String host) {
+                this.host = host;
+            }
+
+            public Integer getPort() {
+                return port;
+            }
+
+            public void setPort(Integer port) {
+                this.port = port;
+            }
+
+            public String getAgentHost() {
+                return agentHost;
+            }
+
+            public void setAgentHost(String agentHost) {
+                this.agentHost = agentHost;
             }
         }
     }

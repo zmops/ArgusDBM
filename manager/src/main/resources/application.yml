@@ -132,3 +132,12 @@ warehouse:
       host: 127.0.0.1
       port: 6379
       password: 123456
+
+collector:
+  dispatch:
+    entrance:
+      zabbix:
+        enabled: true
+        host: localhost
+        port: 10051
+        agent-host: ZabbixAgentTest

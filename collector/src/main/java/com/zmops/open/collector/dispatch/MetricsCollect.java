@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * 指标组采集
  *
  * @author tomsun28 from <a href="https://github.com/dromara/hertzbeat">hertzbeat</a>
- * @date 2021/10/10 15:35
+ * @date 2023/03/06 13:17
  */
 @Slf4j
 @Data

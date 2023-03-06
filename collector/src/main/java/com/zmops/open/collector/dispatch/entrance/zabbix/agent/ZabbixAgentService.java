@@ -1,6 +1,7 @@
 package com.zmops.open.collector.dispatch.entrance.zabbix.agent;
 
 
+import com.zmops.open.collector.dispatch.DispatchProperties;
 import com.zmops.open.collector.dispatch.entrance.zabbix.protocol.bean.ZabbixProtocolType;
 import com.zmops.open.collector.dispatch.entrance.zabbix.protocol.bean.ZabbixRequest;
 import com.zmops.open.common.entity.message.CollectRep;
@@ -9,7 +10,8 @@ import com.zmops.open.common.util.GsonUtil;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -19,7 +21,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author nantian  Zabbix protocol type
  */
-@Service
+@Component
+@ConditionalOnProperty(prefix = "collector.dispatch.entrance.zabbix",
+        name = "enabled", havingValue = "true")
 @Slf4j
 public class ZabbixAgentService implements CommandLineRunner {
 
@@ -27,19 +31,22 @@ public class ZabbixAgentService implements CommandLineRunner {
     private TcpClient zabbixAgent;
     private String sessionId;
 
-    public ZabbixAgentService() {
+    private DispatchProperties.EntranceProperties.ZabbixProperties zabbixProperties;
+
+    public ZabbixAgentService(DispatchProperties dispatchProperties) {
         this.metricsDataQueue = new LinkedBlockingQueue<>();
+        this.zabbixProperties = dispatchProperties.getEntrance().getZabbix();
     }
 
     @Override
     public void run(String... args) throws Exception {
-        zabbixAgent = new TcpClient("localhost", 10051);
+        zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort());
         zabbixAgent.start();
         sessionId = UUID.randomUUID().toString().replace("-", "");
         Channel channel = zabbixAgent.getChannel();
         ZabbixRequest request = new ZabbixRequest();
         request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
-        request.setHost("ZabbixAgentTest");
+        request.setHost(zabbixProperties.getAgentHost());
         channel.writeAndFlush(request);
         Thread.sleep(2000);
 
@@ -50,14 +57,14 @@ public class ZabbixAgentService implements CommandLineRunner {
                     if (metricsData != null && metricsData.getCode() == CollectRep.Code.SUCCESS) {
                         Channel dataChannel = zabbixAgent.getChannel();
                         if (dataChannel == null || !dataChannel.isActive()) {
-                            zabbixAgent = new TcpClient("localhost", 10051);
+                            zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort());
                             zabbixAgent.start();
                             sessionId = UUID.randomUUID().toString().replace("-", "");
                             dataChannel = zabbixAgent.getChannel();
                         }
                         ZabbixRequest requestData = new ZabbixRequest();
                         requestData.setType(ZabbixProtocolType.AGENT_DATA);
-                        requestData.setHost("ZabbixAgentTest");
+                        requestData.setHost(zabbixProperties.getAgentHost());
                         // agent 启动时生成， 32位
                         requestData.setSession(sessionId);
                         ZabbixRequest.AgentData data = new ZabbixRequest.AgentData();
