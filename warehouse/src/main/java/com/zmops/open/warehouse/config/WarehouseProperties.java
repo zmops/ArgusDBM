@@ -242,6 +242,11 @@ public class WarehouseProperties {
              */
             private boolean enabled = true;
 
+            /**
+             * save data expire time(ms)
+             */
+            private String expireTime = "7D";
+
             public boolean isEnabled() {
                 return enabled;
             }
@@ -250,6 +255,13 @@ public class WarehouseProperties {
                 this.enabled = enabled;
             }
 
+            public String getExpireTime() {
+                return expireTime;
+            }
+
+            public void setExpireTime(String expireTime) {
+                this.expireTime = expireTime;
+            }
         }
 
         public static class InfluxdbProperties {

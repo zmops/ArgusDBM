@@ -6,13 +6,16 @@ import com.zmops.open.common.entity.message.CollectRep;
 import com.zmops.open.common.entity.warehouse.History;
 import com.zmops.open.common.queue.CommonDataQueue;
 import com.zmops.open.common.util.CommonConstants;
+import com.zmops.open.common.util.TimePeriodUtil;
 import com.zmops.open.warehouse.WarehouseWorkerPool;
 import com.zmops.open.warehouse.config.WarehouseProperties;
 import com.zmops.open.warehouse.dao.HistoryDao;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -37,15 +40,42 @@ import java.util.*;
 public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
     private HistoryDao historyDao;
 
+    private WarehouseProperties.StoreProperties.InnerProperties innerProperties;
+
     public HistoryInnerDataStorage(WarehouseWorkerPool workerPool,
                                    WarehouseProperties properties,
                                    HistoryDao historyDao,
                                    CommonDataQueue commonDataQueue) {
         super(workerPool, properties, commonDataQueue);
-
+        this.innerProperties = properties.getStore().getInner();
         this.serverAvailable = true;
         this.historyDao = historyDao;
         this.startStorageData("warehouse-inner-data-storage", isServerAvailable());
+    }
+
+    @Scheduled(cron = "0 0 23 * * ?")
+    public void expiredDataCleaner() {
+        String expireTimeStr = innerProperties.getExpireTime();
+        long expireTime = 0;
+        try {
+            if (NumberUtils.isParsable(expireTimeStr)) {
+                expireTime = NumberUtils.toLong(expireTimeStr);
+                expireTime = (ZonedDateTime.now().toEpochSecond() + expireTime) * 1000;
+            } else {
+                TemporalAmount temporalAmount = TimePeriodUtil.parseTokenTime(expireTimeStr);
+                ZonedDateTime dateTime = ZonedDateTime.now().minus(temporalAmount);
+                expireTime = dateTime.toEpochSecond() * 1000;
+            }
+        } catch (Exception e) {
+            log.error("expiredDataCleaner time error: {}. use default expire time to clean: 7d", e.getMessage());
+            ZonedDateTime dateTime = ZonedDateTime.now().minus(Duration.ofDays(7));
+            expireTime = dateTime.toEpochSecond() * 1000;
+        }
+        try {
+            historyDao.deleteHistoriesByTimeBefore(expireTime);
+        } catch (Exception e) {
+            log.error("expiredDataCleaner database error: {}.", e.getMessage());
+        }
     }
 
     @Override
