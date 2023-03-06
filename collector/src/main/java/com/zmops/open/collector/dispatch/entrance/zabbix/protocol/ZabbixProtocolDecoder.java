@@ -51,8 +51,6 @@ public class ZabbixProtocolDecoder extends ByteToMessageDecoder {
                 return;
             }
 
-            System.out.println("ZabbixServer 响应数据为：" + payload);
-
             // Parse content and add to list
             ZabbixResponse response = requestParser.fromJson(payload, ZabbixResponse.class);
             list.add(response);

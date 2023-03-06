@@ -18,12 +18,12 @@
 
 package com.zmops.open.collector.dispatch.entrance.zabbix.protocol.bean;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Deserializer Zabbix Response to JSON
@@ -35,9 +35,15 @@ public class ZabbixResponseJsonDeserializer implements JsonDeserializer<ZabbixRe
     @Override
     public ZabbixResponse deserialize(JsonElement json, Type type, JsonDeserializationContext context)
             throws JsonParseException {
-
         ZabbixResponse response = new ZabbixResponse();
-
+        JsonObject jsonObject = json.getAsJsonObject();
+        if (jsonObject != null && jsonObject.has("data")) {
+            response.setType(ZabbixProtocolType.ACTIVE_CHECKS);
+             JsonElement jsonElement = jsonObject.get("data");
+            Type checksType = new TypeToken<List<ZabbixResponse.ActiveChecks>>(){}.getType();
+            List<ZabbixResponse.ActiveChecks> activeChecks = new Gson().fromJson(jsonElement, checksType);
+            response.setActiveChecks(activeChecks);
+        }
         return response;
     }
 }

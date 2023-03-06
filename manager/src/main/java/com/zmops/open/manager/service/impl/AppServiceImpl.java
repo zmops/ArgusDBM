@@ -19,6 +19,7 @@ package com.zmops.open.manager.service.impl;
 
 import com.zmops.open.common.entity.job.Job;
 import com.zmops.open.common.entity.job.Metrics;
+import com.zmops.open.common.service.AppDefineHouse;
 import com.zmops.open.manager.dao.ParamDefineDao;
 import com.zmops.open.manager.pojo.dto.Hierarchy;
 import com.zmops.open.manager.pojo.dto.ParamDefineDto;
@@ -262,5 +263,8 @@ public class AppServiceImpl implements AppService, CommandLineRunner {
                 throw e;
             }
         }
+
+        // store common
+        AppDefineHouse.flushDefine(appDefines, paramDefines);
     }
 }
