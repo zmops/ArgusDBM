@@ -19,6 +19,7 @@ package com.zmops.open.collector.dispatch;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.zmops.open.collector.dispatch.entrance.zabbix.agent.ZabbixAgentService;
 import com.zmops.open.collector.dispatch.timer.Timeout;
 import com.zmops.open.collector.dispatch.timer.TimerDispatch;
 import com.zmops.open.collector.dispatch.timer.WheelTimerTask;
@@ -64,6 +65,9 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
      * 触发子任务最大数量
      */
     private static final int MAX_SUB_TASK_NUM = 50;
+
+    private static final long ITEM_ID_START = 10000L;
+    private static final long ITEM_ID_END = 99999L;
     private static final Gson GSON = new Gson();
     /**
      * Priority queue of index group collection tasks
@@ -80,6 +84,7 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
      * 采集数据导出器
      */
     private CommonDataQueue commonDataQueue;
+    private ZabbixAgentService zabbixAgentService;
     /**
      * Metric group task and start time mapping map
      * 指标组任务与开始时间映射map
@@ -91,11 +96,13 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
     public CommonDispatcher(MetricsCollectorQueue jobRequestQueue,
                             TimerDispatch timerDispatch,
                             CommonDataQueue commonDataQueue,
+                            ZabbixAgentService zabbixAgentService,
                             WorkerPool workerPool,
                             List<UnitConvert> unitConvertList) {
         this.commonDataQueue = commonDataQueue;
         this.jobRequestQueue = jobRequestQueue;
         this.timerDispatch = timerDispatch;
+        this.zabbixAgentService = zabbixAgentService;
         this.unitConvertList = unitConvertList;
         ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(2, 2, 1,
                 TimeUnit.SECONDS,
@@ -206,7 +213,12 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
         if (job.isCyclic()) {
             // If it is an asynchronous periodic cyclic task, directly send the collected data of the indicator group to the message middleware
             // 若是异步的周期性循环任务,直接发送指标组的采集数据到消息中间件
-            commonDataQueue.sendMetricsData(metricsData);
+            if (job.getMonitorId() <= ITEM_ID_END && job.getMonitorId() >= ITEM_ID_START) {
+                // from zabbix send data to zabbix
+                zabbixAgentService.sendMetricsData(metricsData);
+            } else {
+                commonDataQueue.sendMetricsData(metricsData);
+            }
             if (log.isDebugEnabled()) {
                 log.debug("Cyclic Job: {}",metricsData.getMetrics());
                 for (CollectRep.ValueRow valueRow : metricsData.getValuesList()) {

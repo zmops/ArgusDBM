@@ -72,8 +72,10 @@ public class WheelTimerTask implements TimerTask {
                         String decodeValue = AesUtil.aesDecode(String.valueOf(item.getValue()));
                         if (decodeValue == null) {
                             log.error("Aes Decode value {} error.", item.getValue());
+                            item.setValue(item.getValue());
+                        } else {
+                            item.setValue(decodeValue);
                         }
-                        item.setValue(decodeValue);
                     } else if (item.getValue() != null && item.getValue() instanceof String) {
                         item.setValue(((String) item.getValue()).trim());
                     }

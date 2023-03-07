@@ -79,6 +79,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: on
 
   # Not Require, Please config if you need email notify
   # 非必填：不使用邮箱作为警告通知可以去掉spring.mail配置
@@ -104,6 +105,7 @@ warehouse:
   store:
     inner:
       enabled: true
+      expire-time: 14D
     td-engine:
       enabled: false
       driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
@@ -131,3 +133,12 @@ warehouse:
       host: 127.0.0.1
       port: 6379
       password: 123456
+
+collector:
+  dispatch:
+    entrance:
+      zabbix:
+        enabled: true
+        host: localhost
+        port: 10051
+        agent-host: ZabbixAgentTest
