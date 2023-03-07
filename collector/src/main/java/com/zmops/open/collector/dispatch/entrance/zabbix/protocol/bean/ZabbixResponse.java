@@ -74,7 +74,7 @@ public class ZabbixResponse {
                     String endStr = key.substring(startIndex + 1, endIndex);
                     String[] params = endStr.split(",");
                     String[] keys = preStr.split("\\.");
-                    if (keys.length != 2 || params.length != 7) {
+                    if (keys.length != 2 || params.length < 6) {
                         log.error("zabbix metric key {} do not meet the requirements. ", key);
                     } else {
                         paramsMap.put(APP, keys[0]);
@@ -85,7 +85,9 @@ public class ZabbixResponse {
                         paramsMap.put(DATABASE, params[3]);
                         paramsMap.put(USERNAME, params[4]);
                         paramsMap.put(PASSWORD, params[5]);
-                        paramsMap.put(URL, params[6]);
+                        if (params.length >= 7) {
+                            paramsMap.put(URL, params[6]);
+                        }
                     }
                 } catch (Exception e) {
                     log.error("zabbix metric key {} do not meet the requirements. ", key);
