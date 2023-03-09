@@ -9,8 +9,8 @@ import com.zmops.open.common.util.CommonConstants;
 import com.zmops.open.common.util.GsonUtil;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnProperty(prefix = "collector.dispatch.entrance.zabbix",
         name = "enabled", havingValue = "true")
 @Slf4j
-public class ZabbixAgentService implements CommandLineRunner {
+public class ZabbixAgentService {
 
     private final LinkedBlockingQueue<CollectRep.MetricsData> metricsDataQueue;
     private TcpClient zabbixAgent;
@@ -36,20 +36,30 @@ public class ZabbixAgentService implements CommandLineRunner {
     public ZabbixAgentService(DispatchProperties dispatchProperties) {
         this.metricsDataQueue = new LinkedBlockingQueue<>();
         this.zabbixProperties = dispatchProperties.getEntrance().getZabbix();
+        pullMetricsConfigFromZabbix();
+        initMetricsDataSender();
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort());
-        zabbixAgent.start();
-        sessionId = UUID.randomUUID().toString().replace("-", "");
-        Channel channel = zabbixAgent.getChannel();
-        ZabbixRequest request = new ZabbixRequest();
-        request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
-        request.setHost(zabbixProperties.getAgentHost());
-        channel.writeAndFlush(request);
-        Thread.sleep(2000);
+    /**
+     * 30s拉取一次
+     */
+    @Scheduled(fixedDelay = 30000)
+    public void pullMetricsConfigFromZabbix() {
+        try {
+            zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort());
+            zabbixAgent.start();
+            sessionId = UUID.randomUUID().toString().replace("-", "");
+            Channel channel = zabbixAgent.getChannel();
+            ZabbixRequest request = new ZabbixRequest();
+            request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
+            request.setHost(zabbixProperties.getAgentHost());
+            channel.writeAndFlush(request);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
 
+    private void initMetricsDataSender() {
         Runnable runnable = () -> {
             while (!Thread.currentThread().isInterrupted()) {
                 try {

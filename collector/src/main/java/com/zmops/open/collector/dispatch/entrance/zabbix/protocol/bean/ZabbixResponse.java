@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author nantian  Zabbix protocol type
@@ -96,6 +97,23 @@ public class ZabbixResponse {
                 log.error("zabbix metric key {} do not meet the requirements. ", key);
             }
             return paramsMap;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            ActiveChecks that = (ActiveChecks) o;
+            return key.equals(that.key) && itemid.equals(that.itemid) && delay.equals(that.delay);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, itemid, delay);
         }
     }
 
