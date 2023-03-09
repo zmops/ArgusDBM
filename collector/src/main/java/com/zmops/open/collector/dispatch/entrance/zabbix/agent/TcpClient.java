@@ -6,10 +6,12 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author nantian  Zabbix protocol type
  */
+@Slf4j
 public class TcpClient {
 
     private final String host;
@@ -46,9 +48,9 @@ public class TcpClient {
 
         future.addListener((ChannelFutureListener) arg0 -> {
             if (future.isSuccess()) {
-                System.out.println("服务器连接成功...");
+                log.info("connect zabbix server success!");
             } else {
-                System.out.println("服务器连接失败！");
+                log.error("connect zabbix server failed！");
                 future.cause().printStackTrace();
                 group.shutdownGracefully();
             }
