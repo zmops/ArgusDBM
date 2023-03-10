@@ -86,13 +86,13 @@ public class ZabbixAgentService {
                 try {
                     CollectRep.MetricsData metricsData = metricsDataQueue.poll(2, TimeUnit.SECONDS);
                     if (metricsData != null && metricsData.getCode() == CollectRep.Code.SUCCESS) {
-                        Channel dataChannel = zabbixAgent.getChannel();
-                        if (dataChannel == null || !dataChannel.isActive()) {
+                        Channel dataChannel;
+                        if (zabbixAgent == null || zabbixAgent.getChannel() == null || !zabbixAgent.getChannel().isActive()) {
                             zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort(), null);
                             zabbixAgent.start();
                             sessionId = UUID.randomUUID().toString().replace("-", "");
-                            dataChannel = zabbixAgent.getChannel();
                         }
+                        dataChannel = zabbixAgent.getChannel();
                         String agentHost = itemIdAgentHostMap.get(metricsData.getId());
                         ZabbixRequest requestData = new ZabbixRequest();
                         requestData.setType(ZabbixProtocolType.AGENT_DATA);

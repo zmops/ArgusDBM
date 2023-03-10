@@ -10,6 +10,7 @@ import com.zmops.open.common.service.AppDefineHouse;
 import com.zmops.open.common.support.SpringContextHolder;
 import com.zmops.open.common.util.GsonUtil;
 import com.zmops.open.common.util.SnowFlakeIdGenerator;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  * @author nantian  Zabbix protocol type
  */
 @Slf4j
+@ChannelHandler.Sharable
 public class TcpClientHandler extends SimpleChannelInboundHandler<ZabbixResponse> {
 
     private Map<ZabbixResponse.ActiveChecks, Long> runningJobMap;
