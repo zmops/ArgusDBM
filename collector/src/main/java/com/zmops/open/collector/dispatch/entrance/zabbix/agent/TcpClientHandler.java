@@ -24,9 +24,11 @@ import java.util.stream.Collectors;
 public class TcpClientHandler extends SimpleChannelInboundHandler<ZabbixResponse> {
 
     private Map<ZabbixResponse.ActiveChecks, Long> runningJobMap;
+    private String agentHost;
 
-    public TcpClientHandler() {
+    public TcpClientHandler(String agentHost) {
         this.runningJobMap = new HashMap<>(8);
+        this.agentHost = agentHost;
     }
 
     @Override
@@ -74,6 +76,7 @@ public class TcpClientHandler extends SimpleChannelInboundHandler<ZabbixResponse
                     if (metrics.isEmpty()) {
                         continue;
                     }
+                    ZabbixAgentService.addItemIdHostMap(metric.getItemid(), agentHost);
                     appDefine.setMetrics(metrics);
                     // 下发采集任务
                     collectJobService.addAsyncCollectJob(appDefine);
@@ -82,9 +85,7 @@ public class TcpClientHandler extends SimpleChannelInboundHandler<ZabbixResponse
                     log.error("add zabbix monitor job error {}", e.getMessage(), e);
                 }
             }
-            deleteJobIds.forEach(jobId -> {
-                collectJobService.cancelAsyncCollectJob(jobId);
-            });
+            deleteJobIds.forEach(collectJobService::cancelAsyncCollectJob);
             runningJobMap = currentJobMap;
         }
     }

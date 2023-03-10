@@ -18,10 +18,15 @@ public class TcpClient {
     private final int port;
     private Channel channel;
     private EventLoopGroup group;
+    private TcpClientHandler tcpClientHandler;
 
-    public TcpClient(String host, int port) {
+    public TcpClient(String host, int port, TcpClientHandler clientHandler) {
         this.host = host;
         this.port = port;
+        if (clientHandler == null) {
+            clientHandler = new TcpClientHandler(null);
+        }
+        this.tcpClientHandler = clientHandler;
     }
 
     public void shutdown() throws InterruptedException {
@@ -40,7 +45,7 @@ public class TcpClient {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new ZabbixProtocolDataCodec());
-                        pipeline.addLast(new TcpClientHandler());
+                        pipeline.addLast(tcpClientHandler);
                     }
                 });
 
