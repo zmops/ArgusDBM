@@ -20,6 +20,8 @@ package com.zmops.open.collector.dispatch;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Schedule Distribution Task Configuration Properties
  * 调度分发任务配置属性
@@ -228,7 +230,7 @@ public class DispatchProperties {
             /**
              * zabbix agent host name
              */
-            private String agentHost = "ArgusDBM";
+            private List<String> agentHost = List.of("ArgusDBM");
 
             public boolean isEnabled() {
                 return enabled;
@@ -254,11 +256,11 @@ public class DispatchProperties {
                 this.port = port;
             }
 
-            public String getAgentHost() {
+            public List<String> getAgentHost() {
                 return agentHost;
             }
 
-            public void setAgentHost(String agentHost) {
+            public void setAgentHost(List<String> agentHost) {
                 this.agentHost = agentHost;
             }
         }

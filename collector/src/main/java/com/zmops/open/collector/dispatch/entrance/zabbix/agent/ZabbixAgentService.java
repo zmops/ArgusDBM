@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -30,14 +31,20 @@ public class ZabbixAgentService {
     private final LinkedBlockingQueue<CollectRep.MetricsData> metricsDataQueue;
     private TcpClient zabbixAgent;
     private String sessionId;
-
+    private Map<String, TcpClientHandler> agentHostHandlerMap;
+    private static Map<Long, String> itemIdAgentHostMap  = new ConcurrentHashMap<>(8);
     private DispatchProperties.EntranceProperties.ZabbixProperties zabbixProperties;
 
     public ZabbixAgentService(DispatchProperties dispatchProperties) {
         this.metricsDataQueue = new LinkedBlockingQueue<>();
+        this.agentHostHandlerMap = new HashMap<>(8);
         this.zabbixProperties = dispatchProperties.getEntrance().getZabbix();
         pullMetricsConfigFromZabbix();
         initMetricsDataSender();
+    }
+
+    public static void addItemIdHostMap(Long itemId, String agentHost) {
+        itemIdAgentHostMap.put(itemId, agentHost);
     }
 
     /**
@@ -46,14 +53,28 @@ public class ZabbixAgentService {
     @Scheduled(fixedDelay = 30000)
     public void pullMetricsConfigFromZabbix() {
         try {
-            zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort());
-            zabbixAgent.start();
-            sessionId = UUID.randomUUID().toString().replace("-", "");
-            Channel channel = zabbixAgent.getChannel();
-            ZabbixRequest request = new ZabbixRequest();
-            request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
-            request.setHost(zabbixProperties.getAgentHost());
-            channel.writeAndFlush(request);
+            List<String> agentHostList = zabbixProperties.getAgentHost();
+            if (agentHostList == null) {
+                log.error("agent host can not null!");
+                return;
+            }
+            for (String agentHost : agentHostList) {
+                TcpClientHandler clientHandler = agentHostHandlerMap.get(agentHost);
+                if (clientHandler == null) {
+                    clientHandler = new TcpClientHandler(agentHost);
+                    agentHostHandlerMap.put(agentHost, clientHandler);
+                }
+                TcpClient zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort(), clientHandler);
+                zabbixAgent.start();
+                sessionId = UUID.randomUUID().toString().replace("-", "");
+                Channel channel = zabbixAgent.getChannel();
+                ZabbixRequest request = new ZabbixRequest();
+                request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
+                request.setHost(agentHost);
+                channel.writeAndFlush(request);
+                Thread.sleep(4000);
+                zabbixAgent.shutdown();
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -65,16 +86,17 @@ public class ZabbixAgentService {
                 try {
                     CollectRep.MetricsData metricsData = metricsDataQueue.poll(2, TimeUnit.SECONDS);
                     if (metricsData != null && metricsData.getCode() == CollectRep.Code.SUCCESS) {
-                        Channel dataChannel = zabbixAgent.getChannel();
-                        if (dataChannel == null || !dataChannel.isActive()) {
-                            zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort());
+                        Channel dataChannel;
+                        if (zabbixAgent == null || zabbixAgent.getChannel() == null || !zabbixAgent.getChannel().isActive()) {
+                            zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort(), null);
                             zabbixAgent.start();
                             sessionId = UUID.randomUUID().toString().replace("-", "");
-                            dataChannel = zabbixAgent.getChannel();
                         }
+                        dataChannel = zabbixAgent.getChannel();
+                        String agentHost = itemIdAgentHostMap.get(metricsData.getId());
                         ZabbixRequest requestData = new ZabbixRequest();
                         requestData.setType(ZabbixProtocolType.AGENT_DATA);
-                        requestData.setHost(zabbixProperties.getAgentHost());
+                        requestData.setHost(agentHost);
                         // agent 启动时生成， 32位
                         requestData.setSession(sessionId);
                         ZabbixRequest.AgentData data = new ZabbixRequest.AgentData();
@@ -111,7 +133,7 @@ public class ZabbixAgentService {
 
     public static void main(String[] args) throws Exception {
 
-        TcpClient zabbixAgent = new TcpClient("localhost", 10051);
+        TcpClient zabbixAgent = new TcpClient("localhost", 10051, null);
         zabbixAgent.start();
 
         Channel channel = zabbixAgent.getChannel();
@@ -129,7 +151,7 @@ public class ZabbixAgentService {
         //  Zabbix Server 会主动断开，每次提交数据都需要重新创建连接
         //==========================================================
 
-        TcpClient zabbixAgent2 = new TcpClient("localhost", 10051);
+        TcpClient zabbixAgent2 = new TcpClient("localhost", 10051, null);
         zabbixAgent2.start();
 
         Channel channel2 = zabbixAgent2.getChannel();
