@@ -141,4 +141,6 @@ collector:
         enabled: true
         host: localhost
         port: 10051
-        agent-host: ZabbixAgentTest
+        agent-host:
+          - ZabbixAgentTest
+          - ZabbixAgentTest2

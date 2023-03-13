@@ -6,20 +6,27 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author nantian  Zabbix protocol type
  */
+@Slf4j
 public class TcpClient {
 
     private final String host;
     private final int port;
     private Channel channel;
     private EventLoopGroup group;
+    private TcpClientHandler tcpClientHandler;
 
-    public TcpClient(String host, int port) {
+    public TcpClient(String host, int port, TcpClientHandler clientHandler) {
         this.host = host;
         this.port = port;
+        if (clientHandler == null) {
+            clientHandler = new TcpClientHandler(null);
+        }
+        this.tcpClientHandler = clientHandler;
     }
 
     public void shutdown() throws InterruptedException {
@@ -38,7 +45,7 @@ public class TcpClient {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new ZabbixProtocolDataCodec());
-                        pipeline.addLast(new TcpClientHandler());
+                        pipeline.addLast(tcpClientHandler);
                     }
                 });
 
@@ -46,9 +53,9 @@ public class TcpClient {
 
         future.addListener((ChannelFutureListener) arg0 -> {
             if (future.isSuccess()) {
-                System.out.println("服务器连接成功...");
+                log.info("connect zabbix server success!");
             } else {
-                System.out.println("服务器连接失败！");
+                log.error("connect zabbix server failed！");
                 future.cause().printStackTrace();
                 group.shutdownGracefully();
             }
