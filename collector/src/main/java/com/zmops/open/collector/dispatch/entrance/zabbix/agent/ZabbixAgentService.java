@@ -110,6 +110,7 @@ public class ZabbixAgentService {
                             String instance = values.getInstance();
                             if (StringUtils.hasText(instance)) {
                                 dataMap.put("{#INSTANCE}", instance);
+                                dataMap.put("{#KEYNAME}", "{#INSTANCE}");
                                 isMultiInstance.set(true);
                             }
                             for (int i = 0; i < metricsData.getFieldsCount(); i++) {
