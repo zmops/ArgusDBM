@@ -12,12 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author nantian  Zabbix protocol type
@@ -102,8 +104,14 @@ public class ZabbixAgentService {
                         ZabbixRequest.AgentData data = new ZabbixRequest.AgentData();
                         data.setItemid((int) metricsData.getId());
                         List<Map<String, String>> dataList = new LinkedList<>();
+                        AtomicBoolean isMultiInstance = new AtomicBoolean(false);
                         metricsData.getValuesList().forEach(values -> {
                             Map<String, String> dataMap = new HashMap<>(8);
+                            String instance = values.getInstance();
+                            if (StringUtils.hasText(instance)) {
+                                dataMap.put("{#INSTANCE}", instance);
+                                isMultiInstance.set(true);
+                            }
                             for (int i = 0; i < metricsData.getFieldsCount(); i++) {
                                 CollectRep.Field field = metricsData.getFields(i);
                                 String value = values.getColumns(i);
@@ -113,7 +121,16 @@ public class ZabbixAgentService {
                             }
                             dataList.add(dataMap);
                         });
-                        String dataJson = GsonUtil.toJson(dataList);
+                        String dataJson = null;
+                        if (isMultiInstance.get()) {
+                            dataJson = GsonUtil.toJson(dataList);
+                        } else {
+                            if (dataList.isEmpty()) {
+                                dataJson = GsonUtil.toJson(new HashMap<>(8));
+                            } else {
+                                dataJson = GsonUtil.toJson(dataList.get(0));
+                            }
+                        }
                         data.setValue(dataJson);
                         data.setClock(System.currentTimeMillis() / 1000);
                         // todo 采集消费时间
