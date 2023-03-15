@@ -454,6 +454,8 @@ metrics:
         type: 0
       - field: com_rollback
         type: 0
+      - field: com_begin
+        type: 0
       - field: com_stmt_execute
         type: 0
       - field: com_admin_commands
