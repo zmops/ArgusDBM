@@ -87,7 +87,7 @@ public class ZabbixAgentService {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     CollectRep.MetricsData metricsData = metricsDataQueue.poll(2, TimeUnit.SECONDS);
-                    if (metricsData != null && metricsData.getCode() == CollectRep.Code.SUCCESS) {
+                    if (metricsData != null) {
                         Channel dataChannel;
                         if (zabbixAgent == null || zabbixAgent.getChannel() == null || !zabbixAgent.getChannel().isActive()) {
                             zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort(), null);
@@ -103,36 +103,40 @@ public class ZabbixAgentService {
                         requestData.setSession(sessionId);
                         ZabbixRequest.AgentData data = new ZabbixRequest.AgentData();
                         data.setItemid((int) metricsData.getId());
-                        List<Map<String, String>> dataList = new LinkedList<>();
-                        AtomicBoolean isMultiInstance = new AtomicBoolean(false);
-                        metricsData.getValuesList().forEach(values -> {
-                            Map<String, String> dataMap = new HashMap<>(8);
-                            String instance = values.getInstance();
-                            if (StringUtils.hasText(instance)) {
-                                dataMap.put("{#INSTANCE}", instance);
-                                dataMap.put("{#KEYNAME}", "{#INSTANCE}");
-                                isMultiInstance.set(true);
-                            }
-                            for (int i = 0; i < metricsData.getFieldsCount(); i++) {
-                                CollectRep.Field field = metricsData.getFields(i);
-                                String value = values.getColumns(i);
-                                if (!CommonConstants.NULL_VALUE.equals(value)) {
-                                    dataMap.put(field.getName(), value);
+                        if (metricsData.getCode() == CollectRep.Code.SUCCESS) {
+                            List<Map<String, String>> dataList = new LinkedList<>();
+                            AtomicBoolean isMultiInstance = new AtomicBoolean(false);
+                            metricsData.getValuesList().forEach(values -> {
+                                Map<String, String> dataMap = new HashMap<>(8);
+                                String instance = values.getInstance();
+                                if (StringUtils.hasText(instance)) {
+                                    dataMap.put("{#INSTANCE}", instance);
+                                    dataMap.put("{#KEYNAME}", "{#INSTANCE}");
+                                    isMultiInstance.set(true);
+                                }
+                                for (int i = 0; i < metricsData.getFieldsCount(); i++) {
+                                    CollectRep.Field field = metricsData.getFields(i);
+                                    String value = values.getColumns(i);
+                                    if (!CommonConstants.NULL_VALUE.equals(value)) {
+                                        dataMap.put(field.getName(), value);
+                                    }
+                                }
+                                dataList.add(dataMap);
+                            });
+                            String dataJson = null;
+                            if (isMultiInstance.get()) {
+                                dataJson = GsonUtil.toJson(dataList);
+                            } else {
+                                if (dataList.isEmpty()) {
+                                    dataJson = GsonUtil.toJson(new HashMap<>(8));
+                                } else {
+                                    dataJson = GsonUtil.toJson(dataList.get(0));
                                 }
                             }
-                            dataList.add(dataMap);
-                        });
-                        String dataJson = null;
-                        if (isMultiInstance.get()) {
-                            dataJson = GsonUtil.toJson(dataList);
+                            data.setValue(dataJson);
                         } else {
-                            if (dataList.isEmpty()) {
-                                dataJson = GsonUtil.toJson(new HashMap<>(8));
-                            } else {
-                                dataJson = GsonUtil.toJson(dataList.get(0));
-                            }
+                            data.setValue(metricsData.getCode() + ":" + metricsData.getMsg());
                         }
-                        data.setValue(dataJson);
                         data.setClock(System.currentTimeMillis() / 1000);
                         // todo 采集消费时间
                         data.setNs(76808644);
