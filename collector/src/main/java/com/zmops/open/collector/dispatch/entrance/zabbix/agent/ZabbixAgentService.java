@@ -31,15 +31,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ZabbixAgentService {
 
     private final LinkedBlockingQueue<CollectRep.MetricsData> metricsDataQueue;
-    private TcpClient zabbixAgent;
+    private TcpClient flushTcpClient;
+    private Channel flushChannel;
     private String sessionId;
-    private Map<String, TcpClientHandler> agentHostHandlerMap;
+    private Map<String, TcpClient> agentHostTcpClientMap;
     private static Map<Long, String> itemIdAgentHostMap  = new ConcurrentHashMap<>(8);
     private DispatchProperties.EntranceProperties.ZabbixProperties zabbixProperties;
 
     public ZabbixAgentService(DispatchProperties dispatchProperties) {
         this.metricsDataQueue = new LinkedBlockingQueue<>();
-        this.agentHostHandlerMap = new HashMap<>(8);
+        this.agentHostTcpClientMap = new HashMap<>(8);
         this.zabbixProperties = dispatchProperties.getEntrance().getZabbix();
         pullMetricsConfigFromZabbix();
         initMetricsDataSender();
@@ -61,21 +62,20 @@ public class ZabbixAgentService {
                 return;
             }
             for (String agentHost : agentHostList) {
-                TcpClientHandler clientHandler = agentHostHandlerMap.get(agentHost);
-                if (clientHandler == null) {
-                    clientHandler = new TcpClientHandler(agentHost);
-                    agentHostHandlerMap.put(agentHost, clientHandler);
+                TcpClient tcpClient = agentHostTcpClientMap.get(agentHost);
+                if (tcpClient == null) {
+                    TcpClientHandler clientHandler = new TcpClientHandler(agentHost);
+                    tcpClient = new TcpClient(clientHandler);
+                    agentHostTcpClientMap.put(agentHost, tcpClient);
                 }
-                TcpClient zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort(), clientHandler);
-                zabbixAgent.start();
                 sessionId = UUID.randomUUID().toString().replace("-", "");
-                Channel channel = zabbixAgent.getChannel();
+                Channel channel = tcpClient.connect(zabbixProperties.getHost(), zabbixProperties.getPort());
                 ZabbixRequest request = new ZabbixRequest();
                 request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
                 request.setHost(agentHost);
                 channel.writeAndFlush(request);
                 Thread.sleep(4000);
-                zabbixAgent.shutdown();
+                channel.close();
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -88,13 +88,13 @@ public class ZabbixAgentService {
                 try {
                     CollectRep.MetricsData metricsData = metricsDataQueue.poll(2, TimeUnit.SECONDS);
                     if (metricsData != null) {
-                        Channel dataChannel;
-                        if (zabbixAgent == null || zabbixAgent.getChannel() == null || !zabbixAgent.getChannel().isActive()) {
-                            zabbixAgent = new TcpClient(zabbixProperties.getHost(), zabbixProperties.getPort(), null);
-                            zabbixAgent.start();
+                        if (flushTcpClient == null) {
+                            flushTcpClient = new TcpClient();
                             sessionId = UUID.randomUUID().toString().replace("-", "");
                         }
-                        dataChannel = zabbixAgent.getChannel();
+                        if (flushChannel == null || !flushChannel.isOpen()) {
+                            flushChannel = flushTcpClient.connect(zabbixProperties.getHost(), zabbixProperties.getPort());
+                        }
                         String agentHost = itemIdAgentHostMap.get(metricsData.getId());
                         ZabbixRequest requestData = new ZabbixRequest();
                         requestData.setType(ZabbixProtocolType.AGENT_DATA);
@@ -141,9 +141,11 @@ public class ZabbixAgentService {
                         // todo 采集消费时间
                         data.setNs(76808644);
                         requestData.setAgentDataList(Collections.singletonList(data));
-                        dataChannel.writeAndFlush(requestData);
+                        flushChannel.writeAndFlush(requestData);
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
             }
         };
         Executors.newSingleThreadExecutor().submit(runnable);
@@ -151,50 +153,5 @@ public class ZabbixAgentService {
 
     public void sendMetricsData(CollectRep.MetricsData metricsData) {
         this.metricsDataQueue.offer(metricsData);
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        TcpClient zabbixAgent = new TcpClient("localhost", 10051, null);
-        zabbixAgent.start();
-
-        Channel channel = zabbixAgent.getChannel();
-
-
-        ZabbixRequest request = new ZabbixRequest();
-        request.setType(ZabbixProtocolType.ACTIVE_CHECKS);
-        request.setHost("ZabbixAgentTest");
-
-        channel.writeAndFlush(request);
-        zabbixAgent.shutdown();
-
-        Thread.sleep(2000);
-
-        //  Zabbix Server 会主动断开，每次提交数据都需要重新创建连接
-        //==========================================================
-
-        TcpClient zabbixAgent2 = new TcpClient("localhost", 10051, null);
-        zabbixAgent2.start();
-
-        Channel channel2 = zabbixAgent2.getChannel();
-
-        ZabbixRequest requestData = new ZabbixRequest();
-        requestData.setType(ZabbixProtocolType.AGENT_DATA);
-        requestData.setHost("ZabbixAgentTest");
-        // agent 启动时生成， 32位
-        requestData.setSession(UUID.randomUUID().toString().replace("-", ""));
-
-        Random random = new Random();
-
-        ZabbixRequest.AgentData data = new ZabbixRequest.AgentData();
-        data.setItemid(44301);
-        data.setValue("" + random.nextInt(1000));
-        data.setClock(System.currentTimeMillis() / 1000);
-        data.setNs(76808644);
-
-        requestData.setAgentDataList(Collections.singletonList(data));
-
-        channel2.writeAndFlush(requestData);
-        zabbixAgent2.shutdown();
     }
 }

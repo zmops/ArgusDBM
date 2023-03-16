@@ -13,32 +13,28 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class TcpClient {
-
-    private final String host;
-    private final int port;
-    private Channel channel;
     private EventLoopGroup group;
+
+    private Bootstrap b;
     private TcpClientHandler tcpClientHandler;
 
-    public TcpClient(String host, int port, TcpClientHandler clientHandler) {
-        this.host = host;
-        this.port = port;
+    public TcpClient(TcpClientHandler clientHandler) {
         if (clientHandler == null) {
             clientHandler = new TcpClientHandler(null);
         }
         this.tcpClientHandler = clientHandler;
+        init();
     }
 
-    public void shutdown() throws InterruptedException {
-        channel.closeFuture().sync();
-        group.shutdownGracefully();
-
+    public TcpClient() {
+        this.tcpClientHandler = new TcpClientHandler(null);
+        init();
     }
 
-    public void start() throws Exception {
+    public void init() {
         group = new NioEventLoopGroup();
 
-        Bootstrap b = new Bootstrap();
+        b = new Bootstrap();
         b.group(group).channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -48,7 +44,9 @@ public class TcpClient {
                         pipeline.addLast(tcpClientHandler);
                     }
                 });
+    }
 
+    public Channel connect(String host, int port) throws Exception {
         final ChannelFuture future = b.connect(host, port).sync();
 
         future.addListener((ChannelFutureListener) arg0 -> {
@@ -61,10 +59,6 @@ public class TcpClient {
             }
         });
 
-        this.channel = future.channel();
-    }
-
-    public Channel getChannel() {
-        return channel;
+        return future.channel();
     }
 }

@@ -79,7 +79,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: on
+    show-sql: off
 
   # Not Require, Please config if you need email notify
   # 非必填：不使用邮箱作为警告通知可以去掉spring.mail配置
