@@ -44,23 +44,27 @@ metrics:
     # 指标组中的具体监控指标
     fields:
       # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
-      - field: PORT_NUM
+      - field: instance_name
         type: 1
-      - field: CTL_PATH
+      - field: port
         type: 1
-      - field: MAX_SESSIONS
+      - field: system_path
+        type: 1
+      - field: max_sessions
         type: 0
     # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
     aliasFields:
+      - INSTANCE_NAME
       - PORT_NUM
-      - CTL_PATH
+      - SYSTEM_PATH
       - MAX_SESSIONS
     # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
     # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
     calculates:
-      - PORT_NUM=PORT_NUM
-      - CTL_PATH=CTL_PATH
-      - MAX_SESSIONS=MAX_SESSIONS
+      - instance_name=INSTANCE_NAME
+      - port=PORT_NUM
+      - system_path=SYSTEM_PATH
+      - max_sessions=MAX_SESSIONS
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -75,13 +79,24 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: columns
       # sql
-      sql: select PARA_NAME, PARA_VALUE from SYS."V$DM_INI" where PARA_NAME = 'MAX_SESSIONS'or PARA_NAME = 'CTL_PATH' or PARA_NAME = 'PORT_NUM';
+      sql: select PARA_NAME, PARA_VALUE from SYS."V$DM_INI" where PARA_NAME = 'INSTANCE_NAME' or PARA_NAME = 'MAX_SESSIONS' or PARA_NAME = 'SYSTEM_PATH' or PARA_NAME = 'PORT_NUM';
       url: ^_^url^_^
-  - name: status
+
+  - name: instance
     priority: 1
     fields:
       # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: name
+        type: 1
+      - field: host_name
+        type: 1
+      - field: db_version
+        type: 1
+      - field: svr_version
+        type: 1
       - field: status
+        type: 1
+      - field: start_time
         type: 1
     protocol: jdbc
     jdbc:
@@ -97,9 +112,33 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: oneRow
       # sql
-      sql: SELECT status$ as status FROM v$instance;
+      sql: SELECT status$ as status, name, host_name, svr_version, db_version, start_time FROM v$instance;
       url: ^_^url^_^
 
+  - name: sessions
+    priority: 1
+    fields:
+      - field: state
+        type: 1
+        instance: true
+      - field: num
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: select count(*) AS num, state from v$sessions GROUP BY state;
+      url: ^_^url^_^
 
   - name: thread
     priority: 2
@@ -109,19 +148,10 @@ metrics:
         type: 0
       - field: dm_io_thd
         type: 0
-      - field: dm_quit_thd
+      - field: dm_tskwrk_thd
         type: 0
-    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
-    aliasFields:
-      - dm_sql_thd
-      - dm_io_thd
-      - dm_quit_thd
-    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
-    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
-    calculates:
-      - dm_sql_thd=dm_sql_thd
-      - dm_io_thd=dm_io_thd
-      - dm_quit_thd=dm_quit_thd
+      - field: dm_wrkgrp_thd
+        type: 0
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -140,3 +170,152 @@ metrics:
       url: ^_^url^_^
 
 
+  - name: tablespace
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: name
+        type: 1
+      - field: size
+        type: 0
+        unit: 'MB'
+      - field: used
+        type: 0
+        unit: 'MB'
+      - field: usage
+        type: 0
+        unit: '%'
+      - field: free
+        type: 0
+        unit: 'MB'
+      - field: max_block
+        type: 0
+        unit: 'MB'
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT Upper(F.TABLESPACE_NAME) "name", D.TOT_GROOTTE_MB "size", D.TOT_GROOTTE_MB - F.TOTAL_BYTES "used", To_char(Round(( D.TOT_GROOTTE_MB - F.TOTAL_BYTES ) / D.TOT_GROOTTE_MB * 100, 2), '990.99') "usage", F.TOTAL_BYTES "free", F.MAX_BYTES "max_block" FROM ( SELECT TABLESPACE_NAME, Round(Sum(BYTES) / ( 1024 * 1024 ), 2) TOTAL_BYTES, Round(Max(BYTES) / ( 1024 * 1024 ), 2) MAX_BYTES FROM SYS.DBA_FREE_SPACE GROUP BY TABLESPACE_NAME) F, ( SELECT DD.TABLESPACE_NAME, Round(Sum(DD.BYTES) / ( 1024 * 1024 ), 2) TOT_GROOTTE_MB FROM SYS.DBA_DATA_FILES DD GROUP BY DD.TABLESPACE_NAME) D WHERE D.TABLESPACE_NAME = F.TABLESPACE_NAME ORDER BY 2 DESC;
+      url: ^_^url^_^
+
+  - name: checkpoint
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: last_begin_time
+        type: 1
+      - field: last_end_time
+        type: 1
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select last_begin_time, last_end_time from V$CKPT;
+      url: ^_^url^_^
+
+  - name: unsubmitted_trx_table
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: object_name
+        type: 1
+        instance: true
+      - field: sess_id
+        type: 1
+      - field: trx_id
+        type: 1
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT b.object_name, c.sess_id, a.trx_id FROM v$lock a, dba_objects b, v$sessions c WHERE a.table_id = b.object_id AND ltype = 'OBJECT' AND a.trx_id = c.trx_id;
+      url: ^_^url^_^
+
+  - name: buffer_pool
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: name
+        type: 1
+        instance: true
+      - field: n_pages
+        type: 0
+      - field: free
+        type: 0
+      - field: n_discard64
+        type: 0
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT name, n_pages, free, n_discard64 FROM v$bufferpool;
+      url: ^_^url^_^
+
+  - name: buffer_hit_ratio
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: name
+        type: 1
+        instance: true
+      - field: sf_get_page_size
+        type: 0
+      - field: rat_hit
+        type: 0
+        unit: '%'
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT name, sum(page_size)*sf_get_page_size sf_get_page_size, sum(rat_hit) /count(*) rat_hit FROM v$bufferpool group by name;
+      url: ^_^url^_^

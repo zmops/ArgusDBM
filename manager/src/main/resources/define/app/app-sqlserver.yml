@@ -126,13 +126,22 @@ metrics:
       sql: select counter_name, cntr_value from sys.dm_os_performance_counters where object_name = 'SQLServer:Buffer Manager';
       url: ^_^url^_^
 
-  - name: connection
+  - name: statistics
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
       - field: user_connection
         type: 0
-        unit: 连接数
+      - field: processes_blocked
+        type: 0
+    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
+    aliasFields:
+      - User Connections
+      - Processes blocked
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - user_connection=User Connections
+      - processes_blocked=Processes blocked
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -145,7 +154,50 @@ metrics:
       database: ^_^database^_^
       timeout: ^_^timeout^_^
       # SQL查询方式： oneRow, multiRow, columns
-      queryType: oneRow
+      queryType: columns
       # sql
-      sql: SELECT cntr_value as user_connection FROM sys.dm_os_performance_counters WHERE object_name = 'SQLServer:General Statistics' AND counter_name = 'User Connections';
+      sql: SELECT counter_name, cntr_value FROM sys.dm_os_performance_counters WHERE object_name LIKE '%General Statistics%';
+      url: ^_^url^_^
+
+  - name: resource_pool
+    priority: 1
+    fields:
+      - field: used_memory
+        type: 0
+        unit: 'KB'
+      - field: cpu_util
+        type: 0
+        unit: '%'
+      - field: disk_read_io
+        type: 0
+      - field: disk_write_io
+        type: 0
+    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
+    aliasFields:
+      - Used memory (KB)
+      - CPU usage %
+      - Disk Read IO/sec
+      - Disk Write IO/sec
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - used_memory=Used memory (KB)
+      - cpu_util=CPU usage %
+      - disk_read_io=Disk Read IO/sec
+      - disk_write_io=Disk Write IO/sec
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: sqlserver
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: SELECT counter_name, cntr_value FROM sys.dm_os_performance_counters WHERE object_name LIKE '%Resource Pool Stats%';
       url: ^_^url^_^
