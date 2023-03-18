@@ -201,3 +201,113 @@ metrics:
       # sql
       sql: SELECT counter_name, cntr_value FROM sys.dm_os_performance_counters WHERE object_name LIKE '%Resource Pool Stats%';
       url: ^_^url^_^
+
+  - name: buffer_cache
+    priority: 1
+    fields:
+      - field: buffer_cache_hit_ratio
+        type: 0
+        unit: '%'
+      - field: page_life_expectancy
+        type: 0
+        unit: s
+      - field: checkpoint_pages
+        type: 0
+    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
+    aliasFields:
+      - Buffer cache hit ratio
+      - Page life expectancy
+      - Checkpoint pages/sec
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - buffer_cache_hit_ratio=Buffer cache hit ratio
+      - page_life_expectancy=Page life expectancy
+      - checkpoint_pages=Checkpoint pages/sec
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: sqlserver
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: SELECT counter_name, cntr_value FROM sys.dm_os_performance_counters WHERE object_name LIKE '%Buffer Manager%';
+      url: ^_^url^_^
+
+  - name: tsql
+    priority: 1
+    fields:
+      - field: batch_request
+        type: 0
+      - field: sql_compilations
+        type: 0
+      - field: sql_recompilations
+        type: 0
+    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
+    aliasFields:
+      - Batch Requests/sec
+      - SQL Compilations/sec
+      - SQL Re-Compilations/sec
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - batch_request=Batch Requests/sec
+      - sql_compilations=SQL Compilations/sec
+      - sql_recompilations=SQL Re-Compilations/sec
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: sqlserver
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: SELECT counter_name, cntr_value FROM sys.dm_os_performance_counters WHERE object_name LIKE '%SQL Statistics%';
+      url: ^_^url^_^
+
+  - name: lock
+    priority: 1
+    fields:
+      - field: average_wait_lock_time
+        type: 0
+        unit: ms
+      - field: lock_waits
+        type: 0
+    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
+    aliasFields:
+      - Average Wait Time (ms)
+      - Lock Waits/sec
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - average_wait_lock_time=Average Wait Time (ms)
+      - lock_waits=Lock Waits/sec
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: sqlserver
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: columns
+      # sql
+      sql: SELECT counter_name, cntr_value FROM sys.dm_os_performance_counters WHERE object_name LIKE '%Locks%' and instance_name = 'Database';
+      url: ^_^url^_^
