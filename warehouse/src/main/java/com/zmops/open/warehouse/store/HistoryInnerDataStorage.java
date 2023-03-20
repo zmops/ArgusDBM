@@ -38,6 +38,7 @@ import java.util.*;
         name = "enabled", havingValue = "true")
 @Slf4j
 public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
+    private static final int STRING_MAX_LENGTH = 1024;
     private HistoryDao historyDao;
 
     private WarehouseProperties.StoreProperties.InnerProperties innerProperties;
@@ -100,7 +101,7 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
             for (CollectRep.ValueRow valueRow : metricsData.getValuesList()) {
                 String instance = valueRow.getInstance();
                 if (!instance.isEmpty()) {
-                    instance = String.format("\"%s\"", instance);
+                    instance = formatStrValue(instance);
                     historyBuilder.instance(instance);
                 } else {
                     historyBuilder.instance(null);
@@ -114,7 +115,7 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
                                             .dou(Double.parseDouble(valueRow.getColumns(i)));
                         } else if (fieldsList.get(i).getType() == CommonConstants.TYPE_STRING) {
                             historyBuilder.metricType(CommonConstants.TYPE_STRING)
-                                    .str(valueRow.getColumns(i));
+                                    .str(formatStrValue(valueRow.getColumns(i)));
                         }
                     } else {
                         if (fieldsList.get(i).getType() == CommonConstants.TYPE_NUMBER) {
@@ -194,6 +195,19 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
         return instanceValuesMap;
     }
 
+    private String formatStrValue(String value) {
+        if (value == null) {
+            return "";
+        }
+        value = value.replace("'", "\\'");
+        value = value.replace("\"", "\\\"");
+        value = value.replace("*", "-");
+        value = String.format("`%s`", value);
+        if (value.length() > STRING_MAX_LENGTH) {
+            value = value.substring(0, STRING_MAX_LENGTH - 1);
+        }
+        return value;
+    }
 
     @Override
     public Map<String, List<Value>> getHistoryIntervalMetricData(Long monitorId, String app, String metrics, String metric, String instance, String history) {

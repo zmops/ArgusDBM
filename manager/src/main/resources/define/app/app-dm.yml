@@ -319,3 +319,101 @@ metrics:
       # sql
       sql: SELECT name, sum(page_size)*sf_get_page_size sf_get_page_size, sum(rat_hit) /count(*) rat_hit FROM v$bufferpool group by name;
       url: ^_^url^_^
+
+  - name: max_mem_used_sql
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: sessid
+        type: 1
+        instance: true
+      - field: max_mem_used
+        type: 0
+        unit: 'KB'
+      - field: sql_txt
+        type: 1
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT SESSID, MAX_MEM_USED, SQL_TXT  FROM V$SQL_STAT order by MAX_MEM_USED DESC;
+      url: ^_^url^_^
+
+  - name: max_phy_read_sql
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: sessid
+        type: 1
+        instance: true
+      - field: sql_txt
+        type: 1
+      - field: phy_read_cnt
+        type: 0
+      - field: io_wait_time
+        type: 0
+        unit: ms
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT * FROM V$SQL_STAT order by phy_read_cnt DESC LIMIT 5;
+      url: ^_^url^_^
+
+  - name: slow_sql
+    priority: 2
+    fields:
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      - field: ds_sess_id
+        type: 1
+        instance: true
+      - field: ds_sql_text
+        type: 1
+      - field: ds_trx_id
+        type: 1
+      - field: ltype
+        type: 1
+      - field: ds_create_time
+        type: 1
+      - field: ss_sess_id
+        type: 1
+      - field: ss_sql_text
+        type: 1
+      - field: ss_clnt_ip
+        type: 1
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      platform: dm
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      timeout: ^_^timeout^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: multiRow
+      # sql
+      sql: SELECT DS.SESS_ID ds_sess_id, DS.SQL_TEXT ds_sql_text, DS.TRX_ID ds_trx_id, (CASE L.LTYPE WHEN 'OBJECT' THEN '对象锁' WHEN 'TID' THEN '事务锁' END CASE ) ltype, DS.CREATE_TIME ds_create_time, SS.SESS_ID ss_sess_id, SS.SQL_TEXT ss_sql_text, SS.CLNT_IP ss_clnt_ip FROM V$LOCK L LEFT JOIN V$SESSIONS DS ON DS.TRX_ID = L.TRX_ID LEFT JOIN V$SESSIONS SS ON SS.TRX_ID = L.TRX_ID WHERE L.BLOCKED = 1;
+      url: ^_^url^_^
