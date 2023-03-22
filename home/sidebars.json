@@ -1,0 +1,103 @@
+{
+  "docs": [
+    {
+      "type": "category",
+      "label": "文档中心",
+      "items": [
+        "introduce",
+        "help/guide",
+        {
+          "type": "category",
+          "label": "应用服务监控",
+          "items": [
+            "help/website",
+            "help/api",
+            "help/ping",
+            "help/port",
+            "help/fullsite",
+            "help/ssl_cert",
+            "help/jvm",
+            "help/springboot2"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "数据库监控",
+          "items": [
+            "help/mysql",
+            "help/mariadb",
+            "help/postgresql",
+            "help/sqlserver",
+            "help/oracle",
+            "help/dm",
+            "help/opengauss",
+            "help/iotdb",
+            "help/redis"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "操作系统",
+          "items": [
+            "help/linux",
+            "help/windows",
+            "help/ubuntu",
+            "help/centos"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "中间件",
+          "items": [
+            "help/zookeeper",
+            "help/kafka",
+            "help/tomcat",
+            "help/shenyu",
+            "help/dynamic_tp"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "云原生",
+          "items": [
+            "help/docker",
+            "help/kubernetes"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "阈值告警配置",
+          "items": [
+            "help/alert_threshold",
+            "help/alert_threshold_expr"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "告警通知配置",
+          "items": [
+            "help/alert_email",
+            "help/alert_webhook",
+            "help/alert_wework",
+            "help/alert_dingtalk",
+            "help/alert_feishu",
+            "help/alert_console"
+          ]
+        },
+        "help/issue"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Others",
+      "items": [
+        "others/contact",
+        "others/design",
+        "others/sponsor",
+        "others/private",
+        "others/resource",
+        "others/contributing"
+      ]
+    }
+  ]
+}
