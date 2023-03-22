@@ -1,20 +1,20 @@
 const path = require('path')
 
-const organizationName = 'tomsun28' // Usually your GitHub org/user name.
-const projectName = 'bootshiro' // Usually your repo name.
+const organizationName = 'zmops' // Usually your GitHub org/username.
+const projectName = 'ArgusDBM' // Usually your repo name.
 const branch = 'master'
-const repoUrl = `https://gitee.com/tomsun28/${projectName}`
-const editDocRepoUrl = 'https://github.com/dromara/hertzbeat'
-const cdnUrl = 'https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/'
+const repoUrl = `https://github.com/zmops/${projectName}`
+const editDocRepoUrl = 'https://github.com/zmops/ArgusDBM'
+const cdnUrl = null
 
 module.exports = {
-    title: 'TANCLOUD探云',
-    tagline: '易用友好的高性能监控云',
-    url: 'https://hertzbeat.com',
+    title: 'ArgusDBM',
+    tagline: 'Argus 开源数据库一体化监控平台。致力于监控所有数据库',
+    url: 'https://zmops.com',
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'throw',
-    favicon: '/img/tancloud-logo.svg',
+    favicon: '/img/argus.png',
     organizationName,
     projectName,
     customFields: {
@@ -23,10 +23,10 @@ module.exports = {
     },
     i18n: {
         defaultLocale: 'zh-cn',
-        locales: ['zh-cn', 'en'],
+        locales: ['zh-cn'],
     },
     themeConfig: {
-        image: '/img/tancloud-logo.svg',
+        image: '/img/argus.png',
         liveCodeBlock: {
             playgroundPosition: 'bottom',
         },
@@ -55,16 +55,16 @@ module.exports = {
         announcementBar: {
             id: "github-star",
             content:
-                '<font style="font-size: medium; font-weight: bolder">如果您喜欢TANCLOUD的开源产品HertzBeat,</font> <a target="_blank" style="font-size: medium; font-weight: bolder" rel="noopener noreferrer" href="https://github.com/dromara/hertzbeat">欢迎在 GitHub </a> <font style="font-size: medium; font-weight: bolder"> 或 </font><a target="_blank" style="font-size: medium; font-weight: bolder" rel="noopener noreferrer" href="https://gitee.com/dromara/hertzbeat">Gitee 给我们点赞! </a>⭐️',
+                '<font style="font-size: medium; font-weight: bolder">如果您喜欢ArgusDBM,</font> <a target="_blank" style="font-size: medium; font-weight: bolder" rel="noopener noreferrer" href="https://github.com/zmops/ArgusDBM">欢迎在 GitHub </a> <font style="font-size: medium; font-weight: bolder"> 或 </font><a target="_blank" style="font-size: medium; font-weight: bolder" rel="noopener noreferrer" href="https://github.com/zmops/ArgusDBM">Gitee 给我们点赞! </a>⭐️',
             backgroundColor: '#7228B5',
             textColor: '#fafbfc',
             isCloseable: true,
         },
         navbar: {
-            title: 'TANCLOUD',
+            title: 'ArgusDBM',
             logo: {
-                alt: '易用友好的高性能监控云',
-                src: '/img/tancloud-logo.svg',
+                alt: '开源数据库一体化监控平台',
+                src: '/img/argus.png',
             },
             items: [
                 {
@@ -88,48 +88,13 @@ module.exports = {
                     to: 'docs/others/contact',
                 },
                 {
-                    label: '云服务SAAS',
-                    position: 'left',
-                    href: 'https://console.tancloud.cn',
-                },
-                {
-                    label: '私有化企业版',
-                    position: 'left',
-                    to: 'docs/others/private',
-                },
-                {
-                    label: '其它',
-                    position: 'left',
-                    items: [
-                        {
-                            label: '设计文档',
-                            to: 'docs/others/design',
-                        },
-                        {
-                            label: '赞助我们',
-                            to: 'docs/others/sponsor',
-                        },
-                        {
-                            label: '相关资源',
-                            to: 'docs/others/resource',
-                        },
-                    ],
-                },
-                {
-                    type: 'docsVersionDropdown',
-                    position: 'right',
-                    // dropdownItemsAfter: [{to: '/versions', label: '所有版本'}],
-                    dropdownActiveClassDisabled: true,
-                },
-                {
                     type: 'localeDropdown',
                     position: 'right',
                 },
                 {
-                    label: '登录/注册',
-                    href: 'https://console.tancloud.cn',
+                    href: 'https://github.com/zmops/ArgusDBM',
                     position: 'right',
-                    className: 'header-console-link'
+                    className: 'header-github-link'
                 },
             ],
         },
@@ -148,33 +113,17 @@ module.exports = {
                             to: 'docs/start/quickstart',
                         },
                         {
-                            label: '自定义监控',
-                            to: 'docs/advanced/extend-point'
-                        },
-                        {
                             label: '帮助文档',
                             to: 'docs/help/guide'
                         },
                     ],
                 },
                 {
-                    title: '探云科技',
+                    title: '观纵科技',
                     items: [
                         {
-                            label: '交流联系',
-                            to: 'docs/others/contact',
-                        },
-                        {
-                            label: '社区网站',
-                            href: 'https://support.qq.com/products/379369',
-                        },
-                        {
-                            label: '我们的故事',
-                            href: 'https://support.qq.com/products/379369/team',
-                        },
-                        {
-                            label: 'HertzBeat赫兹跳动',
-                            href: 'https://hertzbeat.com',
+                            label: '观纵科技',
+                            href: 'https://www.walkingfunny.com/',
                         }
                     ],
                 },
@@ -183,26 +132,20 @@ module.exports = {
                     items: [
                         {
                             label: 'Github仓库',
-                            href: 'https://github.com/dromara/hertzbeat',
+                            href: 'https://github.com/zmops/ArgusDBM',
                         },
                         {
                             label: 'Gitee仓库',
-                            href: 'https://gitee.com/dromara/hertzbeat',
-                        },
-                        {
-                            label: '相关资源',
-                            to: 'docs/others/resource',
+                            href: 'https://github.com/zmops/ArgusDBM',
                         },
                     ],
                 },
             ],
             logo: {
-                alt: 'TANCLOUD探云-易用友好的高性能监控云',
-                src: '/img/wechat.png',
-                href: 'https://tancloud.cn',
-            },
-            copyright: '<a target="_blank" href="https://beian.miit.gov.cn/">蜀ICP备2022002218号</a>'
-                + ` | Copyright TANCLOUD © 2021-${new Date().getFullYear()}`,
+                alt: 'Argus 开源数据库一体化监控平台。致力于监控所有数据库',
+                src: '/img/argus.png',
+                href: 'https://github.com/zmops/ArgusDBM',
+            }
         },
     },
     presets: [
@@ -230,7 +173,7 @@ module.exports = {
                     postsPerPage: 1,
                     feedOptions: {
                         type: 'all',
-                        copyright: `Copyright © ${new Date().getFullYear()} TANCLOUD, Inc.`,
+                        copyright: `Copyright © ${new Date().getFullYear()} Argus, Inc.`,
                     },
                     // Please change this to your repo.
                     editUrl: `${editDocRepoUrl}/edit/${branch}/home/`,
@@ -253,71 +196,8 @@ module.exports = {
             {
                 fromExtensions: ['html'],
             }
-        ],
-        '@docusaurus/plugin-ideal-image',
-        [
-            '@docusaurus/plugin-pwa',
-            {
-                debug: false,
-                offlineModeActivationStrategies: ['appInstalled', 'queryString'],
-                // swRegister: false,
-                swCustom: path.resolve(__dirname, 'src/sw.js'),
-                pwaHead: [
-                    {
-                        tagName: 'link',
-                        rel: 'icon',
-                        href: 'img/tancloud-logo.svg',
-                    },
-                    {
-                        tagName: 'link',
-                        rel: 'manifest',
-                        href: 'manifest.json',
-                    },
-                    {
-                        tagName: 'meta',
-                        name: 'theme-color',
-                        content: 'rgb(234, 90, 7)',
-                    },
-                    {
-                        tagName: 'meta',
-                        name: 'apple-mobile-web-app-capable',
-                        content: 'yes',
-                    },
-                    {
-                        tagName: 'meta',
-                        name: 'apple-mobile-web-app-status-bar-style',
-                        content: '#000',
-                    },
-                    {
-                        tagName: 'link',
-                        rel: 'apple-touch-icon',
-                        href: '/img/tancloud-logo.svg',
-                    },
-                    {
-                        tagName: 'link',
-                        rel: 'mask-icon',
-                        href: '/img/tancloud-logo.svg',
-                        color: 'rgb(234, 90, 7)',
-                    },
-                    {
-                        tagName: 'meta',
-                        name: 'msapplication-TileImage',
-                        content: 'img/tancloud-logo.svg',
-                    },
-                    {
-                        tagName: 'meta',
-                        name: 'msapplication-TileColor',
-                        content: '#000',
-                    },
-                ],
-            },
-        ],
+        ]
     ],
     themes: ['@docusaurus/theme-live-codeblock'],
-    scripts: [
-        {
-            src: 'https://hm.baidu.com/hm.js?b4fddf8425ec70c40aa0e7b64382fecf',
-            async: true
-        }
-    ]
+    scripts: []
 }

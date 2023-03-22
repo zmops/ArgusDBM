@@ -30,28 +30,17 @@ function Home() {
             <header className={clsx('hero hero--primary', styles.heroBanner)}>
                 <div className="container">
                     <h1 className="hero__title">
-                        <img style={{width: '500px', marginTop: '100px'}} src={cdnTransfer('img/tancloud-brand.svg')} alt={'#'}/>
+                        <img style={{width: '500px', marginTop: '100px'}} src={cdnTransfer('img/argus.png')} alt={'#'}/>
                     </h1>
-                    <p className="hero__subtitle"><Translate>易用友好的高性能监控云</Translate></p>
-                    <div className={styles.social}>
-                        <a href="https://gitter.im/hertzbeat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src={'https://badges.gitter.im/hertzbeat/community.svg'} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/web-monitor.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/ping-connect.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/port-available.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/database-monitor.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/os-monitor.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/custom-monitor.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/threshold.svg')} alt={''}/></a>
-                        <a href="https://console.tancloud.cn"><img src={cdnTransfer('img/badge/alert.svg')} alt={''}/></a>
-                    </div>
+                    <p className="hero__subtitle"><Translate>开源数据库一体化监控平台</Translate></p>
                     <div className={styles.buttons}>
                         <Link
-                            to="https://console.tancloud.cn"
+                            to="https://github.com/zmops/ArgusDBM"
                             className={clsx(
                                 'button button--primary button--lg',
                                 styles.getStarted,
                             )}>
-                            <Translate>即刻登录免费使用</Translate>
+                            <Translate>访问Github</Translate>
                         </Link>
                     </div>
                 </div>
