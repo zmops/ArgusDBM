@@ -1,7 +1,6 @@
 package com.zmops.open.warehouse.store;
 
 import com.zmops.open.common.entity.dto.Value;
-import com.zmops.open.common.entity.manager.Monitor;
 import com.zmops.open.common.entity.message.CollectRep;
 import com.zmops.open.common.entity.warehouse.History;
 import com.zmops.open.common.queue.CommonDataQueue;
@@ -26,6 +25,7 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAmount;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * data storage by mysql/h2 - jpa
@@ -39,6 +39,7 @@ import java.util.*;
 @Slf4j
 public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
     private static final int STRING_MAX_LENGTH = 1024;
+    private static final int MAX_HISTORY_TABLE_RECORD = 60_000;
     private HistoryDao historyDao;
 
     private WarehouseProperties.StoreProperties.InnerProperties innerProperties;
@@ -54,8 +55,10 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
         this.startStorageData("warehouse-inner-data-storage", isServerAvailable());
     }
 
-    @Scheduled(cron = "0 0 23 * * ?")
+    @Scheduled( fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     public void expiredDataCleaner() {
+        log.warn("[jpa-metrics-store]-start running expired data cleaner." +
+                "Please use time series db instead of jpa for better performance");
         String expireTimeStr = innerProperties.getExpireTime();
         long expireTime = 0;
         try {
@@ -69,13 +72,21 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
             }
         } catch (Exception e) {
             log.error("expiredDataCleaner time error: {}. use default expire time to clean: 7d", e.getMessage());
-            ZonedDateTime dateTime = ZonedDateTime.now().minus(Duration.ofDays(7));
+            ZonedDateTime dateTime = ZonedDateTime.now().minus(Duration.ofHours(1));
             expireTime = dateTime.toEpochSecond() * 1000;
         }
         try {
-            historyDao.deleteHistoriesByTimeBefore(expireTime);
+            int rows = historyDao.deleteHistoriesByTimeBefore(expireTime);
+            log.info("[jpa-metrics-store]-delete {} rows.", rows);
+            long total = historyDao.count();
+            if (total > MAX_HISTORY_TABLE_RECORD) {
+                rows = historyDao.deleteOlderHistoriesRecord();
+                log.warn("[jpa-metrics-store]-force delete {} rows due too many. Please use time series db instead of jpa for better performance.", rows);
+            }
         } catch (Exception e) {
             log.error("expiredDataCleaner database error: {}.", e.getMessage());
+            log.error("try to truncate table history. Please use time series db instead of jpa for better performance.");
+            historyDao.truncateTable();
         }
     }
 

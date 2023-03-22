@@ -105,7 +105,7 @@ warehouse:
   store:
     inner:
       enabled: true
-      expire-time: 14D
+      expire-time: 1h
     td-engine:
       enabled: false
       driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
