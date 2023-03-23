@@ -14,7 +14,7 @@ module.exports = {
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'throw',
-    favicon: '/img/argus_logo.svg',
+    favicon: '/img/argus.svg',
     organizationName,
     projectName,
     customFields: {
