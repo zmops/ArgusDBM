@@ -39,17 +39,17 @@
     "message": "我们的故事",
     "description": "The label of footer link with label=我们的故事 linking to https://support.qq.com/products/379369/team"
   },
-  "link.item.label.HertzBeat赫兹跳动": {
-    "message": "HertzBeat赫兹跳动",
-    "description": "The label of footer link with label=HertzBeat赫兹跳动 linking to https://hertzbeat.com"
+  "link.item.label.argusDBM ": {
+    "message": "argusDBM ",
+    "description": "The label of footer link with label=argusDBM  linking to https://argusDBM.com"
   },
   "link.item.label.Github仓库": {
     "message": "Github仓库",
-    "description": "The label of footer link with label=Github仓库 linking to https://github.com/dromara/hertzbeat"
+    "description": "The label of footer link with label=Github仓库 linking to https://github.com/ zmops/argusDBM"
   },
   "link.item.label.Gitee仓库": {
     "message": "Gitee仓库",
-    "description": "The label of footer link with label=Gitee仓库 linking to https://gitee.com/dromara/hertzbeat"
+    "description": "The label of footer link with label=Gitee仓库 linking to https://gitee.com/ zmops/argusDBM"
   },
   "link.item.label.相关资源": {
     "message": "相关资源",

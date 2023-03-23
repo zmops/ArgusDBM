@@ -11,16 +11,16 @@ sidebar_label: HTTP协议自定义监控
 由流程可见，我们自定义一个HTTP协议的监控类型，需要配置HTTP请求参数，配置获取哪些指标，对响应数据配置解析方式和解析脚本。      
 HTTP协议支持我们自定义HTTP请求路径，请求header，请求参数，请求方式，请求体等。   
 
-**系统默认解析方式**：http接口返回hertzbeat规定的json数据结构，即可用默认解析方式解析数据提取对应的指标数据，详细介绍见 [**系统默认解析**](extend-http-default)    
+**系统默认解析方式**：http接口返回argusDBM规定的json数据结构，即可用默认解析方式解析数据提取对应的指标数据，详细介绍见 [**系统默认解析**](extend-http-default)    
 **JsonPath脚本解析方式**：用JsonPath脚本对响应的json数据进行解析，返回系统指定的数据结构，然后提供对应的指标数据，详细介绍见 [**JsonPath脚本解析**](extend-http-jsonpath)    
   
 
 ### 自定义步骤  
 
 配置自定义监控类型需新增配置两个YML文件
-1. 用监控类型命名的监控配置定义文件 - 例如：example.yml 需位于安装目录 /hertzbeat/define/app/ 下
-2. 用监控类型命名的监控参数定义文件 - 例如：example.yml 需位于安装目录 /hertzbeat/define/param/ 下
-3. 重启hertzbeat系统，我们就适配好了一个新的自定义监控类型。
+1. 用监控类型命名的监控配置定义文件 - 例如：example.yml 需位于安装目录 /argusDBM/define/app/ 下
+2. 用监控类型命名的监控参数定义文件 - 例如：example.yml 需位于安装目录 /argusDBM/define/param/ 下
+3. 重启argusDBM系统，我们就适配好了一个新的自定义监控类型。
 
 ------- 
 下面详细介绍下这俩文件的配置用法，请注意看使用注释。   

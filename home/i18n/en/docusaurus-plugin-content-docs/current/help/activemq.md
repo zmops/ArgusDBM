@@ -10,7 +10,7 @@ sidebar_label: Apache ActiveMQ
 
 ### Pre-monitoring Operations  
 
-> You need to enable the `JMX` service on ActiveMQ, HertzBeat uses the JMX protocol to collect metrics from ActiveMQ.
+> You need to enable the `JMX` service on ActiveMQ, argusDBM uses the JMX protocol to collect metrics from ActiveMQ.
 
 1. Modify the `conf/activemq.xml` file in the installation directory to enable JMX
 
@@ -47,7 +47,7 @@ ACTIVEMQ_SUNJMX_START="$ACTIVEMQ_SUNJMX_START -Djava.rmi.server.hostname=本机�
 ACTIVEMQ_SUNJMX_START="$ACTIVEMQ_SUNJMX_START -Dcom.sun.management.jmxremote"
 ```
 
-3. Restart the ACTIVEMQ service, and add the corresponding ActiveMQ monitoring in HertzBeat. The parameters use the IP port configured by JMX.
+3. Restart the ACTIVEMQ service, and add the corresponding ActiveMQ monitoring in argusDBM. The parameters use the IP port configured by JMX.
 
 ### Configuration parameters
 

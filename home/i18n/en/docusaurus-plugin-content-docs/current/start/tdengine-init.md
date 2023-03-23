@@ -4,7 +4,7 @@ title: Dependency Service TDengine Installation and Initialization
 sidebar_label: TDengine Init(optional)    
 ---
 
-HertzBeat's historical data storage depends on the time series database TDengine or IoTDB, you can choose one of them to initialize, or not to install (note ⚠️If you don't install it, there will be no historical chart data).
+argusDBM's historical data storage depends on the time series database TDengine or IoTDB, you can choose one of them to initialize, or not to install (note ⚠️If you don't install it, there will be no historical chart data).
 
 TDengine is a time series database. We use TDengine to replace the InfluxDb, to store the history data collected monitoring Metrics.
 Note⚠️ TDengine is optional. And no configuration means no historical chart data. 
@@ -35,7 +35,7 @@ Note⚠️ Need TDengine 2.4.x Version.
    ```
    $ docker exec -it tdengine /bin/bash
    ```
-2. Create database named hertzbeat
+2. Create database named argusDBM
    After entering the container，execute `taos` command as follows: 
    ```
    root@tdengine-server:~/TDengine-server-2.4.0.4# taos
@@ -46,24 +46,24 @@ Note⚠️ Need TDengine 2.4.x Version.
    execute commands to create database
    ```
    taos> show databases;
-   taos> CREATE DATABASE hertzbeat KEEP 90 DAYS 10 BLOCKS 6 UPDATE 1;
+   taos> CREATE DATABASE argusDBM KEEP 90 DAYS 10 BLOCKS 6 UPDATE 1;
    ```
-   The above statements will create a database named hertzbeat. The data will be saved for 90 days (more than 90 days data will be automatically deleted).
+   The above statements will create a database named argusDBM. The data will be saved for 90 days (more than 90 days data will be automatically deleted).
    A data file every 10 days, memory blocks is 6, allow you to update the data.
-3. Check if hertzbeat database has been successfully created
+3. Check if argusDBM database has been successfully created
    ```
    taos> show databases;
-   taos> use hertzbeat;
+   taos> use argusDBM;
    ```
 
 **Note⚠️If you install TDengine2.3+ version**       
 > In addition to start the server，you must execute `systemctl start taosadapter` to start adapter
 
-### Configure the database connection in hertzbeat `application.yml`configuration file  
+### Configure the database connection in argusDBM `application.yml`configuration file  
 
-1. Configure HertzBeat's configuration file
-   Modify `hertzbeat/config/application.yml` configuration file   
-   Note⚠️The docker container way need to mount application.yml file locally,while you can use installation package way to unzip and modify `hertzbeat/config/application.yml`     
+1. Configure argusDBM's configuration file
+   Modify `argusDBM/config/application.yml` configuration file   
+   Note⚠️The docker container way need to mount application.yml file locally,while you can use installation package way to unzip and modify `argusDBM/config/application.yml`     
    Replace `warehouse.store.td-engine` data source parameters, URL account and password.     
 
 ```
@@ -80,7 +80,7 @@ Note⚠️ Need TDengine 2.4.x Version.
 > You don't need to configure all of them, you can choose one of them. Use the enable parameter to control whether it is used or not. You can also install and configure neither, which only affects the historical chart data.
 
 2. The historical chart of the monitoring page is not displayed, and pops up [Unable to provide historical chart data, please configure to rely on the time series database]
-> As shown in the pop-up window, the premise of displaying the history chart is to install and configure the dependent services of hertzbeat - IotDB database or TDengine database
+> As shown in the pop-up window, the premise of displaying the history chart is to install and configure the dependent services of argusDBM - IotDB database or TDengine database
 
 3. The historical picture of monitoring details is not displayed or has no data, and TDengine has been deployed     
 > Please confirm whether the installed TDengine version is near 2.4.0.12, version 3.0 and 2.2 are not compatible.  
@@ -88,5 +88,5 @@ Note⚠️ Need TDengine 2.4.x Version.
 4. The TDengine database is installed and configured, but the page still displays a pop-up [Unable to provide historical chart data, please configure the dependent time series database]
 > Please check if the configuration parameters are correct  
 > Is td-engine enable set to true  
-> Note⚠️If both hertzbeat and TDengine are started under the same host for docker containers, 127.0.0.1 cannot be used for communication between containers by default, and the host IP is changed  
+> Note⚠️If both argusDBM and TDengine are started under the same host for docker containers, 127.0.0.1 cannot be used for communication between containers by default, and the host IP is changed  
 > You can check the startup logs according to the logs directory  

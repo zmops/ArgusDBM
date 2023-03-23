@@ -6,26 +6,26 @@ sidebar_label: Practice Example
 
 Most websites now support HTTPS by default. The certificate we apply for is usually 3 months or 1 year. It is easy to expire the SSL certificate over time, but we did not find it the first time, or did not update the certificate in time before it expired.
 
-This article introduces how to use the hertzbeat monitoring system to detect the validity period of our website's SSL certificate, and send us a warning message when the certificate expires or a few days before the certificate expires.
+This article introduces how to use the argusDBM monitoring system to detect the validity period of our website's SSL certificate, and send us a warning message when the certificate expires or a few days before the certificate expires.
 
-#### What is HertzBeat
+#### What is argusDBM
 
-HertzBeat is a real-time monitoring system with powerful custom monitoring capabilities without Agent. Website monitoring, PING connectivity, port availability, database, operating system, middleware, API monitoring, threshold alarms, alarm notification (email, WeChat, Ding Ding Feishu).
+argusDBM is a real-time monitoring system with powerful custom monitoring capabilities without Agent. Website monitoring, PING connectivity, port availability, database, operating system, middleware, API monitoring, threshold alarms, alarm notification (email, WeChat, Ding Ding Feishu).
 
-**Official website: https://hertzbeat.com | https://tancloud.cn**
+**Official website: https://argusDBM.com | https://tancloud.cn**
 
-github: https://github.com/dromara/hertzbeat
-gitee: https://gitee.com/dromara/hertzbeat
+github: https://github.com/ zmops/argusDBM
+gitee: https://gitee.com/ zmops/argusDBM
 
-#### Install HertzBeat
+#### Install argusDBM
 
 1. If you don't want to install, you can use the cloud service directly [TanCloud exploration cloud console.tancloud.cn](https://console.tancloud.cn)
 
 2. The `docker` environment can be installed with just one command
 
-`docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat`
+`docker run -d -p 1157:1157 --name argusDBM tancloud/argusDBM`
 
-3. After the installation is successful, the browser can access `localhost:1157` to start, the default account password is `admin/hertzbeat`
+3. After the installation is successful, the browser can access `localhost:1157` to start, the default account password is `admin/argusDBM`
 
 #### Monitoring SSL certificates
 
@@ -97,7 +97,7 @@ gitee: https://gitee.com/dromara/hertzbeat
 
 For token configuration such as Dingding WeChat Feishu, please refer to the help document
 
-https://hertzbeat.com/docs/help/alert_dingtalk
+https://argusDBM.com/docs/help/alert_dingtalk
 https://tancloud.cn/docs/help/alert_dingtalk
 
 > Alarm Notification -> New Alarm Notification Policy -> Enable Notification for the Recipient Just Configured
@@ -111,8 +111,8 @@ https://tancloud.cn/docs/help/alert_dingtalk
 
 #### Finish!
 
-The practice of monitoring SSL certificates is here. Of course, for hertzbeat, this function is just the tip of the iceberg. If you think hertzbeat is a good open source project, please give us a Gitee star on GitHub, thank you very much. Thank you for your support. Refill!
+The practice of monitoring SSL certificates is here. Of course, for argusDBM, this function is just the tip of the iceberg. If you think argusDBM is a good open source project, please give us a Gitee star on GitHub, thank you very much. Thank you for your support. Refill!
 
-**github: https://github.com/dromara/hertzbeat**
+**github: https://github.com/ zmops/argusDBM**
 
-**gitee: https://gitee.com/dromara/hertzbeat**
+**gitee: https://gitee.com/ zmops/argusDBM**

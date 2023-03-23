@@ -7,7 +7,7 @@ sidebar_label: JsonPath Parsing Method
 
 Note⚠️ The response data is JSON format. 
 
-**Use the JsonPath script to parse the response data into data that conforms to the data structure rules specified by HertzBeat**  
+**Use the JsonPath script to parse the response data into data that conforms to the data structure rules specified by argusDBM**  
 
 #### JsonPath Operator   
 [JSONPath online verification](https://www.jsonpath.cn)     
@@ -25,7 +25,7 @@ Note⚠️ The response data is JSON format.
 | ?()     | Filter (script) expression |
 | ()     | Script Expression  |
 
-#### HertzBeat data format specification    
+#### argusDBM data format specification    
 Single layer format ：key-value
 ```json
 {
@@ -93,7 +93,7 @@ We use the jsonpath script to parse, and the corresponding script is: `$.number[
   }
 ]
 ```
-This data structure conforms to the data format specification of HertzBeat, and the Metric `type,num` is successfully extracted.
+This data structure conforms to the data format specification of argusDBM, and the Metric `type,num` is successfully extracted.
 
 **The corresponding monitoring configuration definition file YML can be configured as follows**   
 

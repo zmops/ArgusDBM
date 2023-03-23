@@ -8,7 +8,7 @@ sidebar_label: RabbitMQ Monitor
 
 ### Pre-monitoring Operations  
 
-> HertzBeat uses RabbitMQ Management's Rest Api to collect RabbitMQ indicator data.
+> argusDBM uses RabbitMQ Management's Rest Api to collect RabbitMQ indicator data.
 > Therefore, you need to enable the Management plug-in in your RabbitMQ environment
 
 1. Open the Management plugin, or use the self-opening version
@@ -19,7 +19,7 @@ rabbitmq-plugins enable rabbitmq_management
 
 2. Access http://ip:15672/ with a browser, and the default account password is `guest/guest`. Successful login means that it is successfully opened.
 
-3. Just add the corresponding RabbitMQ monitoring in HertzBeat, the parameters use the IP port of Management, and the default account password.
+3. Just add the corresponding RabbitMQ monitoring in argusDBM, the parameters use the IP port of Management, and the default account password.
 
 ### Configuration parameters
 

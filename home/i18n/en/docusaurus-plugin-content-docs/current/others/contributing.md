@@ -8,19 +8,19 @@ sidebar_label: Contributor Guide
 
 ### Kinds of Contributions
 
-> In the HertzBeat community, there are many ways to contribute:
+> In the argusDBM community, there are many ways to contribute:
 
 - 💻**Code**: Can help the community complete some tasks, write new features or fix some bugs;
 
 - ⚠️**Test**: Can come to participate in the writing of test code, including unit testing, integration testing, e2e testing;
 
-- 📖**Docs**: Can write or Documentation improved to help users better understand and use HertzBeat;
+- 📖**Docs**: Can write or Documentation improved to help users better understand and use argusDBM;
 
-- 📝**Blog**: You can write articles about HertzBeat to help the community better promote;
+- 📝**Blog**: You can write articles about argusDBM to help the community better promote;
 
-- 🤔**Discussion**: You can participate in the discussion of new features of HertzBeat and integrate your ideas with HertzBeat;
+- 🤔**Discussion**: You can participate in the discussion of new features of argusDBM and integrate your ideas with argusDBM;
 
-- 💡**Preach**: Can help publicize or promote the HertzBeat community, speak in meetup or summit;
+- 💡**Preach**: Can help publicize or promote the argusDBM community, speak in meetup or summit;
 
 - 💬**Suggestion**: You can also make some suggestions to the project or community to promote the healthy development of the community;
 
@@ -28,10 +28,10 @@ More see [Contribution Types](https://allcontributors.org/docs/en/emoji-key)
 
 Even small corrections to typos are very welcome :)
 
-### Getting HertzBeat up and running
+### Getting argusDBM up and running
 
-> To get HertzBeat code running on your development tools, and able to debug with breakpoints.
-> This is a front-end and back-end separation project. To start the local code, the back-end [manager](https://github.com/dromara/hertzbeat/tree/master/manager) and the front-end [web-app](https://github.com/dromara/hertzbeat/tree/master/web-app) must be started separately.
+> To get argusDBM code running on your development tools, and able to debug with breakpoints.
+> This is a front-end and back-end separation project. To start the local code, the back-end [manager](https://github.com/ zmops/argusDBM/tree/master/manager) and the front-end [web-app](https://github.com/ zmops/argusDBM/tree/master/web-app) must be started separately.
 
 
 - Backend start
@@ -48,7 +48,7 @@ Even small corrections to typos are very welcome :)
 3. Execute under the front-end project directory web-app: `yarn install`
 5. Install angular-cli globally: `npm install -g @angular/cli@12 --registry=https://registry.npm.taobao.org`
 6. After the local backend is started, start the local frontend in the web-app directory: `ng serve --open`
-7. Browser access to localhost:4200 to start, default account/passwd admin/hertzbeat
+7. Browser access to localhost:4200 to start, default account/passwd admin/argusDBM
 
 ### Find tasks
 
@@ -59,10 +59,10 @@ Of course, if you have a good idea, you can also propose it directly on GitHub D
 
 ### Submit Pull Request
 
-1. First you need to fork your target [hertzbeat repository](https://github.com/dromara/hertzbeat).
+1. First you need to fork your target [argusDBM repository](https://github.com/ zmops/argusDBM).
 2. Then download the code locally with git command:
 ```shell
-git clone git@github.com:${YOUR_USERNAME}/hertzbeat.git #Recommended  
+git clone git@github.com:${YOUR_USERNAME}/argusDBM.git #Recommended  
 ```
 3. After the download is complete, please refer to the getting started guide or README file of the target repository to initialize the project.
 4. Then, you can refer to the following command to submit the code:
@@ -104,20 +104,20 @@ git push origin --delete a-dev-branch
 On the master/main branch, you can do the following to sync the upstream repository:
 
 ```shell
-git remote add upstream https://github.com/dromara/hertzbeat.git #Bind the remote warehouse, if it has been executed, it does not need to be executed again
+git remote add upstream https://github.com/ zmops/argusDBM.git #Bind the remote warehouse, if it has been executed, it does not need to be executed again
 git checkout master 
 git pull upstream master
 ```
 
 ### How to become a Committer?
 
-With the above steps, you are a contributor to HertzBeat. Repeat the previous steps to stay active in the community, keep at, you can become a Committer!
+With the above steps, you are a contributor to argusDBM. Repeat the previous steps to stay active in the community, keep at, you can become a Committer!
 
 ### Join Discussion
 
-[Gitter Channel](https://gitter.im/hertzbeat/community)
+[Gitter Channel](https://gitter.im/argusDBM/community)
 
-[Github Discussion](https://github.com/usthe/hertzbeat/discussions)
+[Github Discussion](https://github.com/usthe/argusDBM/discussions)
 
 [User Club](https://support.qq.com/products/379369)
 
@@ -129,15 +129,15 @@ Public WeChat: `tancloudtech`
 
 ## 🥐 Architecture
 
-- **[manager](https://github.com/dromara/hertzbeat/tree/master/manager)** Provide monitoring management, system management basic services.
+- **[manager](https://github.com/ zmops/argusDBM/tree/master/manager)** Provide monitoring management, system management basic services.
 > Provides monitoring management, monitoring configuration management, system user management, etc.
-- **[collector](https://github.com/dromara/hertzbeat/tree/master/collector)** Provide metrics data collection services.
+- **[collector](https://github.com/ zmops/argusDBM/tree/master/collector)** Provide metrics data collection services.
 > Use common protocols to remotely collect and obtain peer-to-peer metrics data.
-- **[warehouse](https://github.com/dromara/hertzbeat/tree/master/warehouse)** Provide monitoring data warehousing services.
+- **[warehouse](https://github.com/ zmops/argusDBM/tree/master/warehouse)** Provide monitoring data warehousing services.
 > Metrics data management, data query, calculation and statistics.
-- **[alerter](https://github.com/dromara/hertzbeat/tree/master/alerter)** Provide alert service.
+- **[alerter](https://github.com/ zmops/argusDBM/tree/master/alerter)** Provide alert service.
 > Alarm calculation trigger, monitoring status linkage, alarm configuration, and alarm notification.
-- **[web-app](https://github.com/dromara/hertzbeat/tree/master/web-app)** Provide web ui.
+- **[web-app](https://github.com/ zmops/argusDBM/tree/master/web-app)** Provide web ui.
 > Angular Web UI.
 
-![hertzBeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat/home/static/img/docs/hertzbeat-stru-en.svg)   
+![argusDBM](https://cdn.jsdelivr.net/gh/ zmops/argusDBM/home/static/img/docs/argusDBM-stru-en.svg)   

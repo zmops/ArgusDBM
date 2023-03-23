@@ -3,7 +3,7 @@ id: mysql-change
 title: Dependent Relational Database H2 Switch to MYSQL            
 sidebar_label: H2 Database Switch to MYSQL    
 ---
-MYSQL is a reliable relational database. In addition to default built-in H2 database, HertzBeat allow you to use MYSQL to store structured relational data such as monitoring information, alarm information and configuration information.   
+MYSQL is a reliable relational database. In addition to default built-in H2 database, argusDBM allow you to use MYSQL to store structured relational data such as monitoring information, alarm information and configuration information.   
 
 > If you have the MYSQL environment, can be directly to database creation step.  
 
@@ -25,16 +25,16 @@ MYSQL is a reliable relational database. In addition to default built-in H2 data
 ### Database creation   
 1. Enter MYSQL or use the client to connect MYSQL service   
    `mysql -uroot -p123456`  
-2. Create database named hertzbeat    
-   `create database hertzbeat;`
-3. Check if hertzbeat database has been successfully created
+2. Create database named argusDBM    
+   `create database argusDBM;`
+3. Check if argusDBM database has been successfully created
    `show databases;`
 
-### Modify hertzbeat's configuration file application.yml and switch data source  
+### Modify argusDBM's configuration file application.yml and switch data source  
 
-1. Configure HertzBeat's configuration file
-   Modify `hertzbeat/config/application.yml` configuration file
-   Note⚠️The docker container way need to mount application.yml file locally,while you can use installation package way to unzip and modify `hertzbeat/config/application.yml`  
+1. Configure argusDBM's configuration file
+   Modify `argusDBM/config/application.yml` configuration file
+   Note⚠️The docker container way need to mount application.yml file locally,while you can use installation package way to unzip and modify `argusDBM/config/application.yml`  
    Replace `spring.database` data source parameters, URL account and password.
 ```yaml
 spring:
@@ -42,7 +42,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: 123456
-    url: jdbc:h2:./data/hertzbeat;MODE=MYSQL
+    url: jdbc:h2:./data/argusDBM;MODE=MYSQL
 ```
    Specific replacement parameters is as follows and you need to configure account according to the mysql environment:   
 ```yaml
@@ -51,7 +51,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/hertzbeat?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/argusDBM?useUnicode=true&characterEncoding=utf-8&useSSL=false
 ```
 
-**Start HertzBeat  visit http://ip:1157/ on the browser  You can use HertzBeat monitoring alarm, default account and password are admin/hertzbeat**  
+**Start argusDBM  visit http://ip:1157/ on the browser  You can use argusDBM monitoring alarm, default account and password are admin/argusDBM**  

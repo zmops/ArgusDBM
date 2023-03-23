@@ -42,7 +42,7 @@ predefinedMetrics:
 
 2. Restart IoTDB, open a browser or use curl to access http://servier_ip:9091/metrics, and you can see the metric data.
 
-3. Add the corresponding IoTDB monitoring in HertzBeat.
+3. Add the corresponding IoTDB monitoring in argusDBM.
 
 ### Configuration parameters
 

@@ -15,4 +15,4 @@ alerter:
   console-url: #Here is our custom console address
 ```
 
-The default value is the official console address of HertzBeat.
+The default value is the official console address of argusDBM.

@@ -30,7 +30,7 @@ function Home() {
             <header className={clsx('hero hero--primary', styles.heroBanner)}>
                 <div className="container">
                     <h1 className="hero__title">
-                        <img style={{width: '500px', marginTop: '100px'}} src={cdnTransfer('img/argus.png')} alt={'#'}/>
+                        <img style={{width: '500px', marginTop: '100px'}} src={cdnTransfer('img/argus_logo.svg')} alt={'#'}/>
                     </h1>
                     <p className="hero__subtitle"><Translate>开源数据库一体化监控平台</Translate></p>
                     <div className={styles.buttons}>

@@ -3,15 +3,15 @@ id: extend-point
 title: Custom Monitoring  
 sidebar_label: Custom Monitoring    
 ---
-> HertzBeat has custom monitoring ability. You only need to configure two YML file to fit a custom monitoring type.  
+> argusDBM has custom monitoring ability. You only need to configure two YML file to fit a custom monitoring type.  
 > Custom monitoring currently supports [HTTP protocol](extend-http)，[JDBC protocol](extend-jdbc)(mysql,mariadb,postgresql...), [SSH protocol](extend-ssh), JMX protocol, SNMP protocol. And it will support more general protocols in the future.        
 
 ### Custom Steps  
 
 In order to configure a custom monitoring type, you need to add and configure two YML file.
-1. Monitoring configuration definition file named after monitoring type - eg：example.yml should be in the installation directory /hertzbeat/define/app/
-2. Monitoring parameter definition file named after monitoring type - eg：example.yml should be in the installation directory /hertzbeat/define/param/
-3. Restart hertzbeat system, we successfully fit a new custom monitoring type.  
+1. Monitoring configuration definition file named after monitoring type - eg：example.yml should be in the installation directory /argusDBM/define/app/
+2. Monitoring parameter definition file named after monitoring type - eg：example.yml should be in the installation directory /argusDBM/define/param/
+3. Restart argusDBM system, we successfully fit a new custom monitoring type.  
 
 ------- 
 Configuration usages of the two files are detailed below.

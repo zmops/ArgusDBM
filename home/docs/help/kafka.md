@@ -10,7 +10,7 @@ sidebar_label: Kafka监控
 
 ### 监控前操作
 
-> 您需要在 Kafka 开启 `JMX` 服务，HertzBeat 使用 JMX 协议对 Kafka 进行指标采集。
+> 您需要在 Kafka 开启 `JMX` 服务，argusDBM 使用 JMX 协议对 Kafka 进行指标采集。
 
 1. 安装部署 Kafka 服务
 

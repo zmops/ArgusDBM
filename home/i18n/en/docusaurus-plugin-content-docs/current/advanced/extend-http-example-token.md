@@ -12,13 +12,13 @@ sidebar_label: 教程二:获取TOKEN后续认证使用
 
 【**认证信息指标组(优先级最高)**】【**HTTP接口携带账户密码调用**】->【**响应数据解析**】->【**解析签发TOKEN-accessToken作为指标**】->【**将accessToken作为变量参数赋值给其他采集指标组**】 
 
-> 这里我们依然用教程一的hertzbeat监控举例！hertzbeat后台接口不仅仅支持教程一使用的basic直接账户密码认证，也支持token认证。
+> 这里我们依然用教程一的argusDBM监控举例！argusDBM后台接口不仅仅支持教程一使用的basic直接账户密码认证，也支持token认证。
 
 **我们需要`POST`调用登录接口`/api/account/auth/form`获取`accessToken`,请求body(json格式)如下**: 
 
 ```json
 {
-  "credential": "hertzbeat",
+  "credential": "argusDBM",
   "identifier": "admin"
 }
 ```
@@ -35,22 +35,22 @@ sidebar_label: 教程二:获取TOKEN后续认证使用
 }
 ```
 
-### 新增自定义监控类型`hertzbeat_token`
+### 新增自定义监控类型`argusDBM_token`
 
-1. 自定义监控类型需新增配置两个YML文件,我们直接复用教程一的 `hertzbeat` 监控类型，在其基础上修改
+1. 自定义监控类型需新增配置两个YML文件,我们直接复用教程一的 `argusDBM` 监控类型，在其基础上修改
 
-用监控类型命名的监控配置定义文件 - app-hertzbeat_token.yml 需位于安装目录 /hertzbeat/define/app/ 下
-用监控类型命名的监控参数定义文件 - param-hertzbeat_token.yml 需位于安装目录 /hertzbeat/define/param/ 下
+用监控类型命名的监控配置定义文件 - app-argusDBM_token.yml 需位于安装目录 /argusDBM/define/app/ 下
+用监控类型命名的监控参数定义文件 - param-argusDBM_token.yml 需位于安装目录 /argusDBM/define/param/ 下
 
-2. 配置参数定义文件 param-hertzbeat.yml
+2. 配置参数定义文件 param-argusDBM.yml
 
 参数定义文件是定义我们在页面上需要输入哪些参数，一般的HTTP协议参数主要有ip, port, headers, params, uri, 账户密码等，
-我们直接复用 param-hertzbeat.yml 里面的参数定义内容，删除其中的我们不需要输入的uri参数和keyword关键字等参数即可。
-定义内容如下:注意⚠️app属性值需要改为监控类型名称`hertzbeat_token`
+我们直接复用 param-argusDBM.yml 里面的参数定义内容，删除其中的我们不需要输入的uri参数和keyword关键字等参数即可。
+定义内容如下:注意⚠️app属性值需要改为监控类型名称`argusDBM_token`
 
 ```yaml
 # 监控应用类型名称(与文件名保持一致) eg: linux windows tomcat mysql aws...
-app: hertzbeat_token
+app: argusDBM_token
 # 强制固定必须参数 - host(ipv4,ipv6,域名)
 param:
     # field-字段名称标识符
@@ -98,19 +98,19 @@ param:
     required: false
 ```
 
-2. 初步配置监控配置定义文件 app-hertzbeat.yml
+2. 初步配置监控配置定义文件 app-argusDBM.yml
 
 监控配置定义文件是用来定义采集类型是啥，需要用哪种协议采集方式，采集的指标是啥，协议的配置参数等。
-我们直接复用 app-hertzbeat.yml 里面的定义内容,修改为我们当前的监控类型`hertzbeat_auth`配置参数, 比如 `app, category等`。
+我们直接复用 app-argusDBM.yml 里面的定义内容,修改为我们当前的监控类型`argusDBM_auth`配置参数, 比如 `app, category等`。
 
 ```yaml
 # 此监控类型所属类别：service-应用服务监控 db-数据库监控 custom-自定义监控 os-操作系统监控
 category: custom
 # 监控应用类型(与文件名保持一致) eg: linux windows tomcat mysql aws...
-app: hertzbeat_token
+app: argusDBM_token
 name:
-  zh-CN: HertzBeat监控(Token)
-  en-US: HertzBeat Monitor(Token) 
+  zh-CN: argusDBM监控(Token)
+  en-US: argusDBM Monitor(Token) 
 # 参数映射map. type是参数类型: 0-number数字, 1-string明文字符串, 2-secret加密字符串, 3-map映射的json串
 # 强制固定必须参数 - host
 configmap:
@@ -129,17 +129,17 @@ metrics: ......
 
 ### 定义指标组`auth`登录请求获取`token`  
 
-1. 在`app-hertzbeat.yml`新增一个指标组定义 `auth`, 设置采集优先级为最高0，采集指标 `token`.  
+1. 在`app-argusDBM.yml`新增一个指标组定义 `auth`, 设置采集优先级为最高0，采集指标 `token`.  
 
 ```yaml
 
 # 此监控类型所属类别：service-应用服务监控 db-数据库监控 custom-自定义监控 os-操作系统监控
 category: custom
 # 监控应用类型(与文件名保持一致) eg: linux windows tomcat mysql aws...
-app: hertzbeat_token
+app: argusDBM_token
 name:
-  zh-CN: HertzBeat监控(Token)
-  en-US: HertzBeat Monitor(Token) 
+  zh-CN: argusDBM监控(Token)
+  en-US: argusDBM Monitor(Token) 
 # 参数映射map. type是参数类型: 0-number数字, 1-string明文字符串, 2-secret加密字符串, 3-map映射的json串
 # 强制固定必须参数 - host
 configmap:
@@ -190,11 +190,11 @@ metrics:
 
 ```
 
-**此时，重启hertzbeat系统，在系统页面上添加 `hertzbeat_token` 类型监控，配置输入参数，`content-type`填`application/json` , `请求Body`填账户密码json如下: **
+**此时，重启argusDBM系统，在系统页面上添加 `argusDBM_token` 类型监控，配置输入参数，`content-type`填`application/json` , `请求Body`填账户密码json如下: **
 
 ```json
 {
-  "credential": "hertzbeat",
+  "credential": "argusDBM",
   "identifier": "admin"
 }
 ```
@@ -212,7 +212,7 @@ metrics:
 
 ### 将`token`作为变量参数给后面的指标组采集使用   
 
-**在`app-hertzbeat.yml`新增一个指标组定义 `summary` 同教程一中的`summary`相同, 设置采集优先级为1**
+**在`app-argusDBM.yml`新增一个指标组定义 `summary` 同教程一中的`summary`相同, 设置采集优先级为1**
 **设置此指标组的HTTP协议配置中认证方式为 `Bearer Token` 将上一个指标组`auth`采集的指标`token`作为参数给其赋值，使用`^o^`作为内部替换符标识，即`^o^token^o^`。如下:**
 
 ```yaml
@@ -226,17 +226,17 @@ metrics:
         bearerTokenToken: ^o^token^o^
 ```
 
-**最终`app-hertzbeat.yml`定义如下:**   
+**最终`app-argusDBM.yml`定义如下:**   
 
 ```yaml
 
 # 此监控类型所属类别：service-应用服务监控 db-数据库监控 custom-自定义监控 os-操作系统监控
 category: custom
 # 监控应用类型(与文件名保持一致) eg: linux windows tomcat mysql aws...
-app: hertzbeat_token
+app: argusDBM_token
 name:
-  zh-CN: HertzBeat监控(Token)
-  en-US: HertzBeat Monitor(Token)
+  zh-CN: argusDBM监控(Token)
+  en-US: argusDBM Monitor(Token)
 # 参数映射map. type是参数类型: 0-number数字, 1-string明文字符串, 2-secret加密字符串, 3-map映射的json串
 # 强制固定必须参数 - host
 configmap:
@@ -336,7 +336,7 @@ metrics:
 
 ```
 
-**配置完成后，再次重启 `hertzbeat` 系统，查看监控详情页面**   
+**配置完成后，再次重启 `argusDBM` 系统，查看监控详情页面**   
 
 ![](/img/docs/advanced/extend-http-example-8.png)  
 
@@ -352,8 +352,8 @@ metrics:
 
 HTTP协议的自定义监控的实践就到这里，HTTP协议还带其他参数headers,params等，我们可以像用postman一样去定义它，可玩性也非常高！
 
-如果您觉得hertzbeat这个开源项目不错的话欢迎给我们在GitHub Gitee star哦，灰常感谢。感谢老铁们的支持。笔芯！
+如果您觉得argusDBM这个开源项目不错的话欢迎给我们在GitHub Gitee star哦，灰常感谢。感谢老铁们的支持。笔芯！
 
-**github: https://github.com/dromara/hertzbeat**
+**github: https://github.com/ zmops/argusDBM**
 
-**gitee: https://gitee.com/dromara/hertzbeat**
+**gitee: https://gitee.com/ zmops/argusDBM**

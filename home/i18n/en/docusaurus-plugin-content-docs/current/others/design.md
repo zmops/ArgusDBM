@@ -4,10 +4,10 @@ title: Design Document
 sidebar_label: Design Document     
 ---
 
-### HertzBeat Architecture     
+### argusDBM Architecture     
 
-![architecture](https://cdn.jsdelivr.net/gh/dromara/hertzbeat/home/static/img/docs/hertzbeat-stru-en.svg)     
+![architecture](https://cdn.jsdelivr.net/gh/ zmops/argusDBM/home/static/img/docs/argusDBM-stru-en.svg)     
 
 ### TanCloud Architecture  
 
-TanCloud is a SAAS cluster version based on HertzBeat, which adopts a multi-cluster and multi-tenant architecture model.   
+TanCloud is a SAAS cluster version based on argusDBM, which adopts a multi-cluster and multi-tenant architecture model.   

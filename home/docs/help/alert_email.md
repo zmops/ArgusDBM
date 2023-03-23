@@ -26,8 +26,8 @@ sidebar_label: 告警邮件通知
 
 ### 邮件通知常见问题   
 
-1. 自己内网部署的HertzBeat无法接收到邮件通知   
-> HertzBeat需要自己配置邮件服务器，TanCloud无需，请确认是否在application.yml配置了自己的邮件服务器     
+1. 自己内网部署的argusDBM无法接收到邮件通知   
+> argusDBM需要自己配置邮件服务器，TanCloud无需，请确认是否在application.yml配置了自己的邮件服务器     
 
 2. 云环境TanCloud无法接收到邮件通知  
 > 请排查在告警中心是否已有触发的告警信息   

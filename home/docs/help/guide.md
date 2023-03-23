@@ -12,16 +12,6 @@ sidebar_label: 帮助入门
 > 定时采集监控对端服务暴露的性能指标，提供可视化界面，处理数据供告警等服务调度。      
 > 规划的监控类型：应用服务，数据库，操作系统，云原生，开源中间件
 
-### 应用服务监控  
-
-  &emsp;&#x1F449;&emsp;[网站监测](website) <br />
-  &emsp;&#x1F449;&emsp;[HTTP API](api) <br /> 
-  &emsp;&#x1F449;&emsp;[PING连通性](ping) <br />
-  &emsp;&#x1F449;&emsp;[端口可用性](port) <br />
-  &emsp;&#x1F449;&emsp;[全站监控](fullsite) <br />
-  &emsp;&#x1F449;&emsp;[SSL证书有效期](ssl_cert) <br />
-  &emsp;&#x1F449;&emsp;[JVM虚拟机](jvm) <br />
-  &emsp;&#x1F449;&emsp;[SpringBoot2.0](springboot2) <br />
 
 ### 数据库监控  
 
@@ -33,28 +23,6 @@ sidebar_label: 帮助入门
   &emsp;&#x1F449;&emsp;[达梦数据库监控](dm) <br />
   &emsp;&#x1F449;&emsp;[OpenGauss数据库监控](opengauss) <br />
   &emsp;&#x1F449;&emsp;[IoTDB数据库监控](iotdb) <br />
-
-### 操作系统监控     
-
-  &emsp;&#x1F449;&emsp;[Linux操作系统监控](linux) <br />
-  &emsp;&#x1F449;&emsp;[Windows操作系统监控](windows) <br />
-  &emsp;&#x1F449;&emsp;[Ubuntu操作系统监控](ubuntu) <br /> 
-  &emsp;&#x1F449;&emsp;[Centos操作系统监控](centos) <br />
-
-### 中间件监控
-
-  &emsp;&#x1F449;&emsp;[Zookeeper](zookeeper) <br />
-  &emsp;&#x1F449;&emsp;[Kafka](kafka) <br />
-  &emsp;&#x1F449;&emsp;[Tomcat](tomcat) <br />
-  &emsp;&#x1F449;&emsp;[ShenYu](shenyu) <br />
-  &emsp;&#x1F449;&emsp;[DynamicTp](dynamic_tp) <br />
-  &emsp;&#x1F449;&emsp;[RabbitMQ](rabbitmq) <br />
-  &emsp;&#x1F449;&emsp;[ActiveMQ](activemq) <br />
-
-### 云原生监控
-
-  &emsp;&#x1F449;&emsp;[Docker](docker) <br />
-  &emsp;&#x1F449;&emsp;[Kubernetes](kubernetes) <br />
 
 ## 💡 告警服务  
 

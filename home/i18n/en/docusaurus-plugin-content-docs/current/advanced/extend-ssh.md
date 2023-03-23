@@ -21,7 +21,7 @@ eg：
 Metrics of Linux to be queried hostname-host name，uptime-start time     
 Host name original query command：`hostname`     
 Start time original query command：`uptime | awk -F "," '{print $1}'`   
-Then the query script of the two Metrics in hertzbeat is(Use `;` Connect them together)：       
+Then the query script of the two Metrics in argusDBM is(Use `;` Connect them together)：       
 `hostname; uptime | awk -F "," '{print $1}'`     
 The data responded by the terminal is：    
 ```
@@ -45,7 +45,7 @@ Memory indicaotr original query command：`free -m`, Console response：
 Mem:           7962        4065         333           1        3562        3593
 Swap:          8191          33        8158
 ```
-In hertzbeat multiRow format parsing requires a one-to-one mapping between the column name of the response data  and the indicaotr value, so the corresponding query SHELL script is:
+In argusDBM multiRow format parsing requires a one-to-one mapping between the column name of the response data  and the indicaotr value, so the corresponding query SHELL script is:
 `free -m | grep Mem | awk 'BEGIN{print "total used free buff_cache available"} {print $2,$3,$4,$6,$7}'`     
 Console response is：  
 ```shell
@@ -58,9 +58,9 @@ Here the Metric field and the response data can be mapped into collected data on
 ### Custom Steps  
 
 In order to configure a custom monitoring type, you need to add and configure two YML file.
-1. Monitoring configuration definition file named after monitoring type - eg：example_linux.yml in the installation directory /hertzbeat/define/app/
-2. Monitoring parameter definition file named after monitoring type - eg：example_linux.yml in the installation directory /hertzbeat/define/param/
-3. Restart hertzbeat system, we successfully fit a new custom monitoring type.
+1. Monitoring configuration definition file named after monitoring type - eg：example_linux.yml in the installation directory /argusDBM/define/app/
+2. Monitoring parameter definition file named after monitoring type - eg：example_linux.yml in the installation directory /argusDBM/define/param/
+3. Restart argusDBM system, we successfully fit a new custom monitoring type.
 
 ------- 
 Configuration usages of the two files are detailed below. Please pay attention to usage annotation.   

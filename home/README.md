@@ -1,4 +1,4 @@
-# HertzBeat Website
+# argusDBM Website
 
 This website is built using [Docusaurus 2](https://docusaurus.io/).    
 Learn From [webdriverio](https://webdriver.io/)                

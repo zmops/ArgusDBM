@@ -21,7 +21,7 @@ SHELL脚本查询回来的数据字段和我们需要的指标映射，就能获
 需要查询Linux的指标 hostname-主机名称，uptime-启动时间     
 主机名称原始查询命令：`hostname`     
 启动时间原始查询命令：`uptime | awk -F "," '{print $1}'`   
-则在hertzbeat对应的这两个指标的查询脚本为(用`;`将其连接到一起)：       
+则在argusDBM对应的这两个指标的查询脚本为(用`;`将其连接到一起)：       
 `hostname; uptime | awk -F "," '{print $1}'`     
 终端响应的数据为：    
 ```
@@ -45,7 +45,7 @@ uptime值为 `14:00:15 up 72 days`
 Mem:           7962        4065         333           1        3562        3593
 Swap:          8191          33        8158
 ```
-在hertzbeat中multiRow格式解析需要响应数据列名称和指标值一一映射，则对应的查询SHELL脚本为：  
+在argusDBM中multiRow格式解析需要响应数据列名称和指标值一一映射，则对应的查询SHELL脚本为：  
 `free -m | grep Mem | awk 'BEGIN{print "total used free buff_cache available"} {print $2,$3,$4,$6,$7}'`     
 控制台响应为：  
 ```shell
@@ -58,9 +58,9 @@ total  used  free  buff_cache  available
 ### 自定义步骤  
 
 配置自定义监控类型需新增配置两个YML文件
-1. 用监控类型命名的监控配置定义文件 - 例如：example_linux.yml 需位于安装目录 /hertzbeat/define/app/ 下
-2. 用监控类型命名的监控参数定义文件 - 例如：example_linux.yml 需位于安装目录 /hertzbeat/define/param/ 下
-3. 重启hertzbeat系统，我们就适配好了一个新的自定义监控类型。
+1. 用监控类型命名的监控配置定义文件 - 例如：example_linux.yml 需位于安装目录 /argusDBM/define/app/ 下
+2. 用监控类型命名的监控参数定义文件 - 例如：example_linux.yml 需位于安装目录 /argusDBM/define/param/ 下
+3. 重启argusDBM系统，我们就适配好了一个新的自定义监控类型。
 
 ------- 
 下面详细介绍下这俩文件的配置用法，请注意看使用注释。   

@@ -4,10 +4,10 @@ title: 配置修改账户密码(可选)
 sidebar_label: 配置修改账户密码(可选)      
 ---
 
-HertzBeat默认内置三个用户账户,分别为 admin/hertzbeat tom/hertzbeat guest/hertzbeat        
+argusDBM默认内置三个用户账户,分别为 admin/argusDBM tom/argusDBM guest/argusDBM        
 若需要新增删除修改账户或密码，可以通过配置 `sureness.yml` 实现，若无此需求可忽略此步骤      
-修改位于安装目录下的 `/hertzbeat/config/sureness.yml` 的配置文件，docker环境目录为`opt/hertzbeat/config/sureness.yml`，建议提前挂载映射           
-配置文件内容参考 项目仓库[/script/sureness.yml](https://github.com/dromara/hertzbeat/blob/master/script/sureness.yml)  
+修改位于安装目录下的 `/argusDBM/config/sureness.yml` 的配置文件，docker环境目录为`opt/argusDBM/config/sureness.yml`，建议提前挂载映射           
+配置文件内容参考 项目仓库[/script/sureness.yml](https://github.com/ zmops/argusDBM/blob/master/script/sureness.yml)  
 
 ```yaml
 
@@ -74,18 +74,18 @@ excludedResource:
 
 # 用户账户信息
 # 下面有 admin tom lili 三个账户
-# eg: admin 拥有[admin,user]角色,密码为hertzbeat 
-# eg: tom 拥有[user],密码为hertzbeat
+# eg: admin 拥有[admin,user]角色,密码为argusDBM 
+# eg: tom 拥有[user],密码为argusDBM
 # eg: lili 拥有[guest],明文密码为lili, 加盐密码为1A676730B0C7F54654B0E09184448289
 account:
    - appId: admin
-     credential: hertzbeat
+     credential: argusDBM
      role: [admin,user]
    - appId: tom
-     credential: hertzbeat
+     credential: argusDBM
      role: [user]
    - appId: guest
-     credential: hertzbeat
+     credential: argusDBM
      role: [guest]
 ```
 
@@ -95,20 +95,20 @@ account:
 
 # 用户账户信息
 # 下面有 admin tom lili 三个账户
-# eg: admin 拥有[admin,user]角色,密码为hertzbeat 
-# eg: tom 拥有[user],密码为hertzbeat
+# eg: admin 拥有[admin,user]角色,密码为argusDBM 
+# eg: tom 拥有[user],密码为argusDBM
 # eg: lili 拥有[guest],明文密码为lili, 加盐密码为1A676730B0C7F54654B0E09184448289
 account:
    - appId: admin
-     credential: hertzbeat
+     credential: argusDBM
      role: [admin,user]
    - appId: tom
-     credential: hertzbeat
+     credential: argusDBM
      role: [user]
    - appId: guest
-     credential: hertzbeat
+     credential: argusDBM
      role: [guest]
 ```
 
 
-**重启 HertzBeat 浏览器访问 http://ip:1157/ 即可探索使用 HertzBeat**  
+**重启 argusDBM 浏览器访问 http://ip:1157/ 即可探索使用 argusDBM**  

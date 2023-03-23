@@ -29,7 +29,7 @@ export const features = [{
                 custom: <a href={'/docs/advanced/extend-point'}><strong>自定义监控</strong></a>,
                 br: <br/>
             }}>
-                {'Argus目前支持对Mysql, PostgreSQL, Oracle等数据库类型的监控，我们也会尽快适配其它数据库，致力于监控所有数据库' +
+                {'Argus目前支持对Mysql, PostgreSQL, Oracle等数据库类型的监控，我们也会尽快适配其它数据库，致力于监控所有数据库。' +
                 '我们提供了更自由化的阈值告警配置，支持邮箱，短信，webhook，钉钉，企业微信，飞书机器人等告警通知。{br}'
                 }
             </Translate>
@@ -61,7 +61,7 @@ export const friendLinks = [
     {
         img: 'ShenYu_logo.png',
         alt: 'ShenYu',
-        url: 'https://dromara.org/projects/soul/overview/'
+        url: 'https:// zmops.org/projects/soul/overview/'
     }, {
         img: 'maxkey_logo.png',
         alt: 'MaxKey',
@@ -95,8 +95,8 @@ export const friendLinks = [
 
 export const mediaPartners = [
     {
-        img: 'dromara_qr.png',
-        alt: 'Dromara',
+        img: ' zmops_qr.png',
+        alt: ' zmops',
         url: 'https://mp.weixin.qq.com/s/Q3b7ZE802IMF6MwIPJIGQA'
     },
     {

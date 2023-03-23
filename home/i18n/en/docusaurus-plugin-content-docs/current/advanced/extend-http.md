@@ -11,16 +11,16 @@ sidebar_label: HTTP Protocol Custom Monitoring
 It can be seen from the process that we define a monitoring type of HTTP protocol. We need to configure HTTP request parameters, configure which Metrics to obtain, and configure the parsing method and parsing script for response data.
 HTTP protocol supports us to customize HTTP request path, request header, request parameters, request method, request body, etc.   
 
-**System default parsing method**：HTTP interface returns the JSON data structure specified by hertzbeat, that is, the default parsing method can be used to parse the data and extract the corresponding Metric data. For details, refer to [**System Default Parsing**](extend-http-default)    
+**System default parsing method**：HTTP interface returns the JSON data structure specified by argusDBM, that is, the default parsing method can be used to parse the data and extract the corresponding Metric data. For details, refer to [**System Default Parsing**](extend-http-default)    
 **JsonPath script parsing method**：Use JsonPath script to parse the response JSON data, return the data structure specified by the system, and then provide the corresponding Metric data. For details, refer to [**JsonPath Script Parsing**](extend-http-jsonpath)    
   
 
 ### Custom Steps  
 
 In order to configure a custom monitoring type, you need to add and configure two YML file.
-1. Monitoring configuration definition file named after monitoring type - eg：example.yml in the installation directory /hertzbeat/define/app/ 
-2. Monitoring parameter definition file named after monitoring type - eg：example.yml in the installation directory /hertzbeat/define/param/ 
-3. Restart hertzbeat system, we successfully fit a new custom monitoring type. 
+1. Monitoring configuration definition file named after monitoring type - eg：example.yml in the installation directory /argusDBM/define/app/ 
+2. Monitoring parameter definition file named after monitoring type - eg：example.yml in the installation directory /argusDBM/define/param/ 
+3. Restart argusDBM system, we successfully fit a new custom monitoring type. 
 
 ------- 
 Configuration usages of the two files are detailed below. Please pay attention to usage annotation.   

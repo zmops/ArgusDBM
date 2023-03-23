@@ -5,21 +5,8 @@
       "label": "文档中心",
       "items": [
         "introduce",
+        "start/quickstart",
         "help/guide",
-        {
-          "type": "category",
-          "label": "应用服务监控",
-          "items": [
-            "help/website",
-            "help/api",
-            "help/ping",
-            "help/port",
-            "help/fullsite",
-            "help/ssl_cert",
-            "help/jvm",
-            "help/springboot2"
-          ]
-        },
         {
           "type": "category",
           "label": "数据库监控",
@@ -33,35 +20,6 @@
             "help/opengauss",
             "help/iotdb",
             "help/redis"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "操作系统",
-          "items": [
-            "help/linux",
-            "help/windows",
-            "help/ubuntu",
-            "help/centos"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "中间件",
-          "items": [
-            "help/zookeeper",
-            "help/kafka",
-            "help/tomcat",
-            "help/shenyu",
-            "help/dynamic_tp"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "云原生",
-          "items": [
-            "help/docker",
-            "help/kubernetes"
           ]
         },
         {

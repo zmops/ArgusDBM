@@ -6,12 +6,12 @@ sidebar_label: 常见参数配置
 
 这里描述了如果配置短信服务器，内置可用性告警触发次数等。
 
-**`hertzbeat`的配置文件`application.yml`**     
+**`argusDBM`的配置文件`application.yml`**     
 
-### 配置HertzBeat的配置文件    
-   修改位于 `hertzbeat/config/application.yml` 的配置文件    
+### 配置argusDBM的配置文件    
+   修改位于 `argusDBM/config/application.yml` 的配置文件    
    注意⚠️docker容器方式需要将application.yml文件挂载到主机本地   
-   安装包方式解压修改位于 `hertzbeat/config/application.yml` 即可     
+   安装包方式解压修改位于 `argusDBM/config/application.yml` 即可     
 
 1. 配置短信发送服务器
 
@@ -25,7 +25,7 @@ common:
       secret-id: AKIDbQ4VhdMr89wDedFrIcgU2PaaMvOuBCzY
       secret-key: PaXGl0ziY9UcWFjUyiFlCPMr77rLkJYlyA
       app-id: 1435441637
-      sign-name: 赫兹跳动
+      sign-name:  
       template-id: 1343434
 ```
 

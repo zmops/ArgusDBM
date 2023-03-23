@@ -17,19 +17,19 @@
   },
   "link.item.label.Dashboard": {
     "message": "看板",
-    "description": "The label of footer link with label=Dashboard linking to https://github.com/dromara/sureness/projects/1"
+    "description": "The label of footer link with label=Dashboard linking to https://github.com/ zmops/sureness/projects/1"
   },
   "link.item.label.Github": {
     "message": "Github",
-    "description": "The label of footer link with label=Github linking to https://github.com/dromara/sureness"
+    "description": "The label of footer link with label=Github linking to https://github.com/ zmops/sureness"
   },
   "link.item.label.Gitee": {
     "message": "Gitee",
-    "description": "The label of footer link with label=Gitee linking to https://gitee.com/dromara/sureness"
+    "description": "The label of footer link with label=Gitee linking to https://gitee.com/ zmops/sureness"
   },
   "link.item.label.Github Discussion": {
     "message": "Github Discussion",
-    "description": "The label of footer link with label=Github Discussion linking to https://github.com/dromara/sureness/discussions"
+    "description": "The label of footer link with label=Github Discussion linking to https://github.com/ zmops/sureness/discussions"
   },
   "link.item.label.Gitter Channel": {
     "message": "Gitter Channel",
@@ -39,9 +39,9 @@
     "message": "USTHE",
     "description": "The label of footer link with label=USTHE linking to https://github.com/usthe"
   },
-  "link.item.label.Dromara": {
-    "message": "Dromara 社区",
-    "description": "The label of footer link with label=Dromara linking to https://dromara.org"
+  "link.item.label. zmops": {
+    "message": " zmops 社区",
+    "description": "The label of footer link with label= zmops linking to https:// zmops.org"
   },
   "link.item.label.QQ Group - 390083213": {
     "message": "QQ 群 - 390083213",
@@ -95,17 +95,17 @@
     "message": "我们的故事",
     "description": "The label of footer link with label=我们的故事 linking to https://support.qq.com/products/379369/team"
   },
-  "link.item.label.HertzBeat赫兹跳动": {
-    "message": "HertzBeat赫兹跳动",
-    "description": "The label of footer link with label=HertzBeat赫兹跳动 linking to https://hertzbeat.com"
+  "link.item.label.argusDBM ": {
+    "message": "argusDBM ",
+    "description": "The label of footer link with label=argusDBM  linking to https://argusDBM.com"
   },
   "link.item.label.Github仓库": {
     "message": "Github仓库",
-    "description": "The label of footer link with label=Github仓库 linking to https://github.com/dromara/hertzbeat"
+    "description": "The label of footer link with label=Github仓库 linking to https://github.com/ zmops/argusDBM"
   },
   "link.item.label.Gitee仓库": {
     "message": "Gitee仓库",
-    "description": "The label of footer link with label=Gitee仓库 linking to https://gitee.com/dromara/hertzbeat"
+    "description": "The label of footer link with label=Gitee仓库 linking to https://gitee.com/ zmops/argusDBM"
   },
   "link.item.label.相关资源": {
     "message": "相关资源",

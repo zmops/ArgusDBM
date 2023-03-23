@@ -7,26 +7,26 @@ sidebar_label: 使用案例
 
 现在大部分网站都默认支持 HTTPS，我们申请的证书一般是3个月或者1年，很容易随着时间的流逝SSL证书过期了我们却没有第一时间发现，或者在过期之前没有及时更新证书。
 
-这篇文章介绍如果使用 hertzbeat 监控系统来检测我们网站的SSL证书有效期，当证书过期时或证书快过期前几天，给我们发告警消息。
+这篇文章介绍如果使用 argusDBM 监控系统来检测我们网站的SSL证书有效期，当证书过期时或证书快过期前几天，给我们发告警消息。
 
-#### HertzBeat是什么
+#### argusDBM是什么
 
-HertzBeat 一个拥有强大自定义监控能力，无需Agent的实时监控工具。网站监测，PING连通性，端口可用性，数据库，操作系统，中间件，API监控，阈值告警，告警通知(邮件微信钉钉飞书)。
+argusDBM 一个拥有强大自定义监控能力，无需Agent的实时监控工具。网站监测，PING连通性，端口可用性，数据库，操作系统，中间件，API监控，阈值告警，告警通知(邮件微信钉钉飞书)。
 
-**官网: https://hertzbeat.com | https://tancloud.cn**
+**官网: https://argusDBM.com | https://tancloud.cn**
 
-github: https://github.com/dromara/hertzbeat    
-gitee: https://gitee.com/dromara/hertzbeat
+github: https://github.com/ zmops/argusDBM    
+gitee: https://gitee.com/ zmops/argusDBM
 
-#### 安装 HertzBeat
+#### 安装 argusDBM
 
 1.如果不想安装可以直接使用云服务 [TanCloud探云 console.tancloud.cn](https://console.tancloud.cn)
 
 2. `docker` 环境仅需一条命令即可安装
 
-`docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat`
+`docker run -d -p 1157:1157 --name argusDBM tancloud/argusDBM`
 
-3. 安装成功浏览器访问 `localhost:1157` 即可开始，默认账号密码 `admin/hertzbeat`
+3. 安装成功浏览器访问 `localhost:1157` 即可开始，默认账号密码 `admin/argusDBM`
 
 #### 监控SSL证书
 
@@ -98,7 +98,7 @@ gitee: https://gitee.com/dromara/hertzbeat
 
 钉钉微信飞书等token配置可以参考帮助文档
 
-https://hertzbeat.com/docs/help/alert_dingtalk   
+https://argusDBM.com/docs/help/alert_dingtalk   
 https://tancloud.cn/docs/help/alert_dingtalk
 
 > 告警通知 -> 新增告警通知策略 -> 将刚才配置的接收人启用通知
@@ -112,8 +112,8 @@ https://tancloud.cn/docs/help/alert_dingtalk
 
 #### 完！
 
-监控SSL证书的实践就到这里，当然对hertzbeat来说这个功能只是冰山一角，如果您觉得hertzbeat这个开源项目不错的话欢迎给我们在GitHub Gitee star哦，灰常感谢。感谢老铁们的支持。笔芯！
+监控SSL证书的实践就到这里，当然对argusDBM来说这个功能只是冰山一角，如果您觉得argusDBM这个开源项目不错的话欢迎给我们在GitHub Gitee star哦，灰常感谢。感谢老铁们的支持。笔芯！
 
-**github: https://github.com/dromara/hertzbeat**
+**github: https://github.com/ zmops/argusDBM**
 
-**gitee: https://gitee.com/dromara/hertzbeat**
+**gitee: https://gitee.com/ zmops/argusDBM**

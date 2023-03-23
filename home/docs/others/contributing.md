@@ -8,19 +8,19 @@ sidebar_label: 贡献者指南
 
 ### 贡献方式
 
-> 在 HertzBeat 社区，贡献方式有很多:
+> 在 argusDBM 社区，贡献方式有很多:
 
 - 💻**代码**：可以帮助社区完成一些任务、编写新的feature或者是修复一些bug；
 
 - ⚠️**测试**：可以来参与测试代码的编写，包括了单元测试、集成测试、e2e测试；
 
-- 📖**文档**：可以编写或完善文档，来帮助用户更好地了解和使用 HertzBeat；
+- 📖**文档**：可以编写或完善文档，来帮助用户更好地了解和使用 argusDBM；
 
-- 📝**博客**：可以撰写 HertzBeat 的相关文章，来帮助社区更好地推广；
+- 📝**博客**：可以撰写 argusDBM 的相关文章，来帮助社区更好地推广；
 
-- 🤔**讨论**：可以参与 HertzBeat 新的feature的讨论，将您的想法跟 HertzBeat 融合；
+- 🤔**讨论**：可以参与 argusDBM 新的feature的讨论，将您的想法跟 argusDBM 融合；
 
-- 💡**布道**：可以帮助宣传或推广 HertzBeat 社区，在 meetup 或 summit 中演讲；
+- 💡**布道**：可以帮助宣传或推广 argusDBM 社区，在 meetup 或 summit 中演讲；
 
 - 💬**建议**：也可以对项目或者社区提出一些建议，促进社区的良性发展；
 
@@ -28,10 +28,10 @@ sidebar_label: 贡献者指南
 
 即便是小到错别字的修正我们也都非常欢迎 :)
 
-### 让 HertzBeat 运行起来
+### 让 argusDBM 运行起来
 
-> 让 HertzBeat 的代码在您的开发工具上运行起来，并且能够断点调试。   
-> 此为前后端分离项目，本地代码启动需将后端 [manager](https://github.com/dromara/hertzbeat/tree/master/manager) 和前端 [web-app](https://github.com/dromara/hertzbeat/tree/master/web-app) 分别启动生效。
+> 让 argusDBM 的代码在您的开发工具上运行起来，并且能够断点调试。   
+> 此为前后端分离项目，本地代码启动需将后端 [manager](https://github.com/zmops/argusDBM/tree/master/manager) 和前端 [web-app](https://github.com/zmops/argusDBM/tree/master/web-app) 分别启动生效。
 
 - 后端启动
 
@@ -47,7 +47,7 @@ sidebar_label: 贡献者指南
 3. 在前端工程目录web-app下执行 `yarn install`
 4. 全局安装angular-cli `npm install -g @angular/cli@12 --registry=https://registry.npm.taobao.org`
 5. 待本地后端启动后，在web-app目录下启动本地前端 `ng serve --open`
-6. 浏览器访问 localhost:4200 即可开始，默认账号密码 admin/hertzbeat
+6. 浏览器访问 localhost:4200 即可开始，默认账号密码 admin/argusDBM
 
 ### 寻找任务
 
@@ -58,10 +58,10 @@ sidebar_label: 贡献者指南
 
 ### 提交 Pull Request
 
-1. 首先您需要 Fork 目标仓库 [hertzbeat repository](https://github.com/dromara/hertzbeat).
+1. 首先您需要 Fork 目标仓库 [argusDBM repository](https://github.com/zmops/argusDBM).
 2. 然后 用git命令 将代码下载到本地:
 ```shell
-git clone git@github.com:${YOUR_USERNAME}/hertzbeat.git #Recommended  
+git clone git@github.com:${YOUR_USERNAME}/argusDBM.git #Recommended  
 ```
 3. 下载完成后，请参考目标仓库的入门指南或者 README 文件对项目进行初始化。
 4. 接着，您可以参考如下命令进行代码的提交, 切换新的分支, 进行开发:
@@ -103,40 +103,18 @@ git push origin --delete a-dev-branch
 在主分支上，您可以执行以下操作来同步上游仓库：
 
 ```shell
-git remote add upstream https://github.com/dromara/hertzbeat.git #Bind the remote warehouse, if it has been executed, it does not need to be executed again
+git remote add upstream https://github.com/zmops/argusDBM.git #Bind the remote warehouse, if it has been executed, it does not need to be executed again
 git checkout master 
 git pull upstream master
 ```
 
 ### 如何成为Committer？
 
-通过上述步骤，您就是 HertzBeat 的贡献者了。重复前面的步骤，在社区中保持活跃，坚持下去，您就能成为 Committer！
+通过上述步骤，您就是 argusDBM 的贡献者了。重复前面的步骤，在社区中保持活跃，坚持下去，您就能成为 Committer！
 
 ### 加入讨论交流
 
-[Gitter Channel](https://gitter.im/hertzbeat/community)
+[Github Discussion](https://github.com/usthe/argusDBM/discussions)
 
-[Github Discussion](https://github.com/usthe/hertzbeat/discussions)
-
-[HertzBeat答疑网站](https://support.qq.com/products/379369)
 
 加微信号 `tan-cloud` 拉您进微信交流群
-
-加QQ群号 `718618151` 进QQ交流群, 验证信息: `tancloud`
-
-微信公众号: `tancloudtech`
-
-### 模块
-
-- **[manager](https://github.com/dromara/hertzbeat/tree/master/manager)** 提供监控管理,系统管理基础服务
-> 提供对监控的管理，监控应用配置的管理，系统用户租户后台管理等。
-- **[collector](https://github.com/dromara/hertzbeat/tree/master/collector)** 提供监控数据采集服务
-> 使用通用协议远程采集获取对端指标数据。
-- **[warehouse](https://github.com/dromara/hertzbeat/tree/master/warehouse)** 提供监控数据仓储服务
-> 采集指标结果数据管理，数据落盘，查询，计算统计。
-- **[alerter](https://github.com/dromara/hertzbeat/tree/master/alerter)** 提供告警服务
-> 告警计算触发，监控状态联动，告警配置，告警通知。
-- **[web-app](https://github.com/dromara/hertzbeat/tree/master/web-app)** 提供可视化控制台页面
-> 监控告警系统可视化控制台前端
-
-![hertzBeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/docs/hertzbeat-stru.svg)   

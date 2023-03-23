@@ -8,7 +8,7 @@ sidebar_label: RabbitMQ消息中间件
 
 ### 监控前操作  
 
-> HertzBeat 使用 RabbitMQ Management 的 Rest Api 对 RabbitMQ 进行指标数据采集。  
+> argusDBM 使用 RabbitMQ Management 的 Rest Api 对 RabbitMQ 进行指标数据采集。  
 > 故需要您的 RabbitMQ 环境开启 Management 插件 
 
 1. 开启 Management 插件，或使用自开启版本  
@@ -19,7 +19,7 @@ rabbitmq-plugins enable rabbitmq_management
 
 2. 浏览器访问 http://ip:15672/ ，默认账户密码 `guest/guest`. 成功登录即开启成功。  
 
-3. 在 HertzBeat 添加对应 RabbitMQ 监控即可，参数使用 Management 的 IP 端口，默认账户密码。
+3. 在 argusDBM 添加对应 RabbitMQ 监控即可，参数使用 Management 的 IP 端口，默认账户密码。
 
 ### 配置参数   
 

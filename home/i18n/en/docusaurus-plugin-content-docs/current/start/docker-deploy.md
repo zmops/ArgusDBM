@@ -1,12 +1,12 @@
 ---
 id: docker-deploy  
-title: Install HertzBeat via Docker   
+title: Install argusDBM via Docker   
 sidebar_label: Install via Docker      
 ---
 
-> Recommend to use docker deploy HertzBeat
+> Recommend to use docker deploy argusDBM
 
-video tutorial of installation and deployment: [HertzBeat installation and deployment-BiliBili](https://www.bilibili.com/video/BV1GY41177YL)  
+video tutorial of installation and deployment: [argusDBM installation and deployment-BiliBili](https://www.bilibili.com/video/BV1GY41177YL)  
 
 1. Download and install the Docker environment   
    Docker tools download refer to [Docker official document](https://docs.docker.com/get-docker/)。
@@ -16,14 +16,14 @@ video tutorial of installation and deployment: [HertzBeat installation and deplo
    Docker version 20.10.12, build e91ed57
    ```
 
-2. pull HertzBeat Docker mirror  
-   you can look up the mirror version TAG in [official mirror repository](https://hub.docker.com/r/tancloud/hertzbeat/tags)     
+2. pull argusDBM Docker mirror  
+   you can look up the mirror version TAG in [official mirror repository](https://hub.docker.com/r/tancloud/argusDBM/tags)     
    ``` 
-   $ docker pull tancloud/hertzbeat   
+   $ docker pull tancloud/argusDBM   
    ```
-3. Configure HertzBeat's configuration file(optional)      
+3. Configure argusDBM's configuration file(optional)      
    Create application.yml in the host directory，eg:/opt/application.yml        
-   The configuration file content refer to project repository[/script/application.yml](https://gitee.com/dromara/hertzbeat/raw/master/script/application.yml)，modify service parameters, IP port account password in `td-engine`   
+   The configuration file content refer to project repository[/script/application.yml](https://gitee.com/ zmops/argusDBM/raw/master/script/application.yml)，modify service parameters, IP port account password in `td-engine`   
    Note⚠️（If use email to alert, please replace the mail server parameter. If use MYSQL data source, replace the datasource parameters inside  refer to[H2 database switch to MYSQL](mysql-change)）       
    Specific replacement parameters is as follows:     
 ```yaml
@@ -32,7 +32,7 @@ warehouse:
       td-engine:
          enabled: true
          driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
-         url: jdbc:TAOS-RS://localhost:6041/hertzbeat
+         url: jdbc:TAOS-RS://localhost:6041/argusDBM
          username: root
          password: taosdata
       iot-db:
@@ -59,10 +59,10 @@ spring:
 ```
 
 4. Configure the user configuration file(optional, user-defined user password)         
-   HertzBeat default built-in three user accounts, respectively admin/hertzbeat tom/hertzbeat guest/hertzbeat      
+   argusDBM default built-in three user accounts, respectively admin/argusDBM tom/argusDBM guest/argusDBM      
    If you need add, delete or modify account or password, configure `sureness.yml`. Ignore this step without this demand.    
    Create sureness.yml in the host directory，eg:/opt/sureness.yml    
-   The configuration file content refer to project repository[/script/sureness.yml](https://gitee.com/dromara/hertzbeat/blob/master/script/sureness.yml)    
+   The configuration file content refer to project repository[/script/sureness.yml](https://gitee.com/ zmops/argusDBM/blob/master/script/sureness.yml)    
    
 ```yaml
 
@@ -129,18 +129,18 @@ excludedResource:
 
 # user account information
 # Here is admin tom lili three accounts
-# eg: admin includes[admin,user]roles, password is hertzbeat 
-# eg: tom includes[user], password is hertzbeat
+# eg: admin includes[admin,user]roles, password is argusDBM 
+# eg: tom includes[user], password is argusDBM
 # eg: lili includes[guest],text password is lili, salt password is 1A676730B0C7F54654B0E09184448289
 account:
    - appId: admin
-     credential: hertzbeat
+     credential: argusDBM
      role: [admin,user]
    - appId: tom
-     credential: hertzbeat
+     credential: argusDBM
      role: [user]
    - appId: guest
-     credential: hertzbeat
+     credential: argusDBM
      role: [guest]
 ```
    
@@ -150,48 +150,48 @@ account:
 
 # user account information
 # Here is admin tom lili three accounts
-# eg: admin includes[admin,user]roles, password is hertzbeat 
-# eg: tom includes[user], password is hertzbeat
+# eg: admin includes[admin,user]roles, password is argusDBM 
+# eg: tom includes[user], password is argusDBM
 # eg: lili includes[guest], text password is lili, salt password is 1A676730B0C7F54654B0E09184448289
 account:
    - appId: admin
-     credential: hertzbeat
+     credential: argusDBM
      role: [admin,user]
    - appId: tom
-     credential: hertzbeat
+     credential: argusDBM
      role: [user]
    - appId: guest
-     credential: hertzbeat
+     credential: argusDBM
      role: [guest]
 ```
 
-6. Start the HertzBeat Docker container    
+6. Start the argusDBM Docker container    
 
 ```shell 
 $ docker run -d -p 1157:1157 \
     -e LANG=zh_CN.UTF-8 \
     -e TZ=Asia/Shanghai \
-    -v /opt/data:/opt/hertzbeat/data \
-    -v /opt/logs:/opt/hertzbeat/logs \
-    -v /opt/application.yml:/opt/hertzbeat/config/application.yml \
-    -v /opt/sureness.yml:/opt/hertzbeat/config/sureness.yml \
-    --name hertzbeat tancloud/hertzbeat
+    -v /opt/data:/opt/argusDBM/data \
+    -v /opt/logs:/opt/argusDBM/logs \
+    -v /opt/application.yml:/opt/argusDBM/config/application.yml \
+    -v /opt/sureness.yml:/opt/argusDBM/config/sureness.yml \
+    --name argusDBM tancloud/argusDBM
 ```
 
-   This command starts a running HertzBeat Docker container, and the container port 1157 is mapped to the host machine 1157. If existing processes on the host use the port, please modify host mapped port.  
+   This command starts a running argusDBM Docker container, and the container port 1157 is mapped to the host machine 1157. If existing processes on the host use the port, please modify host mapped port.  
    - `docker run -d` : Run a container in the background via Docker
    - `-p 1157:1157`  : Mapping container ports to the host
    - `-e LANG=zh_CN.UTF-8`  : (optional) set the LANG  
    - `-e TZ=Asia/Shanghai` : (optional) set the TimeZone  
-   - `-v /opt/data:/opt/hertzbeat/data` : (optional，data persistence) Important⚠️ Mount the H2 database file to the local host, to ensure that the data is not lost because of creating or deleting container.  
-   - `-v /opt/logs:/opt/hertzbeat/logs` : (optional，if you don't have a need,just delete it) Mount the log file to the local host, to guarantee the log will not be lost because of creating or deleting container.
-   - `-v /opt/application.yml:/opt/hertzbeat/config/application.yml`  : (optional，if you don't have a need,just delete it) Mount the local configuration file into the container which has been modified in the previous step, namely using the local configuration file to cover container configuration file. We need to modify MYSQL, TDengine configuration information in the configuration file to connect to an external service.
-   - `-v /opt/sureness.yml:/opt/hertzbeat/config/sureness.yml`  : (optional，if you don't have a need,just delete it) Mount account configuration file modified in the previous step into the container. Delete this command parameters if have no modify account needs.
-   - `--name hertzbeat` : Naming container name hertzbeat 
-   - `tancloud/hertzbeat` : Use the pulled latest HertzBeat official application mirror to start the container. version can be looked up in [official mirror repository](https://hub.docker.com/r/tancloud/hertzbeat/tags)   
+   - `-v /opt/data:/opt/argusDBM/data` : (optional，data persistence) Important⚠️ Mount the H2 database file to the local host, to ensure that the data is not lost because of creating or deleting container.  
+   - `-v /opt/logs:/opt/argusDBM/logs` : (optional，if you don't have a need,just delete it) Mount the log file to the local host, to guarantee the log will not be lost because of creating or deleting container.
+   - `-v /opt/application.yml:/opt/argusDBM/config/application.yml`  : (optional，if you don't have a need,just delete it) Mount the local configuration file into the container which has been modified in the previous step, namely using the local configuration file to cover container configuration file. We need to modify MYSQL, TDengine configuration information in the configuration file to connect to an external service.
+   - `-v /opt/sureness.yml:/opt/argusDBM/config/sureness.yml`  : (optional，if you don't have a need,just delete it) Mount account configuration file modified in the previous step into the container. Delete this command parameters if have no modify account needs.
+   - `--name argusDBM` : Naming container name argusDBM 
+   - `tancloud/argusDBM` : Use the pulled latest argusDBM official application mirror to start the container. version can be looked up in [official mirror repository](https://hub.docker.com/r/tancloud/argusDBM/tags)   
 
-7. Begin to explore HertzBeat  
-   visit http://ip:1157/ on the browser. You can use HertzBeat monitoring alarm, default account and password are admin/hertzbeat.  
+7. Begin to explore argusDBM  
+   visit http://ip:1157/ on the browser. You can use argusDBM monitoring alarm, default account and password are admin/argusDBM.  
 
 **HAVE FUN**   
 
@@ -199,7 +199,7 @@ $ docker run -d -p 1157:1157 \
 
 **The most common problem is network problems, please check in advance**
 
-1. **MYSQL, TDENGINE, IoTDB and HertzBeat are deployed on the same host by Docker,HertzBeat use localhost or 127.0.0.1 connect to the database but fail**     
+1. **MYSQL, TDENGINE, IoTDB and argusDBM are deployed on the same host by Docker,argusDBM use localhost or 127.0.0.1 connect to the database but fail**     
 The problems lies in Docker container failed to visit and connect localhost port. Beacuse the docker default network mode is Bridge mode which can't access loacl machine through localhost.
 > Solution A：Configure application.yml. Change database connection address from localhost to external IP of the host machine.     
 > Solution B：Use the Host network mode to start Docker, namely making Docker container and hosting share network. `docker run -d --network host .....`   
@@ -207,8 +207,8 @@ The problems lies in Docker container failed to visit and connect localhost port
 2. **According to the process deploy，visit http://ip:1157/ no interface**   
 Please refer to the following points to troubleshoot issues：  
 > 1：If you switch to dependency service MYSQL database，check whether the database is created and started successfully.
-> 2：Check whether dependent services, IP account and password configuration is correct in HertzBeat's configuration file `application.yml`.
-> 3：`docker logs hertzbeat` Check whether the container log has errors. If you haven't solved the issue, report it to the communication group or community.
+> 2：Check whether dependent services, IP account and password configuration is correct in argusDBM's configuration file `application.yml`.
+> 3：`docker logs argusDBM` Check whether the container log has errors. If you haven't solved the issue, report it to the communication group or community.
 
 3. **Log an error TDengine connection or insert SQL failed**  
 > 1：Check whether database account and password configured is correct, the database is created.   
@@ -216,11 +216,11 @@ Please refer to the following points to troubleshoot issues：
 
 4. **Historical monitoring charts have been missing data for a long time**  
 > 1：Check whether you configure Tdengine or IoTDB. No configuration means no historical chart data.  
-> 2：Check whether Tdengine database `hertzbeat` is created. 
-> 3: Check whether IP account and password configuration is correct in HertzBeat's configuration file `application.yml`.
+> 2：Check whether Tdengine database `argusDBM` is created. 
+> 3: Check whether IP account and password configuration is correct in argusDBM's configuration file `application.yml`.
 
 5. If the history chart on the monitoring page is not displayed，popup [please configure time series database]
-> As shown in the popup window，the premise of history chart display is that you need install and configure hertzbeat's dependency service - IoTDB or TDengine database.
+> As shown in the popup window，the premise of history chart display is that you need install and configure argusDBM's dependency service - IoTDB or TDengine database.
 > Installation and initialization this database refer to [TDengine Installation](tdengine-init) or [IoTDB Installation](iotdb-init)  
 
 6. The historical picture of monitoring details is not displayed or has no data, and TDengine has been deployed  
@@ -229,5 +229,5 @@ Please refer to the following points to troubleshoot issues：
 7. The time series database is installed and configured, but the page still displays a pop-up [Unable to provide historical chart data, please configure dependent time series database]
 > Please check if the configuration parameters are correct
 > Is iot-db or td-engine enable set to true
-> Note⚠️If both hertzbeat and IotDB, TDengine are started under the same host for docker containers, 127.0.0.1 cannot be used for communication between containers by default, and the host IP is changed
+> Note⚠️If both argusDBM and IotDB, TDengine are started under the same host for docker containers, 127.0.0.1 cannot be used for communication between containers by default, and the host IP is changed
 > You can check the startup logs according to the logs directory

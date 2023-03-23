@@ -3,7 +3,7 @@ id: mysql-change
 title: 依赖的关系型数据库 H2 切换 为MYSQL           
 sidebar_label: 使用Mysql替换内置H2数据库(可选)      
 ---
-MYSQL是一款值得信赖的关系型数据库，HertzBeat除了支持使用默认内置的H2数据库外，还可以切换为使用MYSQL存储监控信息，告警信息，配置信息等结构化关系数据。  
+MYSQL是一款值得信赖的关系型数据库，argusDBM除了支持使用默认内置的H2数据库外，还可以切换为使用MYSQL存储监控信息，告警信息，配置信息等结构化关系数据。  
 
 注意⚠️ 使用外置Mysql数据库替换内置H2数据库为可选项，但建议生产环境配置，以提供更好的性能
 
@@ -32,18 +32,18 @@ MYSQL是一款值得信赖的关系型数据库，HertzBeat除了支持使用默
 ### 数据库创建   
 1. 进入MYSQL或使用客户端连接MYSQL服务   
    `mysql -uroot -p123456`  
-2. 创建名称为hertzbeat的数据库    
-   `create database hertzbeat default charset utf8mb4 collate utf8mb4_general_ci;`
-3. 查看hertzbeat数据库是否创建成功
+2. 创建名称为argusDBM的数据库    
+   `create database argusDBM default charset utf8mb4 collate utf8mb4_general_ci;`
+3. 查看argusDBM数据库是否创建成功
    `show databases;`
 
-### 修改hertzbeat的配置文件application.yml切换数据源   
+### 修改argusDBM的配置文件application.yml切换数据源   
 
-1. 配置HertzBeat的配置文件
-   修改位于 `hertzbeat/config/application.yml` 的配置文件   
-   注意⚠️docker容器方式需要将application.yml文件挂载到主机本地,安装包方式解压修改位于 `hertzbeat/config/application.yml` 即可
+1. 配置argusDBM的配置文件
+   修改位于 `argusDBM/config/application.yml` 的配置文件   
+   注意⚠️docker容器方式需要将application.yml文件挂载到主机本地,安装包方式解压修改位于 `argusDBM/config/application.yml` 即可
    替换里面的`spring.database`数据源参数，IP端口账户密码驱动   
-   ⚠️注意`application.yml`文件内容需完整，除下方修改内容外其他参数需保留，完整内容见[/script/application.yml](https://gitee.com/dromara/hertzbeat/raw/master/script/application.yml)  
+   ⚠️注意`application.yml`文件内容需完整，除下方修改内容外其他参数需保留，完整内容见[/script/application.yml](https://gitee.com/ zmops/argusDBM/raw/master/script/application.yml)  
    
 需修改部分原参数: 
 ```yaml
@@ -52,7 +52,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: 123456
-    url: jdbc:h2:./data/hertzbeat;MODE=MYSQL
+    url: jdbc:h2:./data/argusDBM;MODE=MYSQL
 ```
 具体替换参数如下,需根据mysql环境配置账户密码IP:   
 ```yaml
@@ -61,7 +61,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/hertzbeat?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/argusDBM?useUnicode=true&characterEncoding=utf-8&useSSL=false
 ```
 
-**启动 HertzBeat 浏览器访问 http://ip:1157/ 开始使用HertzBeat进行监控告警，默认账户密码 admin/hertzbeat**  
+**启动 argusDBM 浏览器访问 http://ip:1157/ 开始使用argusDBM进行监控告警，默认账户密码 admin/argusDBM**  

@@ -3,15 +3,15 @@ id: extend-point
 title: 自定义监控  
 sidebar_label: 自定义监控    
 ---
-> HertzBeat拥有自定义监控能力，您只需配置两个YML文件就能适配一款自定义的监控类型。  
+> argusDBM拥有自定义监控能力，您只需配置两个YML文件就能适配一款自定义的监控类型。  
 > 目前自定义监控支持[HTTP协议](extend-http)，[JDBC协议](extend-jdbc)(mysql,mariadb,postgresql..)，[SSH协议](extend-ssh)，JMX协议，SNMP协议，后续会支持更多通用协议。        
 
 ### 自定义步骤  
 
 配置自定义监控类型需新增配置两个YML文件
-1. 用监控类型命名的监控配置定义文件 - 例如：example.yml 需位于安装目录 /hertzbeat/define/app/ 下
-2. 用监控类型命名的监控参数定义文件 - 例如：example.yml 需位于安装目录 /hertzbeat/define/param/ 下
-3. 重启hertzbeat系统，我们就适配好了一个新的自定义监控类型。  
+1. 用监控类型命名的监控配置定义文件 - 例如：example.yml 需位于安装目录 /argusDBM/define/app/ 下
+2. 用监控类型命名的监控参数定义文件 - 例如：example.yml 需位于安装目录 /argusDBM/define/param/ 下
+3. 重启argusDBM系统，我们就适配好了一个新的自定义监控类型。  
 
 ------- 
 下面详细介绍下这俩文件的配置用法。   

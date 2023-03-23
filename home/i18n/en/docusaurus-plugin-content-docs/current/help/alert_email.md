@@ -26,8 +26,8 @@ sidebar_label: Alert email notification
 
 ### Email notification common issues    
 
-1. Hertzbeat deployed on its own intranet cannot receive email notifications   
-> Hertzbeat needs to configure its own mail server, not tancloud. Please confirm whether you have configured its own mail server in application.yml     
+1. argusDBM deployed on its own intranet cannot receive email notifications   
+> argusDBM needs to configure its own mail server, not tancloud. Please confirm whether you have configured its own mail server in application.yml     
 
 2. Cloud environment tancloud cannot receive email notification  
 > Please check whether there is any triggered alarm information in the alarm center.   

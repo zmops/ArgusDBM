@@ -3,11 +3,11 @@ id: extend-http-default
 title: HTTP Protocol System Default Parsing Method  
 sidebar_label: System Default Parsing Method
 ---
-> After calling the HTTP interface to obtain the response data, use the default parsing method of hertzbeat to parse the response data.    
+> After calling the HTTP interface to obtain the response data, use the default parsing method of argusDBM to parse the response data.    
 
-**The interface response data structure must be consistent with the data structure rules specified by hertzbeat**   
+**The interface response data structure must be consistent with the data structure rules specified by argusDBM**   
 
-### HertzBeat data format specification      
+### argusDBM data format specification      
 Note⚠️ The response data is JSON format.  
 
 Single layer format ：key-value
@@ -127,6 +127,6 @@ metrics:
       # enable ssl/tls or not, that is to say, HTTP or HTTPS. The default is false
       ssl: false
       # parsing method for reponse data: default-system rules, jsonPath-jsonPath script, website-website availability Metric monitoring
-      # Hertzbeat default parsing is used here
+      # argusDBM default parsing is used here
       parseType: default
 ```

@@ -14,7 +14,7 @@ module.exports = {
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'throw',
-    favicon: '/img/argus.png',
+    favicon: '/img/argus_logo.svg',
     organizationName,
     projectName,
     customFields: {
@@ -26,7 +26,7 @@ module.exports = {
         locales: ['zh-cn'],
     },
     themeConfig: {
-        image: '/img/argus.png',
+        image: '/img/argus_logo.svg',
         liveCodeBlock: {
             playgroundPosition: 'bottom',
         },
@@ -48,7 +48,7 @@ module.exports = {
         },
         algolia: {
             apiKey: '9298a61d23b2842ce077324283fb0abb',
-            indexName: 'hertzbeat',
+            indexName: 'argusDBM',
             appId: 'JMM99UL1H5',
             contextualSearch: true,
         },
@@ -56,7 +56,7 @@ module.exports = {
             id: "github-star",
             content:
                 '<font style="font-size: medium; font-weight: bolder">如果您喜欢ArgusDBM,</font> <a target="_blank" style="font-size: medium; font-weight: bolder" rel="noopener noreferrer" href="https://github.com/zmops/ArgusDBM">欢迎在 GitHub </a> <font style="font-size: medium; font-weight: bolder"> 或 </font><a target="_blank" style="font-size: medium; font-weight: bolder" rel="noopener noreferrer" href="https://github.com/zmops/ArgusDBM">Gitee 给我们点赞! </a>⭐️',
-            backgroundColor: '#7228B5',
+            backgroundColor: '#32cce7',
             textColor: '#fafbfc',
             isCloseable: true,
         },
@@ -64,7 +64,7 @@ module.exports = {
             title: 'ArgusDBM',
             logo: {
                 alt: '开源数据库一体化监控平台',
-                src: '/img/argus.png',
+                src: '/img/argus_logo.svg',
             },
             items: [
                 {
@@ -143,7 +143,7 @@ module.exports = {
             ],
             logo: {
                 alt: 'Argus 开源数据库一体化监控平台。致力于监控所有数据库',
-                src: '/img/argus.png',
+                src: '/img/argus_logo.svg',
                 href: 'https://github.com/zmops/ArgusDBM',
             }
         },

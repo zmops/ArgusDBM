@@ -7,7 +7,7 @@ sidebar_label: JsonPath解析方式
 
 注意⚠️ 响应数据为JSON格式
 
-**使用JsonPath脚本将响应数据解析成符合HertzBeat指定的数据结构规则的数据**  
+**使用JsonPath脚本将响应数据解析成符合argusDBM指定的数据结构规则的数据**  
 
 #### JsonPath操作符   
 [JSONPath在线验证](https://www.jsonpath.cn)     
@@ -25,7 +25,7 @@ sidebar_label: JsonPath解析方式
 | ?()     | 过滤器（脚本）表达式. |
 | ()     | 脚本表达式. |
 
-#### HertzBeat数据格式规范    
+#### argusDBM数据格式规范    
 单层格式：key-value
 ```json
 {
@@ -93,7 +93,7 @@ sidebar_label: JsonPath解析方式
   }
 ]
 ```
-此数据结构符合HertzBeat的数据格式规范，成功提取指标`type,num`值。   
+此数据结构符合argusDBM的数据格式规范，成功提取指标`type,num`值。   
 
 **对应的监控配置定义文件YML可以配置为如下**   
 

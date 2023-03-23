@@ -50,9 +50,9 @@ SQL响应数据：
 ### 自定义步骤  
 
 配置自定义监控类型需新增配置两个YML文件
-1. 用监控类型命名的监控配置定义文件 - 例如：example_sql.yml 需位于安装目录 /hertzbeat/define/app/ 下
-2. 用监控类型命名的监控参数定义文件 - 例如：example_sql.yml 需位于安装目录 /hertzbeat/define/param/ 下
-3. 重启hertzbeat系统，我们就适配好了一个新的自定义监控类型。
+1. 用监控类型命名的监控配置定义文件 - 例如：example_sql.yml 需位于安装目录 /argusDBM/define/app/ 下
+2. 用监控类型命名的监控参数定义文件 - 例如：example_sql.yml 需位于安装目录 /argusDBM/define/param/ 下
+3. 重启argusDBM系统，我们就适配好了一个新的自定义监控类型。
 
 ------- 
 下面详细介绍下这俩文件的配置用法，请注意看使用注释。   

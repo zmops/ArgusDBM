@@ -42,7 +42,7 @@ predefinedMetrics:
 
 2. 重启 IoTDB, 打开浏览器或者用curl 访问 http://ip:9091/metrics, 就能看到metric数据了。 
 
-3. 在 HertzBeat 添加对应 IoTDB 监控即可。
+3. 在 argusDBM 添加对应 IoTDB 监控即可。
 
 ### 配置参数   
 

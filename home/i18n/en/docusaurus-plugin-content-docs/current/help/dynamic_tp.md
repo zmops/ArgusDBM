@@ -58,7 +58,7 @@ Test whether the access Metric interface `ip:port/actuator/dynamic-tp` has respo
 ]
 ```
 
-3. Add DynamicTp monitoring under HertzBeat middleware monitoring
+3. Add DynamicTp monitoring under argusDBM middleware monitoring
 
 
 ### Configuration parameters

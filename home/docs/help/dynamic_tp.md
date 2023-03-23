@@ -58,7 +58,7 @@ management:
 ]
 ```
 
-3. 在HertzBeat中间件监控下添加DynamicTp监控即可   
+3. 在argusDBM中间件监控下添加DynamicTp监控即可   
 
 
 ### 配置参数

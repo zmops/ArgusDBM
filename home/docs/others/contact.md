@@ -7,30 +7,12 @@ sidebar_label: 交流联系
 
 ## BUG问题报告，功能建议相关建议通过仓库ISSUE
 
-[GITEE仓库ISSUES](https://gitee.com/dromara/hertzbeat/issues)   
-[GITHUB仓库ISSUES](https://github.com/dromara/hertzbeat/issues)
+[GITEE仓库ISSUES](https://github.com/zmops/ArgusDBM/issues)   
+[GITHUB仓库ISSUES](https://github.com/zmops/ArgusDBM/issues)
 
 ## 微信交流群   
 
-加微信号 tan-cloud 或 扫描下面账号二维码拉您进微信群。
-<img alt="tan-cloud" src="/img/docs/help/tan-cloud-wechat.jpg" width="400"/>       
+加微信号 tan-cloud 拉您进微信群。
 
-## QQ交流群   
-
-加QQ群号 718618151 或 扫描下面的群二维码进群, 验证信息: tancloud        
-
-<img alt="tan-cloud" src="/img/docs/help/qq-qr.jpg" width="400"/>          
-
-## 交流网站    
-
-[社区交流](https://support.qq.com/products/379369)  https://support.qq.com/products/379369
-
-## 微信公众号    
-
-<img alt="tan-cloud" src="/img/wechat.png" width="400"/>  
-
-
-## 其它联系  
-其它工作联系，微信: tan-cloud 备注: 工作     
 
 

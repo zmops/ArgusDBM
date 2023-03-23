@@ -1,5 +1,5 @@
 ---
-title: HertzBeat入GVP啦，并 v1.0.beta.7 发布，易用友好的云监控系统     
+title: argusDBM入GVP啦，并 v1.0.beta.7 发布，易用友好的云监控系统     
 author: tom  
 author_title: tom   
 author_url: https://github.com/tomsun28  
@@ -8,16 +8,16 @@ tags: [opensource]
 ---
 
 
-HertzBeat赫兹跳动 是一个由Dromara孵化的支持网站，API，PING，端口，数据库，全站，操作系统等监控类型，支持阈值告警，告警通知(邮箱，webhook，钉钉，企业微信，飞书机器人)，拥有易用友好的可视化操作界面的开源监控告警项目。
+argusDBM  是一个由 zmops孵化的支持网站，API，PING，端口，数据库，全站，操作系统等监控类型，支持阈值告警，告警通知(邮箱，webhook，钉钉，企业微信，飞书机器人)，拥有易用友好的可视化操作界面的开源监控告警项目。
 
-很高兴Hertzbeat被评定为GVP - Gitee最有价值开源项目！
+很高兴argusDBM被评定为GVP - Gitee最有价值开源项目！
 
 
 ![截屏2022-04-08 09.14.44.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8899bc4e836943dba2ec9efeec4ff629~tplv-k3u1fbpfcp-watermark.image?)
 
-老哥们帮忙在Gitee STAR起来，冲！https://gitee.com/dromara/hertzbeat
+老哥们帮忙在Gitee STAR起来，冲！https://gitee.com/ zmops/argusDBM
 
-官网:hertzbeat.com | tancloud.cn
+官网:argusDBM.com | tancloud.cn
 
 然后来说说最新的版本，这个版本看这么多feature，其实简单来说主要是这几个
 
@@ -61,15 +61,15 @@ BUG修复
 
 -----------------------
 
-> [HertzBeat赫兹跳动](https://github.com/dromara/hertzbeat) 是一个支持网站，API，PING，端口，数据库，操作系统等监控类型，拥有易用友好的可视化操作界面的开源监控告警项目。  
+> [argusDBM ](https://github.com/ zmops/argusDBM) 是一个支持网站，API，PING，端口，数据库，操作系统等监控类型，拥有易用友好的可视化操作界面的开源监控告警项目。  
 > 我们也提供了对应的 **[SAAS版本监控云](https://console.tancloud.cn)**，中小团队和个人无需再为了监控自己的网站资源，而去部署一套繁琐的监控系统，**[登录即可免费开始](https://console.tancloud.cn)**。     
-> HertzBeat 支持[自定义监控](https://hertzbeat.com/docs/advanced/extend-point) ,只用通过配置YML文件我们就可以自定义需要的监控类型和指标，来满足常见的个性化需求。   
-> HertzBeat 模块化，`manager, collector, scheduler, warehouse, alerter` 各个模块解耦合，方便理解与定制开发。       
-> HertzBeat 支持更自由化的告警配置(计算表达式)，支持告警通知，告警模版，邮件钉钉微信飞书等及时通知送达          
-> 欢迎登录 HertzBeat 的 [云环境TanCloud](https://console.tancloud.cn) 试用发现更多。          
+> argusDBM 支持[自定义监控](https://argusDBM.com/docs/advanced/extend-point) ,只用通过配置YML文件我们就可以自定义需要的监控类型和指标，来满足常见的个性化需求。   
+> argusDBM 模块化，`manager, collector, scheduler, warehouse, alerter` 各个模块解耦合，方便理解与定制开发。       
+> argusDBM 支持更自由化的告警配置(计算表达式)，支持告警通知，告警模版，邮件钉钉微信飞书等及时通知送达          
+> 欢迎登录 argusDBM 的 [云环境TanCloud](https://console.tancloud.cn) 试用发现更多。          
 > 我们正在快速迭代中，欢迎参与加入一起共建项目开源生态。
 
-> `HertzBeat`的多类型支持，易扩展，低耦合，希望能帮助开发者和中小团队快速搭建自有监控系统。
+> `argusDBM`的多类型支持，易扩展，低耦合，希望能帮助开发者和中小团队快速搭建自有监控系统。
 
 老铁们可以通过演示视频来直观了解功能： https://www.bilibili.com/video/BV1DY4y1i7ts
 
@@ -86,7 +86,7 @@ ORACLE监控:
 
 **仓库地址**
 
-[Github](https://github.com/dromara/hertzbeat) https://github.com/dromara/hertzbeat      
-[Gitee](https://gitee.com/dromara/hertzbeat) https://gitee.com/dromara/hertzbeat
+[Github](https://github.com/ zmops/argusDBM) https://github.com/ zmops/argusDBM      
+[Gitee](https://gitee.com/ zmops/argusDBM) https://gitee.com/ zmops/argusDBM
 
 看到这里不妨给个Star支持下哦，灰常感谢，弯腰!!

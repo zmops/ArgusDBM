@@ -4,7 +4,7 @@ title: 依赖时序数据库服务TDengine安装初始化
 sidebar_label: 使用TDengine存储指标数据(可选)    
 ---
 
-HertzBeat的历史数据存储依赖时序数据库 TDengine 或 IoTDB，任选其一安装初始化即可，也可不安装(注意⚠️但强烈建议生产环境配置)
+argusDBM的历史数据存储依赖时序数据库 TDengine 或 IoTDB，任选其一安装初始化即可，也可不安装(注意⚠️但强烈建议生产环境配置)
 
 TDengine是一款开源物联网时序型数据库，我们用其存储采集到的监控指标历史数据。 注意支持⚠️ 2.4.x版本。   
 
@@ -57,22 +57,22 @@ $ docker run -d -p 6030-6049:6030-6049 -p 6030-6049:6030-6049/udp \
    ```
    > 在 TDengine CLI 中使用 alter user 命令可以修改用户密码，缺省密码为 taosdata
 
-3. 创建名称为hertzbeat的数据库
+3. 创建名称为argusDBM的数据库
 
    执行创建数据库命令
 
    ```
    taos> show databases;
-   taos> CREATE DATABASE hertzbeat KEEP 90 DAYS 10 BLOCKS 6 UPDATE 1;
+   taos> CREATE DATABASE argusDBM KEEP 90 DAYS 10 BLOCKS 6 UPDATE 1;
    ```
 
-   上述语句将创建一个名为 hertzbeat 的库，这个库的数据将保留90天（超过90天将被自动删除），每 10 天一个数据文件，内存块数为 6，允许更新数据
+   上述语句将创建一个名为 argusDBM 的库，这个库的数据将保留90天（超过90天将被自动删除），每 10 天一个数据文件，内存块数为 6，允许更新数据
 
-4. 查看hertzbeat数据库是否成功创建
+4. 查看argusDBM数据库是否成功创建
 
    ```
    taos> show databases;
-   taos> use hertzbeat;
+   taos> use argusDBM;
    ```
 
 5. 退出TDengine CLI
@@ -85,11 +85,11 @@ $ docker run -d -p 6030-6049:6030-6049 -p 6030-6049:6030-6049/udp \
 
 > 除了启动server外，还需执行 `systemctl start taosadapter` 启动 adapter
 
-### 在hertzbeat的`application.yml`配置文件配置此数据库连接   
+### 在argusDBM的`application.yml`配置文件配置此数据库连接   
 
-1. 配置HertzBeat的配置文件
-   修改位于 `hertzbeat/config/application.yml` 的配置文件 [/script/application.yml](https://github.com/dromara/hertzbeat/raw/master/script/application.yml)      
-   注意⚠️docker容器方式需要将application.yml文件挂载到主机本地,安装包方式解压修改位于 `hertzbeat/config/application.yml` 即可     
+1. 配置argusDBM的配置文件
+   修改位于 `argusDBM/config/application.yml` 的配置文件 [/script/application.yml](https://github.com/ zmops/argusDBM/raw/master/script/application.yml)      
+   注意⚠️docker容器方式需要将application.yml文件挂载到主机本地,安装包方式解压修改位于 `argusDBM/config/application.yml` 即可     
 
 **修改里面的`warehouse.store.jpa.enabled`参数为`false`， 配置里面的`warehouse.store.td-engine`数据源参数，URL账户密码，并启用`enabled`为`true`**    
 
@@ -102,12 +102,12 @@ warehouse:
       td-engine:
          enabled: true
          driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
-         url: jdbc:TAOS-RS://localhost:6041/hertzbeat
+         url: jdbc:TAOS-RS://localhost:6041/argusDBM
          username: root
          password: taosdata
 ```
 
-2. 重启 HertzBeat
+2. 重启 argusDBM
 
 ### 常见问题   
 
@@ -115,7 +115,7 @@ warehouse:
 > 不需要都配置，任选其一即可，用enable参数控制其是否使用，也可都不安装配置，只影响历史图表数据。
 
 2. 监控页面历史图表不显示，弹出 [无法提供历史图表数据，请配置依赖时序数据库] 
-> 如弹窗所示，历史图表展示的前提是需要安装配置hertzbeat的依赖服务 - IotDB数据库或TDengine数据库
+> 如弹窗所示，历史图表展示的前提是需要安装配置argusDBM的依赖服务 - IotDB数据库或TDengine数据库
 
 3. 监控详情历史图片不展示或无数据，已经配置了TDengine   
 > 请确认是否安装的TDengine版本为2.4.0.12附近，版本3.0和2.2不支持兼容
@@ -123,5 +123,5 @@ warehouse:
 4. 安装配置了TDengine数据库，但页面依旧显示弹出 [无法提供历史图表数据，请配置依赖时序数据库]
 > 请检查配置参数是否正确  
 > td-engine enable是否设置为true  
-> 注意⚠️若hertzbeat和TDengine都为docker容器在同一主机下启动，容器之间默认不能用127.0.0.1通讯，改为主机IP  
+> 注意⚠️若argusDBM和TDengine都为docker容器在同一主机下启动，容器之间默认不能用127.0.0.1通讯，改为主机IP  
 > 可根据logs目录下启动日志排查  

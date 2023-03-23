@@ -3,11 +3,11 @@ id: extend-http-default
 title: HTTP协议系统默认解析方式  
 sidebar_label: 系统默认解析方式
 ---
-> HTTP接口调用获取响应数据后，用HertzBeat默认的解析方式去解析响应数据。    
+> HTTP接口调用获取响应数据后，用argusDBM默认的解析方式去解析响应数据。    
 
-**此需接口响应数据结构符合HertzBeat指定的数据结构规则**   
+**此需接口响应数据结构符合argusDBM指定的数据结构规则**   
 
-### HertzBeat数据格式规范     
+### argusDBM数据格式规范     
 注意⚠️ 响应数据为JSON   
 
 单层格式：key-value
@@ -127,6 +127,6 @@ metrics:
       # 是否启用ssl/tls,即是http还是https,默认false
       ssl: false
       # 响应数据解析方式: default-系统规则,jsonPath-jsonPath脚本,website-网站可用性指标监控
-      # 这里使用HertzBeat默认解析
+      # 这里使用argusDBM默认解析
       parseType: default
 ```

@@ -4,7 +4,7 @@ title: Depends on the time series database IoTDB installation
 sidebar_label: Time series database IoTDB installation (optional) 
 ---
 
-HertzBeat's historical data storage relies on the time series database IoTDB or TDengine, you can choose one of them to initialize, or not to install (note ⚠️If you don't install it, there will be no historical chart data)
+argusDBM's historical data storage relies on the time series database IoTDB or TDengine, you can choose one of them to initialize, or not to install (note ⚠️If you don't install it, there will be no historical chart data)
 
 Apache IoTDB is a software system that integrates the collection, storage, management and analysis of IoT time series data. We use it to store and analyze the collected historical data of monitoring indicators.
 
@@ -34,10 +34,10 @@ $ docker run -d -p 6667:6667 -p 31999:31999 -p 8181:8181 \
    `-v /opt/iotdb/data:/iotdb/data` is local persistent mount of TDengine data directory.`/iotdb/data` should be replaced with the actual local directory.
    use```$ docker ps``` to check if the database started successfully
 
-3. Configure the database connection in hertzbeat `application.yml`configuration file 
+3. Configure the database connection in argusDBM `application.yml`configuration file 
 
-   Modify `hertzbeat/config/application.yml` configuration file   
-   Note⚠️The docker container way need to mount application.yml file locally,while you can use installation package way to unzip and modify `hertzbeat/config/application.yml`     
+   Modify `argusDBM/config/application.yml` configuration file   
+   Note⚠️The docker container way need to mount application.yml file locally,while you can use installation package way to unzip and modify `argusDBM/config/application.yml`     
    Replace `warehouse.store.iot-db` data source parameters, HOST account and password.
 
 ```
@@ -63,10 +63,10 @@ warehouse:
 > You don't need to configure all of them, you can choose one of them. Use the enable parameter to control whether it is used or not. You can also install and configure neither, which only affects the historical chart data.
 
 2. The historical chart of the monitoring page is not displayed, and pops up [Unable to provide historical chart data, please configure to rely on the time series database]
-> As shown in the pop-up window, the premise of displaying the history chart is to install and configure the dependent services of hertzbeat - IotDB database or TDengine database
+> As shown in the pop-up window, the premise of displaying the history chart is to install and configure the dependent services of argusDBM - IotDB database or TDengine database
 
 3. The TDengine database is installed and configured, but the page still displays a pop-up [Unable to provide historical chart data, please configure the dependent time series database]
 > Please check if the configuration parameters are correct  
 > Is td-engine enable set to true  
-> Note⚠️If both hertzbeat and TDengine are started under the same host for docker containers, 127.0.0.1 cannot be used for communication between containers by default, and the host IP is changed  
+> Note⚠️If both argusDBM and TDengine are started under the same host for docker containers, 127.0.0.1 cannot be used for communication between containers by default, and the host IP is changed  
 > You can check the startup logs according to the logs directory  
