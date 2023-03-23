@@ -83,8 +83,7 @@
             "help/alert_feishu",
             "help/alert_console"
           ]
-        },
-        "help/issue"
+        }
       ]
     },
     {
@@ -92,10 +91,6 @@
       "label": "Others",
       "items": [
         "others/contact",
-        "others/design",
-        "others/sponsor",
-        "others/private",
-        "others/resource",
         "others/contributing"
       ]
     }

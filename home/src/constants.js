@@ -10,16 +10,9 @@ export const features = [{
     description: (
         <>
             <Translate values={{
-                TANCLOUD: <strong>TANCLOUD</strong>,
-                SAAS: <strong>SAAS</strong>,
-                console: <a href={'https://www.console.tancloud.cn'}><strong>注册登录</strong></a>,
-                doc: <strong>文档</strong>,
                 br: <br/>
             }}>
-                {'中小团队和个人无需再为了监控自己的网站资源，而去部署一套繁琐的监控系统。往往有时候，那套监控系统比自身网站消耗的资源还大。' +
-                '{TANCLOUD} 提供{SAAS}云版本，{console}即可开始您的服务监控。{br}' +
-                '安全是最重要的，我们对账户密钥和监控密钥全链路加密。'
-                }
+                {'无需部署Agent，开箱即用。我们使用JDBC直连您的数据库，输入IP端口账户密码即可。'}
             </Translate>
         </>
     ),
@@ -36,9 +29,8 @@ export const features = [{
                 custom: <a href={'/docs/advanced/extend-point'}><strong>自定义监控</strong></a>,
                 br: <br/>
             }}>
-                {'TANCLOUD目前支持对网站，API，PING连通性，端口可用性，SiteMap全站，数据库，操作系统等的监控，快速迭代提供更多的监控类型和性能指标。{br}' +
-                '我们提供了更自由化的阈值告警配置，支持邮箱，短信，webhook，钉钉，企业微信，飞书机器人等告警通知。{br}' +
-                '不同团队的监控需求千变万化，我们提供{custom}，仅需配置YML就能快速接入监控系统。'
+                {'Argus目前支持对Mysql, PostgreSQL, Oracle等数据库类型的监控，我们也会尽快适配其它数据库，致力于监控所有数据库' +
+                '我们提供了更自由化的阈值告警配置，支持邮箱，短信，webhook，钉钉，企业微信，飞书机器人等告警通知。{br}'
                 }
             </Translate>
         </>
@@ -51,11 +43,11 @@ export const features = [{
         description: (
             <>
                 <Translate values={{
-                    github: <a href={'https://github.com/dromara/hertzbeat'}><strong>HertzBeat Github 代码仓库</strong></a>,
-                    gitee: <a href={'https://gitee.com/dromara/hertzbeat'}><strong>HertzBeat Gitee 代码仓库</strong></a>,
+                    github: <a href={'https://github.com/zmops/ArgusDBM'}><strong>ArgusDBM Github 代码仓库</strong></a>,
+                    gitee: <a href={'https://github.com/zmops/ArgusDBM'}><strong>ArgusDBM Gitee 代码仓库</strong></a>,
                     br: <br/>
                 }}>
-                    {'TANCLOUD监控系统代码开源，非常欢迎任何对此有兴趣的同学参与中来，我们一起进步，丰富的资源文档正在完善中。{br}' +
+                    {'ArgusDBM代码开源，非常欢迎任何对此有兴趣的同学参与中来，我们一起进步，丰富的资源文档正在完善中。{br}' +
                     '中二的我们相信开源改变世界！{br}' +
                     '{github} {br}' +
                     '{gitee}'
