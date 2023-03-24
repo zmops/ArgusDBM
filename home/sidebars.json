@@ -1,0 +1,56 @@
+{
+  "docs": [
+    {
+      "type": "category",
+      "label": "文档中心",
+      "items": [
+        "introduce",
+        "start/quickstart",
+        "help/guide",
+        {
+          "type": "category",
+          "label": "数据库监控",
+          "items": [
+            "help/mysql",
+            "help/mariadb",
+            "help/postgresql",
+            "help/sqlserver",
+            "help/oracle",
+            "help/dm",
+            "help/opengauss",
+            "help/iotdb",
+            "help/redis"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "阈值告警配置",
+          "items": [
+            "help/alert_threshold",
+            "help/alert_threshold_expr"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "告警通知配置",
+          "items": [
+            "help/alert_email",
+            "help/alert_webhook",
+            "help/alert_wework",
+            "help/alert_dingtalk",
+            "help/alert_feishu",
+            "help/alert_console"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Others",
+      "items": [
+        "others/contact",
+        "others/contributing"
+      ]
+    }
+  ]
+}

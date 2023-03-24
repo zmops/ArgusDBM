@@ -1,0 +1,20 @@
+---
+id: sponsor  
+title: Sponsor    
+sidebar_label: Sponsor     
+---
+
+
+**argusDBM is completely free for individuals or enterprises. If you like this project and are willing to help, buy us a cup of coffee**      
+
+<img alt="planet" src="/img/docs/pay.png" width="500"/>     
+
+
+Thanks [JiShi Information(build a new microwave + optical transaction network)](https://www.flarespeed.com) sponsored server node.          
+Thanks [TianShang cloud computing(new wisdom cloud)](https://www.tsyvps.com/aff/BZBEGYLX) sponsored server node.     
+Thanks [Postcat(An Open source development tool)](https://postcat.com/?utm_source=sponsor&utm_campaign=s-argusDBM) sponsored.    
+
+
+
+
+
