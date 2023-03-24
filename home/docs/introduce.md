@@ -7,7 +7,7 @@ slug: /
 
 > Argus 开源数据库一体化监控平台，致力于监控所有数据库。
 
-官网: [walkingfunny.com](https://www.walkingfunny.com/)
+官网: [argus.zmops.cn](https://argus.zmops.cn/)
 
 ## 🐕 快速开始
 

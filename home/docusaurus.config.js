@@ -2,7 +2,7 @@ const path = require('path')
 
 const organizationName = 'zmops' // Usually your GitHub org/username.
 const projectName = 'ArgusDBM' // Usually your repo name.
-const branch = 'master'
+const branch = 'main'
 const repoUrl = `https://github.com/zmops/${projectName}`
 const editDocRepoUrl = 'https://github.com/zmops/ArgusDBM'
 const cdnUrl = null
