@@ -4,10 +4,15 @@ title: ArgusDBM 是什么?
 sidebar_label: ArgusDBM介绍
 slug: /
 ---
-
 > Argus 开源数据库一体化监控平台，致力于监控所有数据库。
 
 官网: [argus.zmops.cn](https://argus.zmops.cn/)
+
+- 源于 [HertzBeat](https://github.com/dromara/hertzbeat) ，专注于数据库方向，优美的可视化界面，所见即所得。
+- 开箱即用，无需部署Agent，配置IP端口账户等后即可监控，大大减少企业数据库监控流程。
+- 操作简单，快捷好用，深度结合我们在监控领域的最佳实践。
+- 无缝衔接Zabbix，自身可做为Agent对Zabbix的数据库监控短板增强。
+
 
 ## 🐕 快速开始
 
