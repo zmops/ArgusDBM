@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://zmops.com/blog</id>
+    <title>ArgusDBM Blog</title>
+    <updated>2023-03-23T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://zmops.com/blog"/>
+    <subtitle>ArgusDBM Blog</subtitle>
+    <icon>https://zmops.com/img/argus.svg</icon>
+    <rights>Copyright © 2023 Argus, Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[开源数据库一体化监控平台 ArgusDBM 正式发布]]></title>
+        <id>/2023/03/23/argus</id>
+        <link href="https://zmops.com/blog/2023/03/23/argus"/>
+        <updated>2023-03-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Argus 开源数据库一体化监控平台，致力于监控所有数据库。]]></summary>
+        <content type="html"><![CDATA[<blockquote><p>Argus 开源数据库一体化监控平台，致力于监控所有数据库。</p></blockquote>]]></content>
+        <author>
+            <name>tom</name>
+            <uri>https://github.com/tomsun28</uri>
+        </author>
+        <category label="opensource" term="opensource"/>
+    </entry>
+</feed>

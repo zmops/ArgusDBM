@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>ArgusDBM Blog</title>
+        <link>https://zmops.com/blog</link>
+        <description>ArgusDBM Blog</description>
+        <lastBuildDate>Thu, 23 Mar 2023 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>zh-cn</language>
+        <copyright>Copyright © 2023 Argus, Inc.</copyright>
+        <item>
+            <title><![CDATA[开源数据库一体化监控平台 ArgusDBM 正式发布]]></title>
+            <link>https://zmops.com/blog/2023/03/23/argus</link>
+            <guid>/2023/03/23/argus</guid>
+            <pubDate>Thu, 23 Mar 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[Argus 开源数据库一体化监控平台，致力于监控所有数据库。]]></description>
+            <content:encoded><![CDATA[<blockquote><p>Argus 开源数据库一体化监控平台，致力于监控所有数据库。</p></blockquote>]]></content:encoded>
+            <category>opensource</category>
+        </item>
+    </channel>
+</rss>
