@@ -41,6 +41,7 @@ public interface NoticeConfigService {
      * 动态条件查询
      *
      * @param specification Query conditions    查询条件
+     * @param pageRequest page
      * @return Search result    查询结果
      */
     Page<NoticeReceiver> getNoticeReceivers(Specification<NoticeReceiver> specification, PageRequest pageRequest);
@@ -50,6 +51,7 @@ public interface NoticeConfigService {
      * 动态条件查询
      *
      * @param specification Query conditions    查询条件
+     * @param pageRequest page
      * @return Search result    查询结果
      */
     Page<NoticeRule> getNoticeRules(Specification<NoticeRule> specification, PageRequest pageRequest);

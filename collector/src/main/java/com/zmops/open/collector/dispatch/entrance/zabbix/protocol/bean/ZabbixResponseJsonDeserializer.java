@@ -31,15 +31,16 @@ import java.util.Map;
  */
 public class ZabbixResponseJsonDeserializer implements JsonDeserializer<ZabbixResponse> {
 
+    private static final String DATA = "data";
 
     @Override
     public ZabbixResponse deserialize(JsonElement json, Type type, JsonDeserializationContext context)
             throws JsonParseException {
         ZabbixResponse response = new ZabbixResponse();
         JsonObject jsonObject = json.getAsJsonObject();
-        if (jsonObject != null && jsonObject.has("data")) {
+        if (jsonObject != null && jsonObject.has(DATA)) {
             response.setType(ZabbixProtocolType.ACTIVE_CHECKS);
-             JsonElement jsonElement = jsonObject.get("data");
+             JsonElement jsonElement = jsonObject.get(DATA);
             Type checksType = new TypeToken<List<ZabbixResponse.ActiveChecks>>(){}.getType();
             List<ZabbixResponse.ActiveChecks> activeChecks = new Gson().fromJson(jsonElement, checksType);
             response.setActiveChecks(activeChecks);

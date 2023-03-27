@@ -18,7 +18,7 @@ export const features = [{
     ),
 }, {
     title: translate({
-        message: '多支持与自定义'
+        message: '全平台支持'
     }),
     description: (
         <>

@@ -45,6 +45,12 @@ public class ZabbixResponse {
     public static final String PASSWORD = "password";
     public static final String URL = "url";
 
+    private static final String START_CHAR = "[";
+    private static final String END_CHAR = "]";
+    private static final int INDEX2 = 2;
+    private static final int INDEX6 = 6;
+    private static final int INDEX7 = 7;
+
     /**
      * Protocol type
      */
@@ -67,7 +73,7 @@ public class ZabbixResponse {
 
         public Map<String, String> getParamsMap() {
             Map<String, String> paramsMap = new HashMap<>(8);
-            if (key != null && key.length() > 0 && key.contains("[") && key.contains("]")) {
+            if (key != null && key.length() > 0 && key.contains(START_CHAR) && key.contains(END_CHAR)) {
                 try {
                     int startIndex = key.indexOf('[');
                     int endIndex = key.indexOf(']');
@@ -75,7 +81,7 @@ public class ZabbixResponse {
                     String endStr = key.substring(startIndex + 1, endIndex);
                     String[] params = endStr.split(",");
                     String[] keys = preStr.split("\\.");
-                    if (keys.length != 2 || params.length < 6) {
+                    if (keys.length != INDEX2 || params.length < INDEX6) {
                         log.error("zabbix metric key {} do not meet the requirements. ", key);
                     } else {
                         paramsMap.put(APP, keys[0]);
@@ -86,7 +92,7 @@ public class ZabbixResponse {
                         paramsMap.put(DATABASE, params[3]);
                         paramsMap.put(USERNAME, params[4]);
                         paramsMap.put(PASSWORD, params[5]);
-                        if (params.length >= 7) {
+                        if (params.length >= INDEX7) {
                             paramsMap.put(URL, params[6]);
                         }
                     }
