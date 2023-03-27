@@ -44,7 +44,7 @@ sidebar_label: 安装包方式部署
    $ ./startup.sh 
    ```
 6. 开始探索argusDBM  
-   浏览器访问 http://ip:1157/ 即刻开始探索使用argusDBM，默认账户密码 admin/argusDBM。  
+   浏览器访问 http://ip:1159/ 即刻开始探索使用argusDBM，默认账户密码 admin/argusDBM。  
 
 **HAVE FUN**
 
@@ -52,7 +52,7 @@ sidebar_label: 安装包方式部署
 
 **最多的问题就是网络问题，请先提前排查**
 
-1. **按照流程部署，访问 http://ip:1157/ 无界面**   
+1. **按照流程部署，访问 http://ip:1159/ 无界面**   
    请参考下面几点排查问题：
 > 一：若切换了依赖服务MYSQL数据库，排查数据库是否成功创建，是否启动成功
 > 二：argusDBM的配置文件 `argusDBM/config/application.yml` 里面的依赖服务IP账户密码等配置是否正确    

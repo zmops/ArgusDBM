@@ -36,22 +36,22 @@ DEPLOY_DIR=`pwd`
 # 如果指定的是目录,spring则会读取目录中的所有配置文件
 CONF_DIR=$DEPLOY_DIR/config
 # 应用的端口号
-SERVER_PORT=1157
+SERVER_PORT=1159
 
 PIDS=`ps -ef | grep java | grep "$CONF_DIR" | awk '{print $2}'`
 if [ "$1" = "status" ]; then
     if [ -n "$PIDS" ]; then
-        echo "The HertzBeat $SERVER_NAME is running...!"
+        echo "The ArgusDBM $SERVER_NAME is running...!"
         echo "PID: $PIDS"
         exit 0
     else
-        echo "The HertzBeat $SERVER_NAME is stopped"
+        echo "The ArgusDBM $SERVER_NAME is stopped"
         exit 0
     fi
 fi
 
 if [ -n "$PIDS" ]; then
-    echo "ERROR: The HertzBeat $SERVER_NAME already started!"
+    echo "ERROR: The ArgusDBM $SERVER_NAME already started!"
     echo "PID: $PIDS"
     exit 1
 fi
@@ -60,7 +60,7 @@ if [ -n "$SERVER_PORT" ]; then
     # linux 下查询端口是否占用
     SERVER_PORT_COUNT=`netstat -tln | grep :$SERVER_PORT | wc -l`
     if [ $SERVER_PORT_COUNT -gt 0 ]; then
-        echo "ERROR: netstat the HertzBeat $SERVER_NAME port $SERVER_PORT already used!"
+        echo "ERROR: netstat the ArgusDBM $SERVER_NAME port $SERVER_PORT already used!"
         exit 1
     fi
     # mac 下查询端口是否占用
@@ -68,7 +68,7 @@ if [ -n "$SERVER_PORT" ]; then
     if [ $LSOF_AVA -gt 0 ]; then
         SERVER_PORT_COUNT=`lsof -i:$SERVER_PORT | grep java | wc -l`
         if [ $SERVER_PORT_COUNT -gt 0 ]; then
-            echo "ERROR: lsof the HertzBeat $SERVER_NAME port $SERVER_PORT already used!"
+            echo "ERROR: lsof the ArgusDBM $SERVER_NAME port $SERVER_PORT already used!"
             exit 1
         fi
     fi
@@ -94,8 +94,8 @@ then
     LOGGING_CONFIG="-Dlogging.config=$CONF_DIR/$LOG_IMPL_FILE"
 fi
 CONFIG_FILES=" -Dlogging.path=$LOGS_DIR $LOGGING_CONFIG -Dspring.config.location=$CONF_DIR/ "
-echo -e "You can review logs at hertzbeat/logs"
-echo -e "Starting the HertzBeat $SERVER_NAME ..."
+echo -e "You can review logs at ArgusDBM/logs"
+echo -e "Starting the ArgusDBM $SERVER_NAME ..."
 nohup java $JAVA_OPTS $JAVA_MEM_OPTS $CONFIG_FILES -jar $DEPLOY_DIR/$JAR_NAME >logs/startup.log 2>&1 &
 
 COUNT=0

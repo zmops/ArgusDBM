@@ -23,7 +23,7 @@ sidebar_label: 教程一:适配一款HTTP协议监控
 
 ```
 如上，通常我们的后台API接口会设计这这样一个通用返回。argusDBM系统的后台也是如此，我们今天就用argusDBM的 API 做样例，新增适配一款新的监控类型 **argusDBM**，监控采集它的系统摘要统计API
-`http://localhost:1157/api/summary`, 其响应数据为:
+`http://localhost:1159/api/summary`, 其响应数据为:
 
 ```
 {
@@ -86,7 +86,7 @@ param:
     type: number
     range: '[0,65535]'
     required: true
-    defaultValue: 1157
+    defaultValue: 1159
   - field: ssl
     name:
       zh-CN: 启用HTTPS

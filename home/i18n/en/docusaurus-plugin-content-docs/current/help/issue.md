@@ -28,7 +28,7 @@ The problems lies in Docker container failed to visit and connect localhost port
 > Solution A：Configure application.yml. Change database connection address from localhost to external IP of the host machine.     
 > Solution B：Use the Host network mode to start Docker, namely making Docker container and hosting share network. `docker run -d --network host .....`    
 
-2. **According to the process deploy，visit http://ip:1157/ no interface**   
+2. **According to the process deploy，visit http://ip:1159/ no interface**   
 Please refer to the following points to troubleshoot issuess：  
 > one：Whether the MySQL database and tdengine database as dependent services have been successfully started, whether the corresponding argusDBM database has been created, and whether the SQL script has been executed.    
 > two：Check whether dependent service, IP account and password configuration is correct in argusDBM's configuration file `application.yml`.  
@@ -40,7 +40,7 @@ Please refer to the following points to troubleshoot issuess：
 
 ### Package Deployment common issues
 
-1. **According to the process deploy，visit http://ip:1157/ no interface**   
+1. **According to the process deploy，visit http://ip:1159/ no interface**   
    Please refer to the following points to troubleshoot issuess:
 > one：Whether the MySQL database and tdengine database as dependent services have been successfully started, whether the corresponding argusDBM database has been created, and whether the SQL script has been executed.    
 > two：Check whether dependent services, IP account and password configuration is correct in argusDBM's configuration file `argusDBM/config/application.yml`.    

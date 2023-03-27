@@ -168,7 +168,7 @@ account:
 6. Start the argusDBM Docker container    
 
 ```shell 
-$ docker run -d -p 1157:1157 \
+$ docker run -d -p 1159:1159 \
     -e LANG=zh_CN.UTF-8 \
     -e TZ=Asia/Shanghai \
     -v /opt/data:/opt/argusDBM/data \
@@ -178,9 +178,9 @@ $ docker run -d -p 1157:1157 \
     --name argusDBM tancloud/argusDBM
 ```
 
-   This command starts a running argusDBM Docker container, and the container port 1157 is mapped to the host machine 1157. If existing processes on the host use the port, please modify host mapped port.  
+   This command starts a running argusDBM Docker container, and the container port 1159 is mapped to the host machine 1159. If existing processes on the host use the port, please modify host mapped port.  
    - `docker run -d` : Run a container in the background via Docker
-   - `-p 1157:1157`  : Mapping container ports to the host
+   - `-p 1159:1159`  : Mapping container ports to the host
    - `-e LANG=zh_CN.UTF-8`  : (optional) set the LANG  
    - `-e TZ=Asia/Shanghai` : (optional) set the TimeZone  
    - `-v /opt/data:/opt/argusDBM/data` : (optional，data persistence) Important⚠️ Mount the H2 database file to the local host, to ensure that the data is not lost because of creating or deleting container.  
@@ -191,7 +191,7 @@ $ docker run -d -p 1157:1157 \
    - `tancloud/argusDBM` : Use the pulled latest argusDBM official application mirror to start the container. version can be looked up in [official mirror repository](https://hub.docker.com/r/tancloud/argusDBM/tags)   
 
 7. Begin to explore argusDBM  
-   visit http://ip:1157/ on the browser. You can use argusDBM monitoring alarm, default account and password are admin/argusDBM.  
+   visit http://ip:1159/ on the browser. You can use argusDBM monitoring alarm, default account and password are admin/argusDBM.  
 
 **HAVE FUN**   
 
@@ -204,7 +204,7 @@ The problems lies in Docker container failed to visit and connect localhost port
 > Solution A：Configure application.yml. Change database connection address from localhost to external IP of the host machine.     
 > Solution B：Use the Host network mode to start Docker, namely making Docker container and hosting share network. `docker run -d --network host .....`   
 
-2. **According to the process deploy，visit http://ip:1157/ no interface**   
+2. **According to the process deploy，visit http://ip:1159/ no interface**   
 Please refer to the following points to troubleshoot issues：  
 > 1：If you switch to dependency service MYSQL database，check whether the database is created and started successfully.
 > 2：Check whether dependent services, IP account and password configuration is correct in argusDBM's configuration file `application.yml`.

@@ -23,9 +23,9 @@ gitee: https://gitee.com/ zmops/argusDBM
 
 2. The `docker` environment can be installed with just one command
 
-`docker run -d -p 1157:1157 --name argusDBM tancloud/argusDBM`
+`docker run -d -p 1159:1159 --name argusDBM tancloud/argusDBM`
 
-3. After the installation is successful, the browser can access `localhost:1157` to start, the default account password is `admin/argusDBM`
+3. After the installation is successful, the browser can access `localhost:1159` to start, the default account password is `admin/argusDBM`
 
 #### Monitoring SSL certificates
 

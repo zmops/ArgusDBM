@@ -54,4 +54,4 @@ spring:
     url: jdbc:mysql://localhost:3306/argusDBM?useUnicode=true&characterEncoding=utf-8&useSSL=false
 ```
 
-**Start argusDBM  visit http://ip:1157/ on the browser  You can use argusDBM monitoring alarm, default account and password are admin/argusDBM**  
+**Start argusDBM  visit http://ip:1159/ on the browser  You can use argusDBM monitoring alarm, default account and password are admin/argusDBM**  

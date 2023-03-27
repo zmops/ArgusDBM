@@ -24,9 +24,9 @@ gitee: https://gitee.com/ zmops/argusDBM
 
 2. `docker` 环境仅需一条命令即可安装
 
-`docker run -d -p 1157:1157 --name argusDBM tancloud/argusDBM`
+`docker run -d -p 1159:1159 --name argusDBM tancloud/argusDBM`
 
-3. 安装成功浏览器访问 `localhost:1157` 即可开始，默认账号密码 `admin/argusDBM`
+3. 安装成功浏览器访问 `localhost:1159` 即可开始，默认账号密码 `admin/argusDBM`
 
 #### 监控SSL证书
 

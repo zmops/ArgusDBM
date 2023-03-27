@@ -16,7 +16,7 @@
 @rem
 
 @title HertzBeat
-@echo off 
+@echo off
 setlocal enabledelayedexpansion
 
 set SERVER_NAME=${project.artifactId}
@@ -29,12 +29,12 @@ cd /d %~dp0
 cd ..
 
 set DEPLOY_DIR=%~dp0..
-echo %DEPLOY_DIR%  
+echo %DEPLOY_DIR%
 
 set CONF_DIR=%DEPLOY_DIR%\config
 echo %CONF_DIR%
 
-set SERVER_PORT=1157
+set SERVER_PORT=1159
 
 for /f "tokens=1-5" %%i in ('netstat -ano^|findstr "0.0.0.0:%SERVER_PORT%"') do (
     echo The HertzBeat %SERVER_NAME% port %SERVER_PORT% already used!
@@ -63,7 +63,7 @@ start javaw %JAVA_OPTS% %JAVA_MEM_OPTS% %CONFIG_FILES% -jar %DEPLOY_DIR%\%JAR_NA
 
 echo "Service Start Success!"
 for /f "tokens=1-5" %%i in ('netstat -ano^|findstr ":%SERVER_PORT%"') do (
-    echo Service PID: %%m , Port %SERVER_PORT%  
+    echo Service PID: %%m , Port %SERVER_PORT%
     goto q
 )
 

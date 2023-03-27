@@ -94,13 +94,13 @@ account:
    $ ./startup.sh 
    ```
 6. Begin to explore argusDBM  
-   visit http://ip:1157/ on the browser. You can use argusDBM monitoring alarm, default account and password are admin/argusDBM. 
+   visit http://ip:1159/ on the browser. You can use argusDBM monitoring alarm, default account and password are admin/argusDBM. 
 
 **HAVE FUN**
 
 ### FAQ  
 
-1. **According to the process deploy，visit http://ip:1157/ no interface**   
+1. **According to the process deploy，visit http://ip:1159/ no interface**   
    Please refer to the following points to troubleshoot issues:
 > 1：If you switch to dependency service MYSQL database，check whether the database is created and started successfully.
 > 2：Check whether dependent services, IP account and password configuration is correct in argusDBM's configuration file `argusDBM/config/application.yml`.    

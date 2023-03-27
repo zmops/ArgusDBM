@@ -72,7 +72,7 @@ param:
     range: '[0,65535]'
     required: true
     # 端口默认值
-    defaultValue: 1157
+    defaultValue: 1159
     # 参数输入框提示信息
     placeholder: '请输入端口'
   - field: ssl

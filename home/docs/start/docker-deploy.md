@@ -58,7 +58,7 @@ sidebar_label: Docker方式部署
 6. 启动argusDBM Docker容器    
 
 ```shell 
-$ docker run -d -p 1157:1157 \
+$ docker run -d -p 1159:1159 \
     -e LANG=zh_CN.UTF-8 \
     -e TZ=Asia/Shanghai \
     -v /opt/data:/opt/argusDBM/data \
@@ -69,10 +69,10 @@ $ docker run -d -p 1157:1157 \
     --name argusDBM tancloud/argusDBM
 ```
 
- 	这条命令启动一个运行argusDBM的Docker容器，并且将容器的1157端口映射到宿主机的1157端口上。若宿主机已有进程占用该端口，则需要修改主机映射端口。  
+ 	这条命令启动一个运行argusDBM的Docker容器，并且将容器的1159端口映射到宿主机的1159端口上。若宿主机已有进程占用该端口，则需要修改主机映射端口。  
    - `docker run -d` : 通过Docker运行一个容器,使其在后台运行
 
-   - `-p 1157:1157`  : 映射容器端口到主机端口，请注意，前面是宿主机的端口号，后面是容器的端口号。
+   - `-p 1159:1159`  : 映射容器端口到主机端口，请注意，前面是宿主机的端口号，后面是容器的端口号。
 
    - `-e LANG=zh_CN.UTF-8`  : (可选) 设置语言
 
@@ -99,7 +99,7 @@ $ docker run -d -p 1157:1157 \
    - `tancloud/argusDBM` : 使用拉取最新的的argusDBM官方发布的应用镜像来启动容器,版本可查看[官方镜像仓库](https://hub.docker.com/r/tancloud/argusDBM/tags)   
 
 7. 开始探索argusDBM  
-   浏览器访问 http://ip:1157/ 即可开始探索使用argusDBM，默认账户密码 admin/argusDBM。  
+   浏览器访问 http://ip:1159/ 即可开始探索使用argusDBM，默认账户密码 admin/argusDBM。  
 
 **HAVE FUN**   
 
@@ -112,7 +112,7 @@ $ docker run -d -p 1157:1157 \
 > 解决办法一：配置application.yml将数据库的连接地址由localhost修改为宿主机的对外IP     
 > 解决办法二：使用Host网络模式启动Docker，即使Docker容器和宿主机共享网络 `docker run -d --network host .....`   
 
-2. **按照流程部署，访问 http://ip:1157/ 无界面**   
+2. **按照流程部署，访问 http://ip:1159/ 无界面**   
 请参考下面几点排查问题：  
 > 一：若切换了依赖服务MYSQL数据库，排查数据库是否成功创建，是否启动成功
 > 二：argusDBM的配置文件 `application.yml` 里面的依赖服务IP账户密码等配置是否正确  

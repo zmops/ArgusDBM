@@ -15,9 +15,9 @@ sidebar_label: Quick Start
 
 ##### 1：Install quickly via docker
 
-1. Just one command to get started: `docker run -d -p 1157:1157 --name argusDBM tancloud/argusDBM`
+1. Just one command to get started: `docker run -d -p 1159:1159 --name argusDBM tancloud/argusDBM`
 
-2. Access `localhost:1157` to start, default account: `admin/argusDBM`
+2. Access `localhost:1159` to start, default account: `admin/argusDBM`
 
 Detailed config refer to [Install argusDBM via Docker](https://argusDBM.com/docs/start/docker-deploy)
 
@@ -27,7 +27,7 @@ Detailed config refer to [Install argusDBM via Docker](https://argusDBM.com/docs
 2. Need Jdk Environment, `jdk11`
 3. [optional]Configure the argusDBM configuration yml file `argusDBM/config/application.yml`
 4. Run shell `$ ./startup.sh `
-5. Access `localhost:1157` to start, default account: `admin/argusDBM`
+5. Access `localhost:1159` to start, default account: `admin/argusDBM`
 
 Detailed config refer to [Install argusDBM via Package](https://argusDBM.com/docs/start/package-deploy)
 
