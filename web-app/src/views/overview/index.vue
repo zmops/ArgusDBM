@@ -29,10 +29,6 @@
                 label="状态"
                 width="180"
               >
-                <template slot-scope="scope">
-                  <span v-if="scope.row.status === '未处理'" style="color: #FF7D00">未处理</span>
-                  <span v-else>已处理</span>
-                </template>
               </el-table-column>
               <el-table-column
                 prop="time"
@@ -155,8 +151,9 @@
 import Pagination from '@/views/overview/Pagination'
 import BarChart from '@/views/overview/BarChart'
 import { WARN_LEVEL } from '@/const/const'
-import { getSummary, getSummaryStatic } from '@/api/monitor/summary'
+import { getSummaryStatic } from '@/api/monitor/summary'
 import i18n from '@/lang'
+import { getAlerts } from '@/api/monitor/alarm-manage-batch'
 export default {
   name: 'Overview',
   components: {
@@ -165,22 +162,8 @@ export default {
   },
   data() {
     return {
-      numList: [
-        { title: '未关闭告警数', val: 9 },
-        { title: '监控总数', val: 27 },
-        { title: '在线监控数', val: 22 },
-        { title: '离线监控数', val: 3 },
-        { title: '禁用监控数', val: 2 },
-        { title: 'MySQL总数', val: 12 },
-        { title: 'PostgreSQL总数', val: 22 },
-        { title: 'Oracle总数', val: 3 }
-      ],
-      alarmTableData: [
-        { level: '严重告警', status: '已处理', content: '连接超时', time: '2023-02-23 10:09:22' },
-        { level: '警告告警', status: '未处理', content: '连接超时', time: '2023-02-22 15:19:32' },
-        { level: '紧急告警', status: '未处理', content: '连接超时', time: '2023-02-22 13:10:56' },
-        { level: '严重告警', status: '已处理', content: '连接超时', time: '2023-02-20 09:35:32' }
-      ],
+      numList: [],
+      alarmTableData: [],
       myaqlTableData: [
         { name: 'MySQL1', ip: '172.1.16.120', time: '2023-01-30 15:19:32' },
         { name: 'MySQL2', ip: '172.1.16.138', time: '2023-01-30 15:19:32' },
@@ -237,6 +220,7 @@ export default {
   },
   async created() {
     await this.getAppCounts()
+    await this.getAlertRecently()
   },
   methods: {
     getAppCounts() {
@@ -249,6 +233,22 @@ export default {
             this.numList.push({
               title: i18nTitle,
               val: item.count
+            })
+          })
+        }
+      })
+    },
+    getAlertRecently() {
+      getAlerts({}).then(res => {
+        if (res.code === 0 && res.data) {
+          this.alarmTableData = []
+          const content = res.data.content
+          content.forEach(item => {
+            this.alarmTableData.push({
+              level: i18n.t('alert.priority.' + item.priority),
+              status: i18n.t('alert.status.' + item.status),
+              content: item.content,
+              time: item.gmtUpdate
             })
           })
         }
