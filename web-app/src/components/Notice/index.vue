@@ -2,10 +2,10 @@
   <div>
     <div class="notice">
       <div class="notice-ac">
-        <div class="no-item" @click="showCurrent(item.key)" v-for="(item, index) in alarmNumList" :key="index">
+        <div v-for="(item, index) in alarmNumList" :key="index" class="no-item" @click="showCurrent(item.key)">
           <el-tooltip :content="item.value" placement="bottom" :offset="-10">
             <span>
-              <svg-icon :iconClass="item.icon"></svg-icon>
+              <svg-icon :icon-class="item.icon" />
               <span class="no-num">{{ item.num > 99 ? '99+' :item.num }}</span>
             </span>
           </el-tooltip>
@@ -15,56 +15,56 @@
   </div>
 </template>
 <script>
-  import {
-    getSummary
-  } from '@/api/monitor/alarm-manage-batch'
-  import { WARN_LEVEL } from '@/const/const'
+import {
+  getSummary
+} from '@/api/monitor/alarm-manage-batch'
+import { WARN_LEVEL } from '@/const/const'
 
-  export default {
-    components: {},
-    created() {},
-    data() {
-      return {
-        dialogVisible: false,
-        dot: false,
-        showNotice: false,
-        activeName: '0',
-        classify: 0,
-        msgSum: 0,
-        tableData: [],
-        alarmNumList: WARN_LEVEL,
-        noticeList: [],
-        currentCount: 0,
-        noticeLoading: false,
-        time: null,
-        warnlevel: null
-      }
-    },
-    created() {
-      this.getData()
-    },
-    methods: {
-      getData() {
-        getSummary().then(res => {
-          console.log(res)
-          this.alarmNumList.forEach(item => {
-            if (item.key == 2)
-              //紧急告警
-              item.num = res.data.priorityEmergencyNum
-            if (item.key == 1)
-              //严重告警
-              item.num = res.data.priorityCriticalNum
-            if (item.key == 0)
-              //警告告警
-              item.num = res.data.priorityWarningNum
-          })
+export default {
+  components: {},
+  data() {
+    return {
+      dialogVisible: false,
+      dot: false,
+      showNotice: false,
+      activeName: '0',
+      classify: 0,
+      msgSum: 0,
+      tableData: [],
+      alarmNumList: WARN_LEVEL,
+      noticeList: [],
+      currentCount: 0,
+      noticeLoading: false,
+      time: null,
+      warnlevel: null
+    }
+  },
+  created() {},
+  created() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      getSummary().then(res => {
+        console.log(res)
+        this.alarmNumList.forEach(item => {
+          if (item.key == 2)
+          // 紧急告警
+          { item.num = res.data.priorityEmergencyNum }
+          if (item.key == 1)
+          // 严重告警
+          { item.num = res.data.priorityCriticalNum }
+          if (item.key == 0)
+          // 警告告警
+          { item.num = res.data.priorityWarningNum }
         })
-      },
-      showCurrent(id) {
-        this.$router.push('/warn/warnInfo?type=' + id)
+      })
     },
+    showCurrent(id) {
+      this.$router.push('/warn/warnInfo?type=' + id)
     }
   }
+}
 
 </script>
 

@@ -18,7 +18,7 @@ import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
-import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree,parseStrEmpty,filter } from "@/utils/common";
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree, parseStrEmpty, filter } from '@/utils/common'
 
 import * as filters from './filters' // global filters
 

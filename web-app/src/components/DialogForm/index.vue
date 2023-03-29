@@ -1,36 +1,36 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false"  :width="width">
-    <slot name="form"></slot>
+  <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false" :width="width">
+    <slot name="form" />
   </el-dialog>
 </template>
 <script>
-  export default {
-    name: 'DialogForm',
-    components: {},
-    props: {
-        title: {
-            type: String,
-            default:''
-        },
-        width: {
-            type: String,
-            default:'610px'
-        },
+export default {
+  name: 'DialogForm',
+  components: {},
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
-    data() {
-      return {
-        dialogVisible: false
-      }
+    width: {
+      type: String,
+      default: '610px'
+    }
+  },
+  data() {
+    return {
+      dialogVisible: false
+    }
+  },
+  methods: {
+    handleDialogOpen() {
+      this.dialogVisible = true
     },
-    methods: {
-      handleDialogOpen() {
-        this.dialogVisible = true
-      },
-      handleDialogClose() {
-        this.dialogVisible = false
-      }
+    handleDialogClose() {
+      this.dialogVisible = false
     }
   }
+}
 
 </script>
 

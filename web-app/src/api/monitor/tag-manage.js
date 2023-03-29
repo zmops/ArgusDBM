@@ -20,18 +20,18 @@ export function modifyTags(data) {
 
 // 新增标签
 export function addTags(data) {
-    return request({
-      url: '/api/tag',
-      method: 'post',
-      data
-    })
-  }
+  return request({
+    url: '/api/tag',
+    method: 'post',
+    data
+  })
+}
 
-  // 根据TAG ID删除TAG
+// 根据TAG ID删除TAG
 export function delTags(ids) {
-    return request({
-      url: '/api/tag',
-      method: 'delete',
-      data:ids
-    })
-  }
+  return request({
+    url: '/api/tag',
+    method: 'delete',
+    data: ids
+  })
+}

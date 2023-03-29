@@ -27,7 +27,7 @@ export function getAlertDefineMonitors(alertDefineId) {
 }
 
 // Applies the association between specified alarm definitions and monitoring ｜ 应用指定告警定义与监控关联关系
-export function appliesMonitors(alertDefineId,data) {
+export function appliesMonitors(alertDefineId, data) {
   return request({
     url: '/api/alert/define/' + alertDefineId + '/monitors',
     method: 'post',
@@ -56,6 +56,6 @@ export function getDefines(query) {
   return request({
     url: '/api/alert/defines',
     method: 'get',
-    params:query
+    params: query
   })
 }

@@ -12,9 +12,9 @@
         <el-badge :value="total" :max="99" :hidden="total ? false : true">
           <span :class="form.acknowledged === '' ? 'active' : ''" @click="search('')">全部告警</span>
         </el-badge>
-        <el-divider direction="vertical"></el-divider>
+        <el-divider direction="vertical" />
         <span :class="form.acknowledged === 0 ? 'active' : ''" @click="search(0)">待确认</span>
-        <el-divider direction="vertical"></el-divider>
+        <el-divider direction="vertical" />
 
         <span :class="form.acknowledged === 1 ? 'active' : ''" @click="search(1)">已确认</span>
       </div>
@@ -22,36 +22,36 @@
     <div class="table-container">
       <el-table
         ref="multipleTable"
+        v-loading="loading"
         :data="allList"
         tooltip-effect="dark"
         style="width: 100%"
         :show-header="false"
-        v-loading="loading"
         @select="handleSelect"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="50"></el-table-column>
+        <el-table-column type="selection" width="50" />
         <el-table-column width="70" class="status-wrapper">
           <template slot-scope="scope">
             <i
               :class="{
-                                emergency: scope.row.severity === 5,
-                                senior: scope.row.severity === 4,
-                                intermediate: scope.row.severity === 3,
-                                general: scope.row.severity === 2,
-                                info: scope.row.severity === 1,
-                            }"
+                emergency: scope.row.severity === 5,
+                senior: scope.row.severity === 4,
+                intermediate: scope.row.severity === 3,
+                general: scope.row.severity === 2,
+                info: scope.row.severity === 1,
+              }"
             >
-              <svg-icon iconClass="warring" />
+              <svg-icon icon-class="warring" />
             </i>
             <span
               :class="{
-                                emergency: scope.row.severity === 5,
-                                senior: scope.row.severity === 4,
-                                intermediate: scope.row.severity === 3,
-                                general: scope.row.severity === 2,
-                                info: scope.row.severity === 1,
-                            }"
+                emergency: scope.row.severity === 5,
+                senior: scope.row.severity === 4,
+                intermediate: scope.row.severity === 3,
+                general: scope.row.severity === 2,
+                info: scope.row.severity === 1,
+              }"
               class="status-title"
             >{{ statusTitles[scope.row.severity - 1] }}</span>
           </template>
@@ -62,39 +62,39 @@
               <el-row>
                 <el-col :span="24" class="alarm-title">
                   <svg-icon
-                    :iconClass="
-                                            'ml-' + scope.row.manageLevel
-                                        "
-                  ></svg-icon>
+                    :icon-class="
+                      'ml-' + scope.row.manageLevel
+                    "
+                  />
                   <span>{{ scope.row.moName }}</span>
                   <span class="ml-10">{{ scope.row.moTypeName }}</span>
                   <svg-icon
                     :icon-class="
-                                            scope.row.email
-                                                ? 'email'
-                                                : 'email-disable'
-                                        "
+                      scope.row.email
+                        ? 'email'
+                        : 'email-disable'
+                    "
                   />
                   <svg-icon
                     :icon-class="
-                                            scope.row.message
-                                                ? 'message'
-                                                : 'message-disable'
-                                        "
+                      scope.row.message
+                        ? 'message'
+                        : 'message-disable'
+                    "
                   />
                   <svg-icon
                     :icon-class="
-                                            scope.row.webchat
-                                                ? 'webchat'
-                                                : 'webchat-disable'
-                                        "
+                      scope.row.webchat
+                        ? 'webchat'
+                        : 'webchat-disable'
+                    "
                   />
                   <svg-icon
                     :icon-class="
-                                            scope.row.dingding
-                                                ? 'dingding'
-                                                : 'dingding-disable'
-                                        "
+                      scope.row.dingding
+                        ? 'dingding'
+                        : 'dingding-disable'
+                    "
                   />
                 </el-col>
               </el-row>
@@ -104,10 +104,10 @@
                     <span>{{ scope.row.createDate }}</span>
                     <span>
                       {{
-                      scope.row.alarmRule
-                      ? scope.row.alarmRule
-                      .description
-                      : ''
+                        scope.row.alarmRule
+                          ? scope.row.alarmRule
+                            .description
+                          : ''
                       }}
                     </span>
                   </div>
@@ -125,17 +125,17 @@
               </div>
               <div class="button-bottom">
                 <el-button
+                  v-if="scope.row.acknowledged === 0"
                   size="mini"
                   type="primary"
                   @click="submit(scope.row.id)"
-                  v-if="scope.row.acknowledged === 0"
                 >确认</el-button>
                 <el-button
+                  v-if="scope.row.alarmRule.manual_close"
                   size="mini"
                   type="primary"
                   plain
                   @click="ignore(scope.row.id)"
-                  v-if="scope.row.alarmRule.manual_close"
                 >忽略</el-button>
               </div>
             </div>
@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import { acknowledgeAlarm, fetchNewAlarmList, ignoreAlarm,batchIgnore } from '@/api/alarm'
+import { acknowledgeAlarm, fetchNewAlarmList, ignoreAlarm, batchIgnore } from '@/api/alarm'
 import { getIds } from '@/utils'
 import EventBus from '@/utils/event-bus'
 
@@ -160,12 +160,12 @@ export default {
       form: {
         page: 1,
         size: 7,
-        acknowledged: '',
+        acknowledged: ''
       },
       allList: [],
       total: 0,
       ids: [],
-      checked: false,
+      checked: false
     }
   },
   async mounted() {
@@ -176,8 +176,8 @@ export default {
   methods: {
     transTime(time, fmt = 'yyyy-MM-dd HH:mm:ss') {
       if (time) {
-        let date = new Date(time)
-        let full = (x) => (x < 10 ? '0' + x : x)
+        const date = new Date(time)
+        const full = (x) => (x < 10 ? '0' + x : x)
         return fmt
           .replace(/yyyy/, date.getFullYear())
           .replace(/MM/, full(date.getMonth() + 1))
@@ -207,7 +207,7 @@ export default {
       this.$confirm('是否确认该条告警?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
+        type: 'warning'
       })
         .then(() => {
           this.enter(id)
@@ -220,7 +220,7 @@ export default {
         this.$confirm('是否批量确认告警?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         })
           .then(() => {
             this.loading = true
@@ -244,11 +244,11 @@ export default {
         this.$confirm('是否批量忽略告警?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         })
           .then(() => {
             this.loading = true
-            batchIgnore({ eventids : this.ids }).then((res) => {
+            batchIgnore({ eventids: this.ids }).then((res) => {
               if (res) {
                 this.getList()
                 this.checked = false
@@ -277,7 +277,7 @@ export default {
       this.ids = selection.length > 0 ? getIds(selection) : []
     },
     checkedAll(rows) {
-      let checked = !!this.checked
+      const checked = !!this.checked
       if (rows) {
         rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row, checked)
@@ -296,15 +296,15 @@ export default {
         this.$router.replace({
           path: '/alarm/manual',
           query: {
-            moName: moName,
-          },
+            moName: moName
+          }
         })
       } else {
         location.href = location.origin + '/alarm/manual?moName=' + moName
       }
       this.$emit('close')
-    },
-  },
+    }
+  }
 }
 </script>
 

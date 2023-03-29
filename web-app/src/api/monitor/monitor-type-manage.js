@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 根据app查询指定监控类型的需要输入参数的结构
 export function getParams(app) {
   return request({
-    url: '/api/apps/'+app+'/params',
+    url: '/api/apps/' + app + '/params',
     method: 'get'
   })
 }
@@ -11,7 +11,7 @@ export function getParams(app) {
 // 根据app查询指定监控类型的定义结构
 export function getDefine(app) {
   return request({
-    url: '/api/apps/'+app+'/define',
+    url: '/api/apps/' + app + '/define',
     method: 'get'
   })
 }
@@ -23,5 +23,4 @@ export function getHierarchy() {
     method: 'get'
   })
 }
-
 

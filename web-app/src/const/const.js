@@ -14,9 +14,9 @@ export const MONITORS_STATUS = [
 
 /* 告警等级 */
 export const WARN_LEVEL = [
-  { key: 2, value: '紧急告警' ,num:0,icon:'alarm'},
-  { key: 1, value: '严重告警' ,num:0,icon:'ordinary'},
-  { key: 0, value: '警告告警',num:0,icon:'prompt' },
+  { key: 2, value: '紧急告警', num: 0, icon: 'alarm' },
+  { key: 1, value: '严重告警', num: 0, icon: 'ordinary' },
+  { key: 0, value: '警告告警', num: 0, icon: 'prompt' }
 ]
 /* 告警等级 */
 export const ALARM_HANDLES = [

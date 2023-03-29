@@ -8,7 +8,7 @@ export function getStorageStatus() {
   })
 }
 
-//查询监控指标组的指标数据
+// 查询监控指标组的指标数据
 export function getMetrics(monitorId, metrics) {
   return request({
     url: '/api/monitor/' + monitorId + '/metrics/' + metrics,
@@ -16,9 +16,9 @@ export function getMetrics(monitorId, metrics) {
   })
 }
 
-//查询监控指标组下的指定指标的历史数据
+// 查询监控指标组下的指定指标的历史数据
 export function getMetricFull(query) {
-  let {
+  const {
     monitorId,
     metricFull
   } = query

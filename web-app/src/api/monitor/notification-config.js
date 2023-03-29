@@ -5,14 +5,14 @@ export function getRules(query) {
   return request({
     url: '/api/notice/rules',
     method: 'get',
-    params:query
+    params: query
   })
 }
 
 // 查询已存在的通知策略信息
 export function getRule(id) {
   return request({
-    url: '/api/notice/rule/'+id,
+    url: '/api/notice/rule/' + id,
     method: 'get'
   })
 }
@@ -40,7 +40,7 @@ export function delRules(ids) {
   return request({
     url: '/api/notice/rules',
     method: 'delete',
-    params:{ids:ids.toString()}
+    params: { ids: ids.toString() }
   })
 }
 
@@ -55,7 +55,7 @@ export function getReceivers() {
 // 查询已存在的接收人信息
 export function getReceiver(id) {
   return request({
-    url: '/api/notice/receiver/'+id,
+    url: '/api/notice/receiver/' + id,
     method: 'get'
   })
 }
@@ -83,6 +83,6 @@ export function delReceivers(ids) {
   return request({
     url: '/api/notice/receivers/',
     method: 'delete',
-    params:{ids:ids.toString()}
+    params: { ids: ids.toString() }
   })
 }

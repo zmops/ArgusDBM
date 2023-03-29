@@ -5,18 +5,18 @@
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <notice class="right-menu-item"/>
+      <notice class="right-menu-item" />
       <template v-if="device!=='mobile'">
 
         <lang-select class="right-menu-item hover-effect" />
 
       </template>
-      
-        <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
+
+      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <svg-icon iconClass="avater" class="user-avatar"></svg-icon>
+          <svg-icon icon-class="avater" class="user-avatar" />
           <div class="avator-name">{{ name }}</div>
-          <i class="el-icon-caret-bottom"/>
+          <i class="el-icon-caret-bottom" />
         </div>
 
         <el-dropdown-menu slot="dropdown">
@@ -61,10 +61,10 @@ export default {
     Search,
     Notice
   },
-  data(){
+  data() {
     return {
-    wordUrl:''
-  }
+      wordUrl: ''
+    }
   },
   computed: {
     ...mapGetters([

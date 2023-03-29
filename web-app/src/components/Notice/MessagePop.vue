@@ -1,54 +1,53 @@
 <template>
-    <transition name="fade">
-        <div
-            class="msgpop-wrapper"
-            :class="{ active: show }"
-            v-if="msgShow == 1"
-        >
-            <div class="msgpop-title-wrapper">
-                <span class="msgpop-title"> 消息提醒 ({{ msgObj.type }})</span
-                ><svg-icon
-                    iconClass="close"
-                    class="msgpop-close"
-                    @click="close"
-                ></svg-icon>
-            </div>
-            <div class="msgpop-content">
-                {{ msgObj.msg }}
-            </div>
-        </div>
-    </transition>
+  <transition name="fade">
+    <div
+      v-if="msgShow == 1"
+      class="msgpop-wrapper"
+      :class="{ active: show }"
+    >
+      <div class="msgpop-title-wrapper">
+        <span class="msgpop-title"> 消息提醒 ({{ msgObj.type }})</span><svg-icon
+          icon-class="close"
+          class="msgpop-close"
+          @click="close"
+        />
+      </div>
+      <div class="msgpop-content">
+        {{ msgObj.msg }}
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
-    props: {
-        height: {
-            type: Number,
-            default: 250,
-        },
-        width: {
-            type: Number,
-            default: 190,
-        },
-        msgObj: {
-            type: Object,
-        },
-        msgShow: {
-            type: Number,
-        },
+  props: {
+    height: {
+      type: Number,
+      default: 250
     },
-    methods: {
-        close() {
-            this.$emit('removeMsg');
-        },
+    width: {
+      type: Number,
+      default: 190
     },
-    computed: {
-        show() {
-            return this.msgShow ? true : false;
-        },
+    msgObj: {
+      type: Object
     },
-};
+    msgShow: {
+      type: Number
+    }
+  },
+  computed: {
+    show() {
+      return !!this.msgShow
+    }
+  },
+  methods: {
+    close() {
+      this.$emit('removeMsg')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
