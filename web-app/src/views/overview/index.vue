@@ -155,6 +155,8 @@
 import Pagination from '@/views/overview/Pagination'
 import BarChart from '@/views/overview/BarChart'
 import { WARN_LEVEL } from '@/const/const'
+import { getSummary, getSummaryStatic } from '@/api/monitor/summary'
+import i18n from '@/lang'
 export default {
   name: 'Overview',
   components: {
@@ -233,10 +235,27 @@ export default {
       ]
     }
   },
-  created() {
-
+  async created() {
+    await this.getAppCounts()
   },
-  methods: {}
+  methods: {
+    getAppCounts() {
+      getSummaryStatic().then(res => {
+        if (res.code === 0 && res.data) {
+          const counts = res.data
+          this.numList = []
+          counts.forEach(item => {
+            const i18nTitle = i18n.t(item.key)
+            this.numList.push({
+              title: i18nTitle,
+              val: item.count
+            })
+          })
+        }
+      })
+    }
+
+  }
 }
 </script>
 
