@@ -28,8 +28,7 @@
                 prop="status"
                 label="状态"
                 width="180"
-              >
-              </el-table-column>
+              />
               <el-table-column
                 prop="time"
                 label="告警时间"
@@ -153,7 +152,7 @@ import BarChart from '@/views/overview/BarChart'
 import { WARN_LEVEL } from '@/const/const'
 import { getSummaryStatic } from '@/api/monitor/summary'
 import i18n from '@/lang'
-import { getAlerts } from '@/api/monitor/alarm-manage-batch'
+import { getAlerts, getSummary } from '@/api/monitor/alarm-manage-batch'
 export default {
   name: 'Overview',
   components: {
@@ -189,9 +188,9 @@ export default {
           type: 'bar',
           barMaxWidth: 36, // 柱子的最大宽度
           data: [
-            { value: 23, itemStyle: { color: '#FBBC0A' }},
-            { value: 43, itemStyle: { color: '#E37045' }},
-            { value: 32, itemStyle: { color: '#C72222' }}
+            { value: 0, itemStyle: { color: '#FBBC0A' }},
+            { value: 0, itemStyle: { color: '#E37045' }},
+            { value: 0, itemStyle: { color: '#C72222' }}
           ]
         }
       ],
@@ -218,9 +217,12 @@ export default {
       ]
     }
   },
+  async beforeCreate() {
+  },
   async created() {
     await this.getAppCounts()
     await this.getAlertRecently()
+    await this.getAlertSummary()
   },
   methods: {
     getAppCounts() {
@@ -251,6 +253,25 @@ export default {
               time: item.gmtUpdate
             })
           })
+        }
+      })
+    },
+    getAlertSummary() {
+      getSummary().then(res => {
+        if (res.code === 0 && res.data) {
+          const summary = res.data
+          this.alarmSeriesData = [
+            {
+              name: '未关闭告警数量',
+              type: 'bar',
+              barMaxWidth: 36, // 柱子的最大宽度
+              data: [
+                { value: summary.priorityWarningNum, itemStyle: { color: '#FBBC0A' }},
+                { value: summary.priorityCriticalNum, itemStyle: { color: '#E37045' }},
+                { value: summary.priorityEmergencyNum, itemStyle: { color: '#C72222' }}
+              ]
+            }
+          ]
         }
       })
     }
