@@ -138,7 +138,7 @@ collector:
   dispatch:
     entrance:
       zabbix:
-        enabled: true
+        enabled: false
         host: localhost
         port: 10051
         agent-host:

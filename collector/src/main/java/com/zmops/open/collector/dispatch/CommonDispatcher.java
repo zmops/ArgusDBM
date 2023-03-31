@@ -33,6 +33,7 @@ import com.zmops.open.common.queue.CommonDataQueue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -84,6 +85,10 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
      * 采集数据导出器
      */
     private CommonDataQueue commonDataQueue;
+    /**
+     * for zabbix server
+     */
+    @Autowired(required = false)
     private ZabbixAgentService zabbixAgentService;
     /**
      * Metric group task and start time mapping map
@@ -96,13 +101,11 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
     public CommonDispatcher(MetricsCollectorQueue jobRequestQueue,
                             TimerDispatch timerDispatch,
                             CommonDataQueue commonDataQueue,
-                            ZabbixAgentService zabbixAgentService,
                             WorkerPool workerPool,
                             List<UnitConvert> unitConvertList) {
         this.commonDataQueue = commonDataQueue;
         this.jobRequestQueue = jobRequestQueue;
         this.timerDispatch = timerDispatch;
-        this.zabbixAgentService = zabbixAgentService;
         this.unitConvertList = unitConvertList;
         ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(2, 2, 1,
                 TimeUnit.SECONDS,
@@ -213,7 +216,7 @@ public class CommonDispatcher implements MetricsTaskDispatch, CollectDataDispatc
         if (job.isCyclic()) {
             // If it is an asynchronous periodic cyclic task, directly send the collected data of the indicator group to the message middleware
             // 若是异步的周期性循环任务,直接发送指标组的采集数据到消息中间件
-            if (job.getMonitorId() <= ITEM_ID_END && job.getMonitorId() >= ITEM_ID_START) {
+            if (job.getMonitorId() <= ITEM_ID_END && job.getMonitorId() >= ITEM_ID_START && zabbixAgentService != null) {
                 // from zabbix send data to zabbix
                 zabbixAgentService.sendMetricsData(metricsData);
             } else {
