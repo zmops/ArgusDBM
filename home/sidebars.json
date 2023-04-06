@@ -2,26 +2,26 @@
   "docs": [
     {
       "type": "category",
-      "label": "文档中心",
+      "label": "快速入门",
       "items": [
         "introduce",
         "start/quickstart",
+        "start/docker-deploy",
+        "start/package-deploy",
+        "start/iotdb-init",
+        "start/tdengine-init",
+        "start/mysql-change",
+        "start/account-modify"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "帮助文档",
+      "items": [
         "help/guide",
-        {
-          "type": "category",
-          "label": "数据库监控",
-          "items": [
-            "help/mysql",
-            "help/mariadb",
-            "help/postgresql",
-            "help/sqlserver",
-            "help/oracle",
-            "help/dm",
-            "help/opengauss",
-            "help/iotdb",
-            "help/redis"
-          ]
-        },
+        "help/mysql",
+        "help/postgresql",
+        "help/oracle",
         {
           "type": "category",
           "label": "阈值告警配置",

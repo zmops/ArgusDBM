@@ -64,4 +64,4 @@ spring:
     url: jdbc:mysql://localhost:3306/argusDBM?useUnicode=true&characterEncoding=utf-8&useSSL=false
 ```
 
-**启动 argusDBM 浏览器访问 http://ip:1159/ 开始使用argusDBM进行监控告警，默认账户密码 admin/argusDBM**  
+**启动 argusDBM 浏览器访问 http://ip:1159/ 开始使用argusDBM进行监控告警，默认账户密码 argus/argus**  

@@ -42,17 +42,17 @@ sidebar_label: Docker方式部署
 
 4. 配置挂载的argusDBM的配置文件(可选)      
    在主机目录下创建application.yml，eg:/opt/application.yml        
-   配置文件完整内容见项目仓库[/script/application.yml](https://github.com/ zmops/argusDBM/raw/master/script/application.yml) 您可以根据需求修改配置文件
+   配置文件完整内容见项目仓库[/script/application.yml](https://github.com/zmops/argusDBM/raw/master/script/application.yml) 您可以根据需求修改配置文件
    - 若需使用邮件发送告警，需替换`application.yml`里面的邮件服务器参数
    - **推荐**若需使用外置Mysql数据库替换内置H2数据库，需替换`application.yml`里面的`spring.datasource`参数 具体步骤参见 [H2数据库切换为MYSQL](mysql-change)）       
    - **推荐**若需使用时序数据库TDengine来存储指标数据，需替换`application.yml`里面的`warehouse.store.td-engine`参数 具体步骤参见 [使用TDengine存储指标数据](tdengine-init)   
    - **推荐**若需使用时序数据库IotDB来存储指标数据库，需替换`application.yml`里面的`warehouse.storeiot-db`参数 具体步骤参见 [使用IotDB存储指标数据](iotdb-init)    
 
 5. 配置挂载的argusDBM用户配置文件，自定义用户密码(可选)         
-   argusDBM默认内置三个用户账户,分别为 admin/argusDBM tom/argusDBM guest/argusDBM      
+   argusDBM默认内置用户账户为 argus/argus    
    若需要新增删除修改账户或密码，可以通过配置 `sureness.yml` 实现，若无此需求可忽略此步骤    
    在主机目录下创建sureness.yml，eg:/opt/sureness.yml    
-   配置文件完整内容见项目仓库[/script/sureness.yml](https://github.com/ zmops/argusDBM/blob/master/script/sureness.yml)   
+   配置文件完整内容见项目仓库[/script/sureness.yml](https://github.com/zmops/argusDBM/blob/master/script/sureness.yml)   
    具体修改步骤参考 [配置修改账户密码](account-modify)   
 
 6. 启动argusDBM Docker容器    
@@ -96,45 +96,10 @@ $ docker run -d -p 1159:1159 \
      $ docker update --restart=always argusDBM
      ```
 
-   - `tancloud/argusDBM` : 使用拉取最新的的argusDBM官方发布的应用镜像来启动容器,版本可查看[官方镜像仓库](https://hub.docker.com/r/tancloud/argusDBM/tags)   
+   - `walkingfunny/argusDBM` : 使用拉取最新的的argusDBM官方发布的应用镜像来启动容器,版本可查看[官方镜像仓库](https://hub.docker.com/r/walkingfunny/argusDBM/tags)   
 
 7. 开始探索argusDBM  
-   浏览器访问 http://ip:1159/ 即可开始探索使用argusDBM，默认账户密码 admin/argusDBM。  
+   浏览器访问 http://ip:1159/ 即可开始探索使用argusDBM，默认账户密码 argus/argus。  
 
 **HAVE FUN**   
-
-### Docker部署常见问题   
-
-**最多的问题就是网络问题，请先提前排查**
-
-1. **MYSQL,TDENGINE或IotDB和argusDBM都Docker部署在同一主机上，argusDBM使用localhost或127.0.0.1连接数据库失败**     
-此问题本质为Docker容器访问宿主机端口连接失败，由于docker默认网络模式为Bridge模式，其通过localhost访问不到宿主机。
-> 解决办法一：配置application.yml将数据库的连接地址由localhost修改为宿主机的对外IP     
-> 解决办法二：使用Host网络模式启动Docker，即使Docker容器和宿主机共享网络 `docker run -d --network host .....`   
-
-2. **按照流程部署，访问 http://ip:1159/ 无界面**   
-请参考下面几点排查问题：  
-> 一：若切换了依赖服务MYSQL数据库，排查数据库是否成功创建，是否启动成功
-> 二：argusDBM的配置文件 `application.yml` 里面的依赖服务IP账户密码等配置是否正确  
-> 三：若都无问题可以 `docker logs argusDBM` 查看容器日志是否有明显错误，提issue或交流群或社区反馈
-
-3. **日志报错TDengine连接或插入SQL失败**  
-> 一：排查配置的数据库账户密码是否正确，数据库是否创建   
-> 二：若是安装包安装的TDengine2.3+，除了启动server外，还需执行 `systemctl start taosadapter` 启动 adapter    
-
-4. **监控历史图表长时间都一直无数据**  
-> 一：Tdengine或IoTDB是否配置，未配置则无历史图表数据  
-> 二：Tdengine的数据库`argusDBM`是否创建
-> 三: argusDBM的配置文件 `application.yml` 里面的依赖服务 IotDB或Tdengine IP账户密码等配置是否正确  
-
-5. 监控页面历史图表不显示，弹出 [无法提供历史图表数据，请配置依赖时序数据库]
-> 如弹窗所示，历史图表展示的前提是需要安装配置argusDBM的依赖服务 -
-> 安装初始化此数据库参考 [TDengine安装初始化](tdengine-init) 或 [IoTDB安装初始化](iotdb-init)  
-
-6. 安装配置了时序数据库，但页面依旧显示弹出 [无法提供历史图表数据，请配置依赖时序数据库]
-> 请检查配置参数是否正确
-> iot-db 或td-engine enable 是否设置为true
-> 注意⚠️若argusDBM和IotDB，TDengine都为docker容器在同一主机下启动，容器之间默认不能用127.0.0.1通讯，改为主机IP
-> 可根据logs目录下启动日志排查
-
 
