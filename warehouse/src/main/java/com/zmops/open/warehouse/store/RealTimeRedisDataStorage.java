@@ -46,18 +46,25 @@ import java.time.temporal.ChronoUnit;
 public class RealTimeRedisDataStorage extends AbstractRealTimeDataStorage {
 
     private RedisClient redisClient;
+    private final Integer db;
     private StatefulRedisConnection<String, CollectRep.MetricsData> connection;
 
     public RealTimeRedisDataStorage(WarehouseProperties properties, WarehouseWorkerPool workerPool,
                                     CommonDataQueue commonDataQueue) {
         super(workerPool, commonDataQueue);
         initRedisClient(properties);
+        this.db = getRedisSelectDb(properties);
         startStorageData("warehouse-redis-data-storage");
+    }
+
+    private Integer getRedisSelectDb(WarehouseProperties properties){
+        return properties.getStore().getRedis().getDb();
     }
 
     @Override
     public CollectRep.MetricsData getCurrentMetricsData(@NonNull Long monitorId, @NonNull String metric) {
         RedisCommands<String, CollectRep.MetricsData> commands = connection.sync();
+        commands.select(db);
         return commands.hget(String.valueOf(monitorId), metric);
     }
 
@@ -73,6 +80,7 @@ public class RealTimeRedisDataStorage extends AbstractRealTimeDataStorage {
             return;
         }
         RedisAsyncCommands<String, CollectRep.MetricsData> commands = connection.async();
+        commands.select(db);
         commands.hset(key, hashKey, metricsData).thenAccept(response -> {
             if (response) {
                 log.debug("[warehouse] redis add new data {}:{}.", key, hashKey);

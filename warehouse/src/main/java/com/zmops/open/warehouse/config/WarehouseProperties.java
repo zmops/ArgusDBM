@@ -419,6 +419,10 @@ public class WarehouseProperties {
              * redis 访问密码
              */
             private String password;
+            /**
+             * redis 使用数据库，默认为DB0
+             */
+            private Integer db = 0;
 
             public boolean isEnabled() {
                 return enabled;
@@ -450,6 +454,14 @@ public class WarehouseProperties {
 
             public void setPassword(String password) {
                 this.password = password;
+            }
+
+            public Integer getDb() {
+                return db;
+            }
+
+            public void setDb(Integer db) {
+                this.db = db;
             }
         }
 
