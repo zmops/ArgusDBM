@@ -17,7 +17,7 @@
 
 package com.zmops.open.common.entity.manager;
 
-import com.zmops.open.common.support.valid.HostValid;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
