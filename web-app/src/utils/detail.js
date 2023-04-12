@@ -1,8 +1,8 @@
-import detailLayout from '../../public/csvData/detailLayout'
-import targetGroup from '../../public/csvData/targetGroup'
-import target from '../../public/csvData/target'
-import { guid } from '@/utils/index'
-import { toArrays } from 'jquery-csv'
+import { toArrays } from 'jquery-csv';
+import targetGroup from '@/assets/csvData/targetGroup';
+import target from '@/assets/csvData/target';
+import detailLayout from '@/assets/csvData/detailLayout';
+import { uuid } from '@/utils';
 
 /**
  * 解析数据
@@ -11,39 +11,39 @@ import { toArrays } from 'jquery-csv'
  * @returns {Array}
  */
 export function arr(type) {
-  const data = detailLayout.split('\n')
-  const arr = []
-  const tabs = []
-  const tabList = []
+  const data = detailLayout.split('\n');
+  const arr = [];
+  const tabs = [];
+  const tabList = [];
   data.forEach((i) => {
-    const item = i.split(',')
+    const item = i.split(',');
     if (item[0] === type) {
-      if (tabs.indexOf(item[1]) === -1) {
-        tabs.push(item[1])
+      if (!tabs.includes(item[1])) {
+        tabs.push(item[1]);
       }
-      arr.push(item)
+      arr.push(item);
     }
-  })
+  });
   tabs.forEach((i) => {
-    const list = []
+    const list = [];
     arr.forEach((ii) => {
-      if (ii.indexOf(i) > -1) {
+      if (ii.includes(i)) {
         list.push({
           x: Number(ii[7]), // 格栅位置
           y: Number(ii[6]), // 格栅位置
           w: Number(ii[8]), // 格栅宽度
           h: Number(ii[9]), // 格栅高度
-          i: guid(), // 格栅id
+          i: uuid(), // 格栅id
           t: ii[2], // 指标类型
           k: ii[3], // 指标名称
           v: ii[4], // 格栅视图类型
           s: ii[5] // 趋势图是否堆叠
-        })
+        });
       }
-    })
-    tabList.push({ title: i, list })
-  })
-  return tabList
+    });
+    tabList.push({ title: i, list });
+  });
+  return tabList;
 }
 
 /**
@@ -55,44 +55,44 @@ export function arr(type) {
  * @returns {Object}
  */
 export function getTargetData(type, name) {
-  const data = toArrays(target)
-  let obj = {}
+  const data = toArrays(target);
+  let obj = {};
   if (type === '单指标') {
     data.forEach((i) => {
       if (i[4] === name) {
-        const explain = i[10].replace('\\n\\n', '\n\n')
+        const explain = i[10].replace('\\n\\n', '\n\n');
         obj = {
           title: i[6],
           list: [name],
           explain,
           unit: i[8]
-        }
+        };
       }
-    })
+    });
   } else if (type === '指标组合') {
-    let explain = ''
-    const data2 = toArrays(targetGroup)
+    let explain = '';
+    const data2 = toArrays(targetGroup);
     data2.forEach((i) => {
       if (i[2] === name) {
-        obj.title = i[4]
-        explain += i[6]
-        const list2 = i[5].split('\n')
+        obj.title = i[4];
+        explain += i[6];
+        const list2 = i[5].split('\n');
         if (list2.length) {
           list2.forEach((ii) => {
             data.forEach((iii) => {
               if (iii[4] === ii && iii[10]) {
-                const e = iii[10].replace('\\n\\n', '\n\n')
-                explain = explain + '\n' + e
+                const e = iii[10].replace('\\n\\n', '\n\n');
+                explain = explain + '\n' + e;
               }
-            })
-          })
+            });
+          });
         }
-        obj.list = list2
-        obj.explain = explain
+        obj.list = list2;
+        obj.explain = explain;
       }
-    })
+    });
   }
-  return obj
+  return obj;
   /*
   const data = target.split('\n')
   let obj = {}
@@ -110,7 +110,6 @@ export function getTargetData(type, name) {
   } else if (type === '指标组合') {
     let explain = ''
     const data2 = targetGroup.split('\n')
-    console.dir(data2);
     data2.forEach((i) => {
       const list = i.split(',')
       if (list[2] === name) {
@@ -141,14 +140,14 @@ export function getTargetData(type, name) {
  * @returns {String}
  */
 export function getTargetName(name) {
-  const data = toArrays(target)
-  let str = ''
+  const data = toArrays(target);
+  let str = '';
   data.forEach((i) => {
     if (i[4] === name) {
-      str = i[6]
+      str = i[6];
     }
-  })
-  return str
+  });
+  return str;
 }
 
 /**
@@ -158,16 +157,16 @@ export function getTargetName(name) {
  * @returns {Array}
  */
 export function dataToChartData(data, name) {
-  const arr = []
+  const arr = [];
   if (data && data.values && data.values.length) {
-    const obj = {}
+    const obj = {};
     data.values.forEach((i) => {
-      obj.name = i.instance ? i.instance : name
+      obj.name = i.instance ? i.instance : name;
       obj.data = i.values.map((ii) => {
-        return [ii.time, Number(ii.origin).toFixed(0)]
-      })
-      arr.push(obj)
-    })
+        return [ii.time, Number(ii.origin).toFixed(0)];
+      });
+      arr.push(obj);
+    });
   }
-  return arr
+  return arr;
 }

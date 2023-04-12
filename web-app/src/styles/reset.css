@@ -1,0 +1,22 @@
+
+
+.login .arco-input-wrapper{
+  background-color: #fff !important;
+}
+
+.table-search-form .arco-form-item-label-col{
+  padding-right: 10px !important;
+}
+
+:deep(.arco-menu-inner) .arco-menu-inline-header {
+	 display: flex;
+	 align-items: center;
+}
+ :deep(.arco-menu-inner) .arco-icon:not(.arco-icon-down) {
+	 font-size: 18px;
+}
+
+
+.arco-btn-secondary.arco-btn-disabled .arco-btn-icon {
+  opacity: 0.3;
+}
