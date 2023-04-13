@@ -142,7 +142,7 @@ export function addRule(data) {
 
 // 修改已存在的通知策略信息
 export function modifyRule(data) {
-  return request.put( '/api/notice/rule', data);
+  return request.put('/api/notice/rule', data);
 }
 
 // 删除已存在的通知策略信息
@@ -161,3 +161,12 @@ export function delAlerts(ids) {
 export function delDefine(id) {
   return request.delete('/api/alert/define/' + id);
 }
+
+export function ApiMonitorManageDelete(ids) {
+  return request.delete('/api/monitors/manage', { ids: ids.join(',') });
+}
+
+export function ApiMonitorManageOpen(ids) {
+  return request.get('/api/monitors/manage', { ids: ids.join(',') });
+}
+

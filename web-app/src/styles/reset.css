@@ -3,7 +3,9 @@
 .login .arco-input-wrapper{
   background-color: #fff !important;
 }
-
+.dark .login .arco-input-wrapper{
+  background-color: var(--color-fill-2) !important;
+}
 .table-search-form .arco-form-item-label-col{
   padding-right: 10px !important;
 }

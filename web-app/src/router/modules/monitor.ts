@@ -17,12 +17,7 @@ const monitorRouter = {
       name: 'MySql',
       meta: { title: 'MySQL', noCache: true }
     },
-    {
-      path: 'monitorDetail',
-      component: () => import('@/pages/monitor/detail/detail.vue'),
-      name: 'monitorDetail',
-      meta: { noCache: true, hidden: true }
-    },
+
     {
       path: 'postgresql',
       component: () => import('@/pages/monitor/postgresql/index'),

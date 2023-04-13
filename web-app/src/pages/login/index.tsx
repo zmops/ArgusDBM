@@ -54,7 +54,7 @@ export default defineComponent({
     };
 
     return () => (
-      <div class="login h-full w-full bg-([#F0F3F7] cover)" style={{ backgroundImage: 'url(' + loginBg + ')' }}>
+      <div class="login h-full w-full bg-([#F0F3F7] cover) dark:bg-dark" style={{ backgroundImage: 'url(' + loginBg + ')' }}>
         <section class="m-auto max-w-520px p-10 pt-220px">
 
           <div class="flex items-center justify-center text-8">

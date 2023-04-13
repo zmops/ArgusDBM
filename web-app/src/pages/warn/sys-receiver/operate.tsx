@@ -38,8 +38,6 @@ export default defineComponent({
         if (code !== 0 || !data) {
           return;
         }
-        console.log(res);
-
         Object.keys(form).forEach((key) => {
           if (key in data) {
             form[key] = res.data[key];

@@ -59,6 +59,7 @@ export default defineComponent({
   },
   setup(props) {
     const { targetType, targetName, s, w } = toRefs(props);
+
     const route = useRoute();
     const monitorId = route.query.monitorId;
 
@@ -178,18 +179,23 @@ export default defineComponent({
       // 请求接口获取数据
       if (info.value.list && info.value.list.length) {
         for (const i of info.value.list) {
-          getHistoryValue(monitorId, i).then((res) => {
-            if (res.code === 0) {
-              const name = getTargetName(i);
-              seriesData.value = seriesData.value.concat(dataToChartData(res.data, name));
-            }
-          });
+          if (i) {
+            getHistoryValue(monitorId, i).then((res) => {
+              if (res.code === 0) {
+                const name = getTargetName(i);
+                seriesData.value = seriesData.value.concat(dataToChartData(res.data, name));
+              }
+            });
+
+          }
         }
       }
     };
 
-    onMounted( () => {
+    onMounted(() => {
       info.value = getTargetData(targetType.value, targetName.value);
+
+      console.log({ info: info.value, targetType: targetType.value, targetName: targetName.value });
       getData();
       const n = Math.floor(Math.random() * 4);
       color.value = colorList[n];

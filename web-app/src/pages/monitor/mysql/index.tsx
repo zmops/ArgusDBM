@@ -4,7 +4,7 @@ import { defineComponent, watch } from 'vue';
 import MysqlAdd from './edit';
 import { filterParams } from '@/utils';
 import { MONITORS_STATUS } from '@/utils/constants';
-import { delMonitors, getMonitors } from '@/service/api';
+import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
 import { useMessage } from '@/composables/message';
 
@@ -72,7 +72,7 @@ export default defineComponent({
     };
 
     const getData = () => {
-      const params = filterParams(queryParams );
+      const params = filterParams(queryParams);
       params.status = params.status.split('_');
       getMonitors(params).then((res) => {
         if (res.data) {
@@ -105,20 +105,47 @@ export default defineComponent({
     const handleAdd = () => {
       visible.value = true;
     };
-    const handleSelectionChange = (selection: Array<string | number>)=>{
+    const handleSelectionChange = (selection: Array<string | number>) => {
       selections.value = selection;
     };
     const handleDelete = () => {
-      delMonitors(selections.value).then((res)=>{
+      delMonitors(selections.value).then((res) => {
         if (res.code === 0) {
           Message?.success(res.statusText || '删除成功');
           getData();
         }
       });
     };
-    const handleEditClick = (record: any)=>{
+    const handleEditClick = (record: any) => {
       editId.value = record.id;
       visible.value = true;
+    };
+    const handleNameClick = (monitorId) => {
+      router.push({
+        name: 'monitorDetail',
+        query: {
+          monitorId,
+          type: 'mysql'
+        }
+      });
+    };
+
+    const handleDisable = () => {
+      ApiMonitorManageDelete(selections.value).then((res) => {
+        if (res.code === 0) {
+          Message?.success(res.statusText || '操作成功');
+          getData();
+        }
+      });
+    };
+    const handleEnable = () => {
+
+      ApiMonitorManageOpen(selections.value).then((res) => {
+        if (res.code === 0) {
+          Message?.success(res.statusText || '操作成功');
+          getData();
+        }
+      });
     };
     return () => (
       <div class="h-full column overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
@@ -134,7 +161,6 @@ export default defineComponent({
                 }
               </a-radio-group>
             </a-form-item>
-
             <a-form-item field="status" label={t('alert.name')} >
               <a-input class="ml-md w-160px!" v-model={queryParams.name} placeholder={t('input.placeholder')}></a-input>
 
@@ -154,28 +180,34 @@ export default defineComponent({
               {t('tableView.add')}
             </a-button>
             <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>
-            <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }} >
-              {t('tableView.delete')}
-            </a-button>
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }} >
+                {t('tableView.delete')}
+              </a-button>
             </a-popconfirm>
-            {/* <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:processed"></i>, }}>
-              {t('tableView.mark.processed')}
-            </a-button>
-            <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:untreated" ></i>, }}>
-              {t('tableView.mark.unprocessed')}
-            </a-button>
-            <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:clear"></i>, }}>
-              {t('tableView.mark.clear')}
-            </a-button> */}
+            <a-popconfirm content={t('message.disableTips')} type="info" onOk={handleDisable}>
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:disable text-20px"></i>, }} >
+                {t('tableView.disable')}
+              </a-button>
+            </a-popconfirm>
+            <a-popconfirm content="是否启用数据项" type="info" onOk={handleEnable}>
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:enable text-(18px blue)"></i>, }} >
+              启用
+              </a-button>
+            </a-popconfirm>
           </div>
           <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value }} data={tableData.value}
-          v-slots={{
-            name: (scope: any) => <a class="cursor-pointer text-blue" onClick={()=>router.push({ name: 'monitorDetail', query: { monitorId: scope.record.id, type: 'mysql' } })}>{scope.record.name}</a>,
-            status: (scope: any) => <a-tag color={scope.record.status === 1 ? 'green' : 'red'}>{ MONITORS_STATUS[scope.record.status].value}</a-tag>,
-            buttons: (scope: any) => {
-              return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
-            }
-          }} />
+            v-slots={{
+              name: (scope: any) => <a class="cursor-pointer text-blue" onClick={() => handleNameClick(scope.record.id)}>{scope.record.name}</a>,
+              status: (scope: any) => {
+                const status = scope.record.status;
+                return <a-tag color={status === 1 ? 'green' : 'red'}>{
+                  status === 1 ? t('tableView.enable') : status === 0 ? t('tableView.disable') : t('tableView.offline')
+                }</a-tag>;
+              },
+              buttons: (scope: any) => {
+                return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
+              }
+            }} />
         </div>
       </div >
     );

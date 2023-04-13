@@ -93,45 +93,6 @@ export function getTargetData(type, name) {
     });
   }
   return obj;
-  /*
-  const data = target.split('\n')
-  let obj = {}
-  if (type === '单指标') {
-    data.forEach((i) => {
-      const list = i.split(',')
-      if (list[4] === name) {
-        obj = {
-          title: list[6],
-          explain: list[10],
-          unit: list[8]
-        }
-      }
-    })
-  } else if (type === '指标组合') {
-    let explain = ''
-    const data2 = targetGroup.split('\n')
-    data2.forEach((i) => {
-      const list = i.split(',')
-      if (list[2] === name) {
-        obj.title = list[4]
-        explain += list[6]
-        const list2 = list[5].split('\n')
-        if (list2.length) {
-          list2.forEach((ii) => {
-            data.forEach((iii) => {
-              const list3 = iii.split(',')
-              if (list3[4] === ii) {
-                explain = explain + '\n' + list3[10]
-              }
-            })
-          })
-        }
-        obj.explain = explain
-      }
-    })
-  }
-  return obj
-  */
 }
 
 /**

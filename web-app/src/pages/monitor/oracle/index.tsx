@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
 import OracleAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
-import { delMonitors, getMonitors } from '@/service/api';
+import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
 import { filterParams } from '@/utils';
 
@@ -122,6 +122,33 @@ export default defineComponent({
       editId.value = record.id;
       visible.value = true;
     };
+    const handleNameClick = (monitorId)=>{
+      router.push({
+        name: 'monitorDetail',
+        query: {
+          monitorId,
+          type: 'oracle'
+        }
+      });
+    };
+
+    const handleDisable = () => {
+      ApiMonitorManageDelete(selections.value).then((res) => {
+        if (res.code === 0) {
+          Message?.success(res.statusText || '操作成功');
+          getData();
+        }
+      });
+    };
+    const handleEnable = () => {
+
+      ApiMonitorManageOpen(selections.value).then((res) => {
+        if (res.code === 0) {
+          Message?.success(res.statusText || '操作成功');
+          getData();
+        }
+      });
+    };
     return () => (
       <div class="h-full column overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
         <OracleAdd v-model:visible={visible.value} type="oracle" editId={editId.value}></OracleAdd>
@@ -159,20 +186,26 @@ export default defineComponent({
               {t('tableView.delete')}
             </a-button>
             </a-popconfirm>
-            {/* <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:processed"></i>, }}>
-              {t('tableView.mark.processed')}
-            </a-button>
-            <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:untreated" ></i>, }}>
-              {t('tableView.mark.unprocessed')}
-            </a-button>
-            <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:clear"></i>, }}>
-              {t('tableView.mark.clear')}
-            </a-button> */}
+            <a-popconfirm content={t('message.disableTips')} type="info" onOk={handleDisable}>
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:disable text-20px"></i>, }} >
+                {t('tableView.disable')}
+              </a-button>
+            </a-popconfirm>
+            <a-popconfirm content="是否启用数据项" type="info" onOk={handleEnable}>
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:enable text-(18px blue)"></i>, }} >
+              启用
+              </a-button>
+            </a-popconfirm>
           </div>
           <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value }} data={tableData.value}
           v-slots={{
-            name: (scope: any) => <a class="cursor-pointer text-blue" onClick={()=>router.push({ path: 'monitorDetail', query: { monitorId: scope.record.id, type: 'oracle' } })}>{scope.record.name}</a>,
-            status: (scope: any) => <a-tag color={scope.record.status === 1 ? 'green' : 'red'}>{ MONITORS_STATUS[scope.record.status].value}</a-tag>,
+            name: (scope: any) => <a class="cursor-pointer text-blue" onClick={()=>handleNameClick(scope.record.id)}>{scope.record.name}</a>,
+            status: (scope: any) => {
+              const status = scope.record.status;
+              return <a-tag color={status === 1 ? 'green' : 'red'}>{
+                  status === 1 ? t('tableView.enable') : status === 0 ? t('tableView.disable') : t('tableView.offline')
+              }</a-tag>;
+            },
             buttons: (scope: any) => {
               return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
             }

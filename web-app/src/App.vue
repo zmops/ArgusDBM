@@ -11,6 +11,8 @@ import enUS from '@arco-design/web-vue/es/locale/lang/en-us';
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn';
 import { getLocale } from './locales';
 
+import { isDark } from './composables';
+
 const currentLocale = getLocale();
 const locale = computed(() => {
   switch (currentLocale.value) {
