@@ -53,3 +53,11 @@ export const nameRules = [{
   message: '请输入监控名称',
   trigger: ['blur', 'change']
 }];
+
+export const reset = (form, formData, defaultForm) => {
+  form.resetFields();
+
+  Object.keys(form).forEach((key) => {
+    formData[key] = defaultForm[key];
+  });
+};

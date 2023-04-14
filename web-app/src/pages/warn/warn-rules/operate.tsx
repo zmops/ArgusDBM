@@ -4,6 +4,7 @@ import type { FormInstance } from '@arco-design/web-vue';
 import { addDefine, getDefine, getHierarchy, modifyDefine } from '@/service/api';
 import { WARN_LEVEL } from '@/utils/constants';
 import type { ApiAlertDefine } from '@/service/api/interface';
+import { reset } from '@/pages/shared';
 
 const defaultFormData = {
   cascadeValues: [],
@@ -120,6 +121,7 @@ export default defineComponent({
             Message?.success({
               content: t('message.createSuccess'),
             });
+            reset(formRef, form, defaultFormData);
             emit('update:visible', false);
           });
         } else {
@@ -127,6 +129,7 @@ export default defineComponent({
             Message?.success({
               content: t('message.updateSuccess'),
             });
+            reset(formRef, form, defaultFormData);
             emit('update:visible', false);
           });
         }

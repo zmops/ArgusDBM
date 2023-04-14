@@ -15,15 +15,12 @@ export default defineComponent({
   setup() {
 
     const chartOption = ref({
-
       tooltip: {
         trigger: 'axis'
       },
-
       legend: {
         right: 0,
       },
-
       calculable: true,
       xAxis: [
         {
@@ -42,14 +39,12 @@ export default defineComponent({
           type: 'bar',
           data: [
           ],
-
         },
         {
           name: 'Evaporation',
           type: 'bar',
           data: [
           ],
-
         }
       ]
     });
@@ -60,7 +55,6 @@ export default defineComponent({
         const app = res.data.apps;
 
         chartOption.value.xAxis[0].data = app.map(i=>APP_NAME[i.app]);
-
         const series = [
           {
             name: '在线',

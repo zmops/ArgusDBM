@@ -4,7 +4,7 @@ import type { FormInstance } from '@arco-design/web-vue';
 import { addReceiver, getReceiver, modifyReceiver } from '@/service/api';
 import { NOTICE_TYPE } from '@/utils/constants';
 import type { sysInterface } from '@/service/api/interface';
-import { Props } from '@/pages/shared';
+import { Props, reset } from '@/pages/shared';
 
 const defaultForm = {
   name: '', // 接收人
@@ -52,6 +52,7 @@ export default defineComponent({
           Message?.success({
             content: t('message.createSuccess'),
           });
+          reset(formRef, form, defaultForm);
           emit('update:visible', false);
         });
       } else {
@@ -59,6 +60,7 @@ export default defineComponent({
           Message?.success({
             content: t('message.updateSuccess'),
           });
+          reset(formRef, form, defaultForm);
           emit('update:visible', false);
         });
       }

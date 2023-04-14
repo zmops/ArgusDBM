@@ -7,6 +7,8 @@ export default defineComponent({
   setup(props) {
     const apps = ref<any[]>([]);
 
+    const loading = ref(true);
+
     const columns = [
       {
         title: '监控名称',
@@ -32,8 +34,9 @@ export default defineComponent({
               ip: item.host || Math.random(),
               time: item.gmtUpdate || Math.random(),
             };
-          }
-          );
+          });
+
+          loading.value = false;
         }
       });
     };
@@ -45,7 +48,7 @@ export default defineComponent({
       <a-col span={12}>
         <div class="mb-base h-296px column overflow-auto rounded-base bg-white px-base pb-base dark:bg-dark">
           <p class="flex-shrink-0 py-md">{props.name}</p>
-          <a-table class="flex-1 overflow-hidden" columns={columns} data={apps.value}></a-table>
+          <a-table class="flex-1 overflow-hidden" loading={loading.value} columns={columns} data={apps.value}></a-table>
         </div>
       </a-col>
     );

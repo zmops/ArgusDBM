@@ -12,6 +12,8 @@ export default defineComponent({
   setup() {
 
     const alarmTableData = ref<any>([]);
+
+    const loading = ref(true);
     const queryParams = reactive(cloneDeep(defaultQueryParams));
     const total = ref(0);
     const columns = [
@@ -34,6 +36,7 @@ export default defineComponent({
     ];
 
     const getAlertRecently = ()=>{
+      loading.value = true;
       getAlerts(queryParams).then((res: any) => {
         if ( res.data) {
           const content = res.data.content;
@@ -46,6 +49,8 @@ export default defineComponent({
               time: item.gmtUpdate
             });
           });
+
+          loading.value = false;
         }
       });
     };
@@ -61,7 +66,7 @@ export default defineComponent({
       <a-col span={12} class="pr-base">
       <div class="mb-base h-300px column overflow-auto rounded-base bg-white px-base pb-base dark:bg-dark">
          <p class="py-md">最新告警</p>
-        <a-table class="flex-1 overflow-hidden" columns={columns} data={alarmTableData.value} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} ></a-table>
+        <a-table class="flex-1 overflow-hidden" columns={columns} loading={loading.value} data={alarmTableData.value} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} ></a-table>
       </div>
     </a-col>
     );
