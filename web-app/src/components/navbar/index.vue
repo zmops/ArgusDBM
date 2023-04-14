@@ -46,20 +46,14 @@
 
           <template #content>
             <a-doption>
-              <a-space @click="switchRoles">
-                <icon-tag />
-                <span>
-                  {{ t('navbar.securitySetting') }}
-                </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="$router.push({ name: 'Info' })">
-                <icon-book />
-                <span>
+              <a href="https://argus.zmops.cn/docs/" target="_blank">
+                <a-space>
+                  <icon-book />
+                  <span>
                   {{ t('navbar.docs') }}
                 </span>
-              </a-space>
+                </a-space>
+              </a>
             </a-doption>
 
             <a-doption>
