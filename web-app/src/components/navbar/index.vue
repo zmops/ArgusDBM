@@ -12,7 +12,7 @@
       <div ml-md mr-base flex-center>
         <a-tooltip position="bottom" :offset="-10">
           <button class="icon-btn !outline-none" @click="changeDark()">
-            <i class="i-carbon-sun text-xl dark:i-carbon-moon" />
+            <i class="i-carbon-sun dark:i-carbon-moon text-xl" />
           </button>
         </a-tooltip>
       </div>
@@ -54,7 +54,7 @@
               </a-space>
             </a-doption>
             <a-doption>
-              <a-space @click="$router.push({ name: 'Info' })">
+              <a-space @click="lintToDocs">
                 <icon-book />
                 <span>
                   {{ t('navbar.docs') }}
@@ -108,6 +108,10 @@ const changeDark = () => {
 
 const switchRoles = async () => {
 
+};
+
+const lintToDocs = () => {
+  window.open('https://argus.zmops.cn/');
 };
 
 const getData = () => {
