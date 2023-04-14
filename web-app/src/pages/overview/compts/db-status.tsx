@@ -2,6 +2,14 @@ import { defineComponent } from 'vue';
 import { getSummary } from '@/service/api';
 import Chart from '@/components/chart/index.vue';
 
+const APP_NAME = {
+  dm: '达梦',
+  mysql: 'MySQL',
+  oracle: 'Oracle',
+  pg: 'PostgreSQL',
+  sqlserver: 'SQL Server',
+};
+
 export default defineComponent({
   name: 'DbStatus',
   setup() {
@@ -10,6 +18,10 @@ export default defineComponent({
 
       tooltip: {
         trigger: 'axis'
+      },
+
+      legend: {
+        right: 0,
       },
 
       calculable: true,
@@ -47,16 +59,35 @@ export default defineComponent({
 
         const app = res.data.apps;
 
-        // @ts-expect-error
-        chartOption.value.xAxis[0].data = app.map(i=>i.app);
-        chartOption.value.series = app.map((i) => {
-          return {
-            type: 'bar',
-            data: [i.unManageSize, i.unAvailableSize, i.unReachableSize],
-            name: i.app,
+        chartOption.value.xAxis[0].data = app.map(i=>APP_NAME[i.app]);
 
-          };
-        });
+        const series = [
+          {
+            name: '在线',
+            type: 'bar',
+            color: '#5AD8A6',
+            data: app.map((i) => {
+              return i.availableSize;
+            })
+          },
+          {
+            name: '离线',
+            type: 'bar',
+            color: '#E86452',
+            data: app.map((i) => {
+              return i.unAvailableSize + i.unReachableSize;
+            })
+          },
+          {
+            name: '禁用',
+            type: 'bar',
+            color: '#F6BD16',
+            data: app.map((i) => {
+              return i.unManageSize;
+            })
+          }
+        ];
+        chartOption.value.series = series;
 
       });
     };

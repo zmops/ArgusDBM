@@ -5,7 +5,7 @@ import { defineConfig, loadEnv } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import AutoImport from 'unplugin-auto-import/vite';
-import Unocss from 'unocss/vite';
+import UnoCSS from 'unocss/vite';
 import Inspect from 'vite-plugin-inspect';
 import Jsx from '@vitejs/plugin-vue-jsx';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
@@ -71,7 +71,7 @@ export default defineConfig(({ mode, ...args }) => {
       }),
       // https://github.com/antfu/unocss
       // see unocss.config.ts for config
-      Unocss(),
+      UnoCSS(),
 
     ],
   };

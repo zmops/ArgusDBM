@@ -102,6 +102,20 @@ const data = 'mysql,基本信息,单指标,mysql.status.uptime,Single,,0,0,6,3,,
   + 'dm,查询性能,单指标,dm.slow_sql.ss_sql_text,TableView,,0,0,24,14,,,,,,\n'
   + 'dm,查询性能,单指标,dm.unsubmitted_trx_table.trx_id,TableView,,14,0,24,14,,,,,,\n'
   + 'dm,查询性能,单指标,dm.max_mem_used_sql.sql_txt,TableView,,28,0,24,14,,,,,,\n'
-  + 'dm,查询性能,单指标,dm.max_phy_read_sql.sql_txt,TableView,,42,0,24,14,,,,,,\n';
+  + 'dm,查询性能,单指标,dm.max_phy_read_sql.sql_txt,TableView,,42,0,24,14,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.statistics.user_connections,Graph,,0,0,12,8,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.tsql.batch_request,Graph,,0,12,12,8,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.tsql.sql_compilations,Graph,,8,0,12,8,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.tsql.sql_recompilations,Graph,,8,12,12,8,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.buffer_cache.buffer_cache_hit_ratio,Graph,,16,0,8,8,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.buffer_cache.page_life_expectancy,Graph,,16,8,8,8,,,,,,\n'
+  + 'sqlserver,基本信息,单指标,sqlserver.buffer_cache.checkpoint_pages,Graph,,16,16,8,8,,,,,,\n'
+  + 'sqlserver,锁信息,单指标,sqlserver.lock.average_wait_lock_time,Graph,,0,0,24,8,,,,,,\n'
+  + 'sqlserver,锁信息,单指标,sqlserver.lock.lock_waits,Graph,,8,0,24,8,,,,,,\n'
+  + 'sqlserver,锁信息,单指标,sqlserver.statistics.processes_blocked,Graph,,16,0,24,8,,,,,,\n'
+  + 'sqlserver,资源池,单指标,sqlserver.resource_pool.used_memory,Graph,,0,0,24,8,,,,,,\n'
+  + 'sqlserver,资源池,单指标,sqlserver.resource_pool.cpu_util,Graph,,8,0,24,8,,,,,,\n'
+  + 'sqlserver,资源池,单指标,sqlserver.resource_pool.disk_read_io,Graph,,16,0,12,8,,,,,,\n'
+  + 'sqlserver,资源池,单指标,sqlserver.resource_pool.disk_write_io,Graph,,16,12,12,8,,,,,,\n';
 
 export default data;

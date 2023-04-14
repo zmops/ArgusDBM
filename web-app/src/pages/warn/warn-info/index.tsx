@@ -6,20 +6,22 @@ import { clearAlerts, delAlerts, getAlerts, putStatus } from '@/service/api';
 import router from '@/router';
 import { filterParams } from '@/utils';
 
+const defaultQueryParams = {
+  ids: [],
+  monitorId: '',
+  priority: undefined,
+  status: undefined,
+  content: '',
+  sort: '',
+  order: 'desc',
+  pageIndex: 0,
+  pageSize: 15
+};
+
 export default defineComponent({
   name: 'WarnInfo',
   setup() {
-    const defaultQueryParams = {
-      ids: [],
-      monitorId: '',
-      priority: undefined,
-      status: undefined,
-      content: '',
-      sort: '',
-      order: 'desc',
-      pageIndex: 0,
-      pageSize: 15
-    };
+
     const rowSelection = reactive({
       type: 'checkbox',
       showCheckedAll: true,

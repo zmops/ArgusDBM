@@ -53,7 +53,6 @@ export default defineComponent({
     });
 
     const searchForm = reactive(cloneDeep(defaultQueryParams));
-    const backUpForm = cloneDeep(searchForm);
 
     const formRef = ref<FormInstance>();
 
@@ -68,9 +67,9 @@ export default defineComponent({
 
     const handleRest = () => {
       formRef.value?.resetFields();
-      searchForm.status = backUpForm.status;
-      searchForm.name = backUpForm.name;
-      searchForm.ip = backUpForm.ip;
+      searchForm.status = defaultQueryParams.status;
+      searchForm.name = defaultQueryParams.name;
+      searchForm.ip = defaultQueryParams.ip;
     };
 
     const getData = () => {
@@ -155,7 +154,7 @@ export default defineComponent({
         <div class="flex flex-(shrink-0 nowrap) items-center bg-white px-md py-base dark:bg-dark">
           <a-form model={searchForm} ref={formRef} onSubmit={handleSubmit} class="table-search-form" layout="inline" auto-label-width={true}>
             <a-form-item field="status" label={t('alert.status.title')} row-class="mb-0!">
-              <a-radio-group class="ml-md" default-value="0_1_2_3" onChange={radioGroupChange} type="button">
+              <a-radio-group class="ml-md" v-model={searchForm.status} onChange={radioGroupChange} type="button">
                 {
                   MONITORS_STATUS.map(item => (
                     <a-radio value={item.key}>{item.value}</a-radio>

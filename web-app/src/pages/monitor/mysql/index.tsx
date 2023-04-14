@@ -42,7 +42,7 @@ const columns = [
 ];
 
 export default defineComponent({
-  name: 'Mysql',
+  name: 'MySQL',
   setup() {
     const rowSelection = reactive({
       type: 'checkbox',
@@ -51,8 +51,7 @@ export default defineComponent({
       defaultSelectedRowKeys: []
     });
 
-    const queryParams = reactive(cloneDeep(defaultQueryParams));
-    const backUpForm = cloneDeep(queryParams);
+    const searchForm = reactive(cloneDeep(defaultQueryParams));
 
     const formRef = ref<FormInstance>();
 
@@ -66,13 +65,13 @@ export default defineComponent({
     const Message = useMessage();
     const handleRest = () => {
       formRef.value?.resetFields();
-      queryParams.status = backUpForm.status;
-      queryParams.name = backUpForm.name;
-      queryParams.ip = backUpForm.ip;
+      searchForm.status = defaultQueryParams.status;
+      searchForm.name = defaultQueryParams.name;
+      searchForm.ip = defaultQueryParams.ip;
     };
 
     const getData = () => {
-      const params = filterParams(queryParams);
+      const params = filterParams(searchForm);
       params.status = params.status.split('_');
       getMonitors(params).then((res) => {
         if (res.data) {
@@ -94,7 +93,7 @@ export default defineComponent({
     });
 
     const radioGroupChange = (e: string) => {
-      queryParams.status = e;
+      searchForm.status = e;
       getData();
 
     };
@@ -151,9 +150,9 @@ export default defineComponent({
       <div class="h-full column overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
         <MysqlAdd v-model:visible={visible.value} type="mysql" editId={editId.value}></MysqlAdd>
         <div class="flex flex-(shrink-0 nowrap) items-center bg-white px-md py-base dark:bg-dark">
-          <a-form model={queryParams} ref={formRef} onSubmit={handleSubmit} class="table-search-form" layout="inline" auto-label-width={true}>
+          <a-form model={searchForm} ref={formRef} onSubmit={handleSubmit} class="table-search-form" layout="inline" auto-label-width={true}>
             <a-form-item field="status" label={t('alert.status.title')} row-class="mb-0!">
-              <a-radio-group class="ml-md" default-value="0_1_2_3" onChange={radioGroupChange} type="button">
+              <a-radio-group class="ml-md" v-model={searchForm.status} onChange={radioGroupChange} type="button">
                 {
                   MONITORS_STATUS.map(item => (
                     <a-radio value={item.key}>{item.value}</a-radio>
@@ -162,11 +161,11 @@ export default defineComponent({
               </a-radio-group>
             </a-form-item>
             <a-form-item field="status" label={t('alert.name')} >
-              <a-input class="ml-md w-160px!" v-model={queryParams.name} placeholder={t('input.placeholder')}></a-input>
+              <a-input class="ml-md w-160px!" v-model={searchForm.name} placeholder={t('input.placeholder')}></a-input>
 
             </a-form-item>
             <a-form-item field="status" label={t('alert.ip')} >
-              <a-input class="ml-md w-160px!" v-model={queryParams.ip} placeholder={t('input.placeholder')}></a-input>
+              <a-input class="ml-md w-160px!" v-model={searchForm.ip} placeholder={t('input.placeholder')}></a-input>
             </a-form-item>
             <a-form-item >
               <a-button html-type="submit" type="primary" class="mr-md">{t('alert.form.submit')}</a-button>

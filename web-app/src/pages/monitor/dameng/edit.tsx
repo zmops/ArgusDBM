@@ -33,6 +33,13 @@ export default defineComponent({
       return data;
     };
 
+    const reset = () => {
+      formRef.value?.resetFields();
+      form.monitor = cloneDeep(defaultFormData.monitor);
+      form.params.forEach((item) => {
+        item.value = item.defaultValue;
+      });
+    };
     const handleOk = () => {
 
       formRef.value?.validate((valid) => {
@@ -45,14 +52,14 @@ export default defineComponent({
 
           if (res.code !== 0) {
             Message?.error({
-              content: res.statusText,
+              content: res.statusText || '操作失败',
             });
             return;
           }
           Message?.success({
-            content: res.statusText,
+            content: res.statusText || '操作成功',
           });
-
+          reset();
           emit('update:visible', false);
 
         });
@@ -60,7 +67,9 @@ export default defineComponent({
       });
 
     };
+
     const handleCancel = () => {
+      reset();
       emit('update:visible', false);
     };
     watch(() => props.editId, (val) => {
@@ -140,9 +149,7 @@ export default defineComponent({
             }}
             >
               <a-switch v-model={form.detected}/>
-
             </a-form-item>
-
             <a-form-item label="描述备注" v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
                 <i class="a-icon-info" style="color: #5A98EC"/>更多标识和描述此监控的备注信息

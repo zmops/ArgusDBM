@@ -166,7 +166,7 @@ export default {
       http: 'HTTP API',
       ping: 'PING连通性',
       port: '端口可用性',
-      mysql: 'Mysql',
+      mysql: 'MySQL',
       oracle: 'Oracle',
       redis: 'Redis',
       fullsite: '全站监控'

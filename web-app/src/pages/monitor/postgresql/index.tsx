@@ -51,7 +51,6 @@ export default defineComponent({
     });
 
     const searchForm = reactive(cloneDeep(defaultQueryParams));
-    const backUpForm = cloneDeep(searchForm);
 
     const formRef = ref<FormInstance>();
 
@@ -66,9 +65,9 @@ export default defineComponent({
 
     const handleRest = () => {
       formRef.value?.resetFields();
-      searchForm.status = backUpForm.status;
-      searchForm.name = backUpForm.name;
-      searchForm.host = backUpForm.host;
+      searchForm.status = defaultQueryParams.status;
+      searchForm.name = defaultQueryParams.name;
+      searchForm.host = defaultQueryParams.host;
     };
 
     const getData = () => {

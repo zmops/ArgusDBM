@@ -23,14 +23,14 @@ export default defineComponent({
     ];
 
     const getAlertRecently = () => {
-      getMonitors({ app: props.type, pageIndex: 1, pageSize: 20 }).then((res: any) => {
+      getMonitors({ app: props.type, status: [2, 3], pageIndex: 0, pageSize: 8 }).then((res: any) => {
         const { code, data } = res;
         if (code === 0 && data) {
           apps.value = data.content.map((item) => {
             return {
               name: item.name || Math.random(),
-              ip: item.ip || Math.random(),
-              time: item.lastOnlineTime || Math.random(),
+              ip: item.host || Math.random(),
+              time: item.gmtUpdate || Math.random(),
             };
           }
           );

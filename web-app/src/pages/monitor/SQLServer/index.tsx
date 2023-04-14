@@ -1,7 +1,7 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
-import DamengAdd from './edit';
+import SQLServerAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
@@ -9,7 +9,7 @@ import { filterParams } from '@/utils';
 
 const defaultQueryParams = {
   ids: [],
-  app: 'dm',
+  app: 'sqlserver',
   name: '',
   host: '',
   status: '0_1_2_3',
@@ -20,7 +20,6 @@ const defaultQueryParams = {
   pageIndex: 0,
   pageSize: 15
 };
-
 const columns = [
   {
     title: t('tableView.monitoring'),
@@ -40,9 +39,8 @@ const columns = [
     width: 100,
   }
 ];
-
 export default defineComponent({
-  name: 'Dameng',
+  name: 'SQLServer',
   setup() {
 
     const rowSelection = reactive({
@@ -69,12 +67,12 @@ export default defineComponent({
       formRef.value?.resetFields();
       searchForm.status = defaultQueryParams.status;
       searchForm.name = defaultQueryParams.name;
-      searchForm.ip = defaultQueryParams.ip;
+      searchForm.host = defaultQueryParams.host;
     };
 
     const getData = () => {
-      const params = filterParams(searchForm, ['status', 'onlineStatus'], true, -1);
-      params.status = params.status?.split('_');
+      const params = filterParams(searchForm);
+      params.status = params.status.split('_');
       getMonitors(params).then((res) => {
         if (res.data) {
           total.value = res.data.totalElements;
@@ -97,6 +95,7 @@ export default defineComponent({
     const radioGroupChange = (e: string) => {
       searchForm.status = e;
       getData();
+
     };
 
     const handleSubmit = () => {
@@ -113,7 +112,17 @@ export default defineComponent({
       delMonitors(selections.value).then((res)=>{
         if (res.code === 0) {
           Message?.success(res.statusText || '删除成功');
+
           getData();
+        }
+      });
+    };
+    const handleNameClick = (monitorId)=>{
+      router.push({
+        name: 'monitorDetail',
+        query: {
+          monitorId,
+          type: 'sqlserver'
         }
       });
     };
@@ -122,15 +131,6 @@ export default defineComponent({
       visible.value = true;
     };
 
-    const handleNameClick = (monitorId)=>{
-      router.push({
-        name: 'monitorDetail',
-        query: {
-          monitorId,
-          type: 'dm'
-        }
-      });
-    };
     const handleDisable = () => {
       ApiMonitorManageDelete(selections.value).then((res) => {
         if (res.code === 0) {
@@ -148,13 +148,14 @@ export default defineComponent({
         }
       });
     };
+
     return () => (
       <div class="h-full column overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
-        <DamengAdd v-model:visible={visible.value} type="dm" editId={editId.value}></DamengAdd>
+        <SQLServerAdd v-model:visible={visible.value} type="sqlserver" editId={editId.value}></SQLServerAdd>
         <div class="flex flex-(shrink-0 nowrap) items-center bg-white px-md py-base dark:bg-dark">
           <a-form model={searchForm} ref={formRef} onSubmit={handleSubmit} class="table-search-form" layout="inline" auto-label-width={true}>
             <a-form-item field="status" label={t('alert.status.title')} row-class="mb-0!">
-              <a-radio-group class="ml-md" v-model={searchForm.status} onChange={radioGroupChange} type="button">
+              <a-radio-group class="ml-md" default-value="0_1_2_3" onChange={radioGroupChange} type="button">
                 {
                   MONITORS_STATUS.map(item => (
                     <a-radio value={item.key}>{item.value}</a-radio>
@@ -162,11 +163,12 @@ export default defineComponent({
                 }
               </a-radio-group>
             </a-form-item>
+
             <a-form-item field="status" label={t('alert.name')} >
               <a-input class="ml-md w-160px!" v-model={searchForm.name} placeholder={t('input.placeholder')}></a-input>
             </a-form-item>
             <a-form-item field="status" label={t('alert.ip')} >
-              <a-input class="ml-md w-160px!" v-model={searchForm.ip} placeholder={t('input.placeholder')}></a-input>
+              <a-input class="ml-md w-160px!" v-model={searchForm.host} placeholder={t('input.placeholder')}></a-input>
             </a-form-item>
             <a-form-item >
               <a-button html-type="submit" type="primary" class="mr-md">{t('alert.form.submit')}</a-button>
@@ -197,7 +199,7 @@ export default defineComponent({
           </div>
           <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value }} data={tableData.value}
           v-slots={{
-            name: (scope: any) => <a class="cursor-pointer text-blue" onClick={()=>handleNameClick(scope.record.id)}>{scope.record.name}</a>,
+            name: (scope: any) => <a class="cursor-pointer text-blue" onClick={()=>handleNameClick(scope.record.id)} >{scope.record.name}</a>,
             status: (scope: any) => {
               const status = scope.record.status;
               return <a-tag color={status === 1 ? 'green' : 'red'}>{
