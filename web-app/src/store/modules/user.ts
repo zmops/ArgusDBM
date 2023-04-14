@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { getUserInfo as customGetUserInfo, login as customLogin } from '@/service/api';
 import type { loginParams, loginResponse, userResponse } from '@/service/api/interface';
 

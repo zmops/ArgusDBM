@@ -74,5 +74,15 @@ export default defineConfig(({ mode, ...args }) => {
       UnoCSS(),
 
     ],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vender: ['@arco-design/web-vue'],
+            echarts: ['echarts'],
+          },
+        },
+      },
+    },
   };
 });
