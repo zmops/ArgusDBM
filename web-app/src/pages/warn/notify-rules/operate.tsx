@@ -120,7 +120,7 @@ export default defineComponent({
               <a-switch v-model={form.filterAll}></a-switch>
             </a-form-item>
             <a-form-item label={t('notificationRules.form.tags')}>
-              <a-select v-model={form.tags} disabled={!props.editId} multiple placeholder={t('notificationRules.form.tags_tip')}>
+              <a-select v-model={form.tags} multiple placeholder={t('notificationRules.form.tags_tip')}>
                 {
                   tagsOptions.value.map((item) => {
                     return (
@@ -131,7 +131,7 @@ export default defineComponent({
               </a-select>
             </a-form-item>
             <a-form-item label={t('notificationRules.form.priorities')}>
-              <a-select v-model={form.priorities} disabled={!props.editId} multiple placeholder={t('notificationRules.form.priorities_placeholder')}>
+              <a-select v-model={form.priorities} multiple placeholder={t('notificationRules.form.priorities_placeholder')}>
                 {
                   WARN_LEVEL.map((item) => {
                     return (
