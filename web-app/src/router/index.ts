@@ -19,6 +19,7 @@ export const constantRoutes = [
     component: () => import('@/pages/login/index'),
     hidden: true
   },
+
   {
     path: '/',
     component: DEFAULT_LAYOUT,
@@ -32,7 +33,13 @@ export const constantRoutes = [
         component: () => import('@/pages/overview/index'),
         name: 'Dashboard',
 
-      }
+      },
+      {
+        path: 'monitorDetail',
+        component: () => import('@/pages/monitor/detail/detail.vue'),
+        name: 'monitorDetail',
+        meta: { noCache: true, hidden: true }
+      },
     ]
   },
 ];

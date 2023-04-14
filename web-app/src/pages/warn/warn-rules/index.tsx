@@ -7,61 +7,64 @@ import { WARN_LEVEL } from '@/utils/constants';
 import { delDefine, getDefine, getDefines, modifyDefine } from '@/service/api';
 import { filterParams } from '@/utils';
 
+const defaultQueryParams = {
+  ids: [],
+  monitorId: '',
+  priority: undefined,
+  status: undefined,
+  content: '',
+  sort: '',
+  order: 'desc',
+  pageIndex: 0,
+  pageSize: 15
+};
+
+const columns = [{
+  title: t('warnRules.form.field'),
+  dataIndex: 'field'
+},
+{
+  title: t('warnRules.form.expr'),
+  dataIndex: 'expr'
+},
+{
+  title: t('warnRules.form.priority'),
+  slotName: 'priority'
+},
+{
+  title: t('warnRules.form.times'),
+  dataIndex: 'times'
+},
+{
+  title: t('warnRules.form.template'),
+  dataIndex: 'template'
+},
+{
+  title: t('warnRules.form.preset'),
+  slotName: 'preset',
+
+},
+{
+  title: t('warnRules.form.enable'),
+  slotName: 'enable',
+
+},
+{
+  title: t('tableView.operate'),
+  slotName: 'buttons',
+}
+];
 export default defineComponent({
   name: 'WarnRules',
   setup() {
-    const defaultQueryParams = {
-      ids: [],
-      monitorId: '',
-      priority: undefined,
-      status: undefined,
-      content: '',
-      sort: '',
-      order: 'desc',
-      pageIndex: 0,
-      pageSize: 15
-    };
+
     const rowSelection = reactive({
       type: 'checkbox',
       showCheckedAll: true,
       checkStrictly: true,
       defaultSelectedRowKeys: []
     });
-    const columns = [{
-      title: t('warnRules.form.field'),
-      dataIndex: 'field'
-    },
-    {
-      title: t('warnRules.form.expr'),
-      dataIndex: 'expr'
-    },
-    {
-      title: t('warnRules.form.priority'),
-      slotName: 'priority'
-    },
-    {
-      title: t('warnRules.form.times'),
-      dataIndex: 'times'
-    },
-    {
-      title: t('warnRules.form.template'),
-      dataIndex: 'template'
-    },
-    {
-      title: t('warnRules.form.preset'),
-      slotName: 'preset',
 
-    },
-    {
-      title: t('warnRules.form.enable'),
-      slotName: 'enable',
-
-    },
-    {
-      title: t('tableView.operate'),
-      slotName: 'buttons',
-    }
-    ];
     const queryParams = reactive(cloneDeep(defaultQueryParams));
     const searchForm = reactive<{ priority?: number; status?: number; content: string }>({
       priority: undefined,
@@ -189,7 +192,7 @@ export default defineComponent({
           <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
             <div class="flex flex-shrink-0 items-center">
 
-              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:processed"></i>, }}>
+              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add"></i>, }}>
                 {t('tableView.add')}
               </a-button>
               <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>

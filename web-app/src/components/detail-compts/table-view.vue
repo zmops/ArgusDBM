@@ -3,21 +3,12 @@
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template #content>
       <div class="table-view">
-        <el-table
+        <a-table
+          class="mb-base"
           :data="tableData"
-          stripe
-          size="mini"
-          :height="tableHeight"
-          style="width: 100%"
-        >
-          <el-table-column
-            v-for="(item, index) in labelLst"
-            :key="'label' + index"
-            :prop="'val' + index"
-            :label="item"
-          />
-        </el-table>
-        <a-pagination :size="5" :current-page="1" :total="1" />
+          :columns="columns"
+          :pagination="{ total: 1, pageSize: 5 }"
+        />
       </div>
     </template>
   </GridItemStyle>
@@ -27,6 +18,7 @@
 import { defineComponent } from 'vue';
 import GridItemStyle from './gridItem-style.vue';
 import { getTargetData } from '@/utils/detail';
+import { getLatestValue } from '@/service/api';
 
 export default defineComponent({
   name: 'TableView',
@@ -60,7 +52,7 @@ export default defineComponent({
     const info = ref({});
     const tableData = ref([]);
     const labelLst = ref([]);
-    const tableHeight = ref(0);
+    const columns = ref([]);
     const monitorId = route.query.monitorId;
     const val = ref('');
     onMounted(() => {
@@ -73,13 +65,35 @@ export default defineComponent({
         val.value = item.value + item.unit;
       }
     }, { immediate: true, deep: true });
+    watch(targetName, (val) => {
+      const m = val.split('.');
+      getLatestValue(monitorId, m[1]).then((res) => {
+        if (res.code === 0 && res.data) {
+          if (res.data.fields) {
+            columns.value = res.data.fields.map((i) => {
+              return {
+                title: i.name,
+                dataIndex: i.name,
+              };
+            });
+          }
+          if (res.data.valueRows) {
+            tableData.value = res.data.valueRows.map((i) => {
+              const obj = {};
+              i.values.forEach((ii, idx) => {
+                obj[columns.value[idx]?.dataIndex] = ii.origin;
+              });
+              return obj;
+            });
+          }
+        }
+      });
+    }, { immediate: true });
     return {
       info,
       tableData,
       labelLst,
-      tableHeight,
-      monitorId,
-      val
+      columns,
     };
   }
 

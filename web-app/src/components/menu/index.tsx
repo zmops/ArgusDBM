@@ -136,6 +136,7 @@ export default defineComponent({
         collapsed={props.collapsed}
         show-collapse-button={true}
         theme="dark"
+        auto-open={true}
         selected-keys={selectedKey.value}
         auto-open-selected={true}
         level-indent={34}

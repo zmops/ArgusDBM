@@ -2,12 +2,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent } from 'vue';
 import type { FormInstance } from '@arco-design/web-vue';
 import type { formParamItem } from '../../shared';
-import { nameRules, Props, defaultFormData } from '../../shared';
+import { Props, defaultFormData, nameRules } from '../../shared';
 import { addMonitor, getAppParams, getMonitor, modifyMonitor } from '@/service/api';
 import { parseStrEmpty } from '@/utils';
+import { useMessage } from '@/composables/message';
 
 export default defineComponent({
-  name: 'OracleAdd',
+  name: 'SQLServerAdd',
   props: Props,
   emits: ['update:visible'],
   setup(props, { emit }) {
@@ -48,7 +49,6 @@ export default defineComponent({
         const saveData = formatSaveData();
 
         (props.editId ? modifyMonitor : addMonitor)(saveData).then((res) => {
-
           if (res.code !== 0) {
             Message.error({
               content: '操作失败',
@@ -61,16 +61,14 @@ export default defineComponent({
 
           reset();
           emit('update:visible', false);
-
         });
-
       });
-
     };
     const handleCancel = () => {
       reset();
       emit('update:visible', false);
     };
+
     watch(() => props.editId, (val) => {
       if (!val) {
         return;
@@ -106,14 +104,17 @@ export default defineComponent({
       <div>
         <a-modal v-model:visible={props.visible} onOk={handleOk} onCancel={handleCancel} v-slots={{
           title: () => `${props.editId ? '修改' : '新增'}${props.type}监控`
-        }} >
+        }}
+        >
           <a-form model={form} ref={formRef}>
-            <a-form-item label="监控名称" field="monitor.name" rule={nameRules} required v-slots={{
+            <a-form-item label="监控名称" field="monitor.name" required rule={nameRules} v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
                 <i class="a-icon-info" style="color: #5A98EC"/>标识监控的名称,名称需要保证唯一性
               </div>
-            }} >
+            }}
+            >
               <a-input v-model={form.monitor.name} placeholder="标识监控的名称,名称需要保证唯一性"/>
+
             </a-form-item>
             {
               form && form.params && form.params.length > 0 && (
@@ -133,6 +134,7 @@ export default defineComponent({
                 })
               )
             }
+
             <a-form-item label="采集间隔(秒)" v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
                 <i class="a-icon-info" style="color: #5A98EC"/>监控周期性采集数据间隔时间,单位秒
@@ -158,6 +160,7 @@ export default defineComponent({
             }}
             >
               <a-input v-model={form.monitor.description} type="textarea" rows={3} placeholder="请输入描述备注"/>
+
             </a-form-item>
           </a-form>
         </a-modal>

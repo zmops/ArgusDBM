@@ -1,28 +1,34 @@
 <template>
-  <div class="pb-bae ma-base h-full w-full bg-white px-base">
-    <div class="mr-md flex items-center pb-base">
-      <i
-        class="i-custom:monitor-back mr-md cursor-pointer text-(base blue)"
-        @click="$router.back()"
-      />
-      <span class="text-(base #1D2129) font-bold">{{ info.name }}</span>
-      <span class="ml-md text-(14px blue) font-bold">{{ info.host }}</span>
-    </div>
-    <div class="h-62px w-full flex rounded-base bg-#ECEFF4 pa-base text-(base #4E5969)">
-      <div v-for="(item, index) in dataTabs" :key="'tabs' + index" class="flex" @click="layouts = item.list;tabsId = item.title">
-        <div v-if="index > 0" class="mt-5px h-32px w-2px bg-#DEDFE2" />
-        <div class="h-42px min-w-160px cursor-pointer rounded-base text-center leading-42px hover:bg-white" :class="tabsId === item.title ? 'color-#0077FF bg-white' : ''">
-          {{ item.title }}
-        </div>
+  <div class="pa-bae h-full column flex-1 overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
+    <div class="bg-white dark:bg-dark">
+      <div class="h-50px flex flex-s-0 items-center pl-base">
+        <i class="i-custom:monitor-back mr-md cursor-pointer text-(base blue)" @click="back()" />
+        <span class="text-(base #1D2129) font-bold dark:text-white">{{ info.name }}</span>
+        <span class="ml-md text-(14px blue) font-bold">{{ info.host }}</span>
       </div>
+      <div v-if="dataTabs.length" class="w-full flex flex-s-0">
+        <a-radio-group type="button" :default-value="dataTabs[0].title" class="text-18px! leading-40px!" size="large">
+          <a-radio
+            v-for="(item, index) in dataTabs" :key="'tabs' + index" :value="item.title"
+            class="px-40px text-18px! leading-40px!" @click="layouts = item.list; tabsId = item.title"
+          >
+            {{ item.title }}
+          </a-radio>
+        </a-radio-group>
+        <div class="flex-1 bg-[var(--color-fill-2)]" />
+      </div>
+
+      <a-row direction="vertical">
+        <a-col
+          v-for="(item) in layouts" :key="item.i" :span="item.w"
+          :style="{ height: item.v === 'TableView' ? 'auto' : (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base overflow-hidden py-sm pl-base"
+        >
+          <div class="mr-base h-full">
+            <component :is="item.v" v-bind="{ targetType: item.t, targetName: item.k, s: item.s, w: item.w, dataObj }" />
+          </div>
+        </a-col>
+      </a-row>
     </div>
-    <a-row direction="vertical">
-      <a-col v-for="(item) in layouts" :key="item.i" :span="item.w" :style="{ height: (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base overflow-hidden py-sm">
-        <div class="mr-base h-full">
-          <component :is="item.v" v-bind="{ targetType: item.t, targetName: item.k, s: item.s, w: item.w, dataObj }" />
-        </div>
-      </a-col>
-    </a-row>
   </div>
 </template>
 
@@ -46,6 +52,7 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
+    const router = useRouter();
 
     const type = route.query.type;
     const monitorId = route.query.monitorId;
@@ -57,7 +64,12 @@ export default defineComponent({
     const metrics = ref([]);
     const info = ref({});
     const dataObj = ref({});
-    const getInfo = ()=> {
+
+    const back = () => {
+      router.go(-1);
+    };
+
+    const getInfo = () => {
       getMonitor(monitorId).then((res) => {
         if (res.code === 0 && res.data.monitor) {
           info.value = res.data.monitor;
@@ -67,16 +79,16 @@ export default defineComponent({
       const arr = [];
       const tabs = [];
       const tabList = [];
+
       data.forEach((i) => {
         const item = i.split(',');
-        console.log(item);
+
         if (item[0] === type) {
           if (!tabs.includes(item[1])) {
             tabs.push(item[1]);
           }
           arr.push(item);
           if (item[4] === 'Single' || item[4] === 'SingleGraph') {
-            // if (item[2] === '单指标') {
             const m = item[3].split('.');
             if (!metrics.value.includes(m[1])) {
               metrics.value.push(m[1]);
@@ -105,11 +117,13 @@ export default defineComponent({
       });
       dataTabs.value = tabList;
     };
-    const getArr = () =>{
+
+    console.log(metrics.value, dataTabs.value);
+    const getArr = () => {
       // 获取所有的最新值
-      if ( metrics.value.length) {
+      if (metrics.value.length) {
         for (const i of metrics.value) {
-          getLatestValue( monitorId, i).then((res) => {
+          getLatestValue(monitorId, i).then((res) => {
             if (res.code === 0 && res.data) {
               const fields = res.data.fields;
               const valueRows = res.data.valueRows[0].values;
@@ -130,14 +144,16 @@ export default defineComponent({
         }
       }
     };
-    onMounted(async()=>{
+    onMounted(async () => {
 
       await getInfo();
       await getArr();
 
-      nextTick(()=>{
+      nextTick(() => {
         layouts.value = dataTabs.value[0]?.list;
         tabsId.value = dataTabs.value[0]?.title;
+
+        console.log(layouts.value);
       });
     });
 
@@ -146,7 +162,8 @@ export default defineComponent({
       dataTabs,
       tabsId,
       info,
-      dataObj
+      dataObj,
+      back
     };
   }
 });

@@ -10,7 +10,6 @@ export default defineComponent({
   name: 'NumList',
   setup() {
 
-    //
     const numList = ref<{ title: string; val: number; color?: string }[]>([]);
 
     const getNumList = () => {
@@ -28,7 +27,6 @@ export default defineComponent({
           });
         }
       });
-
     };
 
     onMounted(() => {

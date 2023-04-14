@@ -166,7 +166,7 @@ export default {
       http: 'HTTP API',
       ping: 'PING连通性',
       port: '端口可用性',
-      mysql: 'Mysql',
+      mysql: 'MySQL',
       oracle: 'Oracle',
       redis: 'Redis',
       fullsite: '全站监控'
@@ -318,6 +318,7 @@ export default {
     noselectTips: '请至少选择一行进行操作',
     markupTips: '是否将选中项标记为已处理？',
     markdownTips: '是否将选中项标记为未处理？',
+    disableTips: '是否确认禁用数据项？',
     deleteTips: '是否确认删除数据项？',
     clearTips: '请确认是否清空所有告警信息！',
     switchLanguageSuccess: '语言切换成功,即将刷新页面',

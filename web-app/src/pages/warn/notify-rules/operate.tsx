@@ -1,10 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent } from 'vue';
 import type { FormInstance } from '@arco-design/web-vue';
-import { addReceiver, getReceiver, getReceivers, getTags, modifyReceiver } from '@/service/api';
+import { addRule, getReceivers, getRule, getTags, modifyRule } from '@/service/api';
 import { NOTICE_TYPE, WARN_LEVEL } from '@/utils/constants';
 import type { sysInterface } from '@/service/api/interface';
-import { Props } from '@/pages/shared';
+import { Props, reset } from '@/pages/shared';
 
 const tagsQuery = {
   search: '',
@@ -42,13 +42,11 @@ export default defineComponent({
       if (!val) {
         return;
       }
-      getReceiver(val).then((res) => {
+      getRule(val).then((res) => {
         const { code, data } = res;
         if (code !== 0 || !data) {
           return;
         }
-        console.log(res);
-
         Object.keys(form).forEach((key) => {
           if (key in data) {
             form[key] = res.data[key];
@@ -59,17 +57,19 @@ export default defineComponent({
 
     const handleOk = () => {
       if (!props.editId) {
-        addReceiver(form).then((res) => {
+        addRule(form).then((res) => {
           Message?.success({
             content: t('message.createSuccess'),
           });
+          reset(formRef, form, defaultForm);
           emit('update:visible', false);
         });
       } else {
-        modifyReceiver({ ...form, ...{ id: props.editId } }).then((res) => {
+        modifyRule({ ...form, ...{ id: props.editId } }).then((res) => {
           Message?.success({
             content: t('message.updateSuccess'),
           });
+          reset(formRef, form, defaultForm);
           emit('update:visible', false);
         });
       }

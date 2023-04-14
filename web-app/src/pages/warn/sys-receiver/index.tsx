@@ -7,20 +7,22 @@ import { delReceivers, getReceivers } from '@/service/api';
 import { filterParams } from '@/utils';
 import type { sysInterface } from '@/service/api/interface';
 
+const defaultQueryParams = {
+  ids: [],
+  monitorId: '',
+  priority: undefined,
+  status: undefined,
+  content: '',
+  sort: '',
+  order: 'desc',
+  pageIndex: 0,
+  pageSize: 15
+};
+
 export default defineComponent({
   name: 'NotifyRules',
   setup() {
-    const defaultQueryParams = {
-      ids: [],
-      monitorId: '',
-      priority: undefined,
-      status: undefined,
-      content: '',
-      sort: '',
-      order: 'desc',
-      pageIndex: 0,
-      pageSize: 15
-    };
+
     const rowSelection = reactive({
       type: 'checkbox',
       showCheckedAll: true,
@@ -127,7 +129,7 @@ export default defineComponent({
           </div>
           <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
             <div class="flex flex-shrink-0 items-center">
-              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:processed"></i>, }}>
+              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add"></i>, }}>
                 {t('tableView.add')}
               </a-button>
               <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>

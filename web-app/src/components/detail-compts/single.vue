@@ -2,8 +2,8 @@
 <template>
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template #content>
-      <div class="text-value">
-        <div>
+      <div class="h-full w-full flex items-center">
+        <div class="w-full text-(center 26px) font-500 color-dark dark:color-white">
           {{ val }}
         </div>
       </div>
@@ -41,7 +41,6 @@ export default defineComponent({
   },
   setup(props) {
     const { targetType, targetName, dataObj } = toRefs(props);
-
     const info = ref({});
     const val = ref();
 
@@ -63,20 +62,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss" scoped>
-.text-value {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-
-  div{
-    width: 100%;
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    color: #1D2129;
-  }
-}
-</style>

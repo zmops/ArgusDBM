@@ -14,19 +14,14 @@ const monitorRouter = {
     {
       path: 'mysql',
       component: () => import('@/pages/monitor/mysql/index'),
-      name: 'MySql',
+      name: 'MySQL',
       meta: { title: 'MySQL', noCache: true }
     },
-    {
-      path: 'monitorDetail',
-      component: () => import('@/pages/monitor/detail/detail.vue'),
-      name: 'monitorDetail',
-      meta: { noCache: true, hidden: true }
-    },
+
     {
       path: 'postgresql',
       component: () => import('@/pages/monitor/postgresql/index'),
-      name: 'PostgreSql',
+      name: 'PostgreSQL',
       meta: { title: 'PostgreSQL', noCache: true }
     },
     {
@@ -40,6 +35,12 @@ const monitorRouter = {
       component: () => import('@/pages/monitor/dameng/index'),
       name: '达梦',
       meta: { title: '达梦', noCache: true }
+    },
+    {
+      path: 'SQLServer',
+      component: () => import('@/pages/monitor/SQLServer/index'),
+      name: 'SQLServer',
+      meta: { title: 'SQLServer', noCache: true }
     },
   ]
 };

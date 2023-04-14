@@ -5,7 +5,7 @@
 /* 监控状态 */
 export const MONITORS_STATUS = [
   { key: [0, 1, 2, 3].join('_'), value: t('tableView.all') },
-  { key: [1, 2, 3].join('_'), value: t('tableView.enable') },
+  { key: [1].join('_'), value: t('tableView.enable') },
   { key: [0].join('_'), value: t('tableView.disable') },
   { key: [2, 3].join('_'), value: t('tableView.offline') },
 ];

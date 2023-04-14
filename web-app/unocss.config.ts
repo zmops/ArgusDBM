@@ -24,6 +24,7 @@ export default defineConfig({
   shortcuts: {
     'flex-center': 'flex items-center justify-center',
     'column': 'flex flex-col',
+    'flex-s-0': 'flex-shrink-0',
     'icon-btn': 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600',
 
   },

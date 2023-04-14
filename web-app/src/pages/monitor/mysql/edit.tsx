@@ -33,7 +33,13 @@ export default defineComponent({
       });
       return data;
     };
-
+    const reset = () => {
+      formRef.value?.resetFields();
+      form.monitor = cloneDeep(defaultFormData.monitor);
+      form.params.forEach((item) => {
+        item.value = item.defaultValue;
+      });
+    };
     const handleOk = () => {
 
       formRef.value?.validate((valid) => {
@@ -46,14 +52,15 @@ export default defineComponent({
 
           if (res.code !== 0) {
             Message.error({
-              content: res.statusText,
+              content: '操作失败',
             });
             return;
           }
           Message?.success({
-            content: res.statusText,
+            content: props.editId ? '更新成功' : '新建成功',
           });
 
+          reset();
           emit('update:visible', false);
 
         });
@@ -62,6 +69,7 @@ export default defineComponent({
 
     };
     const handleCancel = () => {
+      reset();
       emit('update:visible', false);
     };
     watch(() => props.editId, (val) => {

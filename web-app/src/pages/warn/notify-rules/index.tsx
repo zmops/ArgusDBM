@@ -6,6 +6,34 @@ import { delRules, getRule, getRules, modifyRule } from '@/service/api';
 import { filterParams } from '@/utils';
 import { useMessage } from '@/composables/message';
 
+const columns = [{
+  title: t('notificationRules.form.name'),
+  dataIndex: 'name'
+},
+{
+  title: t('notificationRules.form.receiverName'),
+  dataIndex: 'receiverName'
+},
+{
+  title: t('notificationRules.form.filterAll'),
+  slotName: 'filterAll',
+
+},
+{
+  title: t('notificationRules.form.enable'),
+  slotName: 'enable',
+
+},
+{
+  title: t('notificationRules.form.gmtUpdate'),
+  dataIndex: 'gmtUpdate'
+},
+{
+  title: t('tableView.operate'),
+  slotName: 'buttons',
+}
+];
+
 const defaultQueryParams = {
   name: '',
   order: 'desc',
@@ -22,33 +50,7 @@ export default defineComponent({
       checkStrictly: true,
       defaultSelectedRowKeys: []
     });
-    const columns = [{
-      title: t('notificationRules.form.name'),
-      dataIndex: 'name'
-    },
-    {
-      title: t('notificationRules.form.receiverName'),
-      dataIndex: 'receiverName'
-    },
-    {
-      title: t('notificationRules.form.filterAll'),
-      slotName: 'filterAll',
 
-    },
-    {
-      title: t('notificationRules.form.enable'),
-      slotName: 'enable',
-
-    },
-    {
-      title: t('notificationRules.form.gmtUpdate'),
-      dataIndex: 'gmtUpdate'
-    },
-    {
-      title: t('tableView.operate'),
-      slotName: 'buttons',
-    }
-    ];
     const queryParams = reactive(cloneDeep(defaultQueryParams));
     const searchForm = reactive<{ name: string }>({
       name: '',
@@ -150,7 +152,7 @@ export default defineComponent({
           <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
             <div class="flex flex-shrink-0 items-center">
 
-              <a-button class="mr-md" onClick={()=>visible.value = true} v-slots={{ icon: () => <i class="i-custom:processed"></i>, }}>
+              <a-button class="mr-md" onClick={()=>visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add"></i>, }}>
                 {t('tableView.add')}
               </a-button>
               <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>

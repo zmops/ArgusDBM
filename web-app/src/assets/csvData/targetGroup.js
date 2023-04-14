@@ -93,9 +93,10 @@ const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysq
   + 'cb.pgsql,checkpoint_stats,cb.pgsql.checkpoint_stats,Checkpoint stats,检查点统计,"pgsql.checkpoint.files_synchronization_to_disk\n'
   + 'pgsql.checkpoint.written_files_to_disk",,,,\n'
   + 'cb.oracle,cache_hit_ratio,cb.oracle.cache_hit_ratio,Cache hit ratio,缓存命中率,"oracle.cache_hit_ratio.lib_cache_hit_ratio\n'
-  + 'oracle.cache_hit_ratio.buffer_cache_hit_ratio",,,,'
-  + ',cb.dm,thread_count,cb.dm.thread_count,Thread Count,线程数,"dm.thread.dm_sql_thd\n'
+  + 'oracle.cache_hit_ratio.buffer_cache_hit_ratio",,,,\n'
+  + 'cb.dm,thread_count,cb.dm.thread_count,Thread Count,线程数,"dm.thread.dm_sql_thd\n'
   + 'dm.thread.dm_io_thd\n'
   + 'dm.thread.dm_tskwrk_thd\n'
   + 'dm.thread.dm_wrkgrp_thd",,,,,';
+
 export default data;

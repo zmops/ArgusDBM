@@ -111,7 +111,7 @@ export default {
   },
   navbar: {
     dashboard: 'Dashboard',
-    github: 'Github',
+    github: 'GitHub',
     logOut: 'Log Out',
     profile: 'Profile',
     theme: 'Theme',
@@ -132,7 +132,7 @@ export default {
   },
   documentation: {
     documentation: 'Documentation',
-    github: 'Github Repository'
+    github: 'GitHub Repository'
   },
   permission: {
     addRole: 'New Role',

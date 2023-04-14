@@ -15,6 +15,7 @@
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,
     "noImplicitAny": false,
+    "checkJs": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "types": [

@@ -7,6 +7,8 @@ export default defineComponent({
   setup(props) {
     const apps = ref<any[]>([]);
 
+    const loading = ref(true);
+
     const columns = [
       {
         title: '监控名称',
@@ -23,17 +25,18 @@ export default defineComponent({
     ];
 
     const getAlertRecently = () => {
-      getMonitors({ app: props.type, pageIndex: 1, pageSize: 20 }).then((res: any) => {
+      getMonitors({ app: props.type, status: [2, 3], pageIndex: 0, pageSize: 8 }).then((res: any) => {
         const { code, data } = res;
         if (code === 0 && data) {
           apps.value = data.content.map((item) => {
             return {
               name: item.name || Math.random(),
-              ip: item.ip || Math.random(),
-              time: item.lastOnlineTime || Math.random(),
+              ip: item.host || Math.random(),
+              time: item.gmtUpdate || Math.random(),
             };
-          }
-          );
+          });
+
+          loading.value = false;
         }
       });
     };
@@ -45,7 +48,7 @@ export default defineComponent({
       <a-col span={12}>
         <div class="mb-base h-296px column overflow-auto rounded-base bg-white px-base pb-base dark:bg-dark">
           <p class="flex-shrink-0 py-md">{props.name}</p>
-          <a-table class="flex-1 overflow-hidden" columns={columns} data={apps.value}></a-table>
+          <a-table class="flex-1 overflow-hidden" loading={loading.value} columns={columns} data={apps.value}></a-table>
         </div>
       </a-col>
     );
