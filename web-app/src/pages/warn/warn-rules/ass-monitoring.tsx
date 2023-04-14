@@ -107,7 +107,10 @@ export default defineComponent({
 
     };
     watch(() => props.editId, (val) => {
-      getData();
+
+      if (props.visible) {
+        getData();
+      }
     });
 
     return () => (
