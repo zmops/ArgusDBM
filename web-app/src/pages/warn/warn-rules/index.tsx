@@ -149,7 +149,10 @@ export default defineComponent({
     const handleChangepreset = (id, v, filed) => {
       // 根据ID获取告警规则信息
       getDefine(id).then((res) => {
-        const form: any = res.data;
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
+        const form = res.data;
         form[filed] = v;
         // 修改
         modifyDefine(form).then((res) => {
@@ -181,17 +184,14 @@ export default defineComponent({
                   ))}
                 </a-select>
               </a-form-item>
-
               <a-form-item>
                 <a-button html-type="submit" type="primary" class="mr-md">{t('alert.form.submit')}</a-button>
                 <a-button html-type="reset" onClick={handleRest}>{t('alert.form.reset')}</a-button>
               </a-form-item>
             </a-form>
-
           </div>
           <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
             <div class="flex flex-shrink-0 items-center">
-
               <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add"></i>, }}>
                 {t('tableView.add')}
               </a-button>
@@ -200,21 +200,19 @@ export default defineComponent({
                   {t('tableView.delete')}
                 </a-button>
               </a-popconfirm>
-
             </div>
             <a-table class="mt-base flex-1" loading={loading.value} row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} data={tableData.value}
               v-slots={{
-                priority: (scope: any) => WARN_LEVEL.find(wl => wl.key === scope.record.priority)?.value,
-                preset: (scope: any) => <a-radio-group default-value={scope.record.preset} size="mini" type="button" onChange={v => handleChangepreset(scope.record.id, v, 'preset')}>
+                priority: scope => WARN_LEVEL.find(wl => wl.key === scope.record.priority)?.value,
+                preset: scope => <a-radio-group default-value={scope.record.preset} size="mini" type="button" onChange={v => handleChangepreset(scope.record.id, v, 'preset')}>
                   <a-radio value={true}>{t('notificationRules.table.presetleftText')}</a-radio>
                   <a-radio value={false}>{t('notificationRules.table.presetrightText')}</a-radio>
                 </a-radio-group>,
-                enable: (scope: any) => <a-radio-group default-value={scope.record.enable} size="mini" type="button" onChange={v => handleChangepreset(scope.record.id, v, 'enable')}>
+                enable: scope => <a-radio-group default-value={scope.record.enable} size="mini" type="button" onChange={v => handleChangepreset(scope.record.id, v, 'enable')}>
                   <a-radio value={true}>{t('notificationRules.table.presetleftText')}</a-radio>
                   <a-radio value={false}>{t('notificationRules.table.presetrightText')}</a-radio>
                 </a-radio-group>,
-                buttons: (scope: any) => <div class="flex flex-shrink-0 items-center">
-
+                buttons: scope => <div class="flex flex-shrink-0 items-center">
                   <a-button class="mr-md" type="text" size="small" onClick={() => { editId.value = scope.record.id; assVisible.value = true; }}>
                     {t('buttons.unionMonitor')}
                   </a-button>

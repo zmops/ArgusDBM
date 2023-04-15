@@ -7,11 +7,18 @@ const defaultQueryParams = {
   pageIndex: 0,
   pageSize: 15
 };
+
+interface alarmTableDataInterface {
+  level: string;
+  status: string;
+  time: string;
+  content: string;
+}
 export default defineComponent({
   name: 'Latest',
   setup() {
 
-    const alarmTableData = ref<any>([]);
+    const alarmTableData = ref<Partial<alarmTableDataInterface[]>>([]);
 
     const loading = ref(true);
     const queryParams = reactive(cloneDeep(defaultQueryParams));
@@ -37,11 +44,11 @@ export default defineComponent({
 
     const getAlertRecently = ()=>{
       loading.value = true;
-      getAlerts(queryParams).then((res: any) => {
+      getAlerts(queryParams).then((res) => {
         if ( res.data) {
           const content = res.data.content;
           total.value = res.data.totalElements;
-          content.forEach((item: any) => {
+          content.forEach((item) => {
             alarmTableData.value.push({
               level: t('alert.priority.' + item.priority ),
               status: t('alert.status.' + item.status),

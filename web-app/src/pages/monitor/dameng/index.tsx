@@ -117,7 +117,7 @@ export default defineComponent({
         }
       });
     };
-    const handleEditClick = (record: any)=>{
+    const handleEditClick = (record)=>{
       editId.value = record.id;
       visible.value = true;
     };
@@ -197,14 +197,14 @@ export default defineComponent({
           </div>
           <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value }} data={tableData.value}
           v-slots={{
-            name: (scope: any) => <a class="cursor-pointer text-blue" onClick={()=>handleNameClick(scope.record.id)}>{scope.record.name}</a>,
-            status: (scope: any) => {
+            name: scope => <a class="cursor-pointer text-blue" onClick={()=>handleNameClick(scope.record.id)}>{scope.record.name}</a>,
+            status: (scope) => {
               const status = scope.record.status;
               return <a-tag color={status === 1 ? 'green' : 'red'}>{
                   status === 1 ? t('tableView.enable') : status === 0 ? t('tableView.disable') : t('tableView.offline')
               }</a-tag>;
             },
-            buttons: (scope: any) => {
+            buttons: (scope) => {
               return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
             }
           }} />

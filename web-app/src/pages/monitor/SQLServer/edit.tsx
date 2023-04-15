@@ -73,12 +73,16 @@ export default defineComponent({
       if (!val) {
         return;
       }
-      getMonitor(val).then((res: any) => {
+      getMonitor(val).then((res) => {
+
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
         const data = res.data;
         Object.keys(data).forEach((key) => {
           if (key === 'params') {
-            data[key].forEach((item: any) => {
-              form.params.forEach((param: any) => {
+            data[key].forEach((item) => {
+              form.params.forEach((param) => {
                 if (param.field === item.field) {
                   param.value = item.value;
                 }
@@ -92,12 +96,12 @@ export default defineComponent({
       });
     });
     onMounted(() => {
-      getAppParams(props.type).then((res: any) => {
+      getAppParams(props.type).then((res) => {
         const params = res.data as formParamItem[];
         params.forEach((item) => {
           item.value = item.defaultValue;
         });
-        form.params = reactive(res.data) as formParamItem[];
+        form.params = res.data as formParamItem[];
       });
     });
     return () => (

@@ -140,7 +140,7 @@ export default defineComponent({
             </div>
             <a-table class="mt-base flex-1" table-layout-fixed row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} data={tableData.value}
               v-slots={{
-                type: (scope: any) => {
+                type: (scope) => {
 
                   const type = scope.record.type || [];
 
@@ -149,7 +149,7 @@ export default defineComponent({
                   }).join(',');
 
                 },
-                buttons: (scope: any) => <div class="flex flex-shrink-0 items-center">
+                buttons: scope => <div class="flex flex-shrink-0 items-center">
                   <a-button class="mr-md" type="text" size="small" danger onClick={() =>{ visible.value = true;editId.value = scope.record.id; }}>
                     {t('tableView.edit')}
                   </a-button>

@@ -37,24 +37,26 @@ export default defineComponent({
         {
           name: 'Rainfall',
           type: 'bar',
-          data: [
-          ],
+          data: [],
         },
         {
           name: 'Evaporation',
           type: 'bar',
-          data: [
-          ],
+          data: [],
         }
       ]
     });
 
     const getAlertRecently = () => {
-      getSummary().then((res: any) => {
+      getSummary().then((res) => {
 
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
         const app = res.data.apps;
 
-        chartOption.value.xAxis[0].data = app.map(i=>APP_NAME[i.app]);
+        // @ts-expect-error
+        chartOption.value.xAxis[0].data = app.map(i => APP_NAME[i.app]);
         const series = [
           {
             name: '在线',
@@ -81,8 +83,8 @@ export default defineComponent({
             })
           }
         ];
+        // @ts-expect-error
         chartOption.value.series = series;
-
       });
     };
 
@@ -94,7 +96,7 @@ export default defineComponent({
       <a-col span={12} class="pr-base">
         <div class="mb-base h-296px column overflow-auto rounded-base bg-white px-base dark:bg-dark">
           <p class="py-md">数据库状态统计</p>
-          <Chart style="width: 100%; height: calc(100% - 46px)" option={chartOption.value} />
+          <Chart style="width: 100%; height: calc(100% - 46px)" option={chartOption.value}/>
         </div>
       </a-col>
     );

@@ -114,7 +114,11 @@ export default defineComponent({
     const handleColumnChange = (id, v, type) => {
       // 根据ID获取接收人信息
       getRule(id).then((res) => {
-        const form: any = res.data;
+
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
+        const form = res.data;
         form[type] = !v;
         // 修改
         modifyRule(form).then((res) => {
@@ -164,15 +168,15 @@ export default defineComponent({
             </div>
             <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} data={tableData.value}
               v-slots={{
-                filterAll: (scope: any) => <a-radio-group default-value={scope.record.filterAll} onClick={()=>handleColumnChange(scope.record.id, scope.record.filterAll, 'filterAll')} size="mini" type="button">
+                filterAll: scope => <a-radio-group default-value={scope.record.filterAll} onClick={()=>handleColumnChange(scope.record.id, scope.record.filterAll, 'filterAll')} size="mini" type="button">
                     <a-radio value={true}>是</a-radio>
                     <a-radio value={false}>否</a-radio>
               </a-radio-group>,
-                enable: (scope: any) => <a-radio-group default-value={scope.record.enable} size="mini" type="button">
+                enable: scope => <a-radio-group default-value={scope.record.enable} size="mini" type="button">
                     <a-radio value={true}>是</a-radio>
                     <a-radio value={false}>否</a-radio>
               </a-radio-group>,
-                buttons: (scope: any) => <div class="flex flex-shrink-0 items-center">
+                buttons: scope => <div class="flex flex-shrink-0 items-center">
 
                     <a-button class="mr-md" type="primary" size="small" danger onClick={()=>handleEdit(scope.record.id)}>
                       {t('tableView.edit')}

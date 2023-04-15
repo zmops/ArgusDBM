@@ -64,15 +64,15 @@ export default defineComponent({
     };
 
     const moveRight = () => {
-      rightSelections.value.forEach((item: any) => {
-        leftTable.value = leftTable.value.filter((i: any) => i.id !== item);
+      rightSelections.value.forEach((item) => {
+        leftTable.value = leftTable.value.filter(i => i.id !== item);
         rightTable.value.push(item);
       });
     };
 
     const moveLeft = () => {
-      leftSelections.value.forEach((item: any) => {
-        rightTable.value = rightTable.value.filter((i: any) => i.id !== item);
+      leftSelections.value.forEach((item) => {
+        rightTable.value = rightTable.value.filter(i => i.id !== item);
         leftTable.value.push(item);
       });
     };
@@ -98,9 +98,12 @@ export default defineComponent({
       });
     };
     const getData = () => {
-      getMonitors(queryParams).then((res: any) => {
+      getMonitors(queryParams).then((res) => {
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
         leftTable.value = res.data.content;
-        getAlertDefineMonitors(props.editId).then((res: any) => {
+        getAlertDefineMonitors(props.editId).then((res) => {
           rightTable.value = res.data;
         });
       });
