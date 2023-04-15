@@ -56,7 +56,6 @@ export const nameRules = [{
 
 export const reset = (form, formData, defaultForm) => {
   form.value?.resetFields();
-
   Object.keys(form).forEach((key) => {
     formData[key] = defaultForm[key];
   });

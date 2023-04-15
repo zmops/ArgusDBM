@@ -1,6 +1,6 @@
 import { defineComponent, ref, h } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import type { RouteMeta, RouteRecordRaw } from 'vue-router';
+import type { RouteMeta, RouteRecordRaw, _RouteRecordBase } from 'vue-router';
 import useMenuTree from './use-menu-tree';
 import { listenerRouteChange } from '@/utils/route-listener';
 import { openWindow, regexUrl } from '@/utils';
@@ -28,7 +28,7 @@ export default defineComponent({
     const openKeys = ref<string[]>([]);
     const selectedKey = ref<string[]>(['/', 'Dashboard']);
 
-    const getI18nName = (item) =>{
+    const getI18nName = (item) => {
       const str = 'route.' + item?.meta?.title;
       if (te(str)) {
         return t(str);
@@ -36,7 +36,7 @@ export default defineComponent({
       return item?.meta?.title || item.name;
     };
 
-    const goto = (item: RouteRecordRaw) => {
+    const goto = (item: _RouteRecordBase) => {
       // Open external link
       if (regexUrl.test(item.path)) {
         openWindow(item.path);
@@ -70,7 +70,9 @@ export default defineComponent({
         }
       };
       menuTree.value.forEach((el: RouteRecordRaw) => {
-        if (isFind) { return; } // Performance optimization
+        if (isFind) {
+          return;
+        } // Performance optimization
         backtrack(el, [el.name as string]);
       });
       return result;
@@ -95,7 +97,7 @@ export default defineComponent({
     };
 
     const renderSubMenu = () => {
-      function travel(_route: any[], nodes = []) {
+      function travel(_route: _RouteRecordBase[], nodes = []) {
         if (_route) {
           _route.forEach((element) => {
             const iconEle = element?.meta?.icon
@@ -107,26 +109,27 @@ export default defineComponent({
 
             const node
               = (element?.children && element?.children.length !== 0) ? (
-                <a-sub-menu
-                  key={element?.name}
-                  v-slots={{ icon: iconEle, title: () => h('span', getI18nName(element)) }}
-                >
-                  {travel(element?.children)}
-                </a-sub-menu>
+              <a-sub-menu
+                key={element?.name}
+                v-slots={{ icon: iconEle, title: () => h('span', getI18nName(element)) }}
+              >
+                {travel(element?.children)}
+              </a-sub-menu>
               ) : (
-                <a-menu-item
-                  key={element?.name}
-                  v-slots={{ icon: iconEle }}
-                  onClick={() => goto(element)}
-                >
-                  {getI18nName(element)}
-                </a-menu-item>
+              <a-menu-item
+                key={element?.name}
+                v-slots={{ icon: iconEle }}
+                onClick={() => goto(element)}
+              >
+                {getI18nName(element)}
+              </a-menu-item>
               );
             nodes.push(node as never);
           });
         }
         return nodes;
       }
+
       return travel(menuTree.value);
     };
 

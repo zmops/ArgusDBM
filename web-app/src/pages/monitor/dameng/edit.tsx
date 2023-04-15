@@ -76,12 +76,15 @@ export default defineComponent({
       if (!val) {
         return;
       }
-      getMonitor(val).then((res: any) => {
+      getMonitor(val).then((res) => {
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
         const data = res.data;
         Object.keys(data).forEach((key) => {
           if (key === 'params') {
-            data[key].forEach((item: any) => {
-              form.params.forEach((param: any) => {
+            data[key].forEach((item) => {
+              form.params.forEach((param) => {
                 if (param.field === item.field) {
                   param.value = item.value;
                 }
@@ -95,12 +98,12 @@ export default defineComponent({
       });
     });
     onMounted(() => {
-      getAppParams(props.type).then((res: any) => {
+      getAppParams(props.type).then((res) => {
         const params = res.data as formParamItem[];
         params.forEach((item) => {
           item.value = item.defaultValue;
         });
-        form.params = reactive(res.data) as formParamItem[];
+        form.params = res.data as formParamItem[];
       });
     });
     return () => (
@@ -111,10 +114,10 @@ export default defineComponent({
           <a-form model={form} ref={formRef}>
             <a-form-item label="监控名称" field="monitor.name" rule={nameRules} required v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
-                <i class="a-icon-info" style="color: #5A98EC"/>标识监控的名称,名称需要保证唯一性
+                <i class="a-icon-info" style="color: #5A98EC" />标识监控的名称,名称需要保证唯一性
               </div>
             }} >
-              <a-input v-model={form.monitor.name} placeholder="标识监控的名称,名称需要保证唯一性"/>
+              <a-input v-model={form.monitor.name} placeholder="标识监控的名称,名称需要保证唯一性" />
             </a-form-item>
             {
               form && form.params && form.params.length > 0 && (
@@ -128,7 +131,7 @@ export default defineComponent({
                       validate-trigger={['change', 'input']}
                       rules={[{ required: item.required, message: `${item.name ? item.name['zh-CN'] : ''}是必填项` }]}
                     >
-                      <a-input v-model={item.value} placeholder={item.placeholder}/>
+                      <a-input v-model={item.value} placeholder={item.placeholder} />
                     </a-form-item>
                   );
                 })
@@ -136,27 +139,27 @@ export default defineComponent({
             }
             <a-form-item label="采集间隔(秒)" v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
-                <i class="a-icon-info" style="color: #5A98EC"/>监控周期性采集数据间隔时间,单位秒
+                <i class="a-icon-info" style="color: #5A98EC" />监控周期性采集数据间隔时间,单位秒
               </div>
             }}
             >
-              <a-input-number v-model={form.monitor.intervals} min={10} max={60000} step={1} style="width:100%"/>
+              <a-input-number v-model={form.monitor.intervals} min={10} max={60000} step={1} style="width:100%" />
             </a-form-item>
             <a-form-item label="测试连接" v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
-                <i class="a-icon-info" style="color: #5A98EC"/>新增监控前是否先探测检查监控可用性
+                <i class="a-icon-info" style="color: #5A98EC" />新增监控前是否先探测检查监控可用性
               </div>
             }}
             >
-              <a-switch v-model={form.detected}/>
+              <a-switch v-model={form.detected} />
             </a-form-item>
             <a-form-item label="描述备注" v-slots={{
               help: () => <div style="font-size: 12px;color: #757D8F">
-                <i class="a-icon-info" style="color: #5A98EC"/>更多标识和描述此监控的备注信息
+                <i class="a-icon-info" style="color: #5A98EC" />更多标识和描述此监控的备注信息
               </div>
             }}
             >
-              <a-input v-model={form.monitor.description} type="textarea" rows={3} placeholder="请输入描述备注"/>
+              <a-input v-model={form.monitor.description} type="textarea" rows={3} placeholder="请输入描述备注" />
             </a-form-item>
           </a-form>
         </a-modal>

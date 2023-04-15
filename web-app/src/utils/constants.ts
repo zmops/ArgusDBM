@@ -12,7 +12,7 @@ export const MONITORS_STATUS = [
 
 /* 告警等级 */
 export const WARN_LEVEL = [
-  { key: -1, value: t('tableView.all') },
+  { key: -1, value: t('tableView.all'), num: 0, },
   { key: 2, value: t('alert.priority.0'), num: 0, icon: 'alarm' },
   { key: 1, value: t('alert.priority.1'), num: 0, icon: 'ordinary' },
   { key: 0, value: t('alert.priority.2'), num: 0, icon: 'prompt' }

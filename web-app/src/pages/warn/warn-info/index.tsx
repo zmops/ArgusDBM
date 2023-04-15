@@ -210,9 +210,9 @@ export default defineComponent({
             </div>
             <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} data={tableData.value}
               v-slots={{
-                monitorName: (scope: any) => <a class="cursor-pointer text-blue" onClick={() => router.push({ path: 'monitorDetail', query: { monitorId: scope.record.id, type: 'mysql' } })}>{scope.record.tags.monitorName}</a>,
-                priority: (scope: any) => WARN_LEVEL.find(wl => wl.key === scope.record.priority)?.value,
-                status: (scope: any) => <a-tag color={scope.record.status === 3 ? 'green' : 'red'}>{scope.record.status ? t('alert.status.3') : t('alert.status.0')}</a-tag>,
+                monitorName: scope => <a class="cursor-pointer text-blue" onClick={() => router.push({ name: 'monitorDetail', query: { monitorId: scope.record.id, type: 'mysql' } })}>{scope.record.tags.monitorName}</a>,
+                priority: scope => WARN_LEVEL.find(wl => wl.key === scope.record.priority)?.value,
+                status: scope => <a-tag color={scope.record.status === 3 ? 'green' : 'red'}>{scope.record.status ? t('alert.status.3') : t('alert.status.0')}</a-tag>,
               }} />
           </div>
         </div>

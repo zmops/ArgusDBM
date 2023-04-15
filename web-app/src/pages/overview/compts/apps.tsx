@@ -1,11 +1,17 @@
 import { defineComponent } from 'vue';
 import { getMonitors } from '@/service/api';
 
+interface AppInterface {
+  name: string;
+  ip: string;
+  time: string;
+}
+
 export default defineComponent({
   name: 'Apps',
   props: ['type', 'name'],
   setup(props) {
-    const apps = ref<any[]>([]);
+    const apps = ref<AppInterface[]>([]);
 
     const loading = ref(true);
 
@@ -25,7 +31,7 @@ export default defineComponent({
     ];
 
     const getAlertRecently = () => {
-      getMonitors({ app: props.type, status: [2, 3], pageIndex: 0, pageSize: 8 }).then((res: any) => {
+      getMonitors({ app: props.type, status: [2, 3], pageIndex: 0, pageSize: 8 }).then((res) => {
         const { code, data } = res;
         if (code === 0 && data) {
           apps.value = data.content.map((item) => {

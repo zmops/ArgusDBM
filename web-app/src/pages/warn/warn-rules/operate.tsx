@@ -53,8 +53,11 @@ export default defineComponent({
       }]
     };
     const getHierarchyOptions = () => {
-      getHierarchy().then((res: any) => {
-        hieoOptions.value = res.data;
+      getHierarchy().then((res) => {
+        if (res.code !== 0 || !res.data) {
+          return;
+        }
+        hieoOptions.value = res.data as any[];
       });
     };
 
