@@ -57,7 +57,9 @@
               <a-space @click="lintToDocs">
                 <icon-book />
                 <span>
-                  {{ t('navbar.docs') }}
+                  <a href="https://argus.zmops.cn/docs/" target="_blank">
+                    {{ t('navbar.docs') }}
+                  </a>
                 </span>
               </a-space>
             </a-doption>
