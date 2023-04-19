@@ -423,6 +423,32 @@ metrics:
       sql: SELECT count(*) as running FROM pg_stat_activity WHERE NOT pid=pg_backend_pid();
       url: ^_^url^_^
 
+  - name: transactions
+    priority: 2
+    fields:
+      - field: commits
+        type: 0
+        unit: times
+      - field: rollbacks
+        type: 0
+        unit: times
+    protocol: jdbc
+    jdbc:
+      # 主机host: ipv4 ipv6 域名
+      host: ^_^host^_^
+      # 端口
+      port: ^_^port^_^
+      timeout: ^_^timeout^_^
+      platform: postgresql
+      username: ^_^username^_^
+      password: ^_^password^_^
+      database: ^_^database^_^
+      # SQL查询方式： oneRow, multiRow, columns
+      queryType: oneRow
+      # sql
+      sql: select sum(xact_commit) as commits, sum(xact_rollback) as rollbacks from pg_stat_database;
+      url: ^_^url^_^
+
   - name: transaction
     priority: 2
     fields:

@@ -58,11 +58,11 @@ public class AccountController {
      * Token validity time in seconds
      * TOKEN有效期时间 单位秒
      */
-    private static final long PERIOD_TIME = 3600L;
+    private static final long PERIOD_TIME = 24 * 3600L;
     /**
      * account data provider
      */
-    private SurenessAccountProvider accountProvider = new DocumentAccountProvider();
+    private final SurenessAccountProvider accountProvider = new DocumentAccountProvider();
     @PostMapping("/form")
     @Operation(summary = "Account password login to obtain associated user information", description = "账户密码登录获取关联用户信息")
     public ResponseEntity<Message<Map<String, String>>> authGetToken(@RequestBody LoginDto loginDto) {
