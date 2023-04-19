@@ -34,7 +34,11 @@ export default {
     }
   },
   setup(props) {
-    const compiledMarkdown = ref(marked.parse(props.explain));
+    const compiledMarkdown = ref('');
+
+    watchEffect(() => {
+      compiledMarkdown.value = marked(props.explain);
+    });
     return {
       compiledMarkdown
     };
