@@ -194,8 +194,6 @@ export default defineComponent({
 
     onMounted(() => {
       info.value = getTargetData(targetType.value, targetName.value);
-
-      console.log({ info: info.value, targetType: targetType.value, targetName: targetName.value });
       getData();
       const n = Math.floor(Math.random() * 4);
       color.value = colorList[n];

@@ -6,6 +6,7 @@ import warnRouter from './modules/warn';
 import { WHITE_LIST } from './constants';
 import getTitle from '@/utils/getTitle';
 import { permissionStore, useUserStore } from '@/store';
+import { setRouteEmitter } from '@/utils/route-listener';
 
 export const DEFAULT_LAYOUT = () => import('@/layout/default-layout.vue');
 
@@ -54,6 +55,8 @@ router.beforeEach(async (to, from, next) => {
     NProgress.start();
   }
   document.title = getTitle(to.meta.title as string);
+
+  setRouteEmitter(to);
 
   const token = useToken.get();
 

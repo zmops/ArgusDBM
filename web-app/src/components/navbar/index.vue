@@ -91,7 +91,7 @@ const currentLocale = getLocale();
 const router = useRouter();
 const { username } = userStore.userInfo;
 
-const alarmNumList = ref(WARN_LEVEL);
+const alarmNumList = ref(WARN_LEVEL.filter(item => item.key !== -1));
 
 const handleLogout = () => {
   userStore.logout();

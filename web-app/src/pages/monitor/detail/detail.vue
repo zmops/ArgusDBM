@@ -118,7 +118,6 @@ export default defineComponent({
       dataTabs.value = tabList;
     };
 
-    console.log(metrics.value, dataTabs.value);
     const getArr = () => {
       // 获取所有的最新值
       if (metrics.value.length) {
@@ -152,8 +151,6 @@ export default defineComponent({
       nextTick(() => {
         layouts.value = dataTabs.value[0]?.list;
         tabsId.value = dataTabs.value[0]?.title;
-
-        console.log(layouts.value);
       });
     });
 
