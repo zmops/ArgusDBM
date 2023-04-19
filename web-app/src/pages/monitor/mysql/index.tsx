@@ -2,8 +2,9 @@ import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
 import { isStringNumber } from '@estjs/tools';
+import { getMonitorSummary } from '../shared';
 import MysqlAdd from './edit';
-import { filterParams } from '@/utils';
+import { filterParams, formatter2Number } from '@/utils';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, ApiMonitorSummary, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
@@ -125,37 +126,7 @@ export default defineComponent({
         }
       });
 
-      ApiMonitorSummary(params).then((res) => {
-        console.log(res);
-        console.log(tableData.value);
-
-        const metrics = res.data.content.map((i) => {
-          const { metrics } = i;
-
-          const obj = {};
-
-          Object.keys(metrics).forEach((key) => {
-            console.log( metrics[key], typeof metrics[key]);
-            const isSN = isStringNumber(metrics[key]);
-            obj[key.replace('.', '_')] = isSN ? (+metrics[key]).toFixed(2) : metrics[key];
-          }
-          );
-
-          return obj;
-        });
-
-        console.log(metrics);
-
-        if (res.data) {
-          tableData.value = tableData.value.map((item: Object, index) => {
-            return {
-              ...item,
-              ...metrics[index] || {}
-            };
-          });
-        }
-      }
-      );
+      getMonitorSummary(params, tableData);
     };
     watch(visible, (val) => {
       if (!val) {

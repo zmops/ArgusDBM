@@ -20,6 +20,7 @@ import { isStringNumber, isNumber } from '@estjs/tools';
 import GridItemStyle from './gridItem-style.vue';
 import LineChart from '@/components/detail-compts/LineChart.vue';
 import { getTargetData } from '@/utils/detail';
+import { formatter2Number } from '@/utils';
 
 export default {
   name: 'SingleGraph',
@@ -54,8 +55,7 @@ export default {
       const name = targetName.value.split('.');
       const item = v[name[2]];
       if (item) {
-        const isNum = isStringNumber(item.value) || isNumber(item.value);
-        val.value = isNum ? (+item.value).toFixed(2) : item.value + item.unit;
+        val.value = formatter2Number(item.value ) + item.unit;
       }
     }, { immediate: true, deep: true });
     const info = ref({});

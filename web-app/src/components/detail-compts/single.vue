@@ -16,6 +16,7 @@
 
 <script>
 import GridItemStyle from './gridItem-style.vue';
+import { formatter2Number } from '@/utils';
 import { getTargetData } from '@/utils/detail';
 
 export default defineComponent({
@@ -51,7 +52,7 @@ export default defineComponent({
       const name = targetName.value.split('.');
       const item = v[name[2]];
       if (item) {
-        val.value = item.value + item.unit;
+        val.value = formatter2Number(item.value ) + item.unit;
       }
     }, { immediate: true, deep: true });
 

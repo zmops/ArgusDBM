@@ -34,6 +34,22 @@ const columns = [
     slotName: 'status',
   },
   {
+    title: '用户连接数',
+    dataIndex: 'host'
+  }, {
+    title: ,
+    dataIndex: 'host'
+  }, {
+    title: t('tableView.ip'),
+    dataIndex: 'host'
+  }, {
+    title: t('tableView.ip'),
+    dataIndex: 'host'
+  }, {
+    title: t('tableView.ip'),
+    dataIndex: 'host'
+  },
+  {
     title: t('tableView.operate'),
     slotName: 'buttons',
     width: 100,

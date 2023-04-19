@@ -1,9 +1,10 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
+import { Monitors, getMonitorSummary } from '../shared';
 import OracleAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
-import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
+import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors } from '@/service/api';
 import router from '@/router';
 import { filterParams } from '@/utils';
 
@@ -35,10 +36,64 @@ const columns = [
     slotName: 'status',
   },
   {
+    title: '版本',
+    dataIndex: 'basic_version'
+  },
+  {
+    title: '运行时长',
+    slotName: 'status_uptime'
+  },
+
+  {
+    title: '活动会话',
+    dataIndex: 'active_sessions_num'
+  },
+  {
+    title: '后台会话',
+    dataIndex: 'background_sessions_num'
+  },
+
+  {
+    title: 'QPS',
+    dataIndex: 'performance_qps'
+  },
+  {
+    title: 'TPS',
+    dataIndex: 'performance_tps'
+  },
+  {
+    title: 'MBPS',
+    dataIndex: 'performance_mbps'
+  },
+  {
+    title: '事务提交',
+    dataIndex: 'transaction_commits'
+  },
+  {
+    title: '事务回滚',
+    dataIndex: 'transaction_rollbacks'
+  },
+  {
+    title: '并发等待',
+    dataIndex: 'wait_concurrent_wait_time'
+  },
+  {
+    title: '提交等待',
+    dataIndex: 'wait_commit_wait_time'
+  },
+  {
+    title: '应用等待',
+    dataIndex: 'wait_app_wait_time'
+  },
+  {
+    title: '网络等待',
+    dataIndex: 'wait_network_wait_time'
+  },
+  {
     title: t('tableView.operate'),
     slotName: 'buttons',
     width: 100,
-  }
+  },
 ];
 
 export default defineComponent({
@@ -75,13 +130,8 @@ export default defineComponent({
     const getData = () => {
       const params = filterParams(searchForm);
       params.status = params.status.split('_');
-      getMonitors(params).then((res) => {
-        if (res.data) {
-          total.value = res.data.totalElements;
-          tableData.value = res.data.content;
-
-        }
-      });
+      Monitors(params, tableData, total);
+      getMonitorSummary(params, tableData);
     };
     watch(visible, (val) => {
       if (!val) {

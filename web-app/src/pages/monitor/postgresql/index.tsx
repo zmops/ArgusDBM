@@ -1,11 +1,13 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
+import { Monitors, getMonitorSummary } from '../shared';
 import PgsqlAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
 import { filterParams } from '@/utils';
+import { secondsTransform } from '@/utils/seconds2time';
 
 const defaultQueryParams = {
   ids: [],
@@ -34,10 +36,50 @@ const columns = [
     slotName: 'status',
   },
   {
+    title: '版本',
+    dataIndex: 'basic_version'
+  },
+  {
+    title: '运行时长',
+    slotName: 'status_uptime'
+  },
+  {
+    title: '活动连接数',
+    dataIndex: 'connection_active'
+  },
+  {
+    title: '获取',
+    dataIndex: 'tuple_fetched'
+  },
+  {
+    title: '返回',
+    dataIndex: 'tuple_returned'
+  },
+  {
+    title: '新增',
+    dataIndex: 'tuple_inserted'
+  },
+  {
+    title: '更新',
+    dataIndex: 'tuple_updated'
+  },
+  {
+    title: '删除',
+    dataIndex: 'tuple_deleted'
+  },
+  {
+    title: '提交',
+    dataIndex: 'command_com_commit'
+  },
+  {
+    title: '回滚',
+    dataIndex: 'command_com_commit'
+  },
+  {
     title: t('tableView.operate'),
     slotName: 'buttons',
     width: 100,
-  }
+  },
 ];
 export default defineComponent({
   name: 'Pgsql',
@@ -54,7 +96,7 @@ export default defineComponent({
 
     const formRef = ref<FormInstance>();
 
-    const tableData = ref([]);
+    const tableData = ref<any[]>([]);
     const total = ref(0);
     const visible = ref<boolean>(false);
     const selections = ref<Array<string | number>>([]);
@@ -73,13 +115,9 @@ export default defineComponent({
     const getData = () => {
       const params = filterParams(searchForm);
       params.status = params.status.split('_');
-      getMonitors(params).then((res) => {
-        if (res.data) {
-          total.value = res.data.totalElements;
-          tableData.value = res.data.content;
+      Monitors(params, tableData, total);
+      getMonitorSummary(params, tableData);
 
-        }
-      });
     };
     watch(visible, (val) => {
       if (!val) {
@@ -205,6 +243,13 @@ export default defineComponent({
               return <a-tag color={status === 1 ? 'green' : 'red'}>{
                   status === 1 ? t('tableView.enable') : status === 0 ? t('tableView.disable') : t('tableView.offline')
               }</a-tag>;
+            },
+            status_uptime: (scope) => {
+              return secondsTransform(scope.record.status_uptime);
+            },
+            performance_qps: (scope) => {
+              const qps = scope.record.performance_qps;
+              return qps ? qps + '次/s' : '';
             },
             buttons: (scope) => {
               return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
