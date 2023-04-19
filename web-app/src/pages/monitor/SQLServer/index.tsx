@@ -1,6 +1,7 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
+import { Monitors, getMonitorSummary } from '../shared';
 import SQLServerAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
@@ -37,16 +38,16 @@ const columns = [
     title: '用户连接数',
     dataIndex: 'host'
   }, {
-    title: ,
+    title: '批处理请求次数',
     dataIndex: 'host'
   }, {
-    title: t('tableView.ip'),
+    title: '缓存区命中率',
     dataIndex: 'host'
   }, {
-    title: t('tableView.ip'),
+    title: '等待锁频率',
     dataIndex: 'host'
   }, {
-    title: t('tableView.ip'),
+    title: '平均等待锁时间',
     dataIndex: 'host'
   },
   {
@@ -89,13 +90,8 @@ export default defineComponent({
     const getData = () => {
       const params = filterParams(searchForm);
       params.status = params.status.split('_');
-      getMonitors(params).then((res) => {
-        if (res.data) {
-          total.value = res.data.totalElements;
-          tableData.value = res.data.content;
-
-        }
-      });
+      Monitors(params, tableData, total);
+      getMonitorSummary(params, tableData);
     };
     watch(visible, (val) => {
       if (!val) {
@@ -121,11 +117,11 @@ export default defineComponent({
     const handleAdd = () => {
       visible.value = true;
     };
-    const handleSelectionChange = (selection: Array<string | number>)=>{
+    const handleSelectionChange = (selection: Array<string | number>) => {
       selections.value = selection;
     };
     const handleDelete = () => {
-      delMonitors(selections.value).then((res)=>{
+      delMonitors(selections.value).then((res) => {
         if (res.code === 0) {
           Message?.success(res.statusText || '删除成功');
 
@@ -133,7 +129,7 @@ export default defineComponent({
         }
       });
     };
-    const handleNameClick = (monitorId)=>{
+    const handleNameClick = (monitorId) => {
       router.push({
         name: 'monitorDetail',
         query: {
@@ -142,7 +138,7 @@ export default defineComponent({
         }
       });
     };
-    const handleEditClick = (record)=>{
+    const handleEditClick = (record) => {
       editId.value = record.id;
       visible.value = true;
     };
@@ -198,9 +194,9 @@ export default defineComponent({
               {t('tableView.add')}
             </a-button>
             <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>
-            <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }} >
-              {t('tableView.delete')}
-            </a-button>
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }} >
+                {t('tableView.delete')}
+              </a-button>
             </a-popconfirm>
             <a-popconfirm content={t('message.disableTips')} type="info" onOk={handleDisable}>
               <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:disable text-20px"></i>, }} >
@@ -209,23 +205,23 @@ export default defineComponent({
             </a-popconfirm>
             <a-popconfirm content="是否启用数据项" type="info" onOk={handleEnable}>
               <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:enable text-(18px blue)"></i>, }} >
-              启用
+                启用
               </a-button>
             </a-popconfirm>
           </div>
           <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value }} data={tableData.value}
-          v-slots={{
-            name: scope => <a class="cursor-pointer text-blue" onClick={()=>handleNameClick(scope.record.id)} >{scope.record.name}</a>,
-            status: (scope) => {
-              const status = scope.record.status;
-              return <a-tag color={status === 1 ? 'green' : 'red'}>{
+            v-slots={{
+              name: scope => <a class="cursor-pointer text-blue" onClick={() => handleNameClick(scope.record.id)} >{scope.record.name}</a>,
+              status: (scope) => {
+                const status = scope.record.status;
+                return <a-tag color={status === 1 ? 'green' : 'red'}>{
                   status === 1 ? t('tableView.enable') : status === 0 ? t('tableView.disable') : t('tableView.offline')
-              }</a-tag>;
-            },
-            buttons: (scope) => {
-              return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
-            }
-          }} />
+                }</a-tag>;
+              },
+              buttons: (scope) => {
+                return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;
+              }
+            }} />
         </div>
       </div >
     );
