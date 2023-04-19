@@ -49,10 +49,9 @@ export default defineComponent({
         const saveData = formatSaveData();
 
         (props.editId ? modifyMonitor : addMonitor)(saveData).then((res) => {
-
           if (res.code !== 0) {
             Message.error({
-              content: '操作失败',
+              content: res.statusText || '操作失败',
             });
             return;
           }
