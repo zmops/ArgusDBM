@@ -280,7 +280,7 @@ const data = 'mysql,status,,uptime,mysql.status.uptime,Uptime,运行时长,numbe
   + 'pgsql,tuple,,rows_updated_by_queries,pgsql.tuple.rows_updated_by_queries,Rows updated by queries,查询更新行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n'
   + 'pgsql,tuple,,rows_deleted_by_queries,pgsql.tuple.rows_deleted_by_queries,Rows deleted by queries,查询删除行频率,float,次/s,,,,,,,相关于 pg_stat_database_tup\n'
   + 'pgsql,transaction,,commits,pgsql.transaction.commits,Transactions Commits,事务提交频率,float,次/s,select sum(xact_commit) from pg_stat_database;,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n'
-  + 'pgsql,transaction,,rollbacks,pgsql.transaction.rollbacks,Transactions Rollbacks,事务回滚频率,float,次/s,select sum(xact_rollback) from pg_stat_database;,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n'
+  + 'pgsql,transaction,,rollbacks,pgsql.transactions.rollbacks,Transactions Rollbacks,事务回滚频率,float,次/s,select sum(xact_rollback) from pg_stat_database;,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_database_xact_commit\n'
   + 'pgsql,transaction_state,,state,pgsql.transaction_state.state,Transactions State,事务状态,,,,"事务状态包括idle in transaction、idle in transaction (aborted)、\n'
   + 'idle、fastpath function call、disabled、active。",,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_activity_max_tx_duration\n'
   + 'pgsql,transaction_state,,duration,pgsql.transaction_state.duration,Transactions Duration,事务耗时,,s,,,,,,https://www.postgresql.org/docs/current/tutorial-transactions.html,相关于 pg_stat_activity_max_tx_duration\n'

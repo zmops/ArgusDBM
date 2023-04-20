@@ -3,7 +3,10 @@
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template #content>
       <div class="h-full w-full flex items-center">
-        <div class="w-full text-(center 26px) font-500 color-dark dark:color-white">
+        <div
+          class="t w-full of-hidden text-(ellipsis center 26px) font-500 color-dark dark:color-white"
+          style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
+        >
           {{ val }}
         </div>
       </div>
@@ -13,6 +16,7 @@
 
 <script>
 import GridItemStyle from './gridItem-style.vue';
+import { formatter2Number } from '@/utils';
 import { getTargetData } from '@/utils/detail';
 
 export default defineComponent({
@@ -48,7 +52,7 @@ export default defineComponent({
       const name = targetName.value.split('.');
       const item = v[name[2]];
       if (item) {
-        val.value = item.value + item.unit;
+        val.value = formatter2Number(item.value ) + item.unit;
       }
     }, { immediate: true, deep: true });
 

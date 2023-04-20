@@ -169,3 +169,6 @@ export function ApiMonitorManageOpen(ids) {
   return request.get('/api/monitors/manage', { ids: ids.join(',') });
 }
 
+export function ApiMonitorSummary(data) {
+  return request.get<Record<string, any>>('/api/monitors/summary', data);
+}

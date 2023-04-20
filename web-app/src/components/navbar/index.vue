@@ -1,5 +1,8 @@
 <template>
-  <div class="h-full flex justify-end border-b-#ccc bg-white py-2 dark:bg-dark">
+  <div class="h-full flex justify-between border-b-#ccc bg-white py-2 dark:bg-dark">
+    <div class="left-side">
+      <Breadcrumb />
+    </div>
     <ul class="right-side">
       <li v-for="(item, index) in alarmNumList" :key="index" class="no-item" @click="showCurrent(item.key)">
         <a-tooltip :content="item.value" position="bottom" :offset="-10">
@@ -12,7 +15,7 @@
       <div ml-md mr-base flex-center>
         <a-tooltip position="bottom" :offset="-10">
           <button class="icon-btn !outline-none" @click="changeDark()">
-            <i class="i-carbon-sun dark:i-carbon-moon text-xl" />
+            <i class="i-carbon-sun text-xl dark:i-carbon-moon" />
           </button>
         </a-tooltip>
       </div>
@@ -91,7 +94,7 @@ const currentLocale = getLocale();
 const router = useRouter();
 const { username } = userStore.userInfo;
 
-const alarmNumList = ref(WARN_LEVEL);
+const alarmNumList = ref(WARN_LEVEL.filter(item => item.key !== -1));
 
 const handleLogout = () => {
   userStore.logout();

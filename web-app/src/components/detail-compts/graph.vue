@@ -5,8 +5,9 @@
       <Chart :options="chartOption" :class="w === 24 ? 'line-chart24' : 'line-chart'" />
       <div :class="w === 24 ? 'legend24' : 'legend'">
         <div v-if="tableData.length" class="legend-title">最新值</div>
-        <div v-else class="no-data">
-          <div>暂无数据</div>
+        <div v-else class="no-data absolute left-0 top-0 mt-40px h-full w-full column items-center">
+          <img src="../../assets/images/empty.png" alt="123" srcset="" />
+          <div class="mt-30px">暂无数据</div>
         </div>
         <div class="legend-box">
           <div
@@ -25,7 +26,7 @@
   </GridItemStyle>
 </template>
 
-<script>
+<script lang="ts">
 import GridItemStyle from './gridItem-style.vue';
 import { dataToChartData, getTargetData, getTargetName } from '@/utils/detail';
 import { getHistoryValue } from '@/service/api';
@@ -58,17 +59,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { targetType, targetName, s, w } = toRefs(props);
+    const { targetType, targetName } = toRefs(props);
 
     const route = useRoute();
     const monitorId = route.query.monitorId;
 
-    const info = ref({});
-    const myChart = ref(null);
-    const chart = ref(null);
+    const info = ref<any>({});
     const loading = ref(false);
     const active = ref(null);
-    const option = ref({});
     const selected = ref({});
     const seriesData = ref([]);
     const colorList = [
@@ -77,7 +75,7 @@ export default defineComponent({
       ['#1E9493', '#8FCA8D', '#5AD8A6', '#78B6E0', '#A3D9E5', '#A6CFFF', '#A6CFFF', '#AEB9E5', '#5B8FF9', '#5D7092', '#945FB9', '#D1A8DF', '#D198BF', '#FF99C3', '#EEA29D', '#E86452', '#FFD298', '#FF9845', '#DCDC8C', '#F6BD16'],
       ['#5AD8A6', '#1E9493', '#5B8FF9', '#5D7092', '#945FB9', '#E86452', '#FF9845', '#F6BD16', '#FFD298', '#DCDC8C', '#8FCA8D', '#A3D9E5', '#6DC8EC', '#78B6E0', '#A6CFFF', '#AEB9E5', '#EEA29D', '#D198BF', '#D1A8DF', '#FF99C3']
     ];
-    const color = ref([]);
+    const color = ref<string[]>([]);
     const chartOption = computed(() => {
 
       return {
@@ -136,7 +134,7 @@ export default defineComponent({
             show: false
           }
         },
-        series: seriesData.value.map((i, index) => {
+        series: seriesData.value.map((i: any, index) => {
           return {
             name: i.name,
             data: i.data,
@@ -157,8 +155,8 @@ export default defineComponent({
     });
 
     const tableData = computed(() => {
-      const data = [];
-      seriesData.value.forEach((item, index) => {
+      const data: any = [];
+      seriesData.value.forEach((item: any, index) => {
         data.push({
           name: item.name,
           latest: item.data[item.data.length - 1],
@@ -170,7 +168,7 @@ export default defineComponent({
 
     const changeLegend = (index) => {
       active.value = index === active.value ? null : index;
-      seriesData.value.forEach((i, ind) => {
+      seriesData.value.forEach((i: any, ind) => {
         const b = active.value === null ? true : ind === active.value;
         selected.value[i.name] = b;
       });
@@ -180,10 +178,10 @@ export default defineComponent({
       if (info.value.list && info.value.list.length) {
         for (const i of info.value.list) {
           if (i) {
-            getHistoryValue(monitorId, i).then((res) => {
+            getHistoryValue(monitorId as string, i).then((res) => {
               if (res.code === 0) {
                 const name = getTargetName(i);
-                seriesData.value = seriesData.value.concat(dataToChartData(res.data, name));
+                seriesData.value = seriesData.value.concat(dataToChartData(res.data, name) as any);
               }
             });
 
@@ -194,8 +192,6 @@ export default defineComponent({
 
     onMounted(() => {
       info.value = getTargetData(targetType.value, targetName.value);
-
-      console.log({ info: info.value, targetType: targetType.value, targetName: targetName.value });
       getData();
       const n = Math.floor(Math.random() * 4);
       color.value = colorList[n];
@@ -232,20 +228,6 @@ export default defineComponent({
   }
 }
 
-.no-data {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  color: #5E6D82;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-
-  div {
-    width: 100%;
-  }
-}
-
 .line-chart24 {
   display: inline-block;
   width: calc(100% - 510px);
@@ -258,7 +240,6 @@ export default defineComponent({
   width: 500px;
   height: 100%;
   padding: 0 10px;
-
   .legend-box {
     height: calc(100% - 25px);
   }

@@ -15,7 +15,7 @@ const data = 'mysql,基本信息,单指标,mysql.status.uptime,Single,,0,0,6,3,,
   + 'mysql,连接&线程,指标组合,cb.mysql.aborted_connections,Graph,,8,0,24,8,中止的连接,,,\n'
   + 'mysql,连接&线程,指标组合,cb.mysql.thread_activity,Graph,,16,0,24,8,客户端线程活动,,,\n'
   + 'mysql,连接&线程,指标组合,cb.mysql.thread_cache,Graph,,24,0,24,8,线程缓存,,,\n'
-  + 'mysql,查询性能,单指标,mysql.performance.current_qps,Graph,,0,0,24,8,当前QPS,,,\n'
+  + 'mysql,查询性能,单指标,mysql.performance.qps,Graph,,0,0,24,8,当前QPS,,,\n'
   + 'mysql,查询性能,指标组合,cb.mysql.tmp_obj,Graph,,8,0,24,8,临时对象,,,\n'
   + 'mysql,查询性能,指标组合,cb.mysql.select_types,Graph,,16,0,12,8,Select类型,,,\n'
   + 'mysql,查询性能,指标组合,cb.mysql.sorts,Graph,,16,12,12,8,排序,,,\n'

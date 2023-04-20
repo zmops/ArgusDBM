@@ -6,7 +6,7 @@ const monitorRouter = {
   redirect: 'noRedirect',
   name: 'Monitor',
   meta: {
-    title: 'monitor',
+    title: '监控',
     icon: 'menu-monitor',
     active_icon: 'menu-monitor-active'
   },
@@ -41,6 +41,12 @@ const monitorRouter = {
       component: () => import('@/pages/monitor/SQLServer/index'),
       name: 'SQLServer',
       meta: { title: 'SQLServer', noCache: true }
+    },
+    {
+      path: 'monitorDetail',
+      component: () => import('@/pages/monitor/detail/detail.vue'),
+      name: 'monitorDetail',
+      meta: { noCache: true, hidden: true }
     },
   ]
 };

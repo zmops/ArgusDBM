@@ -35,19 +35,20 @@ export default defineComponent({
 
     return () => (
       <a-row justify="start">
-      {
-        numList.value.map((item, index) => {
-          return <a-col key={'col' + index} span={3} >
-            <div class="mb-base h-130px overflow-auto rounded-base bg-white dark:bg-dark">
-              <p class="h-48px pl-base text-12px leading-48px color-#4E5969">{item.title}</p>
-              <span class="h-82px w-full flex-center pb-20px text-(center 26px) font-600" style={{ color: item.color }}>
-                {item.val}
-              </span>
-            </div>
-          </a-col>;
-        })
-      }
-    </a-row>
+          {
+            numList.value.map((item, index) => {
+              return <a-col key={'col' + index} span={3} >
+                <div class="mb-base h-130px overflow-auto rounded-base bg-white dark:bg-dark" style={{ marginRight: numList.value.length === index + 1 ? '0' : '10px' }}>
+                  <p class="h-48px pl-base text-12px leading-48px color-#4E5969">{item.title}</p>
+                  <span class="h-82px w-full flex-center pb-20px text-(center 26px) font-600" style={{ color: item.color }}>
+                    {item.val}
+                  </span>
+                </div>
+
+              </a-col>;
+            })
+          }
+      </a-row>
     );
   },
 });

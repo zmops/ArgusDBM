@@ -97,7 +97,7 @@ export default defineComponent({
     });
     return () => (
       <div>
-        <a-modal v-model:visible={props.visible} onOk={handleOk} onCancel={handleCancel} v-slots={{
+        <a-modal v-model:visible={props.visible} width="800px" onOk={handleOk} onCancel={handleCancel} v-slots={{
           title: () => t('notificationRules.form.title')
         }}
         >

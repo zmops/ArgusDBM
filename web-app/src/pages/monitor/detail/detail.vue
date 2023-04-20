@@ -18,10 +18,10 @@
         <div class="flex-1 bg-[var(--color-fill-2)]" />
       </div>
 
-      <a-row direction="vertical">
+      <a-row direction="vertical" class="pl-base">
         <a-col
           v-for="(item) in layouts" :key="item.i" :span="item.w"
-          :style="{ height: item.v === 'TableView' ? 'auto' : (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base overflow-hidden py-sm pl-base"
+          :style="{ height: item.v === 'TableView' ? 'auto' : (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base"
         >
           <div class="mr-base h-full">
             <component :is="item.v" v-bind="{ targetType: item.t, targetName: item.k, s: item.s, w: item.w, dataObj }" />
@@ -118,7 +118,6 @@ export default defineComponent({
       dataTabs.value = tabList;
     };
 
-    console.log(metrics.value, dataTabs.value);
     const getArr = () => {
       // 获取所有的最新值
       if (metrics.value.length) {
@@ -152,8 +151,6 @@ export default defineComponent({
       nextTick(() => {
         layouts.value = dataTabs.value[0]?.list;
         tabsId.value = dataTabs.value[0]?.title;
-
-        console.log(layouts.value);
       });
     });
 

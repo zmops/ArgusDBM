@@ -2,9 +2,12 @@
 <template>
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template #content>
-      <div class="text-chart">
+      <div class="relative h-full w-full">
         <LineChart :target-name="targetName" />
-        <div class="text">
+        <div
+          class="absolute left-0 top-[calc(50%-15px)] w-full of-hidden text-ellipsis text-center text-26px font-500 color-#3BA6F0"
+          style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
+        >
           {{ val }}
         </div>
       </div>
@@ -13,9 +16,11 @@
 </template>
 
 <script>
+import { isStringNumber, isNumber } from '@estjs/tools';
 import GridItemStyle from './gridItem-style.vue';
 import LineChart from '@/components/detail-compts/LineChart.vue';
 import { getTargetData } from '@/utils/detail';
+import { formatter2Number } from '@/utils';
 
 export default {
   name: 'SingleGraph',
@@ -50,7 +55,7 @@ export default {
       const name = targetName.value.split('.');
       const item = v[name[2]];
       if (item) {
-        val.value = item.value + item.unit;
+        val.value = formatter2Number(item.value ) + item.unit;
       }
     }, { immediate: true, deep: true });
     const info = ref({});
@@ -66,21 +71,3 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.text-chart {
-  width: 100%;
-  height: 100%;
-  position: relative;
-
-  .text {
-    width: 100%;
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    color: #3BA6F0;
-    position: absolute;
-    top: calc(50% - 15px);
-    left: 0;
-  }
-}
-</style>

@@ -1,12 +1,14 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
+import { getMonitorSummary } from './shared';
 import MysqlAdd from './edit';
 import { filterParams } from '@/utils';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
 import { useMessage } from '@/composables/message';
+import { secondsTransform } from '@/utils/seconds2time';
 
 const defaultQueryParams = {
   ids: [],
@@ -35,10 +37,52 @@ const columns = [
     slotName: 'status',
   },
   {
+    title: '版本',
+    dataIndex: 'basic_version'
+  },
+  {
+    title: '运行时长',
+    slotName: 'status_uptime'
+  },
+
+  {
+    title: '已连接会话',
+    dataIndex: 'thread_threads_connected'
+  },
+
+  {
+    title: '活动会话',
+    dataIndex: 'thread_threads_running'
+  },
+  {
+    title: 'QPS',
+    slotName: 'performance_qps'
+  },
+  {
+    title: '查询',
+    dataIndex: 'command_com_select'
+  },
+  {
+    title: '新增',
+    dataIndex: 'command_com_insert'
+  },
+  {
+    title: '更新',
+    dataIndex: 'command_com_update'
+  },
+  {
+    title: '删除',
+    dataIndex: 'command_com_delete'
+  },
+  {
+    title: '提交',
+    dataIndex: 'command_com_commit'
+  },
+  {
     title: t('tableView.operate'),
     slotName: 'buttons',
     width: 100,
-  }
+  },
 ];
 
 export default defineComponent({
@@ -80,6 +124,8 @@ export default defineComponent({
 
         }
       });
+
+      getMonitorSummary(params, tableData);
     };
     watch(visible, (val) => {
       if (!val) {
@@ -162,7 +208,6 @@ export default defineComponent({
             </a-form-item>
             <a-form-item field="status" label={t('alert.name')} >
               <a-input class="ml-md w-160px!" v-model={searchForm.name} placeholder={t('input.placeholder')}></a-input>
-
             </a-form-item>
             <a-form-item field="status" label={t('alert.ip')} >
               <a-input class="ml-md w-160px!" v-model={searchForm.ip} placeholder={t('input.placeholder')}></a-input>
@@ -190,7 +235,7 @@ export default defineComponent({
             </a-popconfirm>
             <a-popconfirm content="是否启用数据项" type="info" onOk={handleEnable}>
               <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:enable text-(18px blue)"></i>, }} >
-              启用
+                启用
               </a-button>
             </a-popconfirm>
           </div>
@@ -202,6 +247,13 @@ export default defineComponent({
                 return <a-tag color={status === 1 ? 'green' : 'red'}>{
                   status === 1 ? t('tableView.enable') : status === 0 ? t('tableView.disable') : t('tableView.offline')
                 }</a-tag>;
+              },
+              status_uptime: (scope) => {
+                return secondsTransform(scope.record.status_uptime);
+              },
+              performance_qps: (scope) => {
+                const qps = scope.record.performance_qps;
+                return qps ? qps + '次/s' : '';
               },
               buttons: (scope) => {
                 return <a-button type="text" onClick={() => handleEditClick(scope.record)}>{t('tableView.edit')}</a-button>;

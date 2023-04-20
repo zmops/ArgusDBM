@@ -1,6 +1,7 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
+
 import Edit from './operate';
 import AssMonitoring from './ass-monitoring';
 import { WARN_LEVEL } from '@/utils/constants';
@@ -21,7 +22,7 @@ const defaultQueryParams = {
 
 const columns = [{
   title: t('warnRules.form.field'),
-  dataIndex: 'field'
+  slotName: 'field'
 },
 {
   title: t('warnRules.form.expr'),
@@ -203,6 +204,10 @@ export default defineComponent({
             </div>
             <a-table class="mt-base flex-1" loading={loading.value} row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} data={tableData.value}
               v-slots={{
+                field: (scope) => {
+                  const record = scope.record;
+                  return record.app + '.' + record.metric + '.' + record.field;
+                },
                 priority: scope => WARN_LEVEL.find(wl => wl.key === scope.record.priority)?.value,
                 preset: scope => <a-radio-group default-value={scope.record.preset} size="mini" type="button" onChange={v => handleChangepreset(scope.record.id, v, 'preset')}>
                   <a-radio value={true}>{t('notificationRules.table.presetleftText')}</a-radio>

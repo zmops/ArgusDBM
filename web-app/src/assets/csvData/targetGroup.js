@@ -77,7 +77,7 @@ const data = 'cb.mysql,connections,cb.mysql.connections,Connections,连接,"mysq
   + 'pgsql.tuple.rows_updated_by_queries\n'
   + 'pgsql.tuple.rows_deleted_by_queries",,,,\n'
   + 'cb.pgsql,transactions,cb.pgsql.transactions,Transactions,事务,"pgsql.transaction.commits\n'
-  + 'pgsql.transaction.rollbacks",,,,\n'
+  + 'pgsql.transactions.rollbacks",,,,\n'
   + 'cb.pgsql,conflicts_deadlocks,cb.pgsql.conflicts_deadlocks,Conflicts/Deadlocks,冲突与死锁,"pgsql.lock.deadlocks\n'
   + 'pgsql.lock.conflicts",,,,\n'
   + 'cb.pgsql,buffers,cb.pgsql.buffers,Buffers,缓冲区,"pgsql.buffer.allocated\n'

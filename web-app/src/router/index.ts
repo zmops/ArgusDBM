@@ -6,6 +6,7 @@ import warnRouter from './modules/warn';
 import { WHITE_LIST } from './constants';
 import getTitle from '@/utils/getTitle';
 import { permissionStore, useUserStore } from '@/store';
+import { setRouteEmitter } from '@/utils/route-listener';
 
 export const DEFAULT_LAYOUT = () => import('@/layout/default-layout.vue');
 
@@ -24,7 +25,7 @@ export const constantRoutes = [
     path: '/',
     component: DEFAULT_LAYOUT,
     redirect: '/dashboard',
-    meta: { title: 'dashboard', icon: 'menu-overview', active_icon: 'menu-overview-active', affix: true, hideChildrenInMenu: true },
+    meta: { title: '概览', icon: 'menu-overview', active_icon: 'menu-overview-active', affix: true, hideChildrenInMenu: true },
     name: 'Dashboard',
 
     children: [
@@ -33,12 +34,6 @@ export const constantRoutes = [
         component: () => import('@/pages/overview/index'),
         name: 'Dashboard',
 
-      },
-      {
-        path: 'monitorDetail',
-        component: () => import('@/pages/monitor/detail/detail.vue'),
-        name: 'monitorDetail',
-        meta: { noCache: true, hidden: true }
       },
     ]
   },
@@ -54,6 +49,8 @@ router.beforeEach(async (to, from, next) => {
     NProgress.start();
   }
   document.title = getTitle(to.meta.title as string);
+
+  setRouteEmitter(to);
 
   const token = useToken.get();
 

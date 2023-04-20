@@ -1,6 +1,7 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
+import { Monitors, getMonitorSummary } from '../mysql/shared';
 import DamengAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
@@ -33,6 +34,26 @@ const columns = [
   {
     title: t('tableView.stat'),
     slotName: 'status',
+  },
+  {
+    title: '版本',
+    dataIndex: 'instance_db_version'
+  }, {
+    title: '开始时间',
+    dataIndex: 'checkpoint_last_begin_time'
+  }, {
+    title: 'SQL线程数',
+    dataIndex: 'thread_dm_sql_thd'
+  }, {
+    title: 'IO线程数',
+    dataIndex: 'thread_dm_io_thd'
+  }, {
+    title: '任务线程数',
+    dataIndex: 'thread_dm_tskwrk_thd'
+  },
+  {
+    title: '工作线程数',
+    dataIndex: 'thread_dm_wrkgrp_thd'
   },
   {
     title: t('tableView.operate'),
@@ -75,13 +96,9 @@ export default defineComponent({
     const getData = () => {
       const params = filterParams(searchForm, ['status', 'onlineStatus'], true, -1);
       params.status = params.status?.split('_');
-      getMonitors(params).then((res) => {
-        if (res.data) {
-          total.value = res.data.totalElements;
-          tableData.value = res.data.content;
+      Monitors(params, tableData, total);
+      getMonitorSummary(params, tableData);
 
-        }
-      });
     };
     watch(visible, (val) => {
       if (!val) {

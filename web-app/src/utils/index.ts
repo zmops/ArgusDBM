@@ -1,3 +1,5 @@
+import { isNumber, isStringNumber } from '@estjs/tools';
+
 type TargetContext = '_self' | '_parent' | '_blank' | '_top';
 
 export const openWindow = (
@@ -72,4 +74,24 @@ export function filterParams(data: Record<string, any>, filterKey: string[] = []
     }
   });
   return res;
+}
+
+export function formatter2Number(val) {
+  const isSN = isStringNumber(val);
+
+  let v = val;
+
+  if (isSN) {
+    v = +v;
+  }
+  if (isNumber(v)) {
+
+    if (Number.isInteger(v)) {
+      return v;
+    } else {
+      return +v.toFixed(2);
+    }
+  }
+
+  return v;
 }
