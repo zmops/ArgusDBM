@@ -160,7 +160,7 @@ export default defineComponent({
         name: 'monitorDetail',
         query: {
           monitorId,
-          type: 'pgsql'
+          type: 'postgresql'
         }
       });
     };

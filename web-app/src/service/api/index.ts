@@ -179,11 +179,11 @@ export function ApiMonitorUnrelated(app, id) {
 }
 
 // 已关联
-export function ApiMonitorRelated( id) {
-  return request.get(`/api/alert/define/${id}/monitors` );
+export function ApiMonitorRelated(id) {
+  return request.get(`/api/alert/define/${id}/monitors`);
 }
 
-// // 已关联
-// export function ApiMonitorRelated(data) {
-//   return request.post(`/api/alert/define/${id}/monitors` );
-// }
+// // 关联
+export function ApiAlertDefineMonitors(id, data) {
+  return request.post(`/api/alert/define/${id}/monitors`, data);
+}

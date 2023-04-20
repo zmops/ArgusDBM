@@ -12,14 +12,14 @@
           </span>
         </a-tooltip>
       </li>
-      <div ml-md mr-base flex-center>
+      <!-- <div ml-md mr-base flex-center>
         <a-tooltip position="bottom" :offset="-10">
           <button class="icon-btn !outline-none" @click="changeDark()">
-            <i class="i-carbon-sun text-xl dark:i-carbon-moon" />
+            <i class="i-carbon-sun dark:i-carbon-moon text-xl" />
           </button>
         </a-tooltip>
-      </div>
-
+      </div> -->
+      <!--
       <div mr-md flex-center>
         <a-dropdown trigger="click" @select="setLocale as any">
           <a-button class="nav-btn" type="outline">
@@ -36,7 +36,7 @@
             </a-doption>
           </template>
         </a-dropdown>
-      </div>
+      </div> -->
       <li>
         <a-dropdown trigger="click">
           <div flex-center>

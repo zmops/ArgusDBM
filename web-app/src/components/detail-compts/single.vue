@@ -4,7 +4,7 @@
     <template #content>
       <div class="h-full w-full flex items-center">
         <div
-          class="t w-full of-hidden text-(ellipsis center 26px) font-500 color-dark dark:color-white"
+          class="w-full text-(ellipsis center 26px) font-500 lh-2 color-dark dark:color-white"
           style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
         >
           {{ val }}

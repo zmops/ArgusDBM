@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent } from 'vue';
-import { ApiMonitorRelated, ApiMonitorUnrelated, appliesMonitors, getAlertDefineMonitors, getMonitors, } from '@/service/api';
+import { ApiAlertDefineMonitors, ApiMonitorRelated, ApiMonitorUnrelated, appliesMonitors, getAlertDefineMonitors, getMonitors, } from '@/service/api';
 import { Props } from '@/pages/shared';
 
 const defaultQueryParams = {
@@ -58,21 +58,7 @@ export default defineComponent({
       leftSelections.value = selection;
     };
     const handleRightSelectionChange = (selection: Array<string | number>) => {
-      leftSelections.value = selection;
-    };
-
-    const moveRight = () => {
-      rightSelections.value.forEach((item) => {
-        leftTable.value = leftTable.value.filter(i => i.id !== item);
-        rightTable.value.push(item);
-      });
-    };
-
-    const moveLeft = () => {
-      leftSelections.value.forEach((item) => {
-        rightTable.value = rightTable.value.filter(i => i.id !== item);
-        leftTable.value.push(item);
-      });
+      rightSelections.value = selection;
     };
 
     const handleCancel = () => {
@@ -111,10 +97,49 @@ export default defineComponent({
         if (res.code !== 0 || !res.data) {
           return;
         }
-        rightTable.value = res.data;
+        rightTable.value = res.data.map((item: any) => {
+          return {
+            ...item,
+            ...item.monitor,
+          };
+        });
       });
 
     };
+
+    const moveRight = () => {
+
+      const data = leftSelections.value.map((item)=>{
+        return {
+          alertDefineId: props.editId,
+          monitorId: item
+        };
+      });
+
+      ApiAlertDefineMonitors(props.editId, data).then(()=>{
+        rightSelections.value = [];
+        leftSelections.value = [];
+        getData();
+      });
+    };
+
+    const moveLeft = () => {
+      const data = rightTable.value.filter((item: any) => {
+        return !rightSelections.value.includes(item.id);
+      }).map((item: any) => {
+        return {
+          alertDefineId: props.editId,
+          monitorId: item.id
+        };
+      });
+
+      ApiAlertDefineMonitors(props.editId, data).then(()=>{
+        rightSelections.value = [];
+        leftSelections.value = [];
+        getData();
+      });
+    };
+
     watch(() => props.editId, (val) => {
 
       if (props.visible) {

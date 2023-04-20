@@ -22,3 +22,8 @@
 .arco-btn-secondary.arco-btn-disabled .arco-btn-icon {
   opacity: 0.3;
 }
+.arco-radio-button.arco-radio-checked{
+  color:#61AAF2 !important
+}
+
+

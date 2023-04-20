@@ -10,7 +10,7 @@
         <icon-info-circle v-show="explain" />
       </a-tooltip>
     </div>
-    <div class="content absolute top-30px">
+    <div class="content absolute">
       <slot name="content" />
     </div>
   </div>
@@ -62,7 +62,7 @@ export default {
 
   .content{
     width: 100%;
-    height: calc( 100% - 30px);
+    height: calc( 100% - 43px);
   }
 }
 </style>
