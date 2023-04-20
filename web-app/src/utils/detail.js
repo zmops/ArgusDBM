@@ -118,16 +118,15 @@ export function getTargetName(name) {
  * @returns {Array}
  */
 export function dataToChartData(data, name) {
-  const arr = [];
-  if (data && data.values && data.values.length) {
-    const obj = {};
-    data.values.forEach((i) => {
-      obj.name = i.instance ? i.instance : name;
-      obj.data = i.values.map((ii) => {
+
+  const arr = (data?.values && data.values.length ) ? data.values : [];
+  return arr.map((i)=>{
+    return {
+      name: i.instance ? i.instance : name,
+      data: i.values.map((ii)=>{
         return [ii.time, Number(ii.origin).toFixed(0)];
-      });
-      arr.push(obj);
-    });
-  }
-  return arr;
+      })
+    };
+  });
+
 }

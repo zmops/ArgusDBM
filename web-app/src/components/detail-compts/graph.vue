@@ -5,8 +5,9 @@
       <Chart :options="chartOption" :class="w === 24 ? 'line-chart24' : 'line-chart'" />
       <div :class="w === 24 ? 'legend24' : 'legend'">
         <div v-if="tableData.length" class="legend-title">最新值</div>
-        <div v-else class="no-data">
-          <div>暂无数据</div>
+        <div v-else class="no-data absolute left-0 top-0 mt-40px h-full w-full column items-center">
+          <img src="../../assets/images/empty.png" alt="123" srcset="" />
+          <div class="mt-30px">暂无数据</div>
         </div>
         <div class="legend-box">
           <div
@@ -230,20 +231,6 @@ export default defineComponent({
   }
 }
 
-.no-data {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  color: #5E6D82;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-
-  div {
-    width: 100%;
-  }
-}
-
 .line-chart24 {
   display: inline-block;
   width: calc(100% - 510px);
@@ -256,7 +243,6 @@ export default defineComponent({
   width: 500px;
   height: 100%;
   padding: 0 10px;
-
   .legend-box {
     height: calc(100% - 25px);
   }

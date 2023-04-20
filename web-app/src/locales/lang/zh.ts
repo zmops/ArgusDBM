@@ -4,7 +4,7 @@ export default {
     dashboard: '概览',
     monitor: '监控',
     warn: '告警',
-    warnInfo: '告警消息',
+    warnInfo: '告警信息',
     warnRules: '告警规则',
     notificationRules: '通知规则',
     sysreceiver: '接收人管理',

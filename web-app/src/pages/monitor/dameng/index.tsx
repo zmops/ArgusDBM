@@ -1,7 +1,7 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
-import { Monitors, getMonitorSummary } from '../shared';
+import { Monitors, getMonitorSummary } from '../mysql/shared';
 import DamengAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';

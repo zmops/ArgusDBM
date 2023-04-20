@@ -25,7 +25,7 @@ export const constantRoutes = [
     path: '/',
     component: DEFAULT_LAYOUT,
     redirect: '/dashboard',
-    meta: { title: 'dashboard', icon: 'menu-overview', active_icon: 'menu-overview-active', affix: true, hideChildrenInMenu: true },
+    meta: { title: '概览', icon: 'menu-overview', active_icon: 'menu-overview-active', affix: true, hideChildrenInMenu: true },
     name: 'Dashboard',
 
     children: [
@@ -34,12 +34,6 @@ export const constantRoutes = [
         component: () => import('@/pages/overview/index'),
         name: 'Dashboard',
 
-      },
-      {
-        path: 'monitorDetail',
-        component: () => import('@/pages/monitor/detail/detail.vue'),
-        name: 'monitorDetail',
-        meta: { noCache: true, hidden: true }
       },
     ]
   },

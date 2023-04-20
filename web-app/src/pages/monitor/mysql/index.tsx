@@ -2,7 +2,7 @@ import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
 import { isStringNumber } from '@estjs/tools';
-import { getMonitorSummary } from '../shared';
+import { getMonitorSummary } from './shared';
 import MysqlAdd from './edit';
 import { filterParams, formatter2Number } from '@/utils';
 import { MONITORS_STATUS } from '@/utils/constants';

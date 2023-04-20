@@ -1,7 +1,7 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
-import { Monitors, getMonitorSummary } from '../shared';
+import { Monitors, getMonitorSummary } from '../mysql/shared';
 import PgsqlAdd from './edit';
 import { MONITORS_STATUS } from '@/utils/constants';
 import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
@@ -69,11 +69,11 @@ const columns = [
   },
   {
     title: '提交',
-    dataIndex: 'command_com_commit'
+    dataIndex: 'transactions_commits'
   },
   {
     title: '回滚',
-    dataIndex: 'command_com_commit'
+    dataIndex: 'transactions_rollbacks'
   },
   {
     title: t('tableView.operate'),

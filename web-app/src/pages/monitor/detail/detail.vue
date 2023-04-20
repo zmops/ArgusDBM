@@ -21,7 +21,7 @@
       <a-row direction="vertical" class="pl-base">
         <a-col
           v-for="(item) in layouts" :key="item.i" :span="item.w"
-          :style="{ height: item.v === 'TableView' ? 'auto' : (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base overflow-hidden"
+          :style="{ height: item.v === 'TableView' ? 'auto' : (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base"
         >
           <div class="mr-base h-full">
             <component :is="item.v" v-bind="{ targetType: item.t, targetName: item.k, s: item.s, w: item.w, dataObj }" />

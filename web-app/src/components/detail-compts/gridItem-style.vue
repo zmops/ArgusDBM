@@ -10,7 +10,7 @@
         <icon-info-circle v-show="explain" />
       </a-tooltip>
     </div>
-    <div class="content">
+    <div class="content relative">
       <slot name="content" />
     </div>
   </div>

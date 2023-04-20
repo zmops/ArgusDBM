@@ -1,5 +1,8 @@
 <template>
-  <div class="h-full flex justify-end border-b-#ccc bg-white py-2 dark:bg-dark">
+  <div class="h-full flex justify-between border-b-#ccc bg-white py-2 dark:bg-dark">
+    <div class="left-side">
+      <Breadcrumb />
+    </div>
     <ul class="right-side">
       <li v-for="(item, index) in alarmNumList" :key="index" class="no-item" @click="showCurrent(item.key)">
         <a-tooltip :content="item.value" position="bottom" :offset="-10">

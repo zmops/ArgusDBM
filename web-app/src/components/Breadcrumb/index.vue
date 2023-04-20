@@ -3,8 +3,8 @@
     <a-breadcrumb-item>
       <icon-apps />
     </a-breadcrumb-item>
-    <a-breadcrumb-item v-for="item in items" :key="item">
-      {{ $t(item) }}
+    <a-breadcrumb-item v-for="item in routers" :key="item.path">
+      {{ item.meta.title }}
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
@@ -19,6 +19,16 @@ defineProps({
       return [];
     },
   },
+});
+const router = useRouter();
+// 当前路由的匹配记录
+console.log(router.currentRoute.value.matched);
+
+const routers = computed(()=>{
+  // 过滤掉没有meta的
+  console.log( router.currentRoute.value.matched.filter(item=>item.meta.title));
+
+  return router.currentRoute.value.matched.filter(item=>item.meta.title);
 });
 </script>
 
