@@ -1,6 +1,6 @@
 <!-- 详情页信息框样式 -->
 <template>
-  <div class="grid-item-style h-full">
+  <div class="grid-item-style relative h-full">
     <div class="title">
       {{ title }}
       <a-tooltip position="bottom">
@@ -10,7 +10,7 @@
         <icon-info-circle v-show="explain" />
       </a-tooltip>
     </div>
-    <div class="content relative">
+    <div class="content absolute top-30px">
       <slot name="content" />
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
   border: #E5E6EB 1px solid;
   border-radius: 4px;
   .title{
-    height: 42PX;
+    height: 42px;
     line-height: 42px;
     width: 100%;
     font-size: 14px;
@@ -62,7 +62,7 @@ export default {
 
   .content{
     width: 100%;
-    height: calc( 100% - 42px);
+    height: calc( 100% - 30px);
   }
 }
 </style>

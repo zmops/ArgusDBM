@@ -17,7 +17,7 @@
             <div class="color">
               <div :style="{ backgroundColor: item.color }" />
             </div>
-            <div class="name">{{ item.name }}</div>
+            <div class="name of-hidden text-ellipsis whitespace-nowrap">{{ item.name }}</div>
             <div class="latest">{{ item.latest[1] }}</div>
           </div>
         </div>

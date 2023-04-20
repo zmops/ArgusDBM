@@ -5,7 +5,8 @@
       <div class="relative h-full w-full">
         <LineChart :target-name="targetName" />
         <div
-          class="absolute left-0 top-[calc(50%-15px)] w-full of-hidden text-ellipsis text-center text-26px font-500 color-#3BA6F0"
+          class="absolute left-0 top-[calc(50%-15px)] w-full of-hidden text-ellipsis text-center text-26px font-500"
+          :class="[val !== '-' && 'color-#3BA6F0']"
           style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
         >
           {{ val }}
@@ -16,11 +17,12 @@
 </template>
 
 <script>
-import { isStringNumber, isNumber } from '@estjs/tools';
+import { humanize } from '@estjs/tools';
 import GridItemStyle from './gridItem-style.vue';
 import LineChart from '@/components/detail-compts/LineChart.vue';
 import { getTargetData } from '@/utils/detail';
 import { formatter2Number } from '@/utils';
+import { secondsTransform } from '@/utils/seconds2time';
 
 export default {
   name: 'SingleGraph',
@@ -50,11 +52,24 @@ export default {
 
   setup(props) {
     const { targetType, targetName, dataObj } = toRefs(props);
-    const val = ref('');
+    const val = ref('-');
     watch(dataObj, (v) => {
       const name = targetName.value.split('.');
       const item = v[name[2]];
       if (item) {
+        if (item.unit === 's') {
+          val.value = secondsTransform(formatter2Number(item.value ));
+          return;
+        }
+        if (item.unit === 'KB') {
+          console.log(
+            formatter2Number(item.value )
+          );
+          console.log(
+            humanize(formatter2Number(item.value ) * 1000));
+          val.value = humanize(formatter2Number(item.value ) * 1000);
+          return;
+        }
         val.value = formatter2Number(item.value ) + item.unit;
       }
     }, { immediate: true, deep: true });

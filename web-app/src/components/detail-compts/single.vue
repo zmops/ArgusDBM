@@ -15,9 +15,11 @@
 </template>
 
 <script>
+import { humanize } from '@estjs/tools';
 import GridItemStyle from './gridItem-style.vue';
 import { formatter2Number } from '@/utils';
 import { getTargetData } from '@/utils/detail';
+import { secondsTransform } from '@/utils/seconds2time';
 
 export default defineComponent({
   name: 'Single',
@@ -46,12 +48,22 @@ export default defineComponent({
   setup(props) {
     const { targetType, targetName, dataObj } = toRefs(props);
     const info = ref({});
-    const val = ref();
+    const val = ref('-');
 
     watch(dataObj, (v) => {
       const name = targetName.value.split('.');
       const item = v[name[2]];
       if (item) {
+        if (item.unit === 's') {
+          console.log(formatter2Number(item.value ));
+          console.log(' ', secondsTransform(formatter2Number(item.value )) );
+          val.value = secondsTransform(formatter2Number(item.value ));
+          return;
+        }
+        if (item.unit === 'KB') {
+          val.value = humanize(formatter2Number(item.value ) * 1000);
+          return;
+        }
         val.value = formatter2Number(item.value ) + item.unit;
       }
     }, { immediate: true, deep: true });

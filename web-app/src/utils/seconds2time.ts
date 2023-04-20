@@ -23,6 +23,6 @@ export function secondsTransform(time) {
   const minutes = Number.parseInt(time / 1000 / 60 % 60 + '', 10);// 计算剩分钟数
   const seconds = Number.parseInt(time / 1000 % 60 + '', 10);// 计算剩余秒数
 
-  return checkTime(days, '天') + checkTime(hours, '小时') + checkTime(minutes, '分钟') + checkTime(seconds, '秒') ;
+  return checkTime(days, '天') + checkTime(hours, '时') + checkTime(minutes, '分') + checkTime(seconds, '秒') ;
 }
 
