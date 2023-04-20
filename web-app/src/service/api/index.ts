@@ -172,3 +172,18 @@ export function ApiMonitorManageOpen(ids) {
 export function ApiMonitorSummary(data) {
   return request.get<Record<string, any>>('/api/monitors/summary', data);
 }
+
+// 未关联
+export function ApiMonitorUnrelated(app, id) {
+  return request.get('/api/monitors/unrelated' + '/' + app + '/' + id);
+}
+
+// 已关联
+export function ApiMonitorRelated( id) {
+  return request.get(`/api/alert/define/${id}/monitors` );
+}
+
+// // 已关联
+// export function ApiMonitorRelated(data) {
+//   return request.post(`/api/alert/define/${id}/monitors` );
+// }
