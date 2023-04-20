@@ -1,12 +1,11 @@
 import type { FormInstance } from '@arco-design/web-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent, watch } from 'vue';
-import { isStringNumber } from '@estjs/tools';
 import { getMonitorSummary } from './shared';
 import MysqlAdd from './edit';
-import { filterParams, formatter2Number } from '@/utils';
+import { filterParams } from '@/utils';
 import { MONITORS_STATUS } from '@/utils/constants';
-import { ApiMonitorManageDelete, ApiMonitorManageOpen, ApiMonitorSummary, delMonitors, getMonitors } from '@/service/api';
+import { ApiMonitorManageDelete, ApiMonitorManageOpen, delMonitors, getMonitors } from '@/service/api';
 import router from '@/router';
 import { useMessage } from '@/composables/message';
 import { secondsTransform } from '@/utils/seconds2time';

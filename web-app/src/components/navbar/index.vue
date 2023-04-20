@@ -15,7 +15,7 @@
       <div ml-md mr-base flex-center>
         <a-tooltip position="bottom" :offset="-10">
           <button class="icon-btn !outline-none" @click="changeDark()">
-            <i class="i-carbon-sun dark:i-carbon-moon text-xl" />
+            <i class="i-carbon-sun text-xl dark:i-carbon-moon" />
           </button>
         </a-tooltip>
       </div>
