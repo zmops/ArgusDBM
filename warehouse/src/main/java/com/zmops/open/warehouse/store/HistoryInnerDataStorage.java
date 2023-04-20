@@ -213,7 +213,7 @@ public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
         value = value.replace("'", "\\'");
         value = value.replace("\"", "\\\"");
         value = value.replace("*", "-");
-        value = String.format("`%s`", value);
+        value = String.format("%s", value);
         if (value.length() > STRING_MAX_LENGTH) {
             value = value.substring(0, STRING_MAX_LENGTH - 1);
         }

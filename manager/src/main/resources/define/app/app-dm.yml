@@ -274,6 +274,17 @@ metrics:
         type: 0
       - field: n_discard64
         type: 0
+    # (非必须)监控指标别名，与上面的指标名映射。用于采集接口数据字段不直接是最终指标名称,需要此别名做映射转换
+    aliasFields:
+      - name
+      - id
+      - n_pages
+      - free
+      - n_discard64
+    # (非必须)指标计算表达式,与上面的别名一起作用,计算出最终需要的指标值
+    # eg: cores=core1+core2, usage=usage, waitTime=allTime-runningTime
+    calculates:
+      - name=name + "-" + id
     protocol: jdbc
     jdbc:
       # 主机host: ipv4 ipv6 域名
@@ -288,7 +299,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: multiRow
       # sql
-      sql: SELECT name, n_pages, free, n_discard64 FROM v$bufferpool;
+      sql: SELECT id, name, n_pages, FREE, n_discard64 FROM v$bufferpool
       url: ^_^url^_^
 
   - name: buffer_hit_ratio
