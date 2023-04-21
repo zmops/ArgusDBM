@@ -40,8 +40,8 @@ const columns = [
     dataIndex: 'basic_version'
   },
   {
-    title: '运行时长',
-    slotName: 'status_uptime'
+    title: '启动时间',
+    dataIndex: 'basic_startup_time'
   },
 
   {
@@ -72,22 +72,6 @@ const columns = [
   {
     title: '事务回滚',
     dataIndex: 'transaction_rollbacks'
-  },
-  {
-    title: '并发等待',
-    dataIndex: 'wait_concurrent_wait_time'
-  },
-  {
-    title: '提交等待',
-    dataIndex: 'wait_commit_wait_time'
-  },
-  {
-    title: '应用等待',
-    dataIndex: 'wait_app_wait_time'
-  },
-  {
-    title: '网络等待',
-    dataIndex: 'wait_network_wait_time'
   },
   {
     title: t('tableView.operate'),

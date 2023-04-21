@@ -8,6 +8,8 @@ const useUserStore = defineStore('user', () => {
   const userInfo = ref<userResponse>({});
   const refreshToken = ref<string>('');
 
+  const Message = useMessage();
+
   async function getUserInfo(): Promise<userResponse> {
     if (!isEmpty(userInfo.value)) {
       return userInfo.value;
@@ -21,10 +23,16 @@ const useUserStore = defineStore('user', () => {
 
     const { type, username, password } = userInfo;
 
-    return customLogin<loginResponse>({ type, identifier: username?.trim(), credential: password }).then((resp: any) => {
-      useToken.set(resp.data.token);
-      refreshToken.value = resp.data.refreshToken;
-      return resp;
+    return customLogin<loginResponse>({ type, identifier: username?.trim(), credential: password }).then((res) => {
+
+      if (res.code === 0 && res.data) {
+        useToken.set(res.data.token);
+        refreshToken.value = res.data.refreshToken;
+        return res;
+      } else {
+        Message.error(res.statusText || '登录失败');
+      }
+
     });
   }
 

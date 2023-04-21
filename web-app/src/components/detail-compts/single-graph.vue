@@ -5,7 +5,7 @@
       <div class="relative h-full w-full">
         <LineChart :target-name="targetName" />
         <div
-          class="pxtext-ellipsis absolute left-0 top-[calc(50%-15px)] w-full text-center text-26px font-500"
+          class="absolute left-0 top-[calc(50%-15px)] w-full of-hidden text-ellipsis text-center text-26px font-500"
           :class="[val !== '-' && 'color-#3BA6F0']"
           style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
         >

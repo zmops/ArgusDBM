@@ -48,14 +48,14 @@
           </div>
 
           <template #content>
-            <a-doption>
+            <!-- <a-doption>
               <a-space @click="switchRoles">
                 <icon-tag />
                 <span>
                   {{ t('navbar.securitySetting') }}
                 </span>
               </a-space>
-            </a-doption>
+            </a-doption> -->
             <a-doption>
               <a-space @click="lintToDocs">
                 <icon-book />

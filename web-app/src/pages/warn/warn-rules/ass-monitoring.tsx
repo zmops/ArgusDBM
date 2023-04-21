@@ -2,7 +2,6 @@ import { defineComponent } from 'vue';
 import { ApiAlertDefineMonitors, ApiMonitorRelated, ApiMonitorUnrelated } from '@/service/api';
 import { Props } from '@/pages/shared';
 
-
 const tableColumns = [
   {
     title: '监控名称',
@@ -56,14 +55,13 @@ export default defineComponent({
       emit('update:visible', false);
     };
 
-
-    const clearData=()=>{
+    const clearData = ()=>{
 
       leftSelections.value = [];
       rightSelections.value = [];
       leftFormRef.value?.selectAll(false);
       rightFormRef.value?.selectAll(false);
-    }
+    };
 
     const handleOk = () => {
 
@@ -79,7 +77,7 @@ export default defineComponent({
         if (res.code === 0) {
           Message.success(t('message.success'));
           emit('update:visible', false);
-          clearData()
+          clearData();
         }
       });
     };
@@ -109,7 +107,7 @@ export default defineComponent({
         const selected = leftTable.value.find(i => i.id === item);
         leftTable.value = leftTable.value.filter(i => i.id !== item);
         rightTable.value.push(selected);
-        clearData()
+        clearData();
       });
     };
 
@@ -118,7 +116,7 @@ export default defineComponent({
         const selected = rightTable.value.find(i => i.id === item);
         rightTable.value = rightTable.value.filter(i => i.id !== item);
         leftTable.value.push(selected);
-        clearData()
+        clearData();
       });
     };
 

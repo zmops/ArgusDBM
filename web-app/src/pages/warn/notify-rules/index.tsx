@@ -128,7 +128,7 @@ export default defineComponent({
       });
     };
 
-    const handleEdit = (id)=>{
+    const handleEdit = (id) => {
       visible.value = true;
       editId.value = id;
     };
@@ -143,7 +143,7 @@ export default defineComponent({
           <div class="flex flex-(shrink-0 nowrap) items-center bg-white px-md py-base dark:bg-dark">
             <a-form model={searchForm} ref={formRef} onSubmit={handleSubmit} class="table-search-form" layout="inline" auto-label-width={true}>
               <a-form-item label={t('notificationRules.form.name')}>
-            <a-input v-model={searchForm.name} placeholder={t('notificationRules.form.name_placeholder')}></a-input>
+                <a-input v-model={searchForm.name} placeholder={t('notificationRules.form.name_placeholder')}></a-input>
               </a-form-item>
 
               <a-form-item>
@@ -156,7 +156,7 @@ export default defineComponent({
           <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
             <div class="flex flex-shrink-0 items-center">
 
-              <a-button class="mr-md" onClick={()=>visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add text-16px"></i>, }}>
+              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add text-16px"></i>, }}>
                 {t('tableView.add')}
               </a-button>
               <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>
@@ -168,20 +168,20 @@ export default defineComponent({
             </div>
             <a-table class="mt-base flex-1" row-key="id" row-selection={rowSelection} columns={columns} onSelectionChange={handleSelectionChange} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} data={tableData.value}
               v-slots={{
-                filterAll: scope => <a-radio-group default-value={scope.record.filterAll} onClick={()=>handleColumnChange(scope.record.id, scope.record.filterAll, 'filterAll')} size="mini" type="button">
-                    <a-radio value={true}>是</a-radio>
-                    <a-radio value={false}>否</a-radio>
-              </a-radio-group>,
-                enable: scope => <a-radio-group default-value={scope.record.enable} size="mini" type="button">
-                    <a-radio value={true}>是</a-radio>
-                    <a-radio value={false}>否</a-radio>
-              </a-radio-group>,
+                filterAll: scope => <a-radio-group default-value={scope.record.filterAll} onClick={() => handleColumnChange(scope.record.id, scope.record.filterAll, 'filterAll')} size="mini" type="button">
+                  <a-radio value={true}>是</a-radio>
+                  <a-radio value={false}>否</a-radio>
+                </a-radio-group>,
+                enable: scope => <a-radio-group default-value={scope.record.enable} onClick={() => handleColumnChange(scope.record.id, scope.record.enable, 'enable')} size="mini" type="button">
+                  <a-radio value={true}>是</a-radio>
+                  <a-radio value={false}>否</a-radio>
+                </a-radio-group>,
                 buttons: scope => <div class="flex flex-shrink-0 items-center">
 
-                    <a-button class="mr-md" type="primary" size="small" danger onClick={()=>handleEdit(scope.record.id)}>
-                      {t('tableView.edit')}
-                    </a-button>
-                  </div>
+                  <a-button class="mr-md" type="primary" size="small" danger onClick={() => handleEdit(scope.record.id)}>
+                    {t('tableView.edit')}
+                  </a-button>
+                </div>
               }} />
           </div>
         </div>

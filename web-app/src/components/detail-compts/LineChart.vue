@@ -25,19 +25,58 @@ export default defineComponent({
 
     const seriesData = ref<any[]>([]);
 
-    const defaultOption = {
-      title: {
-        text: '暂无数据',
-        x: 'center',
-        y: 'center',
-        textStyle: {
-          color: '#5e6d82',
-          fontWeight: 'normal',
-          fontSize: 14
-        }
-      }
-    };
     const options = ref({});
+
+    const initChart = ()=>{
+
+      options.value = {
+        tooltip: {
+          show: false
+        },
+
+        grid: {
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
+        },
+        xAxis: {
+          type: 'time',
+          boundaryGap: false,
+          axisLine: { // 轴线
+            show: false
+          },
+          axisLabel: { // 刻度标签
+            show: false
+          },
+          axisTick: { // 刻度
+            show: false
+          },
+          splitLine: { // 分割线
+            show: false
+          }
+        },
+        yAxis: {
+          type: 'value',
+          nameGap: 10,
+          axisLine: { // 轴线
+            show: false
+          },
+          axisLabel: { // 刻度标签
+            show: false
+          },
+          splitLine: { // 分割线
+            show: false
+          },
+          axisTick: { // 刻度
+            show: false
+          }
+        },
+        series: seriesData.value
+      };
+
+    };
+
     const getData = () => {
       loading.value = true;
       getHistoryValue(monitorId, props.targetName).then((res) => {
@@ -82,59 +121,6 @@ export default defineComponent({
         loading.value = false;
         initChart();
       });
-    };
-
-    const initChart = ()=>{
-
-      options.value = {
-        tooltip: {
-          show: false
-        },
-        // dataZoom: [{
-        //   type: 'inside'
-        // }],
-        grid: {
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0
-        },
-        xAxis: {
-          type: 'time',
-          boundaryGap: false,
-          // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          axisLine: { // 轴线
-            show: false
-          },
-          axisLabel: { // 刻度标签
-            show: false
-          },
-          axisTick: { // 刻度
-            show: false
-          },
-          splitLine: { // 分割线
-            show: false
-          }
-        },
-        yAxis: {
-          type: 'value',
-          nameGap: 10,
-          axisLine: { // 轴线
-            show: false
-          },
-          axisLabel: { // 刻度标签
-            show: false
-          },
-          splitLine: { // 分割线
-            show: false
-          },
-          axisTick: { // 刻度
-            show: false
-          }
-        },
-        series: seriesData.value
-      };
-
     };
 
     watch(() => props.targetName, () => {
