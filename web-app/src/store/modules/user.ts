@@ -8,8 +8,6 @@ const useUserStore = defineStore('user', () => {
   const userInfo = ref<userResponse>({});
   const refreshToken = ref<string>('');
 
-  const Message = useMessage();
-
   async function getUserInfo(): Promise<userResponse> {
     if (!isEmpty(userInfo.value)) {
       return userInfo.value;
@@ -22,6 +20,7 @@ const useUserStore = defineStore('user', () => {
   function login(userInfo: loginParams) {
 
     const { type, username, password } = userInfo;
+    const Message = useMessage();
 
     return customLogin<loginResponse>({ type, identifier: username?.trim(), credential: password }).then((res) => {
 

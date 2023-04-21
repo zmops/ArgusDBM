@@ -44,8 +44,8 @@ const columns = [
     slotName: 'status_uptime'
   },
   {
-    title: '活动连接数',
-    dataIndex: 'connection_active'
+    title: '连接总数',
+    dataIndex: 'connection_total'
   },
   {
     title: '获取',
