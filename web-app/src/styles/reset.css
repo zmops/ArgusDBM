@@ -1,29 +1,35 @@
-
-
-.login .arco-input-wrapper{
+.login .arco-input-wrapper {
   background-color: #fff !important;
 }
-.dark .login .arco-input-wrapper{
+
+.dark .login .arco-input-wrapper {
   background-color: var(--color-fill-2) !important;
 }
-.table-search-form .arco-form-item-label-col{
+
+.table-search-form .arco-form-item-label-col {
   padding-right: 10px !important;
 }
 
 :deep(.arco-menu-inner) .arco-menu-inline-header {
-	 display: flex;
-	 align-items: center;
+  display: flex;
+  align-items: center;
 }
- :deep(.arco-menu-inner) .arco-icon:not(.arco-icon-down) {
-	 font-size: 18px;
+
+:deep(.arco-menu-inner) .arco-icon:not(.arco-icon-down) {
+  font-size: 18px;
 }
 
 
 .arco-btn-secondary.arco-btn-disabled .arco-btn-icon {
   opacity: 0.3;
 }
-.arco-radio-button.arco-radio-checked{
-  color:#61AAF2 !important
+
+body{
+  --arcoblue-6: 97, 170, 242 !important;
+  --gray-2: 227, 231, 237 ;
 }
 
 
+.arco-menu-dark .arco-menu-item.arco-menu-selected {
+  background-color: #0077FE !important;
+}

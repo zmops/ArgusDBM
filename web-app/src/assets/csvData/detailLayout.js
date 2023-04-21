@@ -95,7 +95,7 @@ const data = 'mysql,基本信息,单指标,mysql.status.uptime,Single,,0,0,6,3,,
   + 'dm,基本信息,单指标,dm.checkpoint.last_end_time,Single,,3,18,6,3,,,,\n'
   + 'dm,基本信息,单指标,dm.sessions.num,Graph,,6,0,12,8,,,,\n'
   + 'dm,基本信息,指标组合,cb.dm.thread_count,Graph,,6,12,12,8,,,,\n'
-  + 'dm,基本信息,单指标,cb.dm.slow_sql.ss_sql_text,Graph,,14,0,24,16,,,,\n'
+  + 'dm,基本信息,单指标,dm.slow_sql.ss_sql_text,Graph,,14,0,24,16,,,,\n'
   + 'dm,缓冲区,单指标,dm.buffer_pool.n_pages,Graph,,0,0,12,8,,,,\n'
   + 'dm,缓冲区,单指标,dm.buffer_pool.free,Graph,,0,12,12,8,,,,\n'
   + 'dm,缓冲区,单指标,dm.buffer_pool.n_discard64,Graph,,8,0,12,8,,,,\n'

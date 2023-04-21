@@ -220,11 +220,11 @@ export default defineComponent({
         </div>
         <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
           <div class="flex flex-shrink-0 items-center">
-            <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:list-add"></i>, }} onClick={handleAdd}>
+            <a-button class="mr-md" v-slots={{ icon: () => <i class="i-custom:list-add text-16px"></i>, }} onClick={handleAdd}>
               {t('tableView.add')}
             </a-button>
             <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>
-              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }} >
+              <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del text-16px"></i>, }} >
                 {t('tableView.delete')}
               </a-button>
             </a-popconfirm>

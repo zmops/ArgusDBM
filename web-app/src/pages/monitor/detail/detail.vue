@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-bae h-full column flex-1 overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
+  <div class="monitor-detail h-full column flex-1 overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
     <div class="h-full column bg-white dark:bg-dark">
       <div class="h-50px flex flex-s-0 items-center pl-md">
         <i class="i-custom:monitor-back mr-md cursor-pointer text-(base blue)" @click="back()" />
