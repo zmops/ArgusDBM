@@ -2,7 +2,7 @@
   <Chart :options="options" />
 </template>
 
-<script>
+<script lang="ts">
 import * as echarts from 'echarts';
 import Chart from '@/components/chart/index.vue';
 import { getHistoryValue } from '@/service/api';
@@ -23,7 +23,7 @@ export default defineComponent({
     const monitorId = route.query.monitorId;
     const loading = ref(false);
 
-    const seriesData = ref([]);
+    const seriesData = ref<any[]>([]);
 
     const defaultOption = {
       title: {
@@ -44,7 +44,7 @@ export default defineComponent({
         if (res.code === 0) {
           const series = dataToChartData(res.data, '');
           if (series.length) {
-            this.seriesData = [{
+            seriesData.value = [{
               data: series[0].data,
               type: 'line',
               markLine: { // 平均线
@@ -78,14 +78,15 @@ export default defineComponent({
               }
             }];
           }
-          this.initChart();
         }
         loading.value = false;
+        initChart();
       });
     };
 
     const initChart = ()=>{
-      const option = {
+
+      options.value = {
         tooltip: {
           show: false
         },
@@ -133,14 +134,14 @@ export default defineComponent({
         },
         series: seriesData.value
       };
-      if (seriesData.value.length) {
-        options.value = option;
-      } else {
-        options.value = defaultOption;
-      }
+
     };
 
     watch(() => props.targetName, () => {
+      getData();
+    });
+
+    onMounted(() => {
       getData();
     });
 

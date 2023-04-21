@@ -2,12 +2,14 @@
 <template>
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template #content>
-      <div class="table-view">
+      <div class="table-view of-auto">
         <a-table
+          max-height="100%"
+          scroll
           class="mb-base"
           :data="tableData"
           :columns="columns"
-          :pagination="{ total: 1, pageSize: 5 }"
+          :pagination="{ total: 1, pageSize: tableData.length, hideOnSinglePage: true }"
         />
       </div>
     </template>

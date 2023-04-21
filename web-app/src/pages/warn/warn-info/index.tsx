@@ -198,7 +198,7 @@ export default defineComponent({
                 </a-button>
               </a-popconfirm>
               <a-popconfirm content={t('message.deleteTips')} type="info" onOk={handleDelete}>
-                <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }}>
+                <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del text-16px"></i>, }}>
                   {t('tableView.delete')}
                 </a-button>
               </a-popconfirm>

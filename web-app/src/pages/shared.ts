@@ -45,7 +45,11 @@ export const Props = {
   type: {
     type: String,
     default: '',
-  }
+  },
+  editApp: {
+    type: String,
+    default: '',
+  },
 };
 
 export const nameRules = [{

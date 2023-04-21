@@ -1,16 +1,16 @@
 <template>
-  <div class="pa-bae h-full column flex-1 overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
-    <div class="bg-white dark:bg-dark">
-      <div class="h-50px flex flex-s-0 items-center pl-base">
+  <div class="monitor-detail h-full column flex-1 overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
+    <div class="h-full column bg-white dark:bg-dark">
+      <div class="h-50px flex flex-s-0 items-center pl-md">
         <i class="i-custom:monitor-back mr-md cursor-pointer text-(base blue)" @click="back()" />
         <span class="text-(base #1D2129) font-bold dark:text-white">{{ info.name }}</span>
         <span class="ml-md text-(14px blue) font-bold">{{ info.host }}</span>
       </div>
-      <div v-if="dataTabs.length" class="w-full flex flex-s-0">
-        <a-radio-group type="button" :default-value="dataTabs[0].title" class="text-18px! leading-40px!" size="large">
+      <div v-if="dataTabs.length" class="w-full flex flex-s-0 px-md">
+        <a-radio-group type="button" :default-value="dataTabs[0].title" class="pa-6px! text-18px! leading-40px!" size="large">
           <a-radio
             v-for="(item, index) in dataTabs" :key="'tabs' + index" :value="item.title"
-            class="px-40px text-18px! leading-40px!" @click="layouts = item.list; tabsId = item.title"
+            class="px-36px text-16px! leading-36px!" @click="layouts = item.list; tabsId = item.title"
           >
             {{ item.title }}
           </a-radio>
@@ -18,10 +18,10 @@
         <div class="flex-1 bg-[var(--color-fill-2)]" />
       </div>
 
-      <a-row direction="vertical" class="pl-base">
+      <a-row direction="vertical" class="flex-1 of-y-auto pl-md pr-4px">
         <a-col
           v-for="(item) in layouts" :key="item.i" :span="item.w"
-          :style="{ height: item.v === 'TableView' ? 'auto' : (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base"
+          :style="{ height: (item.h * 30 + (item.h - 1) * 10) + 'px' }" class="mt-base"
         >
           <div class="mr-base h-full">
             <component :is="item.v" v-bind="{ targetType: item.t, targetName: item.k, s: item.s, w: item.w, dataObj }" />

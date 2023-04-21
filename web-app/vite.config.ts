@@ -26,7 +26,8 @@ export default defineConfig(({ mode, ...args }) => {
       port: 9527,
       proxy: {
         [privateEnv.VITE_BASE_API]: {
-          target: 'http://localhost:1159',
+          target: 'http://172.16.3.132:1159',
+          //  target: 'http://localhost:1159',
           changeOrigin: true,
           rewrite: path => path.replace( privateEnv.VITE_BASE_API, ''),
         },

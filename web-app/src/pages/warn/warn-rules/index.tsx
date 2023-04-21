@@ -86,6 +86,7 @@ export default defineComponent({
     const selections = ref<Array<string | number>>([]);
 
     const editId = ref<string | number>();
+    const editApp = ref<string | number>();
 
     const handleRest = () => {
       formRef.value?.resetFields();
@@ -175,7 +176,7 @@ export default defineComponent({
       return (
         <div class="h-full column overflow-y-auto bg-#F0F2F5 pa-base dark:bg-#333">
           <Edit v-model:visible={visible.value} editId={editId.value}></Edit>
-          <AssMonitoring v-model:visible={assVisible.value} editId={editId.value}></AssMonitoring>
+          <AssMonitoring v-model:visible={assVisible.value} editId={editId.value} editApp={editApp.value}></AssMonitoring>
           <div class="flex flex-(shrink-0 nowrap) items-center bg-white px-md py-base dark:bg-dark">
             <a-form model={searchForm} ref={formRef} onSubmit={handleSubmit} class="table-search-form" layout="inline" auto-label-width={true}>
               <a-form-item field="status" label={t('alert.priority.title')}>
@@ -193,11 +194,11 @@ export default defineComponent({
           </div>
           <div class="mt-base column flex-1 bg-white px-md py-base dark:bg-dark">
             <div class="flex flex-shrink-0 items-center">
-              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add"></i>, }}>
+              <a-button class="mr-md" onClick={() => visible.value = true} v-slots={{ icon: () => <i class="i-custom:list-add text-16px"></i>, }}>
                 {t('tableView.add')}
               </a-button>
               <a-popconfirm content="是否确认删除选中的数据?" type="info" onOk={handleDelete}>
-                <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del"></i>, }}>
+                <a-button class="mr-md" disabled={!selections.value.length} v-slots={{ icon: () => <i class="i-custom:list-del text-16px"></i>, }}>
                   {t('tableView.delete')}
                 </a-button>
               </a-popconfirm>
@@ -218,7 +219,7 @@ export default defineComponent({
                   <a-radio value={false}>{t('notificationRules.table.presetrightText')}</a-radio>
                 </a-radio-group>,
                 buttons: scope => <div class="flex flex-shrink-0 items-center">
-                  <a-button class="mr-md" type="text" size="small" onClick={() => { editId.value = scope.record.id; assVisible.value = true; }}>
+                  <a-button class="mr-md" type="text" size="small" onClick={() => { editId.value = scope.record.id;editApp.value = scope.record.app; assVisible.value = true; }}>
                     {t('buttons.unionMonitor')}
                   </a-button>
                   <a-button class="mr-md" type="text" size="small" danger onClick={() => handleEdit(scope.record.id)}>

@@ -59,7 +59,9 @@ export function getTargetData(type, name) {
   let obj = {};
   if (type === '单指标') {
     data.forEach((i) => {
+
       if (i[4] === name) {
+        console.log(i);
         const explain = i[10].replace('\\n\\n', '\n\n');
         obj = {
           title: i[6],

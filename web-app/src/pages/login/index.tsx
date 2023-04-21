@@ -82,12 +82,12 @@ export default defineComponent({
                 }
               } v-model={userInfo.password} placeholder={t('login.password')} />
             </a-form-item>
-            <a-form-item field="type" hide-label={true} >
+            {/* <a-form-item field="type" hide-label={true} >
               <p class="w-full flex justify-between">
                 <a-checkbox v-model={autoLogin.value}>{t('login.autoLogin')}</a-checkbox>
                 <span class="color-primary">{t('login.forgetPassword')}</span>
               </p>
-            </a-form-item>
+            </a-form-item> */}
             <a-form-item hide-label={true}>
               <a-button html-type="submit" class="w-full" type="primary">
                 {t('login.logIn')}

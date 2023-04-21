@@ -6,7 +6,7 @@ const APP_NAME = {
   dm: '达梦',
   mysql: 'MySQL',
   oracle: 'Oracle',
-  pg: 'PostgreSQL',
+  postgresql: 'PostgreSQL',
   sqlserver: 'SQL Server',
 };
 
