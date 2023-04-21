@@ -1,19 +1,7 @@
-import cloneDeep from 'lodash/cloneDeep';
 import { defineComponent } from 'vue';
-import { ApiAlertDefineMonitors, ApiMonitorRelated, ApiMonitorUnrelated, appliesMonitors, getAlertDefineMonitors, getMonitors, } from '@/service/api';
+import { ApiAlertDefineMonitors, ApiMonitorRelated, ApiMonitorUnrelated } from '@/service/api';
 import { Props } from '@/pages/shared';
 
-const defaultQueryParams = {
-  ids: [],
-  app: '',
-  name: '',
-  host: '',
-  status: 9,
-  sort: 'name',
-  order: 'desc',
-  pageIndex: 0,
-  pageSize: 1000
-};
 
 const tableColumns = [
   {
@@ -46,6 +34,9 @@ export default defineComponent({
     const leftSelections = ref<Array<string | number>>([]);
     const rightSelections = ref<Array<string | number>>([]);
 
+    const leftFormRef = ref();
+    const rightFormRef = ref();
+
     const Message = useMessage();
 
     const rowSelection = reactive({
@@ -64,33 +55,40 @@ export default defineComponent({
     const handleCancel = () => {
       emit('update:visible', false);
     };
+
+
+    const clearData=()=>{
+
+      leftSelections.value = [];
+      rightSelections.value = [];
+      leftFormRef.value?.selectAll(false);
+      rightFormRef.value?.selectAll(false);
+    }
+
     const handleOk = () => {
 
       // 保存数据
-      const data: Array<{ alertDefineId: string | number; monitorId: string }> = [];
-      rightTable.value.forEach((item) => {
-        data.push({
+      const data = rightTable.value.map((item: any) => {
+        return {
           alertDefineId: props.editId,
           monitorId: item.id
-        });
+        };
       });
-      appliesMonitors(props.editId, data).then((res) => {
+
+      ApiAlertDefineMonitors(props.editId, data).then((res)=>{
         if (res.code === 0) {
           Message.success(t('message.success'));
           emit('update:visible', false);
+          clearData()
         }
       });
     };
     const getData = () => {
       ApiMonitorUnrelated(props.editApp, props.editId).then((res) => {
-        console.log(res);
-
         if (res.code !== 0 || !res.data) {
           return;
         }
-
         leftTable.value = res.data;
-
       });
 
       ApiMonitorRelated(props.editId).then((res) => {
@@ -106,37 +104,21 @@ export default defineComponent({
       });
 
     };
-
     const moveRight = () => {
-
-      const data = leftSelections.value.map((item)=>{
-        return {
-          alertDefineId: props.editId,
-          monitorId: item
-        };
-      });
-
-      ApiAlertDefineMonitors(props.editId, data).then(()=>{
-        rightSelections.value = [];
-        leftSelections.value = [];
-        getData();
+      leftSelections.value.forEach((item) => {
+        const selected = leftTable.value.find(i => i.id === item);
+        leftTable.value = leftTable.value.filter(i => i.id !== item);
+        rightTable.value.push(selected);
+        clearData()
       });
     };
 
     const moveLeft = () => {
-      const data = rightTable.value.filter((item: any) => {
-        return !rightSelections.value.includes(item.id);
-      }).map((item: any) => {
-        return {
-          alertDefineId: props.editId,
-          monitorId: item.id
-        };
-      });
-
-      ApiAlertDefineMonitors(props.editId, data).then(()=>{
-        rightSelections.value = [];
-        leftSelections.value = [];
-        getData();
+      rightSelections.value.forEach((item) => {
+        const selected = rightTable.value.find(i => i.id === item);
+        rightTable.value = rightTable.value.filter(i => i.id !== item);
+        leftTable.value.push(selected);
+        clearData()
       });
     };
 
@@ -156,7 +138,7 @@ export default defineComponent({
           <div class="flex flex-nowrap">
             <div class="w-45%">
               <div class="mb-base font-bold">关联监控待选区</div>
-              <a-table columns={tableColumns} class="mt-base flex-1" row-key="id" row-selection={rowSelection} onSelectionChange={handleLeftSelectionChange} pagination={false} data={leftTable.value} v-slots={
+              <a-table ref={leftFormRef} columns={tableColumns} class="mt-base flex-1" row-key="id" row-selection={rowSelection} onSelectionChange={handleLeftSelectionChange} pagination={false} data={leftTable.value} v-slots={
                 {
                   tags: (scope) => {
                     return (
@@ -199,25 +181,25 @@ export default defineComponent({
             </div>
             <div class="w-45%">
               <div class="mb-base font-bold">关联监控已选区</div>
-              <a-table columns={tableColumns} class="mt-base flex-1" row-key="id" row-selection={rowSelection} onSelectionChange={handleRightSelectionChange} pagination={false} data={rightTable.value} v-slots={
-                             {
-                               tags: (scope) => {
-                                 return (
-                                  <div>
-                                    {scope.record.tags.map((item: any) => {
-                                      return (
-                                        <a-tag color={item.color || 'blue'} class="mr-base">{item.value}</a-tag>
-                                      );
-                                    })}
-                                  </div>
-                                 );
-                               },
-                               status: (scope) => {
-                                 return (
-                                  <a-tag color={scope.record.status === 1 ? 'green' : 'red'}>{scope.record.status === 1 ? '正常' : '异常'}</a-tag>
-                                 );
-                               }
-                             }
+              <a-table columns={tableColumns} ref={rightFormRef} class="mt-base flex-1" row-key="id" row-selection={rowSelection} onSelectionChange={handleRightSelectionChange} pagination={false} data={rightTable.value} v-slots={
+                {
+                  tags: (scope) => {
+                    return (
+                      <div>
+                        {scope.record.tags.map((item: any) => {
+                          return (
+                            <a-tag color={item.color || 'blue'} class="mr-base">{item.value}</a-tag>
+                          );
+                        })}
+                      </div>
+                    );
+                  },
+                  status: (scope) => {
+                    return (
+                      <a-tag color={scope.record.status === 1 ? 'green' : 'red'}>{scope.record.status === 1 ? '正常' : '异常'}</a-tag>
+                    );
+                  }
+                }
               }>
               </a-table>
             </div>

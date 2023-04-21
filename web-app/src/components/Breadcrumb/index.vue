@@ -22,12 +22,9 @@ defineProps({
 });
 const router = useRouter();
 // 当前路由的匹配记录
-console.log(router.currentRoute.value.matched);
 
 const routers = computed(()=>{
   // 过滤掉没有meta的
-  console.log( router.currentRoute.value.matched.filter(item=>item.meta.title));
-
   return router.currentRoute.value.matched.filter(item=>item.meta.title);
 });
 </script>

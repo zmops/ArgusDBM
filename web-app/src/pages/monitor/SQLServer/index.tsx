@@ -36,19 +36,19 @@ const columns = [
   },
   {
     title: '用户连接数',
-    dataIndex: 'host'
+    dataIndex: ''
   }, {
     title: '批处理请求次数',
-    dataIndex: 'host'
+    dataIndex: ''
   }, {
     title: '缓存区命中率',
-    dataIndex: 'host'
+    dataIndex: ''
   }, {
     title: '等待锁频率',
-    dataIndex: 'host'
+    dataIndex: ''
   }, {
     title: '平均等待锁时间',
-    dataIndex: 'host'
+    dataIndex: ''
   },
   {
     title: t('tableView.operate'),

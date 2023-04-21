@@ -62,11 +62,6 @@ export default {
           return;
         }
         if (item.unit === 'KB') {
-          console.log(
-            formatter2Number(item.value )
-          );
-          console.log(
-            humanize(formatter2Number(item.value ) * 1000));
           val.value = humanize(formatter2Number(item.value ) * 1000);
           return;
         }

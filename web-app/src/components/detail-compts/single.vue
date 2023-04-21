@@ -55,8 +55,6 @@ export default defineComponent({
       const item = v[name[2]];
       if (item) {
         if (item.unit === 's') {
-          console.log(formatter2Number(item.value ));
-          console.log(' ', secondsTransform(formatter2Number(item.value )) );
           val.value = secondsTransform(formatter2Number(item.value ));
           return;
         }
