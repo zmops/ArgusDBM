@@ -2,7 +2,7 @@
 <template>
   <GridItemStyle :title="info.title" :explain="info.explain">
     <template #content>
-      <div class="table-view of-scroll">
+      <div class="table-view of-auto">
         <a-table
           max-height="100%"
           scroll
