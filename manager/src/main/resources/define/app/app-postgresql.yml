@@ -149,7 +149,7 @@ metrics:
     priority: 1
     fields:
       # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
-      - field: active
+      - field: total
         type: 0
     protocol: jdbc
     jdbc:
@@ -165,7 +165,7 @@ metrics:
       # SQL查询方式： oneRow, multiRow, columns
       queryType: oneRow
       # sql
-      sql: select count(1) as active from pg_stat_activity;
+      sql: select count(1) as total from pg_stat_activity;
       url: ^_^url^_^
 
   - name: connection_state
