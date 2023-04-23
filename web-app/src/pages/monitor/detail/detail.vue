@@ -128,7 +128,8 @@ export default defineComponent({
               const valueRows = res.data.valueRows[0].values;
               const obj = {};
               fields.forEach((item, index) => {
-                obj[item.name] = {
+                console.log(item.name);
+                obj[res.data.metric + item.name] = {
                   unit: item.unit,
                   value: valueRows[index].origin
                 };
@@ -138,6 +139,8 @@ export default defineComponent({
                 ...dataObj.value,
                 ...obj
               };
+
+              console.log({ dataObj: dataObj.value });
             }
           });
         }

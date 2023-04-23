@@ -4,7 +4,7 @@
     <template #content>
       <div class="h-full w-full flex items-center">
         <div
-          class="w-full of-hidden text-(ellipsis center 26px) font-500 color-dark dark:color-white"
+          class="w-full text-(ellipsis center 26px) font-500 color-dark dark:color-white"
           style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
         >
           {{ val }}
@@ -52,9 +52,11 @@ export default defineComponent({
 
     watch(dataObj, (v) => {
       const name = targetName.value.split('.');
-      const item = v[name[2]];
+      const item = v[name[1] + name[2]];
       if (item) {
         if (item.unit === 's') {
+          console.log(formatter2Number(item.value ));
+          console.log(' ', secondsTransform(formatter2Number(item.value )) );
           val.value = secondsTransform(formatter2Number(item.value ));
           return;
         }
