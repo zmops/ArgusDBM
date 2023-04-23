@@ -107,7 +107,7 @@ export default defineComponent({
     });
     return () => (
       <div>
-        <a-modal v-model:visible={props.visible} onOk={handleOk} onCancel={handleCancel} v-slots={{
+        <a-modal v-model:visible={props.visible} width="700px" onOk={handleOk} onCancel={handleCancel} v-slots={{
           title: () => `${props.editId ? '修改' : '新增'}${props.type}监控`
         }} >
           <a-form model={form} ref={formRef}>

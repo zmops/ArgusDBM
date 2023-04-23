@@ -83,7 +83,7 @@ export default defineComponent({
             form[key] = res.data[key];
           }
         });
-        form.enable = false;
+        // form.enable = false;
       });
     });
     const handleCasChange = (value) => {

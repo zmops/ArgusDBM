@@ -61,7 +61,6 @@ export function getTargetData(type, name) {
     data.forEach((i) => {
 
       if (i[4] === name) {
-        console.log(i);
         const explain = i[10].replace('\\n\\n', '\n\n');
         obj = {
           title: i[6],

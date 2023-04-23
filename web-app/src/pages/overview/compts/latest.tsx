@@ -5,7 +5,7 @@ import { getAlerts } from '@/service/api';
 const defaultQueryParams = {
   order: 'desc',
   pageIndex: 0,
-  pageSize: 15
+  pageSize: 5
 };
 
 interface alarmTableDataInterface {
@@ -27,14 +27,17 @@ export default defineComponent({
       {
         title: '告警级别',
         dataIndex: 'level',
+        width: 100,
       },
       {
         title: '状态',
         dataIndex: 'status',
+        width: 80,
       },
       {
         title: '告警时间',
         dataIndex: 'time',
+        width: 180,
       },
       {
         title: '告警内容',
@@ -48,15 +51,14 @@ export default defineComponent({
         if ( res.data) {
           const content = res.data.content;
           total.value = res.data.totalElements;
-          content.forEach((item) => {
-            alarmTableData.value.push({
+          alarmTableData.value = content.map((item) => {
+            return ({
               level: t('alert.priority.' + item.priority ),
               status: t('alert.status.' + item.status),
               content: item.content,
               time: item.gmtUpdate
             });
           });
-
           loading.value = false;
         }
       });
@@ -73,7 +75,7 @@ export default defineComponent({
       <a-col span={12} class="pr-base">
       <div class="mb-base h-300px column overflow-auto rounded-base bg-white px-base pb-base dark:bg-dark">
          <p class="py-md">最新告警</p>
-        <a-table class="flex-1 overflow-hidden" columns={columns} loading={loading.value} data={alarmTableData.value} pagination={{ total: total.value, pageSize: 15, onChange: pageChange }} ></a-table>
+        <a-table class="flex-1 overflow-hidden" virtual-list-props={{ height: 400 }} columns={columns} loading={loading.value} data={alarmTableData.value} pagination={{ total: total.value, pageSize: 5, onChange: pageChange }} ></a-table>
       </div>
     </a-col>
     );

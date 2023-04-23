@@ -52,7 +52,7 @@ export default defineComponent({
 
     watch(dataObj, (v) => {
       const name = targetName.value.split('.');
-      const item = v[name[2]];
+      const item = v[name[1] + name[2]];
       if (item) {
         if (item.unit === 's') {
           console.log(formatter2Number(item.value ));

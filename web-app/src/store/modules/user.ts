@@ -20,11 +20,18 @@ const useUserStore = defineStore('user', () => {
   function login(userInfo: loginParams) {
 
     const { type, username, password } = userInfo;
+    const Message = useMessage();
 
-    return customLogin<loginResponse>({ type, identifier: username?.trim(), credential: password }).then((resp: any) => {
-      useToken.set(resp.data.token);
-      refreshToken.value = resp.data.refreshToken;
-      return resp;
+    return customLogin<loginResponse>({ type, identifier: username?.trim(), credential: password }).then((res) => {
+
+      if (res.code === 0 && res.data) {
+        useToken.set(res.data.token);
+        refreshToken.value = res.data.refreshToken;
+        return res;
+      } else {
+        Message.error(res.statusText || '登录失败');
+      }
+
     });
   }
 

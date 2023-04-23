@@ -1,10 +1,11 @@
 <!-- 详情页最新值+趋势图组件 -->
 <template>
-  <GridItemStyle :title="info.title" :explain="info.explain">
+  <GridItemStyle :key="val" :title="info.title" :explain="info.explain">
     <template #content>
       <div class="relative h-full w-full">
         <LineChart :target-name="targetName" />
         <div
+          :key="val"
           class="pxtext-ellipsis absolute left-0 top-[calc(50%-15px)] w-full text-center text-26px font-500"
           :class="[val !== '-' && 'color-#3BA6F0']"
           style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2"
@@ -54,8 +55,10 @@ export default {
     const { targetType, targetName, dataObj } = toRefs(props);
     const val = ref('-');
     watch(dataObj, (v) => {
+      console.log({ v });
       const name = targetName.value.split('.');
-      const item = v[name[2]];
+      const item = v[name[1] + name[2]];
+      console.log({ name: name[1] + name[2] });
       if (item) {
         if (item.unit === 's') {
           val.value = secondsTransform(formatter2Number(item.value ));
