@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { createWebHashHistory, createRouter, createWebHistory } from 'vue-router';
+import { createWebHashHistory, createRouter } from 'vue-router';
 import NProgress from 'nprogress';
 import MonitorRouter from './modules/monitor';
 import warnRouter from './modules/warn';
