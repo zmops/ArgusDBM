@@ -13,6 +13,8 @@ export default defineComponent({
     const route = useRoute();
     const userStore = useUserStore();
 
+    const Message = useMessage();
+
     const { redirect, ...otherQuery } = route.query;
 
     const userInfo = reactive({
@@ -20,8 +22,6 @@ export default defineComponent({
       username: 'argus',
       password: 'argus'
     });
-
-    const autoLogin = ref(false);
 
     const rules = {
       username: [
@@ -40,11 +40,13 @@ export default defineComponent({
 
     const handleSubmit = () => {
       formRef.value?.validate((valid) => {
-
         if (valid) {
           return false;
         }
         userStore.login(userInfo).then((res) => {
+          if (res.code !== 0) {
+            Message.error(res.statusText);
+          }
           router.push({
             path: redirect as string || '/',
             query: otherQuery
@@ -54,15 +56,15 @@ export default defineComponent({
     };
 
     return () => (
-      <div class="login h-full w-full bg-([#F0F3F7] cover) dark:bg-dark" style={{ backgroundImage: 'url(' + loginBg + ')' }}>
+      <div class="bg-[#F0F3F7] bg-cover login h-full w-full dark:bg-dark" style={{ backgroundImage: 'url(' + loginBg + ')' }}>
         <section class="m-auto max-w-520px p-10 pt-220px">
 
           <div class="flex items-center justify-center text-8">
             <img src={Logo} alt="" srcset="" class="mr-2" />
             <span>{t('login.title')}</span>
           </div>
-          <p class="mt-4 w-full text-(center 4) color-subtitle">{t('login.subtitle')}</p>
-          <p class="mt-9 w-full text-left color-primary">{t('login.formtip')}</p>
+          <p class="text-center text-4 w-full mt-4 color-subtitle">{t('login.subtitle')}</p>
+          <p class="w-full mt-9 text-left color-primary">{t('login.formtip')}</p>
           <a-form model={userInfo} ref={formRef} rules={rules} onSubmit={handleSubmit} class="mt-6">
             <a-form-item size="large" field="username" hide-label={true} >
               <a-input

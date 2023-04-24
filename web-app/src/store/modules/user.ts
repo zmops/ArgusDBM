@@ -20,7 +20,6 @@ const useUserStore = defineStore('user', () => {
   function login(userInfo: loginParams) {
 
     const { type, username, password } = userInfo;
-    const Message = useMessage();
 
     return customLogin<loginResponse>({ type, identifier: username?.trim(), credential: password }).then((res) => {
 
@@ -29,7 +28,11 @@ const useUserStore = defineStore('user', () => {
         refreshToken.value = res.data.refreshToken;
         return res;
       } else {
-        Message.error(res.statusText || '登录失败');
+        return {
+          code: -1,
+          data: null,
+          statusText: res.statusText || '登录失败',
+        };
       }
 
     });
