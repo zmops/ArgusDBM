@@ -15,7 +15,7 @@ export default defineComponent({
     const form = reactive(cloneDeep(defaultFormData));
     const formRef = ref<FormInstance>();
     const Message = useMessage();
-
+    const okLoading = ref(false);
     const formatSaveData = () => {
       const data = Object.assign({}, form);
       data.params = [];
@@ -38,6 +38,8 @@ export default defineComponent({
       form.params.forEach((item) => {
         item.value = item.defaultValue;
       });
+
+      okLoading.value = false;
     };
     const handleOk = () => {
 
@@ -45,11 +47,14 @@ export default defineComponent({
         if (valid) {
           return false;
         }
+
+        okLoading.value = true;
         const saveData = formatSaveData();
 
         (props.editId ? modifyMonitor : addMonitor)(saveData).then((res) => {
 
           if (res.code !== 0) {
+            okLoading.value = false;
             Message.error({
               content: res.statusText || '操作失败',
             });
@@ -62,6 +67,8 @@ export default defineComponent({
           reset();
           emit('update:visible', false);
 
+        }, ()=>{
+          okLoading.value = false;
         });
 
       });
@@ -107,7 +114,7 @@ export default defineComponent({
     });
     return () => (
       <div>
-        <a-modal v-model:visible={props.visible} width="700px" onOk={handleOk} onCancel={handleCancel} v-slots={{
+        <a-modal v-model:visible={props.visible} width="700px" onOk={handleOk} ok-loading={okLoading.value} onCancel={handleCancel} v-slots={{
           title: () => `${props.editId ? '修改' : '新增'}${props.type}监控`
         }} >
           <a-form model={form} ref={formRef}>
