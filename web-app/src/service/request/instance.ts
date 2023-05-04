@@ -117,9 +117,8 @@ export default class CustomAxiosInstance {
             },
           });
         } else {
-
           Message.error({
-            content: error?.message || 'Request Error',
+            content: error?.response?.data?.msg || 'Request Error',
             duration: 5 * 1000,
           });
           return Promise.reject(error);
