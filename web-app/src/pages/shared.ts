@@ -36,7 +36,6 @@ export const defaultFormData: {
 export const Props = {
   visible: {
     type: Boolean,
-    default: false,
   },
   editId: {
     type: [String, Number],
