@@ -4,10 +4,13 @@
 
 官网: [argus.zmops.cn](https://argus.zmops.cn/)
 
+## 🎡 <font color="green">介绍</font>
+
 - 源于 [HertzBeat](https://github.com/dromara/hertzbeat) ，专注于数据库方向，优美的可视化界面，所见即所得。
-- 开箱即用，无需部署Agent，配置IP端口账户等后即可监控，大大减少企业数据库监控流程。
+- 开箱即用，**无需部署Agent**，配置IP端口账户等后即可监控，大大减少企业数据库监控流程。
 - 操作简单，快捷好用，深度结合我们在监控领域的最佳实践。
 - 无缝衔接Zabbix，自身可做为Agent对Zabbix的数据库监控短板增强。
+- 更自由化的阈值规则(计算表达式)，`邮件` `Discord` `Slack` `Telegram` `钉钉` `微信` `飞书` `短信` `Webhook` 等方式及时送达。
 
 ---
 ![argus](home/static/img/home/2.png)  
@@ -57,3 +60,20 @@
 4. 默认账户密码 `argus/argus`
 
 **HAVE FUN**
+
+## 💬 交流联系 
+
+##### 微信交流群
+
+加微信扫描下面账号二维码拉您进微信群。   
+<img alt="tan-cloud" src="home/static/img/wechat.jpg" width="200"/>
+
+##### QQ交流群
+
+加QQ群号 669329562 或 扫描下面的群二维码进群
+
+<img alt="tan-cloud" src="home/static/img/qq.jpg" width="200"/>
+
+
+## 🛡️ License
+[`Apache License, Version 2.0`](https://www.apache.org/licenses/LICENSE-2.0.html)
