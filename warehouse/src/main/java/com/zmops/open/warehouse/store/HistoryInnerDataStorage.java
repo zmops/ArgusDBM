@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class HistoryInnerDataStorage extends AbstractHistoryDataStorage {
     private static final int STRING_MAX_LENGTH = 1024;
-    private static final int MAX_HISTORY_TABLE_RECORD = 60_000;
+    private static final int MAX_HISTORY_TABLE_RECORD = 20_000;
     private HistoryDao historyDao;
 
     private WarehouseProperties.StoreProperties.InnerProperties innerProperties;
